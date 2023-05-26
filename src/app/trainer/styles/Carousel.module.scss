@@ -1,0 +1,38 @@
+.Carousel_MainContainer {
+  .Carousel_CoverImage {
+    width: 100%;
+    height: 363px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .Carousel_ArrowKeys {
+    z-index: 999;
+    position: relative; 
+    display: flex; 
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+      cursor: pointer;
+    }
+  }
+
+  .Carousel_Gallery {
+    display: flex;
+    padding: 14px 0;
+
+    .Carousel_GalleryImage:nth-last-child(1) {
+      margin-right: 0 !important;
+    }
+
+    .Carousel_GalleryImage {
+      width: 150px;
+      height: 104px;
+      overflow: hidden;
+      position: relative;
+      margin-right: 14px;
+    }
+  }
+}
