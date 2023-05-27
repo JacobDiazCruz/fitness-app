@@ -6,6 +6,7 @@ import { Box } from "@mui/system";
 import CheckIcon from '@mui/icons-material/Check';
 import { theme } from '../../utils/mui';
 import { ThemeProvider } from "@mui/material/styles";
+import { useRouter } from 'next/navigation';
 
 interface Props {
   featuredPrice?: number;
@@ -18,6 +19,7 @@ export default function PricingCard({
   featuredLength,
   packageList
 }: Props) {
+  const router = useRouter();
 
   const list = packageList?.map((item) => (
     <ListItem sx={{ py: 1, px: 0 }}>
@@ -49,7 +51,7 @@ export default function PricingCard({
           <Button 
             variant="contained"
             fullWidth
-            onClick={() => console.log("get now")}
+            onClick={() => router.push('/checkout')}
           >
             Get now
           </Button>

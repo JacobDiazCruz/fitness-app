@@ -1,21 +1,36 @@
 'use client';
 
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
-import React from "react";
-
-interface Props {
-  orderOptions: Array<OrderOption>;
-};
-
 interface OrderOption {
   price: number;
   title: string;
+  isSelected: boolean;
   description: string;
 };
 
-export default function SelectOrderOptions({ 
-  orderOptions
-}: Props) {
+export default function SelectOrderOptions() {
+  const [orderOptions, setOrderOptions] = useState<OrderOption>([
+    {
+      price: 2000,
+      title: 'Fitness Plan',
+      isSelected: false,
+      description: 'I will be your online personal trainer for a month 24 7 on line'
+    },
+    {
+      price: 3000,
+      title: 'Nutrition Plan',
+      isSelected: false,
+      description: 'I will be your online personal trainer for a month 24 7 on line'
+    },
+    {
+      price: 1000,
+      title: 'Healthy Plan',
+      isSelected: false,
+      description: 'I will be your online personal trainer for a month 24 7 on line'
+    }
+  ]);
+
   return (
     <Box 
       sx={{
@@ -25,16 +40,23 @@ export default function SelectOrderOptions({
       }}
     >
       <Typography variant="h5">Select Order Options</Typography>
-      {orderOptions.map((orderOption: OrderOption) => (
+      {orderOptions.map((orderOption: OrderOption, key: number) => (
         <Box
           sx={{
             display: 'flex', 
             p: 2,
             mt: 2,
             borderRadius: '8px', 
-            border: '1px solid #D9D9D9',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: orderOption.isSelected ? '#24282C' : '#D9D9D9',
             justifyContent: 'space-between',
             cursor: 'pointer'
+          }}
+          onClick={() => {
+            const newOrderOptions = [...orderOptions];
+            newOrderOptions[key].isSelected = !orderOptions[key].isSelected;
+            setOrderOptions(newOrderOptions);
           }}
         >
           <Box>
@@ -50,12 +72,28 @@ export default function SelectOrderOptions({
           </Box>
           <Box
             sx={{
-              borderRadius: '100%',
               width: '30px',
               height: '30px',
-              border: '1px solid #D9D9D9'
+              borderWidth: '1px',
+              borderRadius: '100%',
+              borderStyle: 'solid',
+              display: 'flex',
+              alignItems: 'center',
+              borderColor: orderOption.isSelected ? '#24282C' : '#D9D9D9',
             }}
-          ></Box>
+          >
+            {orderOption.isSelected && (
+              <Box
+                sx={{
+                  m: 'auto',
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '100%',
+                  backgroundColor: '#24282C'
+                }}
+              ></Box>
+            )}
+          </Box>
         </Box>
       ))}
     </Box>

@@ -5,17 +5,11 @@ import PricingCard from "./PricingCard";
 import Carousel from "./Carousel";
 import Reviews from "./Reviews";
 import MyPortfolio from "./MyPortfolio";
+import HomeLayout from "@/layouts/HomeLayout";
 
 export default function Trainer() {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "80px",
-        margin: "100px auto",
-        width: '1200px'
-      }}
-    >
+    <HomeLayout>
       <div>
         <Carousel
           galleryImages={[
@@ -78,6 +72,6 @@ export default function Trainer() {
           'Mobility exercises'
         ]}
       />
-    </div>
+    </HomeLayout>
   );
 }

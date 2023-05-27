@@ -1,0 +1,10 @@
+.HomeLayout_Main {
+  display: flex;
+  gap: 80px;
+  margin: 100px auto;
+  width: 1100px;
+
+  @media screen and (min-width: 1600px) {
+    width: 1450px;
+  }
+}

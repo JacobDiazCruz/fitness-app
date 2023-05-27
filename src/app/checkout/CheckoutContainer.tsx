@@ -35,7 +35,7 @@ export default function CheckoutContainer({
       <Card 
         sx={{ 
           p: 3,
-          width: '500px', 
+          width: '500px',
           height: '467px',
           boxShadow: 0,
           position: 'sticky',

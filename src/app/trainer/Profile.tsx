@@ -31,7 +31,7 @@ export default function Profile({
             display: 'flex',
           }}
         >
-          <Avatar 
+          <Avatar
             alt="Trainer Profile"
             sx={{
               width: 70,

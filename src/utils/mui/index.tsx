@@ -55,6 +55,7 @@ export const theme: Theme = createTheme({
     },
     MuiButtonBase: {
       defaultProps: {
+        boxShadow: 'none',
         disableRipple: true, // No more ripple, on the whole application 💣!
       },
     },
