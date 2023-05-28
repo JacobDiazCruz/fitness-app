@@ -1,9 +1,4 @@
-'use client';
-
-import { Avatar, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { theme } from '../../utils/mui';
-import { ThemeProvider } from "@mui/material/styles";
+import Image from "next/image";
 
 interface Props {
   imagePath: string;
@@ -17,50 +12,26 @@ export default function Profile({
   about
 }: Props) {
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{ 
-          borderRadius: '8px', 
-          p: 3, 
-          width: '100%',
-          backgroundColor: '#FFF'
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-          }}
-        >
-          <Avatar
-            alt="Trainer Profile"
-            sx={{
-              width: 70,
-              height: 70
-            }}
+    <div className="rounded-lg w-full bg-white p-6">
+      <div className="flex">
+        <div className="rounded-full relative overflow-hidden w-16 h-16">
+          <Image 
+            alt="Trainer Image"
             src={imagePath}
+            style={{ objectFit: "cover" }}
+            fill
           />
-          <Box sx={{ ml: 2 }}>
-            <Typography variant="body1">
-              {name}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#424242' }}>
-              Certified Online Trainer
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ mt: 2 }}>
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              color: '#171717', 
-              lineHeight: '24px',
-              width: '90%'
-            }}
-          >
-            {about}
-          </Typography>
-        </Box>
-      </Box>
-    </ThemeProvider>
+        </div>
+        <div className="ml-3">
+          <p className="font-medium">{name}</p>
+          <p>Certified Online Trainer</p>
+        </div>
+      </div>
+      <div className="mt-4">
+        <p className="text-gray-600">
+          {about}
+        </p>
+      </div>
+    </div>
   );
 }

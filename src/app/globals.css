@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -20,4 +24,27 @@ body {
 body {
   /* color: rgb(var(--foreground-rgb)); */
   background: #F8F8F8;
+}
+
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.btn-dark {
+  background-color: #24282C;
+  color: #FFF;
+  border-radius: 8px;
+}
+
+.btn-outlined {
+  background-color: #FFF;
+  border: 1px solid #24282C;
+  color: #24282C;
+  border-radius: 8px;
 }
