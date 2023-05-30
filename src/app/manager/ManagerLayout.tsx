@@ -1,8 +1,10 @@
 'use client'
 
-import { Box } from "@mui/system";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header"
+import TextField from "@/components/global/TextField";
+import AutoComplete from "@/components/global/AutoComplete";
 
 export default function ManagerLayout ({
   children
@@ -10,19 +12,14 @@ export default function ManagerLayout ({
   children: React.ReactNode
 }) {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <div className="flex">
       <Sidebar />
-      <Box
-        sx={{
-          minHeight: '100vh',
-          width: '100%'
-        }}
-      >
+      <div className="w-full height-[100vh]">
         <Header />
-        <Box sx={{ p: 5 }}>
+        <div className="p-10">
           {children}
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }

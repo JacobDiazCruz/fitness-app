@@ -1,11 +1,4 @@
-'use client';
-
 import { useState } from "react";
-import { Button, Card, ListItemIcon, ListItemText, Typography, List, ListItem } from "@mui/material";
-import { Box } from "@mui/system";
-import CheckIcon from '@mui/icons-material/Check';
-import { theme } from '../../utils/mui';
-import { ThemeProvider } from "@mui/material/styles";
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -22,72 +15,31 @@ export default function PricingCard({
   const router = useRouter();
 
   const list = packageList?.map((item) => (
-    <ListItem sx={{ py: 1, px: 0 }}>
-      <ListItemIcon sx={{ minWidth: '33px' }}>
-        <CheckIcon sx={{ color: '#21C79F' }} />
-      </ListItemIcon>
-      <Typography variant="body2">
-        {item}
-      </Typography>
-    </ListItem>
+    <li className="flex items-center py-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#21C79F" className="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+      <p className="ml-2">{item}</p>
+    </li>
   ));
 
   return (
-    <>
-      <div className="w-[500px] h-[467px] bg-white rounded-md p-6 sticky top-[5em]">
-        <h3>{featuredPrice} / {featuredLength}</h3>
-        <div className="mt-4">
-          <button class="btn btn-dark w-full h-[53px]">
-            Get now
-          </button>
-          <button class="btn btn-outlined w-full h-[53px] mt-3">
-            Message
-          </button>
-        </div>
+    <div className="w-[500px] h-[467px] bg-white rounded-lg p-6 sticky top-[5em]">
+      <div className="flex items-center">
+        <h3 className="text-[28px]">{featuredPrice}</h3>
+        <span className="ml-1">/ {featuredLength}</span>
       </div>
-      {/* <ThemeProvider theme={theme}>
-        <Card 
-          sx={{ 
-            p: 3,
-            width: '500px',
-            height: '467px',
-            boxShadow: 0,
-            position: 'sticky',
-            top: '5em'
-          }}
-        >
-          <Typography variant="h3">
-            {featuredPrice} / {featuredLength}
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <Button 
-              variant="contained"
-              fullWidth
-              onClick={() => router.push('/checkout')}
-            >
-              Get now
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              variant="outlined"
-              sx={{ mt: 1 }}
-              fullWidth
-              onClick={() => console.log("get now")}
-            >
-              Message
-            </Button>
-          </Box>
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="h6">
-              Package includes:
-            </Typography>
-            <List>
-              {list}
-            </List>
-          </Box>
-        </Card>
-      </ThemeProvider> */}
-    </>
+      <div className="mt-4">
+        <button className="btn btn-dark w-full h-[53px]">
+          Get now
+        </button>
+        <button className="btn btn-outlined w-full h-[53px] mt-3">
+          Message
+        </button>
+      </div>
+      <ul className="max-w-md space-y-1 list-inside mt-7">
+        {list}
+      </ul>
+    </div>
   );
 }

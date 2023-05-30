@@ -46,5 +46,20 @@ body {
   background-color: #FFF;
   border: 1px solid #24282C;
   color: #24282C;
-  border-radius: 8px;
+}
+
+.btn-contained {
+  background-color: #24282C;
+  border: 1px solid #24282C;
+  color: #FFF;
+}
+
+.btn-contained {
+  background-color: #24282C;
+  border: 1px solid #24282C;
+  color: #FFF;
+}
+
+button:disabled {
+  opacity: 0.5;
 }

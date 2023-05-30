@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from "react";
 import { Button, Card, ListItemIcon, ListItemText, Typography, List, ListItem, Divider } from "@mui/material";
 import { Box } from "@mui/system";
@@ -20,63 +18,35 @@ export default function CheckoutContainer({
 }: Props) {
 
   const list = packageList?.map((item) => (
-    <ListItem sx={{ py: 1, px: 0 }}>
-      <ListItemIcon sx={{ minWidth: '33px' }}>
-        <CheckIcon sx={{ color: '#21C79F' }} />
-      </ListItemIcon>
-      <Typography variant="body2">
-        {item}
-      </Typography>
-    </ListItem>
+    <li className="flex items-center py-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#21C79F" className="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+      <p className="ml-2">{item}</p>
+    </li>
   ));
 
   return (
-    <ThemeProvider theme={theme}>
-      <Card 
-        sx={{ 
-          p: 3,
-          width: '500px',
-          height: '467px',
-          boxShadow: 0,
-          position: 'sticky',
-          top: '5em'
-        }}
-      >
-        <Typography variant="h5">Checkout</Typography>
-        <Box sx={{ mt: 1 }}>
-          <List>
+    <>
+      <div className="bg-white rounded-lg p-6 w-[500px] h-[467px] sticky top-[5em]">
+        <h5 className="font-bold">Checkout</h5>
+        <div className="mt-2">
+          <ul className="max-w-md space-y-1 list-inside mt-7">
             {list}
-          </List>
-          <Divider sx={{ my: 1 }}/>
-          <List>
-            <ListItem sx={{ justifyContent: 'space-between', px: 0 }}>
-              <Typography variant="body2">
-                Service charge
-              </Typography>
-              <Typography variant="body2">
-                PHP 300
-              </Typography>
-            </ListItem>
-            <ListItem sx={{ justifyContent: 'space-between', px: 0 }}>
-              <Typography variant="caption" fontWeight="bold">
-                Total
-              </Typography>
-              <Typography variant="caption" fontWeight="bold">
-                PHP 3,300
-              </Typography>
-            </ListItem>
-          </List>
-        </Box>
-        <Box sx={{ mt: 2 }}>
-          <Button 
-            variant="contained"
-            fullWidth
-            onClick={() => console.log("get now")}
-          >
-            Pay now
-          </Button>
-        </Box>
-      </Card>
-    </ThemeProvider>
+          </ul>
+          <hr className="my-2" />
+          <ul className="max-w-md space-y-1 list-inside mt-7">
+            <li className="flex items-center justify-between py-2">
+              <p>Service charge</p>
+              <p>PHP 300</p>
+            </li>
+            <li className="flex items-center justify-between py-2">
+              <p className="font-bold">Total</p>
+              <p className="font-bold">PHP 3,300</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
   );
 }
