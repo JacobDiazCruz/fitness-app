@@ -4,7 +4,6 @@
   <AutoComplete
     placeholder="Name"
     onChange={(val) => setState(val)}
-    onEmpty={() => setState("")}
     value={newValue}
     items={[{name: "John Doe"}]}
   />
@@ -21,7 +20,6 @@ interface Props {
   items: Array<any>;
   placeholder: string;
   onChange: () => void;
-  onEmpty: () => void;
   required: boolean;
 };
 
@@ -30,7 +28,6 @@ export default function AutoComplete({
   addClass,
   type,
   items,
-  onEmpty,
   startIcon,
   placeholder,
   onChange,
@@ -64,7 +61,7 @@ export default function AutoComplete({
 
   const DropdownList = () => {
     return (
-      <ul ref={ref} className="z-200 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
+      <ul ref={ref} className="z-200 absolute mt-1 max-h-60 w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
         {filteredItems.length ? (
           <>
             {filteredItems?.map((item: any) => (

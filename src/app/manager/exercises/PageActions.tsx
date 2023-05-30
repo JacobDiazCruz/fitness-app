@@ -1,9 +1,12 @@
 'use client';
 
+import Button from "@/components/global/Button";
+import Link from "next/link";
+
 export default function PageActions() {
   return (
     <div className="flex justify-between">
-      <form>   
+      <form>
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -12,9 +15,13 @@ export default function PageActions() {
           <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-[#DAE0E5] rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-[#DAE0E5] dark:placeholder-gray-400 dark:text-[#000] dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
         </div>
       </form>
-      <button className="btn-dark px-6">
-        Add New Exercise
-      </button>
+        <Link 
+          href="/manager/exercises/add" 
+        >
+          <Button className="btn-dark h-[50px]">
+            Add New Exercise
+          </Button>
+        </Link>
     </div>
   );
 }

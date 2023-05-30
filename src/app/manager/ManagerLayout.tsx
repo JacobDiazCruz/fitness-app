@@ -7,15 +7,19 @@ import TextField from "@/components/global/TextField";
 import AutoComplete from "@/components/global/AutoComplete";
 
 export default function ManagerLayout ({
+  pageTitle,
+  backIcon,
   children
 }: {
+  pageTitle: string;
+  backIcon: boolean;
   children: React.ReactNode
 }) {
   return (
     <div className="flex">
       <Sidebar />
       <div className="w-full height-[100vh]">
-        <Header />
+        <Header pageTitle={pageTitle} backIcon={backIcon} />
         <div className="p-10">
           {children}
         </div>

@@ -28,7 +28,7 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 };
 
   return (
-    <ManagerLayout>
+    <ManagerLayout pageTitle="Profile">
       <div className="profile">
         <div className="actions flex justify-between">
           <div></div>
@@ -74,29 +74,29 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         >
           <div class="mt-7">
             {servicesList.map((service: Service, key: number) => (
-              <div className="pb-5 flex gap-[20px]">
-                <div>
+              <div className="pb-5 flex gap-[20px] w-full">
+                <div className="w-[226px]">
                   <p className="mb-2">Title</p>
                   <TextField 
                     value={service.title}
                     placeholder="e.g. Nutrition plan"
-                    className="w-[226px] h-[49px]"
+                    className="h-[49px]"
                   />
                 </div>
-                <div>
+                <div className="w-[350px]">
                   <p className="mb-2">Description</p>
                   <TextField
                     value={service.description}
-                    className="w-[350px] h-[49px]"
+                    className="h-[49px]"
                     placeholder="e.g. I will guide you on how to plan your meals"
                   />
                 </div>
-                <div>
+                <div className="w-[90px]">
                   <p className="mb-2">Price</p>
                   <TextField
                     value={service.price}
                     placeholder="Enter price"
-                    className="w-[90px] h-[49px]"
+                    className="h-[49px]"
                   />
                 </div>
                 <div>
