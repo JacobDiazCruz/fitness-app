@@ -18,9 +18,9 @@ export default function Profile() {
   ]);
   const [profileImage, setProfileImage] = useState<any>();
 
-  const addIcon: SVGAElement = <svg width="14" height="14" viewBox="0 0 14 14" className="mr-2" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13.4188 7.56763L7.63143 7.58811V13.4148C7.63143 13.7378 7.36999 14 7.04786 14C6.72572 14 6.46428 13.7378 6.46428 13.4148V7.59221L0.585335 7.61328C0.584752 7.61328 0.584168 7.61328 0.583585 7.61328C0.262035 7.61328 0.00117591 7.35287 8.76111e-06 7.02984C-0.00174197 6.70682 0.259117 6.44407 0.58125 6.4429L6.46428 6.42184V0.585187C6.46428 0.261579 6.72572 0 7.04786 0C7.36999 0 7.63143 0.261579 7.63143 0.585187V6.41774L13.4141 6.39726C13.4153 6.39726 13.4158 6.39726 13.4164 6.39726C13.738 6.39726 13.9988 6.65767 14 6.98069C14.0012 7.30371 13.7403 7.56646 13.4188 7.56763Z" fill="#000E8D"/>
-  </svg>;
+  const addIcon: SVGAElement = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>;
 
 const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   console.log(e.target.files[0])
@@ -113,8 +113,8 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
                         ])
                       }}
                       className="bg-[#EBEDFF] h-[49px] text-[#000E8D]"
+                      startIcon={addIcon}
                     >
-                      {addIcon}
                       Add a Service
                     </Button>
                   )}

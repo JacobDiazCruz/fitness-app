@@ -20,7 +20,7 @@ export default function AddExercise() {
   const [selectedPrimaryFocusItems, setSelectedPrimaryFocusItems] = useState();
 
   return (
-    <ManagerLayout pageTitle="Add New Exercise" backIcon={true}>
+    <ManagerLayout pageTitle="Add New Exercise" backIcon={true} backPath="/manager/exercises">
       <div className="flex justify-between">
         <div></div>
         <div>

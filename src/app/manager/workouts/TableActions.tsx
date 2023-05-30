@@ -3,7 +3,7 @@
 import Button from "@/components/global/Button";
 import Link from "next/link";
 
-export default function PageActions() {
+export default function TableActions() {
   return (
     <div className="flex justify-between">
       <form>
@@ -15,11 +15,11 @@ export default function PageActions() {
           <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-[#DAE0E5] rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-[#DAE0E5] dark:placeholder-gray-400 dark:text-[#000] dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
         </div>
       </form>
-        <Link 
-          href="/manager/exercises/add" 
-        >
-          <Button className="btn-dark h-[50px]">
-            Add New Exercise
+        <Link href="/manager/workouts/add">
+          <Button 
+            className="btn-dark h-[50px]"
+          >
+            Add New Workout
           </Button>
         </Link>
     </div>

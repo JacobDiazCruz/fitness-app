@@ -44,8 +44,12 @@ body {
 
 .btn-outlined {
   background-color: #FFF;
-  border: 1px solid #24282C;
+  border: 1px solid #DAE0E5;
   color: #24282C;
+}
+
+.btn-outlined:hover {
+  background-color: #FAFAFA;
 }
 
 .btn-contained {

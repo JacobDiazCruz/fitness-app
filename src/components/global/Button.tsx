@@ -1,6 +1,7 @@
 export default function Button({
   variant,
   className,
+  startIcon,
   onClick,
   loading,
   disabled,
@@ -19,8 +20,9 @@ export default function Button({
       onClick={onClick}
     >
       <div className="flex items-center">
+        {startIcon && <span className="mr-2">{startIcon}</span>}
         {loading && <>{loadingIcon}</>}
-        {children}
+        <span>{children}</span>
       </div>
     </button>
   );

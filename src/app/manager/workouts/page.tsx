@@ -2,13 +2,13 @@ import ManagerLayout from "../ManagerLayout";
 import TableActions from "./TableActions";
 import TableItem from "./TableItem";
 
-export default function Exercises() {
+export default function Workouts() {
   return (
-    <ManagerLayout pageTitle="Exercises">
-      <PageActions />
+    <ManagerLayout pageTitle="Workouts">
+      <TableActions />
       <div className="page-table mt-8">
         <div className="flex justify-between px-5 py-3 text-[14px]">
-          <div className="w-[235px]">Exercises</div>
+          <div className="w-[235px]">Workouts</div>
           <div className="w-[100px]">Primary focus</div>
           <div className="w-[80px]">Category</div>
           <div className="w-[100px]">Date added</div>
