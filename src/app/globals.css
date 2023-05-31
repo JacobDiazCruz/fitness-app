@@ -67,3 +67,24 @@ body {
 button:disabled {
   opacity: 0.5;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #FAFAFA; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cfd0d1;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b4b5; 
+}

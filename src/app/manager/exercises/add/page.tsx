@@ -6,8 +6,8 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import Uploader from "@/components/global/Uploader";
 import { useState } from "react";
-import ManagerLayout from "../../ManagerLayout";
-import PageActions from "../PageActions";
+import Header from "@/components/manager/Header";
+import PageActions from "../TableActions";
 import TableItem from "../TableItem";
 
 export default function AddExercise() {
@@ -20,7 +20,12 @@ export default function AddExercise() {
   const [selectedPrimaryFocusItems, setSelectedPrimaryFocusItems] = useState();
 
   return (
-    <ManagerLayout pageTitle="Add New Exercise" backIcon={true} backPath="/manager/exercises">
+    <>
+      <Header
+        pageTitle="Add New Exercise"
+        backIcon
+        backPath="/manager/exercises"
+      />
       <div className="flex justify-between">
         <div></div>
         <div>
@@ -81,6 +86,6 @@ export default function AddExercise() {
           </div>
         </div>
       </div>
-    </ManagerLayout>
+    </>
   );
 }

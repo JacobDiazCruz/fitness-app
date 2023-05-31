@@ -1,11 +1,12 @@
-import ManagerLayout from "../ManagerLayout";
+import Header from "@/components/manager/Header";
 import TableActions from "./TableActions";
 import TableItem from "./TableItem";
 
 export default function Exercises() {
   return (
-    <ManagerLayout pageTitle="Exercises">
-      <PageActions />
+    <>
+      <Header pageTitle="Exercises" />
+      <TableActions />
       <div className="page-table mt-8">
         <div className="flex justify-between px-5 py-3 text-[14px]">
           <div className="w-[235px]">Exercises</div>
@@ -17,6 +18,6 @@ export default function Exercises() {
         <TableItem />
         <TableItem />
       </div>
-    </ManagerLayout>
+    </>
   );
 }

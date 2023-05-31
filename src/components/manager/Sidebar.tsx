@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { Box } from "@mui/system";
 import Link from "next/link";
 
 export default function Sidebar () {

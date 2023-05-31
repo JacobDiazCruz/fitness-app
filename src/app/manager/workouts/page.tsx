@@ -1,10 +1,14 @@
+'use client'
+
 import ManagerLayout from "../ManagerLayout";
 import TableActions from "./TableActions";
 import TableItem from "./TableItem";
+import Header from "@/components/manager/Header";
 
 export default function Workouts() {
   return (
-    <ManagerLayout pageTitle="Workouts">
+    <>
+      <Header pageTitle="Workouts" />
       <TableActions />
       <div className="page-table mt-8">
         <div className="flex justify-between px-5 py-3 text-[14px]">
@@ -17,6 +21,6 @@ export default function Workouts() {
         <TableItem />
         <TableItem />
       </div>
-    </ManagerLayout>
+    </>
   );
 }

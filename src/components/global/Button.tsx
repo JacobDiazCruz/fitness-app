@@ -22,7 +22,7 @@ export default function Button({
       <div className="flex items-center">
         {startIcon && <span className="mr-2">{startIcon}</span>}
         {loading && <>{loadingIcon}</>}
-        <span>{children}</span>
+        <span className="text-[14px]">{children}</span>
       </div>
     </button>
   );

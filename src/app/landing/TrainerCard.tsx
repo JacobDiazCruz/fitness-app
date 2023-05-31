@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './styles/TrainerCard.module.scss';
 import TrainerRating from '../trainer/TrainerRating';
 import Image from 'next/image';
 
@@ -19,38 +18,38 @@ export default function TrainerCard() {
   });
 
   return (
-    <div className={styles.TrainerCard}>
-      <div className={styles.TrainerCard_CoverImage}>
+    <div className="bg-white rounded-lg w-[342px] h-[390px] overflow-hidden cursor-pointer">
+      <div className="w-full h-[200px] relative overflow-hidden">
         <Image
           alt="Cover Image"
-          width={200}
-          height={200}
+          fill
+          style={{ objectFit: 'cover' }}
           src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png" 
         />
       </div>
-      <div className={styles.TrainerCard_Details}>
-        <div className={styles.TrainerCard_Header}>
-          <div className={styles.TrainerCard_Avatar}>
+      <div className="p-[15px]">
+        <div className="flex items-center gap-[10px]">
+          <div className="w-[35px] h-[35px] rounded-full relative overflow-hidden">
             <Image
               alt="Cover Image"
-              width={200}
-              height={200}
+              fill
+              style={{ objectFit: 'cover' }}
               src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png" 
             />
           </div>
           <p>John Doe</p>
         </div>
-        <div className={styles.TrainerCard_Body}>
-          <p className="TrainerCard_Description">
+        <div className="mt-4">
+          <p className="text-[14px] leading-[20px]">
             I will be your online personal trainer and nutritionist
           </p>
           <TrainerRating />
-          <div className={styles.TrainerCard_Footer}>
-            <div className={styles.TrainerCard_Status}>
+          <div className="pt-2 flex justify-between">
+            <div className="rounded-md bg-[#EEE0D3] text-[#9A4A00] text-[12px] text-center px-2 py-1">
               Top Coach
             </div>
-            <div className={styles.TrainerCard_Price}>
-              $200<span>/hr</span>
+            <div className="text-[18px] font-medium">
+              $200<span className="text-[16px] text-[#9A9A9A]">/hr</span>
             </div>
           </div>
         </div>

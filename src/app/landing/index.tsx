@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image'
-import styles from '../page.module.css';
 import TrainerCard from './TrainerCard';
 import HomeLayout from '@/layouts/HomeLayout';
 import { useRouter } from 'next/navigation';

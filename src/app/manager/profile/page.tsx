@@ -7,6 +7,7 @@ import ManagerLayout from "../ManagerLayout";
 import Uploader from "@/components/global/Uploader";
 import ProfileForm from "./ProfileForm";
 import Image from 'next/image';
+import Header from "@/components/manager/Header";
 
 export default function Profile() {
   const [servicesList, setServicesList] = useState<Array>([
@@ -28,7 +29,8 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 };
 
   return (
-    <ManagerLayout pageTitle="Profile">
+    <>
+      <Header pageTitle="Profile" />
       <div className="profile">
         <div className="actions flex justify-between">
           <div></div>
@@ -132,6 +134,6 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
           <Uploader />
         </ProfileForm>
       </div>
-    </ManagerLayout>
+    </>
   );
 }

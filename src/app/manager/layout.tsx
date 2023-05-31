@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header"
+import Sidebar from "@/components/manager/Sidebar";
+import Header from "@/components/manager/Header"
 import TextField from "@/components/global/TextField";
 import AutoComplete from "@/components/global/AutoComplete";
 
@@ -19,11 +19,8 @@ export default function ManagerLayout ({
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full height-[100vh]">
-        <Header pageTitle={pageTitle} backIcon={backIcon} backPath={backPath} />
-        <div className="p-10">
-          {children}
-        </div>
+      <div className="w-full p-10 height-[100vh]">
+        {children}
       </div>
     </div>
   );
