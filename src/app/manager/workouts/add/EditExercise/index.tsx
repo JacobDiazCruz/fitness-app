@@ -23,13 +23,38 @@ export default function EditExercises() {
 
   const onDragOver = (e) => {
     e.preventDefault();
+    const exercisesList = [...selectedExercises];
+    setSelectedExercises(exercisesList);
   };
 
   const onDrop = (e, cat) => {
     const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
     const exercisesList = [...selectedExercises];
-    exercisesList.push(exercise)
+    exercisesList.push(exercise);
     setSelectedExercises(exercisesList);
+  };
+
+  const handleDragStart = (e) => {
+    const exerciseId = e.target.dataset.id;
+    console.log("exerciseId", exerciseId)
+    e.dataTransfer.setData("text/plain", exerciseId);
+  };
+  
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedExerciseId = e.dataTransfer.getData("text/plain");
+    const currentIndex = selectedExercises.findIndex(
+      (exercise) => exercise._id === droppedExerciseId
+    );
+    const exerciseList = [...selectedExercises];
+  
+    const targetIndex = e.target.closest("[data-index]")?.dataset.index;
+    if (targetIndex) {
+      const newIndex = parseInt(targetIndex, 10);
+      const [exercise] = exerciseList.splice(currentIndex, 1);
+      exerciseList.splice(newIndex, 0, exercise);
+      setSelectedExercises(exerciseList);
+    }
   };
 
   return (
@@ -37,8 +62,6 @@ export default function EditExercises() {
       <WorkoutNameField />
       <div 
         className="exercises-section mt-5"
-        onDragOver={(e) => onDragOver(e)}
-        onDrop={(e) => onDrop(e, "selected")}
       >
         <p className="mb-3 text-[14px]">Exercises</p>
         <div className="btn-actions flex items-center">
@@ -61,10 +84,21 @@ export default function EditExercises() {
             Circuit
           </Button>
         </div>
-        {selectedExercises.map((exercise: Exercise) => (
-          <SelectedExercise exercise={exercise} />
+        {selectedExercises.map((exercise: Exercise, index: number) => (
+          <div
+            draggable="true"
+            data-id={exercise._id}
+            data-index={index}
+            onDragStart={(e) => handleDragStart(e, exercise._id)}
+            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            <SelectedExercise exercise={exercise} exerciseId={exercise.id} />
+          </div>
         ))}
-        <div
+        <div 
+          onDragOver={(e) => onDragOver(e)}
+          onDrop={(e) => onDrop(e, "selected")}
           className="border-[2px] rounded-lg border-dashed border-gray-300 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
             <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center">
