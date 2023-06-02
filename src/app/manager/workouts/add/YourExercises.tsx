@@ -42,7 +42,7 @@ export const EXERCISES_LIST: Array[Exercise] = [
   }
 ];
 
-export default function YourExercises() {
+export default function YourExercises({}) {
   const [searchExercise, setSearchExercise] = useState<string>("");
   const [exercisesList, setExercisesList] = useState<Array[Exercise]>([]);
 

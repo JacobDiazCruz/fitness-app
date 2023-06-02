@@ -2,20 +2,15 @@ import { useEffect, useState } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
-import Image from "next/image";
 import SelectedExercise from "./SelectedExercise";
 import { EXERCISES_LIST } from "../YourExercises";
 import { Exercise } from "@/utils/types";
 
 export default function EditExercises() {
   const [selectedExercises, setSelectedExercises] = useState<Array<any>>([]);
-  const [targetDroppedIndex, setTargetDroppedIndex] = useState(-1);
-  const [isDragging, setIsDragging] = useState(false);
   const [draggedExerciseId, setDraggedExerciseId] = useState("");
-  const [draggedItemPosition, setDraggedItemPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [targetDroppedIndex, setTargetDroppedIndex] = useState(-1);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const WorkoutNameField = () => {
     return (
@@ -28,40 +23,59 @@ export default function EditExercises() {
     );
   };
 
-  const onDragOver = (e) => {
+  const onDragOverFromExercises = (e) => {
     e.preventDefault();
     const exercisesList = [...selectedExercises];
     setSelectedExercises(exercisesList);
   };
 
-  const onDrop = (e, cat) => {
-    const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
-    const exercisesList = [...selectedExercises];
-    exercisesList.push(exercise);
-    setSelectedExercises(exercisesList);
+  const onDropFromExercises = (e, cat) => {
+    if(e.dataTransfer.getData("exercise")) {
+      const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
+      const exercisesList = [...selectedExercises];
+      exercisesList.push(exercise);
+      setSelectedExercises(exercisesList);
+    }
+  };
+
+  const updateCursorPosition = (e) => {
+    setCursorPosition({ x: e.clientX, y: e.clientY });
   };
   
   const onDragStartSelectedExercise = (e) => {
     const exerciseId = e.target.dataset.id;
     setDraggedExerciseId(exerciseId);
     e.dataTransfer.setData("text/plain", exerciseId);
+
+    // Create a transparent image as a custom drag image
+    // const dragImage = new Image();
+    // dragImage.src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+    // e.dataTransfer.setDragImage(dragImage, 0, 0);
   };
 
-  const onDragSelectedExercise = (e) => {
+  const onDragSelectedExercise = (e, exercise) => {
     const { clientX, clientY } = e;
-
+  
     const elements = document.elementsFromPoint(clientX, clientY);
-    const targetElement = elements.find(element =>
+    const targetElement = elements.find((element) =>
       element.dataset.index !== undefined
     );
-
+  
     if (targetElement) {
       const dataIndex = targetElement.dataset.index;
       console.log("Closest element with data-index:", dataIndex);
       // Perform any additional logic with the targetElement here
-      setTargetDroppedIndex(dataIndex);
+      // setTargetDroppedIndex(dataIndex);
+      // const fromIndex = selectedExercises.indexOf(exercise);
+
+      // const filteredEx = [...selectedExercises];
+      // console.log("fromIndex:", fromIndex)
+      // const element = filteredEx.splice(fromIndex, 1)[0];
+      // console.log("element", element)
+      // filteredEx.splice(dataIndex, 0, element)
+      // setSelectedExercises(filteredEx);
     }
-  }
+  };
   
   const onDropSelectedExercise = (e) => {
     e.preventDefault();
@@ -87,6 +101,8 @@ export default function EditExercises() {
       <WorkoutNameField />
       <div 
         className="exercises-section mt-5"
+        onDragOver={(e) => onDragOverFromExercises(e)}
+        onDrop={(e) => onDropFromExercises(e, "selected")}
       >
         <p className="mb-3 text-[14px]">Exercises</p>
         <div className="btn-actions flex items-center">
@@ -109,12 +125,11 @@ export default function EditExercises() {
             Circuit
           </Button>
         </div>
-        Y:{draggedItemPosition.y} X:{draggedItemPosition.x}
         {selectedExercises.map((exercise: Exercise, index: number) => (
           <>
-            {(targetDroppedIndex == index) && (
+            {/* {(targetDroppedIndex == index) && (
               <div 
-                className="w-[100%] h-[150px] bg-gray-100 mt-5 cursor-grab"
+                className="w-[100%] h-[180px] rounded-lg bg-gray-100 mt-5 cursor-grab"
                 draggable="false"
                 data-id={exercise._id}
                 id={exercise._id}
@@ -122,7 +137,7 @@ export default function EditExercises() {
                 onDrop={onDropSelectedExercise}
                 onDragOver={(e) => e.preventDefault()}
               ></div>
-            )}
+            )} */}
             <div
               draggable="true"
               data-id={exercise._id}
@@ -131,17 +146,18 @@ export default function EditExercises() {
               onDragStart={(e) => onDragStartSelectedExercise(e, exercise._id)}
               onDrop={onDropSelectedExercise}
               onDragOver={(e) => e.preventDefault()}
-              onDrag={(e) => onDragSelectedExercise(e)}
+              onDrag={(e) => onDragSelectedExercise(e, exercise)}
               onMouseDown={() => setTargetDroppedIndex(-1)}
               className="cursor-grab"
+              style={{
+                opacity: draggedExerciseId === exercise._id ? 0.4 : 1
+              }}
             >
-              <SelectedExercise exercise={exercise} exerciseId={exercise.id} />
+              <SelectedExercise exercise={exercise} exerciseId={exercise._id} />
             </div>
           </>
         ))}
-        <div 
-          onDragOver={(e) => onDragOver(e)}
-          onDrop={(e) => onDrop(e, "selected")}
+        <div
           className="border-[2px] rounded-lg border-dashed border-gray-300 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
             <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center">

@@ -15,6 +15,7 @@ import YourExercises from "./YourExercises";
 import Header from "@/components/manager/Header";
 
 export default function AddWorkout() {
+
   return (
     <>
       <Header 
