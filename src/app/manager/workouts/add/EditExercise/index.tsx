@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
@@ -9,7 +9,14 @@ import { Exercise } from "@/utils/types";
 
 export default function EditExercises() {
   const [selectedExercises, setSelectedExercises] = useState<Array<any>>([]);
-  
+  const [targetDroppedIndex, setTargetDroppedIndex] = useState(-1);
+  const [isDragging, setIsDragging] = useState(false);
+  const [draggedExerciseId, setDraggedExerciseId] = useState("");
+  const [draggedItemPosition, setDraggedItemPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
   const WorkoutNameField = () => {
     return (
       <div className="field">
@@ -33,21 +40,39 @@ export default function EditExercises() {
     exercisesList.push(exercise);
     setSelectedExercises(exercisesList);
   };
-
-  const handleDragStart = (e) => {
+  
+  const onDragStartSelectedExercise = (e) => {
     const exerciseId = e.target.dataset.id;
-    console.log("exerciseId", exerciseId)
+    setDraggedExerciseId(exerciseId);
     e.dataTransfer.setData("text/plain", exerciseId);
   };
+
+  const onDragSelectedExercise = (e) => {
+    const { clientX, clientY } = e;
+
+    const elements = document.elementsFromPoint(clientX, clientY);
+    const targetElement = elements.find(element =>
+      element.dataset.index !== undefined
+    );
+
+    if (targetElement) {
+      const dataIndex = targetElement.dataset.index;
+      console.log("Closest element with data-index:", dataIndex);
+      // Perform any additional logic with the targetElement here
+      setTargetDroppedIndex(dataIndex);
+    }
+  }
   
-  const handleDrop = (e) => {
+  const onDropSelectedExercise = (e) => {
     e.preventDefault();
+    setTargetDroppedIndex(-1);
+    setDraggedExerciseId("");
     const droppedExerciseId = e.dataTransfer.getData("text/plain");
     const currentIndex = selectedExercises.findIndex(
       (exercise) => exercise._id === droppedExerciseId
     );
     const exerciseList = [...selectedExercises];
-  
+      
     const targetIndex = e.target.closest("[data-index]")?.dataset.index;
     if (targetIndex) {
       const newIndex = parseInt(targetIndex, 10);
@@ -84,17 +109,35 @@ export default function EditExercises() {
             Circuit
           </Button>
         </div>
+        Y:{draggedItemPosition.y} X:{draggedItemPosition.x}
         {selectedExercises.map((exercise: Exercise, index: number) => (
-          <div
-            draggable="true"
-            data-id={exercise._id}
-            data-index={index}
-            onDragStart={(e) => handleDragStart(e, exercise._id)}
-            onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
-          >
-            <SelectedExercise exercise={exercise} exerciseId={exercise.id} />
-          </div>
+          <>
+            {(targetDroppedIndex == index) && (
+              <div 
+                className="w-[100%] h-[150px] bg-gray-100 mt-5 cursor-grab"
+                draggable="false"
+                data-id={exercise._id}
+                id={exercise._id}
+                data-index={index}
+                onDrop={onDropSelectedExercise}
+                onDragOver={(e) => e.preventDefault()}
+              ></div>
+            )}
+            <div
+              draggable="true"
+              data-id={exercise._id}
+              id={exercise._id}
+              data-index={index}
+              onDragStart={(e) => onDragStartSelectedExercise(e, exercise._id)}
+              onDrop={onDropSelectedExercise}
+              onDragOver={(e) => e.preventDefault()}
+              onDrag={(e) => onDragSelectedExercise(e)}
+              onMouseDown={() => setTargetDroppedIndex(-1)}
+              className="cursor-grab"
+            >
+              <SelectedExercise exercise={exercise} exerciseId={exercise.id} />
+            </div>
+          </>
         ))}
         <div 
           onDragOver={(e) => onDragOver(e)}
