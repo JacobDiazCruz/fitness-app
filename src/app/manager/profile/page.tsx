@@ -23,10 +23,10 @@ export default function Profile() {
       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
     </svg>;
 
-const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  console.log(e.target.files[0])
-  setProfileImage(e.target.files[0]);
-};
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files[0])
+    setProfileImage(e.target.files[0]);
+  };
 
   return (
     <>

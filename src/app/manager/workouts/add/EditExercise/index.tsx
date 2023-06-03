@@ -48,7 +48,7 @@ export default function EditExercises() {
               }}
             ></div>
             <div
-              draggable="true"
+              draggable
               data-id={exercise._id}
               id={exercise._id}
               data-index={index}
@@ -62,12 +62,12 @@ export default function EditExercises() {
                 const targetIndex = selectedExercises.indexOf(draggedExercise);
                 if (index !== targetIndex && targetIndex !== -1) {
                   const updatedArr = [...selectedExercises];
-                  console.log("targetIndex:", targetIndex)
                   updatedArr.splice(targetIndex, 1);
                   updatedArr.splice(index, 0, draggedExercise);
                   setSelectedExercises(updatedArr);
                 }
               }}
+              onDrop={(e) => setDraggedExercise(null)}
               className="cursor-grab"
               style={{
                 opacity: draggedExercise === exercise ? 0.01 : 1
@@ -79,7 +79,7 @@ export default function EditExercises() {
         );
       }),
     [selectedExercises, draggedExercise]
-  );  
+  );
 
   // can be removed
   // useEffect(() => {
