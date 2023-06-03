@@ -37,75 +37,86 @@ export default function EditExercises() {
       selectedExercises.map((exercise: Exercise, index: number) => {
         if (!exercise) return null; // Skip rendering if exercise is null or undefined
         return (
-          // <div className="w-[100%] h-[200px] bg-gray"></div>
           <div
             key={exercise._id}
-            draggable="true"
-            data-id={exercise._id}
-            id={exercise._id}
-            data-index={index}
-            onDragStart={(e) => {
-              e.dataTransfer.setData("text/plain", ""); // Required for Firefox compatibility
-              setDraggedExercise(exercise);
-            }}
-            onDragEnd={() => setDraggedExercise(null)}
-            onDragEnter={(e) => {
-              e.preventDefault();
-              const targetIndex = selectedExercises.indexOf(draggedExercise);
-              if (index !== targetIndex) {
-                const updatedArr = [...selectedExercises];
-                updatedArr.splice(targetIndex, 1);
-                updatedArr.splice(index, 0, draggedExercise);
-                setSelectedExercises(updatedArr);
-              }
-            }}
-            className="cursor-grab"
-            style={{
-              opacity: draggedExercise === exercise ? 0.3 : 1
-            }}
+            className="relative"
           >
-            <SelectedExercise exercise={exercise} exerciseId={exercise._id} />
+            <div 
+              className="bg-gray-200 w-full h-[180px] absolute rounded-lg"
+              style={{
+                visibility: draggedExercise === exercise ? 'visible' : 'hidden'
+              }}
+            ></div>
+            <div
+              draggable="true"
+              data-id={exercise._id}
+              id={exercise._id}
+              data-index={index}
+              onDragStart={(e) => {
+                e.dataTransfer.setData("text/plain", ""); // Required for Firefox compatibility
+                setDraggedExercise(exercise);
+              }}
+              onDragEnd={() => setDraggedExercise(null)}
+              onDragEnter={(e) => {
+                e.preventDefault();
+                const targetIndex = selectedExercises.indexOf(draggedExercise);
+                if (index !== targetIndex && targetIndex !== -1) {
+                  const updatedArr = [...selectedExercises];
+                  console.log("targetIndex:", targetIndex)
+                  updatedArr.splice(targetIndex, 1);
+                  updatedArr.splice(index, 0, draggedExercise);
+                  setSelectedExercises(updatedArr);
+                }
+              }}
+              className="cursor-grab"
+              style={{
+                opacity: draggedExercise === exercise ? 0.01 : 1
+              }}
+            >
+                <SelectedExercise exercise={exercise} exerciseId={exercise._id} />
+            </div>
           </div>
         );
       }),
     [selectedExercises, draggedExercise]
   );  
 
-  useEffect(() => {
-    let animationFrameId;
+  // can be removed
+  // useEffect(() => {
+  //   let animationFrameId;
 
-    const handleDragEnter = (e) => {
-      e.preventDefault();
-      const targetIndex = selectedExercises.indexOf(draggedExercise);
-      if (e.currentTarget.dataset.index && e.currentTarget.dataset.index !== targetIndex) {
-        const target = Number(e.currentTarget.dataset.index);
-        animationFrameId = requestAnimationFrame(() => {
-          const updatedArr = [...selectedExercises];
-          updatedArr.splice(targetIndex, 1);
-          updatedArr.splice(target, 0, draggedExercise);
-          setSelectedExercises(updatedArr);
-        });
-      }
-    };
+  //   const handleDragEnter = (e) => {
+  //     e.preventDefault();
+  //     const targetIndex = selectedExercises.indexOf(draggedExercise);
+  //     if (e.currentTarget.dataset.index && e.currentTarget.dataset.index !== targetIndex) {
+  //       const target = Number(e.currentTarget.dataset.index);
+  //       animationFrameId = requestAnimationFrame(() => {
+  //         const updatedArr = [...selectedExercises];
+  //         updatedArr.splice(targetIndex, 1);
+  //         updatedArr.splice(target, 0, draggedExercise);
+  //         setSelectedExercises(updatedArr);
+  //       });
+  //     }
+  //   };
 
-    const handleDragEnd = () => {
-      cancelAnimationFrame(animationFrameId);
-      setDraggedExercise(null);
-    };
+  //   const handleDragEnd = () => {
+  //     cancelAnimationFrame(animationFrameId);
+  //     setDraggedExercise(null);
+  //   };
 
-    const draggables = document.querySelectorAll('.cursor-grab');
-    draggables.forEach((draggable) => {
-      draggable.addEventListener('dragenter', handleDragEnter);
-      draggable.addEventListener('dragend', handleDragEnd);
-    });
+  //   const draggables = document.querySelectorAll('.cursor-grab');
+  //   draggables.forEach((draggable) => {
+  //     draggable.addEventListener('dragenter', handleDragEnter);
+  //     draggable.addEventListener('dragend', handleDragEnd);
+  //   });
 
-    return () => {
-      draggables.forEach((draggable) => {
-        draggable.removeEventListener('dragenter', handleDragEnter);
-        draggable.removeEventListener('dragend', handleDragEnd);
-      });
-    };
-  }, [selectedExercises, draggedExercise]);
+  //   return () => {
+  //     draggables.forEach((draggable) => {
+  //       draggable.removeEventListener('dragenter', handleDragEnter);
+  //       draggable.removeEventListener('dragend', handleDragEnd);
+  //     });
+  //   };
+  // }, [selectedExercises, draggedExercise]);
 
   return (
     <>
