@@ -2,6 +2,7 @@ export default function Button({
   variant,
   className,
   startIcon,
+  endIcon,
   onClick,
   loading,
   disabled,
@@ -15,14 +16,17 @@ export default function Button({
   return (
     <button 
       type="button"
-      className={`${className} btn-${variant} px-4 py-2 rounded-lg overflow-hidden`}
+      className={`${className} text-center btn-${variant} h-[45px] px-4 rounded-lg overflow-hidden relative`}
       disabled={disabled}
       onClick={onClick}
     >
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         {startIcon && <span className="mr-2">{startIcon}</span>}
         {loading && <>{loadingIcon}</>}
-        <span className="text-[14px]">{children}</span>
+        <div className={`text-[14px] text-center`}>
+          {children}
+        </div>
+        {endIcon && <span className="ml-2">{endIcon}</span>}
       </div>
     </button>
   );
@@ -31,5 +35,6 @@ export default function Button({
 Button.defaultProps = {
   variant: "",
   loading: false,
-  disabled: false
+  disabled: false,
+  className: "h-[45px]"
 };

@@ -33,7 +33,7 @@ export default function TextArea({
         className={`
           ${startIcon && 'pl-10'}
           ${className} 
-          bg-white border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 border-gray-300 placeholder-gray-400`} 
+          bg-white border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-300 block w-full p-2.5 border-gray-200 placeholder-gray-400`} 
         placeholder={placeholder}
         required={required}
         onChange={onChange}

@@ -98,7 +98,7 @@ export default function AutoComplete({
           type={type}
           required={required}
           value={inputValue}
-          className="w-full bg-white border border-gray-300 p-2.5 text-sm leading-5 rounded-lg text-gray-900 focus:ring-0" 
+          className="w-full bg-white border border-gray-200 p-2.5 text-sm leading-5 rounded-lg text-gray-900 focus:ring-0" 
           role="combobox"
           type="text"
           aria-expanded="false"

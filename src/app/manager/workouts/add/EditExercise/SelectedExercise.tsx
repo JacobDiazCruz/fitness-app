@@ -21,7 +21,7 @@ const SelectedExercise = ({
   </svg>;
 
   return (
-    <div className="border border-solid border-gray-300 mt-5 rounded-lg overflow-hidden">
+    <div className="border border-solid border-gray-200 mt-5 rounded-lg overflow-hidden">
       <div className="py-2 px-4 bg-gray-100 h-[55px] flex justify-between items-center">
         <div className="flex gap-[10px] items-center">
           <input

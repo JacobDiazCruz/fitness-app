@@ -2,9 +2,14 @@
 
 import { useCallback, useState, useMemo } from "react";
 import Header from "@/components/manager/Header";
+import HeaderActions from "./HeaderActions";
+import Button from "@/components/global/Button";
+import { AddIcon } from "@/components/global/Icons";
+import SelectWorkoutModal from "./SelectWorkoutModal";
 
 export default function EditProgram() {
   const [draggedWorkout, setDraggedWorkout] = useState(null);
+  const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
   const [programDays, setProgramDays] = useState([
     {
       name: "Day 1",
@@ -139,8 +144,8 @@ export default function EditProgram() {
       <>
         {workouts.map((workout, index) => (
           <div key={workout.name} className="relative">
-            {/* {draggedWorkout?.name}
-            <div 
+            {/* {draggedWorkout?.name} */}
+            {/* <div 
               className="bg-gray-200 w-full h-[70px] absolute rounded-lg"
               style={{
                 visibility: draggedWorkout === workout ? 'visible' : 'hidden'
@@ -148,9 +153,9 @@ export default function EditProgram() {
             ></div> */}
             <div
               draggable
-              style={{
-                opacity: draggedWorkout === workout ? 0.01 : 1
-              }}
+              // style={{
+              //   opacity: draggedWorkout === workout ? 0.01 : 1
+              // }}
               onDragStart={e => {
                 e.dataTransfer.setData(
                   "application/json",
@@ -161,7 +166,7 @@ export default function EditProgram() {
               onDragEnter={e => onDragEnter(e, workout, index, dayIndex)}
               onDragEnd={(e) => setDraggedWorkout(null)}
               onDrop={e => setDraggedWorkout(null)}
-              className="w-full rounded-lg mt-2 bg-gray-200 p-3"
+              className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer"
             >
               <h5 className="text-[14px] font-medium">{workout.name}</h5>
               <p className="text-[12px] mt-1 text-normal">{workout.exercises.length} exercises</p>
@@ -170,12 +175,13 @@ export default function EditProgram() {
         ))}
       </>
     ),
-    [programDays, setProgramDays, setDraggedWorkout]
+    [programDays]
   );
 
   return (
     <>
       <Header pageTitle="Full Body Program" />
+      <HeaderActions />
       <div className="flex gap-[10px]">
         {programDays.map((day, dayIndex) => (
           <div
@@ -184,12 +190,29 @@ export default function EditProgram() {
             onDrop={e => handleDrop(e, dayIndex)}
             className="h-[100vh] bg-white w-full p-2"
           >
-            <p className="uppercase text-[12px] text-gray-500">{day.name}</p>
-            {day.workouts.length > 0 && (
-              <MappedWorkouts workouts={day.workouts} dayIndex={dayIndex} />
-            )}
+            <div className="flex justify-between items-center">
+              <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>
+              <button 
+                variant="outlined"
+                className="h-[32px] flex items-center border-gray-200 border-solid border rounded-lg px-2"
+                onClick={() => setShowAddWorkoutModal(true)}
+              >
+                <AddIcon className="w-3 h-3 mr-2" />
+                <span className="text-[12px] text-gray-500">Add workout</span>
+              </button>
+            </div>
+            <div className="mt-3">
+              {day.workouts.length > 0 && (
+                <MappedWorkouts workouts={day.workouts} dayIndex={dayIndex} />
+              )}
+            </div>
           </div>
         ))}
+        {showAddWorkoutModal && (
+          <SelectWorkoutModal
+            onClose={() => setShowAddWorkoutModal(false)}
+          />
+        )}
       </div>
     </>
   );

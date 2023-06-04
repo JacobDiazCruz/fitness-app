@@ -3,8 +3,9 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import SelectedExercise from "./SelectedExercise";
-import { EXERCISES_LIST } from "../YourExercises";
+import { initialExercises } from "../YourExercises";
 import { Exercise } from "@/utils/types";
+import { CubeTransparentIcon, ViewFinderIcon } from "@/components/global/Icons";
 
 export default function EditExercises() {
   const [selectedExercises, setSelectedExercises] = useState<Array<any>>([]);
@@ -128,11 +129,21 @@ export default function EditExercises() {
       >
         <p className="mb-3 text-[14px]">Exercises</p>
         <div className="btn-actions flex items-center">
-          <Button variant="outlined mr-2">Superset</Button>
-          <Button variant="outlined">Circuit</Button>
+          <Button 
+            variant="outlined mr-2"
+            startIcon={<CubeTransparentIcon />}
+          >
+            Superset
+          </Button>
+          <Button 
+            variant="outlined"
+            startIcon={<ViewFinderIcon />}
+          >
+            Circuit
+          </Button>
         </div>
         {mappedExercises}
-        <div className="border-[2px] rounded-lg border-dashed border-gray-300 mt-5 h-[196px] flex items-center">
+        <div className="border-[2px] rounded-lg border-dashed border-gray-200 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
             <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center"></div>
             <p className="mt-3 text-[16px] text-gray-500">Drag &amp; Drop your exercise</p>

@@ -3,7 +3,7 @@ import TextField from "@/components/global/TextField";
 import Image from "next/image";
 import { Exercise } from "@/utils/types"
 
-export const EXERCISES_LIST: Array[Exercise] = [
+export const initialExercises: Array[Exercise] = [
   {
     _id: "214124",
     name: "Medicine ball Full Twist",
@@ -47,7 +47,7 @@ export default function YourExercises({}) {
   const [exercisesList, setExercisesList] = useState<Array[Exercise]>([]);
 
   useEffect(() => {
-    const filteredExercise = EXERCISES_LIST.filter((exercise: Exercise) => {
+    const filteredExercise = initialExercises.filter((exercise: Exercise) => {
       if(exercise.name.toLowerCase().includes(searchExercise.toLowerCase())) {
         return exercise
       }
@@ -64,7 +64,7 @@ export default function YourExercises({}) {
       <div
         onDragStart={(e) => onDragStart(e, exercise)}
         draggable
-        className="cursor-grab hover:bg-gray-100 flex items-center rounded-lg mb-3 gap-[10px] h-[83px] border border-solid border-gray-300"
+        className="cursor-grab hover:bg-gray-100 flex items-center rounded-lg mb-3 gap-[10px] h-[83px] border border-solid border-gray-200"
       >
         <div className="bg-gray-200 flex items-center w-[40%] h-full overflow-hidden relative">
           <Image
