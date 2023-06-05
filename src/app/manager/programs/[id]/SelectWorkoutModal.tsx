@@ -40,7 +40,7 @@ export default function SelectWorkoutModal({ onClose }: any) {
   return (
     <Modal onClose={onClose} className="w-[350px] h-[80%] p-7">
       <div className="flex justify-between">
-        <h2>Select a Workout</h2>
+        <h2 className="font-semibold">Select a Workout</h2>
         <button onClick={onClose}>
           <CloseIcon className="w-5 h-5" />
         </button>
@@ -50,6 +50,7 @@ export default function SelectWorkoutModal({ onClose }: any) {
           startIcon={<SearchIcon />} 
           placeholder="Search workout"
           value={searchVal}
+          className="bg-gray-100"
           onChange={(e) => setSearchVal(e.target.value)}
         />
         <p className="text-[13px] text-gray-500 mt-4 mb-2">{workouts?.length} workouts</p>

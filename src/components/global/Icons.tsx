@@ -51,3 +51,9 @@ export const CheckCircleIcon = ({ className }) => {
     </svg>
   );
 }
+
+export const DropdownIcon = ({ className }) => {
+  return (
+    <svg t="1685162255200" className={`${className ? className : 'w-4 h-4' }`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2379"><path d="M725.333333 426.666667L512 640 298.666667 426.666667z" p-id="2380"></path></svg>
+  );
+}

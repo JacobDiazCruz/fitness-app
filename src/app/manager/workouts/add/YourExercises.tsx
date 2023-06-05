@@ -8,37 +8,41 @@ export const initialExercises: Array[Exercise] = [
     _id: "214124",
     name: "Medicine ball Full Twist",
     primaryFocus: "Core",
-    category: "Strength"
+    category: "Strength",
+    checked: false,
+    supersetExercises: []
   },
   {
     _id: "424242",
     name: "Incline dumbbell press",
     primaryFocus: "Upper Chest",
-    category: "strength"
+    category: "strength",
+    checked: false,
+    supersetExercises: []
   },
   {
     _id: "62362",
     name: "Barbell Press",
     primaryFocus: "Core",
-    category: "Strength"
+    category: "Strength",
+    checked: false,
+    supersetExercises: []
   },
   {
     _id: "124643",
     name: "Leg curls",
     primaryFocus: "Upper Chest",
-    category: "strength"
+    category: "strength",
+    checked: false,
+    supersetExercises: []
   },
   {
     _id: "111212",
     name: "Medicine ball Full Twist",
     primaryFocus: "Core",
-    category: "Strength"
-  },
-  {
-    _id: "745212",
-    name: "Incline dumbbell press",
-    primaryFocus: "Upper Chest",
-    category: "strength"
+    category: "Strength",
+    checked: false,
+    supersetExercises: []
   }
 ];
 

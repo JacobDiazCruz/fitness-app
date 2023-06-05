@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
+import UserMenu from '../global/UserMenu';
 
 export default function Sidebar () {
   const router = useRouter();
@@ -77,6 +78,10 @@ export default function Sidebar () {
             )
           })}
         </ul>
+
+        <div className="p-5">
+          <UserMenu />
+        </div>
 
         {openNav && (
           <div className="rounded-xl bg-[#24282C] w-[85%] mx-auto mt-5 p-5">

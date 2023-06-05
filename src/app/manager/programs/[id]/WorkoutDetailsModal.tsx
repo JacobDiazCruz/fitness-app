@@ -40,7 +40,7 @@ export default function WorkoutDetailsModal({
 
   const SelectedExercise = ({ exercise }) => {
     return (
-      <div className="border shadow-sm border-solid border-gray-200 mb-5 rounded-lg overflow-hidden">
+      <div className="border shadow-sm border-solid border-gray-200 mb-3 rounded-lg overflow-hidden">
         <div className="py-2 px-4 bg-gray-100 h-[55px] flex justify-between items-center">
           <div className="flex gap-[10px] items-center">
             <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">

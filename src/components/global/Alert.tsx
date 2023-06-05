@@ -2,7 +2,7 @@ import { CheckCircleIcon, CloseIcon } from "./Icons";
 
 export default function Alert() {
   return (
-    <div className="m-5 bg-zinc-800 text-white px-5 py-6 rounded-lg fixed left-0 bottom-0">
+    <div className="m-5 bg-zinc-800 text-white z-[990] px-5 py-6 rounded-lg fixed left-0 bottom-0">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-[10px]">
           <div className="text-green-500">

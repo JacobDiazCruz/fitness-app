@@ -162,8 +162,11 @@ export default function EditProgram() {
               }}
               onDragEnter={e => onDragEnter(e, workout, index, dayIndex)}
               onDragEnd={(e) => setDraggedWorkout(null)}
-              onDrop={e => setDraggedWorkout(null)}
-              className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer"
+              onDrop={e => {
+                e.preventDefault();
+                setDraggedWorkout(null)
+              }}
+              className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer shadow-sm"
             >
               <h5 className="text-[14px] font-medium">{workout.name}</h5>
               <p className="text-[12px] mt-1 text-normal">{workout.exercises.length} exercises</p>
@@ -185,7 +188,7 @@ export default function EditProgram() {
             key={day.name}
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, dayIndex)}
-            className="h-[100vh] bg-white w-full p-2"
+            className="h-[100vh] bg-white w-full p-2 shadow-sm"
           >
             <div className="flex justify-between items-center">
               <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>

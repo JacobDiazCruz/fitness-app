@@ -17,7 +17,7 @@ export default function UserMenu() {
         onClick={() => setOpenUserDropdown(!openUserDropdown)}
         ref={ref}
       >
-        <div className="rounded-full w-[45px] h-[45px] relative overflow-hidden">
+        <div className="rounded-full w-[40px] h-[40px] relative overflow-hidden">
           <Image
             alt="Trainer Image"
             src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
@@ -25,9 +25,10 @@ export default function UserMenu() {
             fill
           />
         </div>
+        {/* <p className="text-gray-600 text-[14px]">John Doe</p> */}
         {dropdownIcon}
         {openUserDropdown && (
-          <div className="dropdown absolute bg-white mt-[150px] z-50 ml-[-20px] shadow-md rounded-md">
+          <div className="dropdown absolute bg-white mt-[150px] z-50 shadow-md rounded-md">
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
               <li onClick={() => router.push('/manager/exercises')}>
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open Manager</a>
