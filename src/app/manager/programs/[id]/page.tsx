@@ -6,10 +6,12 @@ import HeaderActions from "./HeaderActions";
 import Button from "@/components/global/Button";
 import { AddIcon } from "@/components/global/Icons";
 import SelectWorkoutModal from "./SelectWorkoutModal";
+import WorkoutDetailsModal from "./WorkoutDetailsModal";
 
 export default function EditProgram() {
   const [draggedWorkout, setDraggedWorkout] = useState(null);
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
+  const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
   const [programDays, setProgramDays] = useState([
     {
       name: "Day 1",
@@ -139,23 +141,18 @@ export default function EditProgram() {
     [addDroppedWorkout, removeDraggedWorkout]
   );
 
+  // Mapped workouts
   const MappedWorkouts = useMemo(
     () => ({ workouts, dayIndex }) => (
       <>
         {workouts.map((workout, index) => (
-          <div key={workout.name} className="relative">
-            {/* {draggedWorkout?.name} */}
-            {/* <div 
-              className="bg-gray-200 w-full h-[70px] absolute rounded-lg"
-              style={{
-                visibility: draggedWorkout === workout ? 'visible' : 'hidden'
-              }}
-            ></div> */}
+          <div 
+            key={workout.name} 
+            className="relative"
+            onClick={() => setShowWorkoutDetailsModal(true)}
+          >
             <div
               draggable
-              // style={{
-              //   opacity: draggedWorkout === workout ? 0.01 : 1
-              // }}
               onDragStart={e => {
                 e.dataTransfer.setData(
                   "application/json",
@@ -211,6 +208,11 @@ export default function EditProgram() {
         {showAddWorkoutModal && (
           <SelectWorkoutModal
             onClose={() => setShowAddWorkoutModal(false)}
+          />
+        )}
+        {showWorkoutDetailsModal && (
+          <WorkoutDetailsModal
+            onClose={() => setShowWorkoutDetailsModal(false)}
           />
         )}
       </div>

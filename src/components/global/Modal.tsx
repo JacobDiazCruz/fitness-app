@@ -1,14 +1,10 @@
 interface Props {
-  width: number;
-  height: number;
   onClose: any;
   className: string;
   children: React.ReactNode;
 };
 
 export default function Modal({
-  width,
-  height,
   onClose,
   className,
   children
@@ -20,15 +16,10 @@ export default function Modal({
         onClick={onClose}
       ></div>
       <div
-        className={`${className} bg-white shadow-sm p-5 rounded-xl m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
+        className={`${className} bg-white shadow-sm rounded-xl m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-[100] outline-none focus:outline-none`}
       >
         {children}
       </div>
     </>
   );
-}
-
-Modal.defaultProps = {
-  width: 400,
-  height: 100
 }

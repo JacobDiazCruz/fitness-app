@@ -1,9 +1,11 @@
 import Button from "@/components/global/Button";
 import { useState } from "react";
 import { AddIcon, ArrowRightIcon, ChevronRightIcon } from "@/components/global/Icons";
+import AssignClientModal from "./AssignClientModal";
 
 export default function HeaderActions() {
   const [weeks, setWeeks] = useState([1,2,3,4]);
+  const [showAssignClientModal, setShowAssignClientModal] = useState<bolean>(false);
 
   return (
     <div class="flex justify-between mb-7">
@@ -25,10 +27,20 @@ export default function HeaderActions() {
         <Button variant="outlined" startIcon={<AddIcon />}>
           Add Week
         </Button>
-        <Button variant="contained" startIcon={<ArrowRightIcon />}>
+        <Button 
+          variant="contained" 
+          startIcon={<ArrowRightIcon />}
+          onClick={() => setShowAssignClientModal(true)}
+        >
           Assign to Client
         </Button>
       </div>
+
+      {showAssignClientModal && (
+        <AssignClientModal
+          onClose={() => setShowAssignClientModal(false)}
+        />
+      )}
     </div>
   );
 }

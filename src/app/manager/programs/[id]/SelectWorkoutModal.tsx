@@ -38,11 +38,11 @@ export default function SelectWorkoutModal({ onClose }: any) {
   }, [searchVal])
 
   return (
-    <Modal onClose={onClose} className="w-[350px] h-[80%]">
+    <Modal onClose={onClose} className="w-[350px] h-[80%] p-7">
       <div className="flex justify-between">
         <h2>Select a Workout</h2>
         <button onClick={onClose}>
-          <CloseIcon className="w-6 h-6" />
+          <CloseIcon className="w-5 h-5" />
         </button>
       </div>
       <div className="workouts-list mt-6">
