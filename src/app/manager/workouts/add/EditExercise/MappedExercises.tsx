@@ -57,11 +57,21 @@ export default function MappedExercises({
   
     setDraggedExercise(null);
     setShowDropContainer(false);  
-  };  
+  };
 
-  useEffect(() => {
-    console.log("selectedExercises:", selectedExercises);
-  }, [selectedExercises])
+  const handleCheck = (exerciseId) => {
+    setSelectedExercises((prevExercises) => {
+      return prevExercises.map((prevExercise) => {
+        if (exerciseId === prevExercise._id) {
+          return {
+            ...prevExercise,
+            checked: !prevExercise.checked // Toggle the checked value
+          };
+        }
+        return prevExercise;
+      });
+    });
+  }
 
   return (
     <>
@@ -94,14 +104,14 @@ export default function MappedExercises({
           >
             {exercise?.supersetExercises?.length ? (
               <div
-                className="border-[2px] cursor-grab border-solid border-indigo-800 rounded-lg overflow-hidden mt-5"
+                className="border-[2px] relative cursor-grab border-solid border-indigo-950 rounded-lg overflow-hidden mt-5"
                 onDragOver={(e) => {
                   e.preventDefault();
                 }}
                 onDragOver={() => setShowDropContainer(true)}
                 onDrop={(e) => handleDrop(e, index)}
               >
-                <div className="bg-indigo-800 px-5 py-3 flex justify-between">
+                <div className="bg-indigo-950 px-5 py-3 flex justify-between">
                   <div className="flex gap-[10px] items-center">
                     <CubeTransparentIcon className="text-white w-4 h-4" />
                     <p className="text-white font-normal">Superset</p>
@@ -118,24 +128,12 @@ export default function MappedExercises({
                         exercise={superExercise}
                         exerciseId={superExercise._id}
                         showCheckInput={false}
-                        onCheck={() => {
-                          setSelectedExercises((prevExercises) => {
-                            return prevExercises.map((prevExercise) => {
-                              if (superExercise._id === prevExercise._id) {
-                                return {
-                                  ...prevExercise,
-                                  checked: !prevExercise.checked // Toggle the checked value
-                                };
-                              }
-                              return prevExercise;
-                            });
-                          });
-                        }}
+                        onCheck={() => handleCheck(superExercise._id)}
                       />
                     ))}
                     {showDropContainer && (
                       <div
-                        className="h-[120px] bg-white m-4 rounded-lg m-auto flex items-center border-dashed border-[2px] border-gray-300"
+                        className="h-[120px] my-5 bg-white w-[97%] rounded-lg m-auto flex items-center border-dashed border-[2px] border-indigo-900"
                         onDrop={(e) => handleDropSuperset(e, exercise)}
                       >
                         <p className="text-gray-500 m-auto text-center">Drop your exercise here</p>
@@ -148,19 +146,7 @@ export default function MappedExercises({
               <SelectedExercise
                 exercise={exercise}
                 exerciseId={exercise._id}
-                onCheck={() => {
-                  setSelectedExercises((prevExercises) => {
-                    return prevExercises.map((prevExercise) => {
-                      if (exercise._id === prevExercise._id) {
-                        return {
-                          ...prevExercise,
-                          checked: !prevExercise.checked // Toggle the checked value
-                        };
-                      }
-                      return prevExercise;
-                    });
-                  });
-                }}
+                onCheck={() => handleCheck(exercise._id)}
               />
             )}
           </div>

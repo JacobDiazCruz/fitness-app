@@ -6,57 +6,14 @@ import SelectedExercise from "./SelectedExercise";
 import { initialExercises } from "../YourExercises";
 import { Exercise } from "@/utils/types";
 import MappedExercises from "./MappedExercises";
-import { CubeTransparentIcon, DropdownIcon, ViewFinderIcon } from "@/components/global/Icons";
+import { BarbellIcon, CubeTransparentIcon, DropdownIcon, ViewFinderIcon } from "@/components/global/Icons";
 
 export default function EditExercises() {
-  // can drag with superset
-  // can adjust UI with group superset
-  // can save to DB
-  const [selectedExercises, setSelectedExercises] = useState<Array<any>>([
-    {
-      _id: "214124",
-      name: "Medicine ball Full Twist",
-      primaryFocus: "Core",
-      category: "Strength",
-      checked: false,
-      supersetExercises: []
-    },
-    {
-      _id: "424242",
-      name: "Incline dumbbell press",
-      primaryFocus: "Upper Chest",
-      category: "strength",
-      checked: false,
-      supersetExercises: []
-    },
-    {
-      _id: "23223",
-      name: "",
-      primaryFocus: "",
-      category: "",
-      checked: false,
-      supersetExercises: [
-        {
-          _id: "424443242",
-          name: "Chest press",
-          checked: false,
-          primaryFocus: "Upper Chest",
-          category: "strength"
-        },
-        {
-          _id: "52372",
-          name: "Leg press",
-          checked: false,
-          primaryFocus: "Upper Chest",
-          category: "strength"
-        }
-      ]
-    }
-  ]);
+  const [selectedExercises, setSelectedExercises] = useState<Array<any>>([]);
 
   const WorkoutNameField = () => {
     return (
-      <div className="field">
+      <div className="field w-[50%]">
         <p className="mb-3 text-[14px]">Workout name</p>
         <TextField placeholder="e.g. Chest workout" />
       </div>
@@ -78,6 +35,30 @@ export default function EditExercises() {
 
   const makeSuperset = () => {
     const checkedItems = selectedExercises.filter((exercise) => exercise.checked);
+  
+    if (checkedItems.length > 0) {
+      const firstCheckedItem = checkedItems[0];
+  
+      const updatedExercises = selectedExercises.reduce((acc, exercise) => {
+        if (exercise === firstCheckedItem) {
+          // Replace the first checked item with the new object
+          acc.push({
+            _id: "424445233242",
+            name: "",
+            checked: false,
+            primaryFocus: "",
+            category: "",
+            supersetExercises: checkedItems
+          });
+        } else if (!checkedItems.includes(exercise)) {
+          // Exclude the other checked items
+          acc.push(exercise);
+        }
+        return acc;
+      }, []);
+  
+      setSelectedExercises(updatedExercises);
+    }
   };
 
   return (
@@ -90,7 +71,7 @@ export default function EditExercises() {
       >
         <p className="mb-3 text-[14px]">Exercises</p>
         <div className="btn-actions flex items-center">
-          <Button 
+          <Button
             variant="outlined mr-2"
             startIcon={<CubeTransparentIcon />}
             onClick={() => makeSuperset()}
@@ -108,9 +89,12 @@ export default function EditExercises() {
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
         />
+
         <div className="border-[2px] rounded-lg border-dashed border-gray-200 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
-            <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center"></div>
+            <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center">
+              <BarbellIcon className="m-auto w-6 h-6 fill-gray-500" />
+            </div>
             <p className="mt-3 text-[16px] text-gray-500">Drag &amp; Drop your exercise</p>
           </div>
         </div>
