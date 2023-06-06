@@ -47,5 +47,6 @@ TextField.defaultProps = {
   className: "",
   type: "text",
   placeholder: "",
-  required: false
+  required: false,
+  onChange: () => {}
 }

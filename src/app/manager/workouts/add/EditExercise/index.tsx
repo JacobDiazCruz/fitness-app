@@ -27,8 +27,10 @@ export default function EditExercises() {
   const onDropFromExercises = (e, cat) => {
     if (e.dataTransfer.getData("exercise")) {
       const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
-      const exercisesList = [...selectedExercises];
-      exercisesList.push(exercise);
+      const exercisesList = [...selectedExercises, {
+        ...exercise,
+        secondaryId: Math.random()
+      }];
       setSelectedExercises(exercisesList);
     }
   };
@@ -44,6 +46,7 @@ export default function EditExercises() {
           // Replace the first checked item with the new object
           acc.push({
             _id: "424445233242",
+            secondaryId: "24124124",
             name: "",
             checked: false,
             primaryFocus: "",
@@ -61,6 +64,24 @@ export default function EditExercises() {
     }
   };
 
+  const unmergeSuperset = () => {
+    const checkedSupersets = selectedExercises.filter((exercise) => {
+      if(exercise.checked && exercise.supersetExercises.length > 0) {
+        return exercise
+      }
+    });
+
+    const unmergedExercises = checkedSupersets.map(exercise => {
+      return exercise.supersetExercises;
+    }).flat();
+
+    const filteredExercises = checkedSupersets.flatMap((checkedSuperset) =>
+      selectedExercises.filter((exercise) => exercise.secondaryId !== checkedSuperset.secondaryId)
+    );
+
+    setSelectedExercises([...filteredExercises, ...unmergedExercises]);
+  };
+
   return (
     <>
       <WorkoutNameField />
@@ -70,13 +91,20 @@ export default function EditExercises() {
         onDrop={(e) => onDropFromExercises(e, "selected")}
       >
         <p className="mb-3 text-[14px]">Exercises</p>
-        <div className="btn-actions flex items-center">
+        <div className="btn-actions flex items-center sticky top-[0] h-[70px] bg-white z-[500] border-b border-b-solid border-gray-200 shadow-sm">
           <Button
             variant="outlined mr-2"
             startIcon={<CubeTransparentIcon />}
             onClick={() => makeSuperset()}
           >
-            Make Superset
+            Merge Superset
+          </Button>
+          <Button
+            variant="outlined mr-2"
+            startIcon={<CubeTransparentIcon />}
+            onClick={() => unmergeSuperset()}
+          >
+            Unmerge Superset
           </Button>
           <Button
             variant="outlined"

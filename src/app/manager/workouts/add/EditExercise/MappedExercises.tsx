@@ -7,29 +7,47 @@ interface Props {
   setSelectedExercises: any;
 }
 
+// few things to make sure this component works
+// 1. Make sure draggedExercise state always have value during drag events
+// 2. Make sure drop event removes draggedExercise value and other values
 export default function MappedExercises({
   selectedExercises,
   setSelectedExercises
 }: Props) {
   const [draggedExercise, setDraggedExercise] = useState(null);
+  const [draggedExerciseId, setDraggedExerciseId] = useState(null);
   const [showExerciseForm, setShowExerciseForm] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [checkedSuperset, setCheckedSuperset] = useState(false);
   const [showDropContainer, setShowDropContainer] = useState(false);
 
   const handleDrag = (exercise: any) => {
     setDraggedExercise(exercise);
   };
 
-  const handleDrop = (e, index) => {
+  const handleDragEnter = (e, index, exercise) => {
     e.preventDefault();
     const targetIndex = selectedExercises.indexOf(draggedExercise);
-    
+    const currentY = e.clientY;
+
     if (index !== targetIndex && targetIndex !== -1) {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
-      updatedArr.splice(index, 0, draggedExercise);
+
+      if (currentY < lastY) {
+        updatedArr.splice(index, 0, draggedExercise);
+      } else {
+        updatedArr.splice(index, 0, draggedExercise);
+      }
+
       setSelectedExercises(updatedArr);
+      setDraggedExercise(null);
     }
+    setLastY(currentY);
+  }
+
+  const handleDrop = (e, index) => {
+    e.preventDefault();
     setDraggedExercise(null);
     setShowDropContainer(false);
   };
@@ -41,8 +59,8 @@ export default function MappedExercises({
     const dataDraggedExercise = JSON.parse(e.dataTransfer.getData("exercise") || null);
   
     const updatedExercises = [...selectedExercises];
-    const sourceExercise = updatedExercises.find((ex) => ex._id === draggedExercise?._id);
-    const targetExercise = updatedExercises.find((ex) => ex._id === exercise._id);
+    const sourceExercise = updatedExercises.find((ex) => ex.secondaryId === draggedExercise?.secondaryId);
+    const targetExercise = updatedExercises.find((ex) => ex.secondaryId === exercise.secondaryId);
   
     if (targetExercise) {
       // Remove the source exercise from its original position
@@ -62,7 +80,7 @@ export default function MappedExercises({
   const handleCheck = (exerciseId) => {
     setSelectedExercises((prevExercises) => {
       return prevExercises.map((prevExercise) => {
-        if (exerciseId === prevExercise._id) {
+        if (exerciseId === prevExercise.secondaryId) {
           return {
             ...prevExercise,
             checked: !prevExercise.checked // Toggle the checked value
@@ -73,33 +91,35 @@ export default function MappedExercises({
     });
   }
 
+  const [lastY, setLastY] = useState(0);
+
   return (
     <>
       {selectedExercises?.map((exercise: any, index: number) => (
-        <div key={exercise._id} className="relative">
+        <div key={exercise.secondaryId} className="relative">
           <div
             className="bg-gray-200 w-full h-[180px] absolute rounded-lg"
             style={{
-              visibility: draggedExercise === exercise ? "visible" : "hidden"
+              display: draggedExercise === exercise ? "block" : "none"
             }}
           ></div>
           <div
             draggable
-            data-id={exercise._id}
-            id={exercise._id}
+            data-id={exercise.secondaryId}
+            id={exercise.secondaryId}
             data-index={index}
             onDragStart={(e) => {
               e.dataTransfer.setData("text/plain", "");
-              handleDrag(exercise);
             }}
             onDragOver={(e) => {
               e.preventDefault();
             }}
             onDrop={(e) => handleDrop(e, index)}
             onDrag={(e) => handleDrag(exercise)} // Update state during drag
+            onDragEnter={(e) => handleDragEnter(e, index, exercise)}
             className="cursor-grab mt-4"
             style={{
-              opacity: draggedExercise === exercise ? 0.01 : 1
+              opacity: draggedExercise === exercise ? 0.01 : 1,
             }}
           >
             {exercise?.supersetExercises?.length ? (
@@ -107,12 +127,19 @@ export default function MappedExercises({
                 className="border-[2px] relative cursor-grab border-solid border-indigo-950 rounded-lg overflow-hidden mt-5"
                 onDragOver={(e) => {
                   e.preventDefault();
+                  
                 }}
-                onDragOver={() => setShowDropContainer(true)}
                 onDrop={(e) => handleDrop(e, index)}
               >
                 <div className="bg-indigo-950 px-5 py-3 flex justify-between">
                   <div className="flex gap-[10px] items-center">
+                    <input
+                      checked
+                      id="checked-checkbox"
+                      type="checkbox"
+                      checked={exercise.checked}
+                      onChange={() => handleCheck(exercise.secondaryId)}
+                    />
                     <CubeTransparentIcon className="text-white w-4 h-4" />
                     <p className="text-white font-normal">Superset</p>
                   </div>
@@ -124,11 +151,11 @@ export default function MappedExercises({
                   <>
                     {exercise?.supersetExercises.map((superExercise) => (
                       <SelectedExercise
-                        key={superExercise._id}
+                        key={superExercise.secondaryId}
                         exercise={superExercise}
-                        exerciseId={superExercise._id}
+                        exerciseId={superExercise.secondaryId}
                         showCheckInput={false}
-                        onCheck={() => handleCheck(superExercise._id)}
+                        onCheck={() => handleCheck(superExercise.secondaryId)}
                       />
                     ))}
                     {showDropContainer && (
@@ -145,8 +172,8 @@ export default function MappedExercises({
             ) : (
               <SelectedExercise
                 exercise={exercise}
-                exerciseId={exercise._id}
-                onCheck={() => handleCheck(exercise._id)}
+                exerciseId={exercise.secondaryId}
+                onCheck={() => handleCheck(exercise.secondaryId)}
               />
             )}
           </div>
