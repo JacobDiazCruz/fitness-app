@@ -46,7 +46,7 @@ export default function EditExercises() {
           // Replace the first checked item with the new object
           acc.push({
             _id: "424445233242",
-            secondaryId: "24124124",
+            secondaryId: Math.random().toString(),
             name: "",
             checked: false,
             primaryFocus: "",
