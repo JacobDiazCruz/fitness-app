@@ -25,32 +25,21 @@ export default function MappedExercises({
     setDraggedExercise(exercise);
   };
 
-  const handleDragEnter = (e, index, exercise) => {
+  const handleDrop = (e, index, exercise) => {
     e.preventDefault();
     const targetIndex = selectedExercises.indexOf(draggedExercise);
     const currentY = e.clientY;
-
+ 
     if (index !== targetIndex && targetIndex !== -1) {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
-
-      if (currentY < lastY) {
-        updatedArr.splice(index, 0, draggedExercise);
-      } else {
-        updatedArr.splice(index, 0, draggedExercise);
-      }
+      updatedArr.splice(index, 0, draggedExercise);
 
       setSelectedExercises(updatedArr);
       setDraggedExercise(null);
     }
-    setLastY(currentY);
-  }
-
-  const handleDrop = (e, index) => {
-    e.preventDefault();
-    setDraggedExercise(null);
     setShowDropContainer(false);
-  };
+  }
 
   const handleDropSuperset = (e, exercise) => {
     e.stopPropagation();
@@ -114,9 +103,9 @@ export default function MappedExercises({
             onDragOver={(e) => {
               e.preventDefault();
             }}
-            onDrop={(e) => handleDrop(e, index)}
+            onDrop={(e) => handleDrop(e, index, exercise)}
             onDrag={(e) => handleDrag(exercise)} // Update state during drag
-            onDragEnter={(e) => handleDragEnter(e, index, exercise)}
+            // onDragEnter={(e) => handleDragEnter(e, index, exercise)}
             className="cursor-grab mt-4"
             style={{
               opacity: draggedExercise === exercise ? 0.01 : 1,
@@ -127,7 +116,7 @@ export default function MappedExercises({
                 className="border-[2px] relative cursor-grab border-solid border-indigo-950 rounded-lg overflow-hidden mt-5"
                 onDragOver={(e) => {
                   e.preventDefault();
-                  
+                  setShowDropContainer(true)
                 }}
                 onDrop={(e) => handleDrop(e, index)}
               >

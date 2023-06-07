@@ -24,7 +24,7 @@ export default function EditExercises() {
     e.preventDefault();
   };
 
-  const onDropFromExercises = (e, cat) => {
+  const onDropFromExercises = (e) => {
     if (e.dataTransfer.getData("exercise")) {
       const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
       const exercisesList = [...selectedExercises, {
@@ -88,7 +88,7 @@ export default function EditExercises() {
       <div
         className="exercises-section mt-5"
         onDragOver={onDragOverFromExercises}
-        onDrop={(e) => onDropFromExercises(e, "selected")}
+        onDrop={(e) => onDropFromExercises(e)}
       >
         <p className="mb-3 text-[14px]">Exercises</p>
         <div className="btn-actions flex items-center sticky top-[0] h-[70px] bg-white z-[500] border-b border-b-solid border-gray-200 shadow-sm">
