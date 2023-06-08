@@ -14,27 +14,28 @@ const MappedWorkouts = ({
   dayIndex,
   draggedWorkout,
   setDraggedWorkout,
+  setShowWorkoutDetailsModal,
   programDays,
   setProgramDays
 }) => {
   const onDragEnter = ((e, workout, index, dayIndex) => {
     e.preventDefault();
-  
+
     const targetIndex = programDays[dayIndex]?.workouts.findIndex(
       workout => workout.name === draggedWorkout?.name
     );
-  
+
     if (targetIndex !== -1) {
       const updatedArr = [...programDays];
       const workoutsArr = [...updatedArr[dayIndex]?.workouts];
   
       workoutsArr.splice(targetIndex, 1);
       workoutsArr.splice(index, 0, draggedWorkout);
-      
+
       updatedArr[dayIndex].workouts = workoutsArr;
       setProgramDays(updatedArr);
     }
-  });  
+  });
 
   return (
     <>
@@ -55,7 +56,11 @@ const MappedWorkouts = ({
             onDragStart={e => {
               e.dataTransfer.setData(
                 "application/json",
-                JSON.stringify({ prevWorkoutIndex: index, prevDayIndex: dayIndex, workout })
+                JSON.stringify({ 
+                  prevWorkoutIndex: index,
+                  prevDayIndex: dayIndex,
+                  workout
+                })
               );
               setDraggedWorkout(workout);
             }}
@@ -63,6 +68,9 @@ const MappedWorkouts = ({
             onDrop={e => {
               e.preventDefault();
               setDraggedWorkout(null);
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
             }}
             onDragEnd={(e) => {
               e.preventDefault();
@@ -170,9 +178,12 @@ export default function EditProgram() {
     { name: "Day 7", workouts: [] }
   ]);
 
-  const removeDraggedWorkout = useCallback((prevDayIndex, prevWorkoutIndex) => {
+  const removeDraggedWorkout = useCallback((prevDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
       const cloneProgramDays = [...prevProgramDays];
+      const prevWorkoutIndex = programDays[prevDayIndex]?.workouts.findIndex(
+        wk => wk.name === workout?.name
+      );
       cloneProgramDays[prevDayIndex].workouts.splice(prevWorkoutIndex, 1);
       return cloneProgramDays;
     });
@@ -192,7 +203,7 @@ export default function EditProgram() {
     if (draggedWorkoutData) {
       const { prevDayIndex, prevWorkoutIndex, workout } = draggedWorkoutData;
       if(prevDayIndex !== dayIndex) {
-        removeDraggedWorkout(prevDayIndex, prevWorkoutIndex);
+        removeDraggedWorkout(prevDayIndex, workout);
         addDroppedWorkout(dayIndex, workout);
       }
     }
@@ -206,6 +217,7 @@ export default function EditProgram() {
         {programDays.map((day, dayIndex) => (
           <div
             key={day.name}
+            data-index={dayIndex}
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, dayIndex)}
             className="h-[100vh] bg-white w-full p-2 shadow-sm"
@@ -232,6 +244,7 @@ export default function EditProgram() {
                   }}
                   programDays={programDays}
                   setProgramDays={(val) => setProgramDays(val)}
+                  setShowWorkoutDetailsModal={(val) => setShowWorkoutDetailsModal(val)}
                 />
               )}
             </div>
