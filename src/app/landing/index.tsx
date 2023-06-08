@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import TrainerCard from './TrainerCard';
-import HomeLayout from '@/layouts/HomeLayout';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import HomeLayout from '../trainer/layout';
 
 export default function Landing() {
   const router = useRouter();

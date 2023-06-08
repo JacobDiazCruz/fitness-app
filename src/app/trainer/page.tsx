@@ -5,11 +5,10 @@ import PricingCard from "./PricingCard";
 import Carousel from "./Carousel";
 import Reviews from "./Reviews";
 import MyPortfolio from "./MyPortfolio";
-import HomeLayout from "@/layouts/HomeLayout";
 
 export default function Trainer() {
   return (
-    <HomeLayout>
+    <>
       <div>
         <Carousel
           galleryImages={[
@@ -59,6 +58,26 @@ export default function Trainer() {
             {
               name: "Portfolio Image 1",
               imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
+            },
+            {
+              name: "Portfolio Image 1",
+              imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
+            },
+            {
+              name: "Portfolio Image 1",
+              imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
+            },
+            {
+              name: "Portfolio Image 1",
+              imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
+            },
+            {
+              name: "Portfolio Image 1",
+              imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
+            },
+            {
+              name: "Portfolio Image 1",
+              imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
             }
           ]}
         />
@@ -72,6 +91,6 @@ export default function Trainer() {
           'Mobility exercises'
         ]}
       />
-    </HomeLayout>
+    </>
   );
 }

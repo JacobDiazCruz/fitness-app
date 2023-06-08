@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./styles/MyPortfolio.module.scss";
-
+import Link from "next/link";
 interface Props {
   portfolioImages: Array<any>;
 };
@@ -14,14 +14,17 @@ export default function MyPortfolio({
     <div className={styles.MyPortfolio_MainContainer}>
       <div className={styles.MyPortfolio_Header}>
         <h4>My Portfolio</h4>
-        <div className={styles.ViewAll}>
-          View all 
+        <Link
+          className="flex items-center"
+          href="/trainer/portfolio/123"
+        >
+          View all
           {rightArrow}
-        </div>
+        </Link>
       </div>
-      <div className={styles.MyPortfolio_ImagesContainer}>
-        {portfolioImages.map(image => (
-          <div className={styles.ImageContainer}>
+      <div className="flex mt-5 gap-[15px]">
+        {portfolioImages.slice(0, 4).map(image => (
+          <div className="w-[220px] relative h-[200px]">
             <Image
               alt={image?.name || "Portfolio Image"}
               src={image.imagePath}
