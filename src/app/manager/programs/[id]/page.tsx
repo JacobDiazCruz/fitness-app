@@ -8,6 +8,81 @@ import { AddIcon } from "@/components/global/Icons";
 import SelectWorkoutModal from "./SelectWorkoutModal";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
 
+// Mapped workouts
+const MappedWorkouts = ({ 
+  workouts, 
+  dayIndex,
+  draggedWorkout,
+  setDraggedWorkout,
+  programDays,
+  setProgramDays
+}) => {
+  const onDragEnter = ((e, workout, index, dayIndex) => {
+    e.preventDefault();
+  
+    const targetIndex = programDays[dayIndex]?.workouts.findIndex(
+      workout => workout.name === draggedWorkout?.name
+    );
+  
+    if (targetIndex !== -1) {
+      const updatedArr = [...programDays];
+      const workoutsArr = [...updatedArr[dayIndex]?.workouts];
+  
+      workoutsArr.splice(targetIndex, 1);
+      workoutsArr.splice(index, 0, draggedWorkout);
+      
+      updatedArr[dayIndex].workouts = workoutsArr;
+      setProgramDays(updatedArr);
+    }
+  });  
+
+  return (
+    <>
+      {workouts.map((workout, index) => (
+        <div
+          key={workout._id}
+          className="relative"
+          onClick={() => setShowWorkoutDetailsModal(true)}
+        >
+          <div 
+            className="bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
+            style={{
+              display: draggedWorkout === workout ? "block" : "none"
+            }}
+          ></div>
+          <div
+            draggable
+            onDragStart={e => {
+              e.dataTransfer.setData(
+                "application/json",
+                JSON.stringify({ prevWorkoutIndex: index, prevDayIndex: dayIndex, workout })
+              );
+              setDraggedWorkout(workout);
+            }}
+            onDragEnter={e => onDragEnter(e, workout, index, dayIndex)}
+            onDrop={e => {
+              e.preventDefault();
+              setDraggedWorkout(null);
+            }}
+            onDragEnd={(e) => {
+              e.preventDefault();
+              setDraggedWorkout(null)
+            }} // Add this line
+            className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer shadow-sm"
+            style={{
+              opacity: draggedWorkout === workout ? "0.1" : "1"
+            }}
+          >
+            <h5 className="text-[14px] font-medium">{workout.name}</h5>
+            <p className="text-[12px] mt-1 text-normal">{workout.exercises.length} exercises</p>
+          </div>
+
+        </div>
+      ))}
+    </>
+  )
+};
+
 export default function EditProgram() {
   const [draggedWorkout, setDraggedWorkout] = useState(null);
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
@@ -17,6 +92,7 @@ export default function EditProgram() {
       name: "Day 1",
       workouts: [
         {
+          _id: "2141245",
           name: "Leg workout",
           exercises: [
             {
@@ -38,6 +114,7 @@ export default function EditProgram() {
           ]
         },
         {
+          _id: "563622",
           name: "Chest workout",
           exercises: [
             {
@@ -64,6 +141,7 @@ export default function EditProgram() {
       name: "Day 2",
       workouts: [
         {
+          _id: "536341124",
           name: "Back workout",
           exercises: [
             {
@@ -108,75 +186,17 @@ export default function EditProgram() {
     });
   }, []);
 
-  const onDragEnter = useCallback((e, workout, index, dayIndex) => {
+  const handleDrop = (e, dayIndex) => {
     e.preventDefault();
-
-    const targetIndex = programDays[dayIndex]?.workouts.findIndex(
-      workout => workout.name === draggedWorkout?.name
-    );
-
-    if (targetIndex !== -1) {
-      const updatedArr = [...programDays];
-      const workoutsArr = [...updatedArr[dayIndex]?.workouts];
-
-      workoutsArr.splice(targetIndex, 1);
-      workoutsArr.splice(index, 0, draggedWorkout);
-
-      updatedArr[dayIndex].workouts = workoutsArr;
-      setProgramDays(updatedArr);
-    }
-  }, [draggedWorkout, programDays]);
-
-  const handleDrop = useCallback(
-    (e, dayIndex) => {
-      e.preventDefault();
-      const draggedWorkoutData = JSON.parse(e.dataTransfer.getData("application/json"));
-
-      if (draggedWorkoutData) {
-        const { prevDayIndex, prevWorkoutIndex, workout } = draggedWorkoutData;
+    const draggedWorkoutData = JSON.parse(e.dataTransfer.getData("application/json"));
+    if (draggedWorkoutData) {
+      const { prevDayIndex, prevWorkoutIndex, workout } = draggedWorkoutData;
+      if(prevDayIndex !== dayIndex) {
         removeDraggedWorkout(prevDayIndex, prevWorkoutIndex);
         addDroppedWorkout(dayIndex, workout);
-      }      
-    },
-    [addDroppedWorkout, removeDraggedWorkout]
-  );
-
-  // Mapped workouts
-  const MappedWorkouts = useMemo(
-    () => ({ workouts, dayIndex }) => (
-      <>
-        {workouts.map((workout, index) => (
-          <div 
-            key={workout.name} 
-            className="relative"
-            onClick={() => setShowWorkoutDetailsModal(true)}
-          >
-            <div
-              draggable
-              onDragStart={e => {
-                e.dataTransfer.setData(
-                  "application/json",
-                  JSON.stringify({ prevWorkoutIndex: index, prevDayIndex: dayIndex, workout })
-                );
-                setDraggedWorkout(workout);
-              }}
-              onDragEnter={e => onDragEnter(e, workout, index, dayIndex)}
-              onDragEnd={(e) => setDraggedWorkout(null)}
-              onDrop={e => {
-                e.preventDefault();
-                setDraggedWorkout(null)
-              }}
-              className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer shadow-sm"
-            >
-              <h5 className="text-[14px] font-medium">{workout.name}</h5>
-              <p className="text-[12px] mt-1 text-normal">{workout.exercises.length} exercises</p>
-            </div>
-          </div>
-        ))}
-      </>
-    ),
-    [programDays]
-  );
+      }
+    }
+  };
 
   return (
     <>
@@ -203,7 +223,16 @@ export default function EditProgram() {
             </div>
             <div className="mt-3">
               {day.workouts.length > 0 && (
-                <MappedWorkouts workouts={day.workouts} dayIndex={dayIndex} />
+                <MappedWorkouts 
+                  workouts={day.workouts} 
+                  dayIndex={dayIndex}
+                  draggedWorkout={draggedWorkout}
+                  setDraggedWorkout={(val) => {
+                    setDraggedWorkout(val)
+                  }}
+                  programDays={programDays}
+                  setProgramDays={(val) => setProgramDays(val)}
+                />
               )}
             </div>
           </div>

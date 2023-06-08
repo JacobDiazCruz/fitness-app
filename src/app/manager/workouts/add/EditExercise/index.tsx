@@ -117,7 +117,6 @@ export default function EditExercises() {
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
         />
-
         <div className="border-[2px] rounded-lg border-dashed border-gray-200 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
             <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center">

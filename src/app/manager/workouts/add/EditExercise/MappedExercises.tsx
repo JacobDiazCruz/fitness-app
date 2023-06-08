@@ -10,6 +10,12 @@ interface Props {
 // few things to make sure this component works
 // 1. Make sure draggedExercise state always have value during drag events
 // 2. Make sure drop event removes draggedExercise value and other values
+
+// note:
+// 1. find height of every droppable element
+// 2. calculate if the draggable element is on the top half of the droppable element
+   // if yes, drag the element to the top
+   // if it's in the bottom half no, drag the element to the bottom
 export default function MappedExercises({
   selectedExercises,
   setSelectedExercises
@@ -39,6 +45,7 @@ export default function MappedExercises({
       setSelectedExercises(updatedArr);
     }
 
+    setTargetExerciseId("");
     setDraggedExercise(null);
     setShowDropContainer(false);
   }
@@ -52,9 +59,7 @@ export default function MappedExercises({
     const updatedExercises = [...selectedExercises];
     const sourceExercise = updatedExercises.find((ex) => ex.secondaryId === draggedExercise?.secondaryId);
     const targetExercise = updatedExercises.find((ex) => ex.secondaryId === exercise.secondaryId);
-    // setTargetExerciseId(targetExercise.secondaryId)
 
-    console.log("targetExercise:", targetExercise)
     if (targetExercise) {
       // Remove the source exercise from its original position
       if (sourceExercise) {
