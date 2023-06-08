@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <>
       <Navbar />
-      <div className={styles.HomeLayout_Main}>
+      <div className="my-[100px] mx-auto w-[1250px] xl:w-[1450px]">
         {children}
       </div>
     </>

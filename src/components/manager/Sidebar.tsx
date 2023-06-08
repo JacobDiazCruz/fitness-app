@@ -63,10 +63,9 @@ export default function Sidebar () {
         <ul className="pt-12">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.path);
-
             return (
               <li
-                className={`${isActive && 'bg-gray-50 border-r-[7px] border-r-[#24282C]'} hover:bg-gray-100 cursor-pointer px-6 py-5`}
+                className={`${isActive && 'bg-gray-50 border-r-[7px] border-r-[#24282C]'} group relative hover:bg-gray-100 cursor-pointer px-6 py-5`}
                 onClick={() => router.push(item.path)}
                 key={item.name}
               >
@@ -80,11 +79,15 @@ export default function Sidebar () {
                     <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-[#7F8489]'} ml-4 text-[14px]`}>{item.name}</p>
                   )}
                 </Link>
+                {!openNav && (
+                  <span className="absolute z-[999] scale-0 left-20 top-5 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
+                    {item.name}
+                  </span>
+                )}
               </li>
             )
           })}
         </ul>
-
         <div className="p-5">
           <UserMenu />
         </div>

@@ -8,8 +8,8 @@ import MyPortfolio from "./MyPortfolio";
 
 export default function Trainer() {
   return (
-    <>
-      <div>
+    <div className="flex gap-[80px]">
+      <div className="w-[63%]">
         <Carousel
           galleryImages={[
             {
@@ -91,6 +91,6 @@ export default function Trainer() {
           'Mobility exercises'
         ]}
       />
-    </>
+    </div>
   );
 }

@@ -14,12 +14,13 @@ export default function Landing() {
 
   return (
     <HomeLayout>
-      <div 
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap'
-        }}
-      >
+      <div>
+        <h1 className="text-[62px] font-bold">Train with better coaches</h1>
+        <p className="text-[24px] text-gray-600 mt-1">
+          Discover the best coaches that can help you achieve your fitness goals
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center mt-20">
         {trainersList.map(trainer => (
           <div 
             onClick={() => router.push('/trainer')}

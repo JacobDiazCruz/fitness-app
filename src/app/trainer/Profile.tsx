@@ -12,7 +12,7 @@ export default function Profile({
   about
 }: Props) {
   return (
-    <div className="rounded-lg w-full bg-white p-6">
+    <div className="rounded-lg w-full mt-8 bg-white p-6">
       <div className="flex">
         <div className="rounded-full relative overflow-hidden w-16 h-16">
           <Image 

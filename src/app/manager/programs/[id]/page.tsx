@@ -45,7 +45,7 @@ const MappedWorkouts = ({
           className="relative"
           onClick={() => setShowWorkoutDetailsModal(true)}
         >
-          <div 
+          <div
             className="bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
             style={{
               display: draggedWorkout === workout ? "block" : "none"
@@ -75,10 +75,10 @@ const MappedWorkouts = ({
             onDragEnd={(e) => {
               e.preventDefault();
               setDraggedWorkout(null)
-            }} // Add this line
+            }}
             className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer shadow-sm"
             style={{
-              opacity: draggedWorkout === workout ? "0.1" : "1"
+              opacity: draggedWorkout === workout ? "0.01" : "1"
             }}
           >
             <h5 className="text-[14px] font-medium">{workout.name}</h5>
@@ -226,11 +226,13 @@ export default function EditProgram() {
               <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>
               <button 
                 variant="outlined"
-                className="h-[32px] flex items-center border-gray-200 border-solid border rounded-lg px-2"
+                className="group h-[32px] flex items-center border-gray-200 border-solid border rounded-lg px-2"
                 onClick={() => setShowAddWorkoutModal(true)}
               >
-                <AddIcon className="w-3 h-3 mr-2" />
-                <span className="text-[12px] text-gray-500">Add workout</span>
+                <AddIcon className="w-3 h-3" />
+                <span className="absolute mt-[60px] z-[99] scale-0 transition-all rounded-lg bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
+                  Add workout
+                </span>
               </button>
             </div>
             <div className="mt-3">
