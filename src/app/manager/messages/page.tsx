@@ -7,8 +7,8 @@ export default function Messages() {
   return (
     <div className="flex h-[90vh]">
       {/* Messages list */}
-      <div className="w-[520px] bg-white border-r border-r-solid border-gray-300">
-        <div className="p-3 border-t border-t-solid border-gray-300">
+      <div className="w-[520px] bg-white border-r border-r-solid border-gray-200">
+        <div className="p-3 border-t border-t-solid border-gray-200">
           <div className="flex gap-[12px]">
             <div className="rounded-full w-[50px] h-[50px] relative overflow-hidden">
               <Image
@@ -18,13 +18,16 @@ export default function Messages() {
                 fill
               />
             </div>
-            <div>
-              <h4 className="font-semibold">John Doe</h4>
-              <p className="font-light text-gray-600 text-[14px]">Last message...</p>
+            <div className="flex justify-between w-[80%]">
+              <div>
+                <h4 className="font-semibold">John Doe</h4>
+                <p className="font-light text-gray-600 text-[14px]">Last message...</p>
+              </div>
+              <p className="text-gray-500 text-[12px]">May 30</p>
             </div>
           </div>
         </div>
-        <div className="p-3 border-t border-t-solid border-gray-300">
+        <div className="p-3 border-t border-t-solid border-gray-200">
           <div className="flex gap-[12px]">
             <div className="rounded-full w-[50px] h-[50px] relative overflow-hidden">
               <Image
@@ -34,17 +37,20 @@ export default function Messages() {
                 fill
               />
             </div>
-            <div>
-              <h4 className="font-semibold">John Doe</h4>
-              <p className="font-light text-gray-600 text-[14px]">Last message...</p>
+            <div className="flex justify-between w-[80%]">
+              <div>
+                <h4 className="font-semibold">John Doe</h4>
+                <p className="font-light text-gray-600 text-[14px]">Last message...</p>
+              </div>
+              <p className="text-gray-500 text-[12px]">May 30</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Chat */}
-      <div className="w-full bg-white p-3">
-        <div className="relative">
+      <div className="w-full bg-white relative p-3">
+        <div className="relative overflow-auto h-[80vh]">
           {/* OTHER */}
           <div className="flex gap-[12px] mt-3">
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
@@ -79,14 +85,14 @@ export default function Messages() {
               </div>
             </div>
           </div>
-          <div className="absolute bottom border border-solid border-gray-300 w-full h-[60px]">
-            asd
-          </div>
+        </div>
+        <div className="relative bottom border border-solid border-gray-200 w-full h-[60px]">
+          asd
         </div>
       </div>
 
       {/* Profiles */}
-      <div className="bg-white w-[500px] border-l border-l-solid border-gray-300 p-6">
+      <div className="bg-white w-[500px] border-l border-l-solid border-gray-200 p-6">
         <div className="rounded-full w-[60px] h-[60px] relative overflow-hidden m-auto">
           <Image
             alt="Trainer Image"
