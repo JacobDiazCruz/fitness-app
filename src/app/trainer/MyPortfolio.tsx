@@ -1,3 +1,5 @@
+import Button from "@/components/global/Button";
+import { ArrowRightIcon } from "@/components/global/Icons";
 import Image from "next/image";
 import Link from "next/link";
 interface Props {
@@ -11,14 +13,14 @@ export default function MyPortfolio({
   
   return (
     <div className="bg-white mt-8 rounded-lg p-6">
-      <div>
+      <div className="flex justify-between">
         <h4 className="text-[22px] font-semibold">My Portfolio</h4>
         <Link
-          className="flex items-center"
           href="/trainer/portfolio/123"
         >
-          View all
-          {rightArrow}
+          <Button endIcon={<ArrowRightIcon />}>
+            View all
+          </Button>
         </Link>
       </div>
       <div className="flex mt-5 gap-[15px] overflow-hidden">

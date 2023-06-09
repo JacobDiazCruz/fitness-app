@@ -23,12 +23,12 @@ export default function Profile({
           />
         </div>
         <div className="ml-3">
-          <p className="font-medium">{name}</p>
-          <p>Certified Online Trainer</p>
+          <h4 className="font-semibold">{name}</h4>
+          <p className="text-gray-600 font-light">Certified Online Trainer</p>
         </div>
       </div>
       <div className="mt-4">
-        <p className="text-gray-600">
+        <p className="text-gray-600 font-light">
           {about}
         </p>
       </div>
