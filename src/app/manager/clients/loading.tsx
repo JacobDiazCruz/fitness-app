@@ -1,8 +1,9 @@
+import { LoadingIcon } from "@/components/global/Icons";
+
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className="bg-black w-full h-[600px] text-white">
-      asfasfasf
+    <div className="w-full h-[600px] text-white flex items-center">
+      <LoadingIcon className="w-6 h-6 m-auto" />
     </div>
   );
 }
