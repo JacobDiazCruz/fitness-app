@@ -4,7 +4,6 @@ import Image from 'next/image'
 import TrainerCard from './TrainerCard';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import HomeLayout from '../trainer/layout';
 
 export default function Landing() {
   const router = useRouter();
@@ -13,7 +12,7 @@ export default function Landing() {
   ]);
 
   return (
-    <HomeLayout>
+    <div className="landing-page">
       <div>
         <h1 className="text-[62px] font-bold">Train with better coaches</h1>
         <p className="text-[24px] text-gray-600 mt-1">
@@ -33,6 +32,6 @@ export default function Landing() {
           </div>
         ))}
       </div>
-    </HomeLayout>
+    </div>
   );
 };

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Button from "@/components/global/Button";
+import { ImageIcon } from "@/components/global/Icons";
 
 export default function Messages() {
   return (
-    <div className="flex h-[90vh]">
+    <div className="flex h-[100vh]">
       {/* Messages list */}
       <div className="w-[520px] bg-white border-r border-r-solid border-gray-200">
         <div className="p-3 border-t border-t-solid border-gray-200">
@@ -86,8 +88,22 @@ export default function Messages() {
             </div>
           </div>
         </div>
-        <div className="relative bottom border border-solid border-gray-200 w-full h-[60px]">
-          asd
+        {/* Send */}
+        <div className="relative w-full h-[60px]">
+          <div 
+            className="border-gray-200 h-[60px] overflow-auto border-solid border rounded-lg p-3"
+            contentEditable
+          ></div>
+          <div className="flex justify-between mt-2">
+            <div>
+              <ImageIcon className="w-8 h-8" />
+            </div>
+            <div>
+              <Button variant="contained">
+                Send
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 

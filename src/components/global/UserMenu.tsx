@@ -1,15 +1,36 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { DropdownIcon } from "./Icons";
+import { useMutation } from "react-query";
+import { logout } from "@/api/User";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export default function UserMenu() {
   const router = useRouter();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
+  const [accessToken, setAccessToken] = useState("");
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem("accessToken"));
+  }, []);
+
+  // logout request
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (req: any) => logout(req),
+      onSuccess: (res: any) => {
+        localStorage.removeItem("accessToken");
+        router.push('/')
+      },
+      onError: (e) => {
+        console.log(e);
+      }
+  });
+
   return (
     <>
       <div
@@ -32,8 +53,10 @@ export default function UserMenu() {
               <li onClick={() => router.push('/manager/exercises')}>
                 <a href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Open Manager</a>
               </li>
-              <li>
-                <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Sign out</a>
+              <li onClick={() => mutate({ accessToken })}>
+                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+                  Sign out
+                </div>
               </li>
             </ul>
           </div>

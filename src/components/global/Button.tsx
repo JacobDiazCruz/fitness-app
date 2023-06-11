@@ -1,4 +1,5 @@
 export default function Button({
+  id,
   variant,
   className,
   startIcon,
@@ -14,7 +15,8 @@ export default function Button({
   </svg>;
 
   return (
-    <button 
+    <button
+      id={id}
       type="button"
       className={`${className} text-center btn-${variant} h-[45px] px-4 rounded-lg overflow-hidden relative`}
       disabled={disabled}

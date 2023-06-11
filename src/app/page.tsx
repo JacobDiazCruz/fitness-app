@@ -1,7 +1,10 @@
+import HomeLayout from '@/layouts/HomeLayout';
 import Landing from './landing';
 
 export default function Home() {
   return (
-    <Landing />
+    <HomeLayout>
+      <Landing />
+    </HomeLayout>
   );
 };

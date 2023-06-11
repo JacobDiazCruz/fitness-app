@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from "react";
 import Sidebar from "@/components/manager/Sidebar";
 import Header from "@/components/manager/Header"
 import TextField from "@/components/global/TextField";
 import AutoComplete from "@/components/global/AutoComplete";
 import Alert from "@/components/global/Alert";
+import Providers from "@/utils/provider";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -18,12 +18,14 @@ export default function ManagerLayout ({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex">
-      <Sidebar />
-      <Alert />
-      <div className="w-full p-10 height-[100vh]">
-        {children}
+    <Providers>
+      <div className="flex">
+        <Sidebar />
+        <Alert />
+        <div className="w-full p-10 height-[100vh]">
+          {children}
+        </div>
       </div>
-    </div>
+    </Providers>
   );
 }
