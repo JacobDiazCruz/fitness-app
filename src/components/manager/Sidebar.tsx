@@ -74,16 +74,12 @@ export default function Sidebar () {
                 onClick={() => router.push(item.path)}
                 key={item.name}
               >
-                <Link
-                  className="flex items-center" 
-                  onClick={() => router.push(item.path)}
-                  href={item.path}
-                >
+                <div className="flex items-center" >
                   {item.icon}
                   {openNav && (
                     <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-[#7F8489]'} ml-4 text-[14px]`}>{item.name}</p>
                   )}
-                </Link>
+                </div>
                 {!openNav && (
                   <span className="absolute z-[999] scale-0 left-20 top-5 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
                     {item.name}

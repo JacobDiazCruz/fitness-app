@@ -6,6 +6,7 @@ import TextField from "@/components/global/TextField";
 import AutoComplete from "@/components/global/AutoComplete";
 import Alert from "@/components/global/Alert";
 import Providers from "@/utils/provider";
+import WelcomePopup from "./WelcomePopup";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -22,6 +23,7 @@ export default function ManagerLayout ({
       <div className="flex">
         <Sidebar />
         <Alert />
+        <WelcomePopup />
         <div className="w-full p-10 height-[100vh]">
           {children}
         </div>

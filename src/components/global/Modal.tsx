@@ -12,11 +12,11 @@ export default function Modal({
   return (
     <>
       <div
-        className="fixed inset-0 w-full h-full bg-black opacity-60"
+        className="fixed inset-0 w-full h-full bg-black opacity-60 z-[90]"
         onClick={onClose}
       ></div>
       <div
-        className={`${className} bg-white shadow-sm rounded-xl m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-[100] outline-none focus:outline-none`}
+        className={`${className} bg-white shadow-sm rounded-lg m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-[100] outline-none focus:outline-none`}
       >
         {children}
       </div>

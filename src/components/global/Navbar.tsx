@@ -18,7 +18,14 @@ export default function Navbar() {
         <div className="py-6 flex items-center justify-between">
           <h2>Logo</h2>
           {accessToken ? (
-            <UserMenu />
+            <div className="flex items-center">
+              <Link href="/become-a-coach">
+                <Button variant="outlined mr-5">
+                  Become a Coach
+                </Button>
+              </Link>
+              <UserMenu />
+            </div>
           ) : (
             <Link href="/signin">
               <Button>
