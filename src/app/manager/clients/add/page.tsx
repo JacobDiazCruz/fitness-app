@@ -1,7 +1,7 @@
 import Button from "@/components/global/Button";
 import Container from "@/components/global/Container";
 import TextField from "@/components/global/TextField";
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 
 export default function AddNewClient () {
   return (
@@ -10,23 +10,8 @@ export default function AddNewClient () {
         pageTitle="Add New Client"
         backIcon
         backPath="/manager/clients"
+        showActionButtons
       />
-      <div className="action-buttons my-5 flex justify-between">
-        <div></div>
-        <div>
-          <Button
-            variant="outlined"
-            className="mr-3"
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-          >
-            Submit
-          </Button>
-        </div>
-      </div>
       <Container>
         <div className="flex gap-[20px] w-[700px]">
           <div className="w-[50%]">

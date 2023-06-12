@@ -11,7 +11,7 @@ import jwt_decode from "jwt-decode";
 import { loginGoogle } from "@/api/User";
 import { getProfile } from "@/api/Profile";
 
-const Signin = () => {
+const GooglePopup = () => {
   const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
   const router = useRouter();
 
@@ -76,33 +76,16 @@ const Signin = () => {
   }, []);
 
   return (
-    <div className="signin-page flex h-screen">
-      <div className="w-1/2 flex items-center justify-center">
-        <div className="px-5 text-center">
-          <h1 className="text-6xl">L.</h1>
-        </div>
+    <>
+      <div 
+        id="g_id_onload"
+        data-client_id="1092221046085-4i08852qeo7mc47vetdjt2sd3i7nclh4.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse"
+      >
       </div>
-      <div className="w-1/2 bg-white flex items-center justify-center">
-        <div className="w-3/4">
-          <h2 className="font-semibold text-3xl mb-10">Sign in</h2>
-          <div className="btn-group w-[70%]">
-            <div 
-              id="g_id_onload"
-              data-client_id="1092221046085-4i08852qeo7mc47vetdjt2sd3i7nclh4.apps.googleusercontent.com"
-              data-callback="handleCredentialResponse"
-            >
-            </div>
-            <div class="g_id_signin" data-type="standard"></div>
-          </div>
-          <hr className="my-10 w-[70%]" />
-          <Link href="/" className="flex items-center gap-[6px] text-[18px]">
-            <ArrowLeftIcon />
-            Back to home
-          </Link>
-        </div>
-      </div>
-    </div>
+      <div className="g_id_signin" data-type="standard"></div>
+    </>
   );
 };
 
-export default Signin;
+export default GooglePopup;

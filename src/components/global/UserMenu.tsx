@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { DropdownIcon } from "./Icons";
 import { useMutation } from "react-query";
-import { logout } from "@/api/User";
+import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 
@@ -21,15 +21,14 @@ export default function UserMenu() {
   }, []);
 
   // logout request
-  const { mutate, isLoading } = useMutation({
-    mutationFn: (req: any) => logout(req),
-      onSuccess: (res: any) => {
-        localStorage.removeItem("accessToken");
-        router.push('/')
-      },
-      onError: (e) => {
-        console.log(e);
-      }
+  const logoutMutation = useMutation(logoutUser, {
+    onSuccess: (data) => {
+      localStorage.removeItem("accessToken");
+      router.push('/')
+    },
+    onError: (err) => {
+      console.log(err)
+    }
   });
 
   return (
@@ -57,7 +56,7 @@ export default function UserMenu() {
               <li onClick={() => router.push('/manager/exercises')}>
                 <Link href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Open Manager</Link>
               </li>
-              <li onClick={() => mutate({ accessToken })}>
+              <li onClick={() => logoutMutation.mutateAsync({ accessToken })}>
                 <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
                   Sign out
                 </div>

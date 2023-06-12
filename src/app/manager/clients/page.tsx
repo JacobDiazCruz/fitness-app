@@ -1,4 +1,4 @@
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 import TableActions from "./TableActions";
 import TableItem from "./TableItem";
 

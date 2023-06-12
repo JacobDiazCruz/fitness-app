@@ -1,6 +1,6 @@
 'use client'
 
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import TextArea from "@/components/global/TextArea";
@@ -15,22 +15,8 @@ export default function AddProgram() {
         pageTitle="Add New Program"
         backIcon
         backPath="/manager/programs"
+        showActionButtons
       />
-      <div className="flex justify-between">
-        <div></div>
-        <div>
-          <Button variant="outlined" className="mr-3">
-            Cancel
-          </Button>
-          <Button 
-            variant="contained" 
-            onClick={() => router.push('/manager/programs/123')}
-            endIcon={<ArrowRightIcon />}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
       <div className="form bg-white shadow-md width-full p-8 rounded-lg mt-5">
         <div className="w-[45%]">
           <div className="field-container">

@@ -23,7 +23,7 @@ export default function TextField({
   return (
     <div className="text-field relative z-[10]">
       {startIcon && (
-        <div className="startIcon-container absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="startIcon-container z-[11] absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           {startIcon}
         </div>
       )}

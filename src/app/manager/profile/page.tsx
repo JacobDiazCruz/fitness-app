@@ -7,7 +7,7 @@ import ManagerLayout from "../ManagerLayout";
 import Uploader from "@/components/global/Uploader";
 import ProfileForm from "./ProfileForm";
 import Image from 'next/image';
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 
 export default function Profile() {
   const [servicesList, setServicesList] = useState<Array>([
@@ -32,17 +32,6 @@ export default function Profile() {
     <>
       <Header pageTitle="Profile" />
       <div className="profile">
-        <div className="actions flex justify-between">
-          <div></div>
-          <div>
-            <Button variant="outlined" className="mr-3">
-              Cancel
-            </Button>
-            <Button variant="contained">
-              Submit
-            </Button>
-          </div>
-        </div>
         <div className="bg-white pb-8 px-8 rounded-lg mt-5 shadow-md">
           <div className="form-body flex items-center">
             <div className="w-[150px]">

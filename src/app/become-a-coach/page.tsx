@@ -22,6 +22,22 @@ const Stepper = ({ currentStep }: number) => {
 export default function BecomeACoach() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const handleNext = () => {
+    if(currentStep === 1) {
+      setCurrentStep(2)
+    } else if (currentStep === 2) {
+      router.push('/manager/clients?welcomePopup=true')
+    }
+  }
+
+  const handleBack = () => {
+    if(currentStep === 1) {
+      router.back()
+    } else if (currentStep === 2) {
+      setCurrentStep(1)
+    }
+  }
   
   return (
     <div className="become-coach-app flex items-center h-[100vh] bg-white w-full">
@@ -39,25 +55,13 @@ export default function BecomeACoach() {
           <Button
             variant="contained"
             className="w-full"
-            onClick={() => {
-              if(currentStep === 1) {
-                setCurrentStep(2)
-              } else if (currentStep === 2) {
-                router.push('/manager/profile?welcomePopup=true')
-              }
-            }}
+            onClick={() => handleNext()}
           >
             Next
           </Button>
           <Button
             className="w-full mt-3"
-            onClick={() => {
-              if(currentStep === 1) {
-                router.back()
-              } else if (currentStep === 2) {
-                setCurrentStep(1)
-              }
-            }}
+            onClick={() => handleBack()}
           >
             Back
           </Button>

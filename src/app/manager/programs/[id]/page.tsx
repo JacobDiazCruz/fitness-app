@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useState, useMemo } from "react";
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 import HeaderActions from "./HeaderActions";
 import Button from "@/components/global/Button";
 import { AddIcon } from "@/components/global/Icons";

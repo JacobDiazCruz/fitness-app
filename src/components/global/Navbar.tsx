@@ -7,10 +7,12 @@ import Button from "./Button";
 import Link from "next/link";
 import Providers from "@/utils/provider";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import LoginGoogle from "./LoginGoogle";
 
 export default function Navbar() {
   const router = useRouter();
   const accessToken = useLocalStorage("accessToken");
+  const userRole = useLocalStorage("userRole");
 
   return (
     <Providers>
@@ -19,19 +21,24 @@ export default function Navbar() {
           <h2>Logo</h2>
           {accessToken ? (
             <div className="flex items-center">
-              <Link href="/become-a-coach">
-                <Button variant="outlined mr-5">
-                  Become a Coach
-                </Button>
-              </Link>
+              {userRole == 1 && (
+                <Link href="/become-a-coach">
+                  <Button variant="outlined mr-5">
+                    Become a Coach
+                  </Button>
+                </Link>
+              )}
               <UserMenu />
             </div>
           ) : (
-            <Link href="/signin">
-              <Button>
-                Sign in
-              </Button>
-            </Link>
+            <>
+              <Link href="/signin">
+                <Button>
+                  Sign in
+                </Button>
+              </Link>
+              {/* <LoginGoogle /> */}
+            </>
           )}
         </div>
       </div>

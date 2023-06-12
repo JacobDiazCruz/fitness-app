@@ -3,7 +3,7 @@
 import ManagerLayout from "../ManagerLayout";
 import TableActions from "./TableActions";
 import TableItem from "./TableItem";
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 
 export default function Workouts() {
   return (

@@ -6,7 +6,7 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import Uploader from "@/components/global/Uploader";
 import { useState } from "react";
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 import PageActions from "../TableActions";
 import TableItem from "../TableItem";
 
@@ -25,18 +25,8 @@ export default function AddExercise() {
         pageTitle="Add New Exercise"
         backIcon
         backPath="/manager/exercises"
+        showActionButtons
       />
-      <div className="flex justify-between">
-        <div></div>
-        <div>
-          <Button variant="outlined" className="mr-3">
-            Cancel
-          </Button>
-          <Button variant="contained">
-            Submit
-          </Button>
-        </div>
-      </div>
       <div className="form bg-white shadow-md width-full p-8 rounded-lg mt-5">
         <div className="flex gap-[40px]">
           <div className="w-[415px]">

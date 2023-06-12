@@ -2,7 +2,7 @@
 
 import TableActions from "@/components/global/TableActions";
 import TableItem from "./TableItem";
-import Header from "@/components/manager/Header";
+import Header from "@/app/manager/Header";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/components/global/Icons";
 

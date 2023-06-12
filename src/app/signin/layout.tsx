@@ -13,8 +13,6 @@ export default function Layout({
   return (
     <Providers>
       <Script src="https://accounts.google.com/gsi/client" async defer />
-      {/* <Script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded" />
-      <Script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer="true" async="true" /> */}
       <Script src="https://connect.facebook.net/en_US/sdk.js" defer="true" async="true" crossorigin="anonymous" />
       {children}
     </Providers>

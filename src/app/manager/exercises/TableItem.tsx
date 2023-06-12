@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function TableItem() {
   return (
-    <div className="bg-white w-full border border-gray-200 border-solid rounded-lg p-5 my-2">
+    <div className="bg-white w-full border border-gray-100 border-solid rounded-lg py-4 px-5 my-2">
       <div className="flex items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] w-[235px]">
-          <div className="rounded-lg bg-gray-300 w-[65px] h-[65px] overflow-hidden relative">
+          <div className="rounded-md bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
             <Image
               alt="Trainer Image"
               src={"/user.png"}
