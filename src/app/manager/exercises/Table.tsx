@@ -32,12 +32,13 @@ export default function Table() {
           <div></div>
         </div>
         {data?.map((exercise: Exercise) => {
-          const { name, focus, category } = exercise;
+          const { name, focus, category, files } = exercise;
           return (
             <TableItem 
               name={name}
               focus={focus}
               category={category}
+              coverImage={files[0] || ""}
             />
           );
         })}

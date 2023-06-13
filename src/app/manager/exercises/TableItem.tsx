@@ -3,7 +3,8 @@ import Image from "next/image";
 export default function TableItem({
   name,
   focus,
-  category
+  category,
+  coverImage
 }) {
   return (
     <div className="bg-white w-full border border-gray-100 border-solid rounded-lg py-4 px-5 my-2">
@@ -12,7 +13,7 @@ export default function TableItem({
           <div className="rounded-md bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
             <Image
               alt="Trainer Image"
-              src={"/user.png"}
+              src={coverImage}
               style={{ objectFit: "cover" }}
               fill
             />

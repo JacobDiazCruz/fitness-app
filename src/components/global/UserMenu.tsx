@@ -25,7 +25,7 @@ export default function UserMenu({
   // logout request
   const logoutMutation = useMutation(logoutUser, {
     onSuccess: (data) => {
-      router.push('/')
+      router.push('/signin')
     },
     onError: (err) => {
       console.log(err)
@@ -56,9 +56,6 @@ export default function UserMenu({
         {openUserDropdown && (
           <div className="dropdown w-[150px] absolute z-[999] bg-white mt-[150px] shadow-md rounded-md">
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
-              <li onClick={() => router.push('/manager/exercises')}>
-                <Link href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Become a Coach</Link>
-              </li>
               <li onClick={() => router.push('/manager/exercises')}>
                 <Link href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Open Manager</Link>
               </li>

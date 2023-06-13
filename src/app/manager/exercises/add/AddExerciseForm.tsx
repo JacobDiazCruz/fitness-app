@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "react-query";
 import AutoComplete from "@/components/global/AutoComplete";
@@ -11,7 +11,9 @@ import Uploader from "@/components/global/Uploader";
 import Header from "@/app/manager/Header";
 import PageActions from "../TableActions";
 import TableItem from "../TableItem";
-import { addExercise } from "@/api/Exercise";
+import { addExercise, uploadFiles } from "@/api/Exercise";
+
+const MemoizedUploader = memo(Uploader);
 
 export default function AddExerciseForm() {
   const router = useRouter();
@@ -20,7 +22,8 @@ export default function AddExerciseForm() {
       name: "Biceps"
     }
   ]);
-
+  const [initialFilesList, setInitialFilesList] = useState([]);
+  
   const [exerciseForm, setExerciseForm] = useState({
     name: "",
     focus: "",
@@ -33,12 +36,45 @@ export default function AddExerciseForm() {
   // add exercise request
   const addExerciseMutation = useMutation(addExercise, {
     onSuccess: async (data) => {
-      router.push('/manager/exercises');
+      return data;
     },
     onError: (err) => {
       console.log(err);
     }
   });
+
+  // upload files to cloudinary request
+  const uploadFilesMutation = useMutation(uploadFiles, {
+    onSuccess: async (data) => {
+      return data;
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      initialFilesList.forEach((file) => {
+        formData.append('files', file)
+      })
+
+      // call upload files mutation
+      const filesRes = await uploadFilesMutation.mutateAsync(formData);
+
+      // call add exercise mutation
+      if(filesRes.data.length) {
+        await addExerciseMutation.mutateAsync({
+          ...exerciseForm,
+          files: filesRes.data
+        });
+        router.push('/manager/exercises');
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -47,7 +83,7 @@ export default function AddExerciseForm() {
         backIcon
         backPath="/manager/exercises"
         showActionButtons
-        handleSubmit={() => addExerciseMutation.mutateAsync(exerciseForm)}
+        handleSubmit={() => handleSubmit()}
       />
       <div className="form bg-white shadow-md width-full p-8 rounded-lg mt-5">
         <div className="flex gap-[40px]">
@@ -114,7 +150,10 @@ export default function AddExerciseForm() {
             <div className="field-container mt-7">
               <p className="text-[14px] text-[14px]">Upload videos or images</p>
               <p className="text-[#9C9EA0] text-[12px]">Upload your own workout videos and images.</p>
-              <Uploader />
+              <MemoizedUploader 
+                initialFilesList={initialFilesList}
+                setInitialFilesList={setInitialFilesList}
+              />
             </div>
           </div>
         </div>

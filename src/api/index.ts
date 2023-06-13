@@ -20,7 +20,7 @@ export const postRequest = async (payload: Payload) => {
       data: payload.data,
       headers: config.headers
     })
-    return res
+    return res;
   } catch (err) {
     return err
   }
