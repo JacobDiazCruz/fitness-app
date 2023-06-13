@@ -10,7 +10,9 @@ import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 
-export default function UserMenu() {
+export default function UserMenu({
+  openNav
+}) {
   const router = useRouter();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
@@ -23,7 +25,6 @@ export default function UserMenu() {
   // logout request
   const logoutMutation = useMutation(logoutUser, {
     onSuccess: (data) => {
-      localStorage.removeItem("accessToken");
       router.push('/')
     },
     onError: (err) => {
@@ -46,7 +47,12 @@ export default function UserMenu() {
             fill
           />
         </div>
-        <DropdownIcon className="w-4 h-4 absolute ml-9" />
+        {openNav && (
+          <p className="ml-2 text-[14px] text-gray-600">
+            John Doe
+          </p>
+        )}
+        <DropdownIcon className={`${openNav ? 'relative ml-1' : 'absolute ml-9'} w-4 h-4`} />
         {openUserDropdown && (
           <div className="dropdown w-[150px] absolute z-[999] bg-white mt-[150px] shadow-md rounded-md">
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
@@ -56,7 +62,10 @@ export default function UserMenu() {
               <li onClick={() => router.push('/manager/exercises')}>
                 <Link href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Open Manager</Link>
               </li>
-              <li onClick={() => logoutMutation.mutateAsync({ accessToken })}>
+              <li onClick={() => {
+                localStorage.removeItem("accessToken")
+                logoutMutation.mutateAsync({ accessToken })
+              }}>
                 <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
                   Sign out
                 </div>

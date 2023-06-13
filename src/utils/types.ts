@@ -1,6 +1,10 @@
 export interface Exercise {
-  _id: string;
+  _id?: string;
+  userId: string;
   name: string;
-  primaryFocus: string;
+  focus: string;
   category: string;
-};
+  videoLink?: string;
+  instruction: string;
+  files: Array<any>;
+}

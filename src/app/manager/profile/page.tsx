@@ -8,6 +8,7 @@ import Uploader from "@/components/global/Uploader";
 import ProfileForm from "./ProfileForm";
 import Image from 'next/image';
 import Header from "@/app/manager/Header";
+import { AddIcon } from "@/components/global/Icons";
 
 export default function Profile() {
   const [servicesList, setServicesList] = useState<Array>([
@@ -19,10 +20,6 @@ export default function Profile() {
   ]);
   const [profileImage, setProfileImage] = useState<any>();
 
-  const addIcon: SVGAElement = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-    </svg>;
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files[0])
     setProfileImage(e.target.files[0]);
@@ -32,8 +29,12 @@ export default function Profile() {
     <>
       <Header pageTitle="Profile" />
       <div className="profile">
-        <div className="bg-white pb-8 px-8 rounded-lg mt-5 shadow-md">
-          <div className="form-body flex items-center">
+        <ProfileForm
+          formTitle="Account Details"
+          formDescription="Update your basic account details."
+          formIcon={<svg t="1685420135846" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4402" width="30" height="30"><path d="M885.333333 256H725.333333V198.4C723.2 157.866667 689.066667 128 648.533333 128h-298.666666c-40.533333 2.133333-72.533333 34.133333-72.533334 74.666667V256H138.666667C98.133333 256 64 290.133333 64 330.666667v490.666666C64 861.866667 98.133333 896 138.666667 896h746.666666c40.533333 0 74.666667-34.133333 74.666667-74.666667v-490.666666c0-40.533333-34.133333-74.666667-74.666667-74.666667zM341.333333 202.666667c2.133333-6.4 6.4-10.666667 12.8-10.666667h296.533334c6.4 0 10.666667 6.4 10.666666 10.666667V256H341.333333V202.666667zM138.666667 320h746.666666c6.4 0 10.666667 4.266667 10.666667 10.666667v128H128v-128c0-6.4 4.266667-10.666667 10.666667-10.666667z m277.333333 202.666667h192V576c0 6.4-4.266667 10.666667-10.666667 10.666667h-170.666666c-6.4 0-10.666667-4.266667-10.666667-10.666667v-53.333333z m469.333333 309.333333h-746.666666c-6.4 0-10.666667-4.266667-10.666667-10.666667v-298.666666h224V576c0 40.533333 34.133333 74.666667 74.666667 74.666667h170.666666c40.533333 0 74.666667-34.133333 74.666667-74.666667v-53.333333H896v298.666666c0 6.4-4.266667 10.666667-10.666667 10.666667z" fill="#ffffff" p-id="4403"></path></svg>}
+        >
+          <div className="form-body flex gap-[40px] mt-7">
             <div className="w-[150px]">
               <input className="invisible h-[0px]" type="file" name="profileImage" id="profileImage" onChange={handleFileChange} multiple={false} />
               <div className="rounded-full bg-gray-300 w-[130px] h-[130px] overflow-hidden relative z-10">
@@ -50,20 +51,46 @@ export default function Profile() {
                 </div>
               </label>
             </div>
-            <div>
-              <h2 className="font-medium text-[22px]">John Doe</h2>
+            <div className="flex flex-wrap w-[650px] gap-[15px]">
+              <div className="field w-half">
+                <h4 className="mb-2">First name</h4>
+                <TextField 
+                  value="John Doe"
+                />
+              </div>
+              <div className="field w-half">
+                <h4 className="mb-2">Last name</h4>
+                <TextField
+                  value="John Doe"
+                />
+              </div>
+              <div className="field w-full mt-4">
+                <h4 className="mb-2">Email</h4>
+                <TextField
+                  disabled
+                  value="John Doe"
+                />
+              </div>
+              <div className="field w-half mt-4">
+                <h4 className="mb-2">Contact number</h4>
+                <TextField
+                  disabled
+                  value="John Doe"
+                />
+              </div>
+              {/* <h2 className="font-medium text-[22px]">John Doe</h2>
               <p className="text-[18px] text-gray-600">Certified Trainer</p>
-              <p className="text-[14px] text-gray-500">Metro Manila, Philippines</p>
+              <p className="text-[14px] text-gray-500">Metro Manila, Philippines</p> */}
             </div>
           </div>
-        </div>
+        </ProfileForm>
 
         <ProfileForm
           formTitle="My Services"
           formIcon={<svg t="1685420135846" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4402" width="30" height="30"><path d="M885.333333 256H725.333333V198.4C723.2 157.866667 689.066667 128 648.533333 128h-298.666666c-40.533333 2.133333-72.533333 34.133333-72.533334 74.666667V256H138.666667C98.133333 256 64 290.133333 64 330.666667v490.666666C64 861.866667 98.133333 896 138.666667 896h746.666666c40.533333 0 74.666667-34.133333 74.666667-74.666667v-490.666666c0-40.533333-34.133333-74.666667-74.666667-74.666667zM341.333333 202.666667c2.133333-6.4 6.4-10.666667 12.8-10.666667h296.533334c6.4 0 10.666667 6.4 10.666666 10.666667V256H341.333333V202.666667zM138.666667 320h746.666666c6.4 0 10.666667 4.266667 10.666667 10.666667v128H128v-128c0-6.4 4.266667-10.666667 10.666667-10.666667z m277.333333 202.666667h192V576c0 6.4-4.266667 10.666667-10.666667 10.666667h-170.666666c-6.4 0-10.666667-4.266667-10.666667-10.666667v-53.333333z m469.333333 309.333333h-746.666666c-6.4 0-10.666667-4.266667-10.666667-10.666667v-298.666666h224V576c0 40.533333 34.133333 74.666667 74.666667 74.666667h170.666666c40.533333 0 74.666667-34.133333 74.666667-74.666667v-53.333333H896v298.666666c0 6.4-4.266667 10.666667-10.666667 10.666667z" fill="#ffffff" p-id="4403"></path></svg>}
           formDescription="Each service will be priced individually."
         >
-          <div class="mt-7">
+          <div class="mt-12">
             {servicesList.map((service: Service, key: number) => (
               <div className="pb-5 flex gap-[20px] w-full">
                 <div className="w-[226px]">
@@ -104,7 +131,7 @@ export default function Profile() {
                         ])
                       }}
                       className="bg-[#EBEDFF] h-[49px] text-[#000E8D]"
-                      startIcon={addIcon}
+                      startIcon={<AddIcon />}
                     >
                       Add a Service
                     </Button>

@@ -10,6 +10,7 @@ export default function Header ({
   pageTitle,
   backPath,
   backIcon,
+  handleSubmit,
   showActionButtons = false
 }: any) {
   const router = useRouter();
@@ -30,7 +31,10 @@ export default function Header ({
           <Button variant="outlined" className="mr-3">
             Cancel
           </Button>
-          <Button variant="contained">
+          <Button 
+            variant="contained"
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </div>

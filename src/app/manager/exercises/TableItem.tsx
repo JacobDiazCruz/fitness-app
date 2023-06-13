@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-export default function TableItem() {
+export default function TableItem({
+  name,
+  focus,
+  category
+}) {
   return (
     <div className="bg-white w-full border border-gray-100 border-solid rounded-lg py-4 px-5 my-2">
       <div className="flex items-center w-full justify-between">
@@ -14,14 +18,20 @@ export default function TableItem() {
             />
           </div>
           <div>
-            <h5 className="font-medium text-[14px]">Dumbbell Bicep Curls</h5>
+            <h5 className="font-medium text-[14px]">
+              {name || '--'}
+            </h5>
           </div>
         </div>
         <div className="col-2 w-[100px]">
-          <p className="text-[14px] text-gray-500">Biceps</p>
+          <p className="text-[14px] text-gray-500">
+            {focus || '--'}
+          </p>
         </div>
         <div className="col-3 w-[80px]">
-          <p className="text-[14px] text-gray-500">Strength</p>
+          <p className="text-[14px] text-gray-500">
+            {category || '--'}
+          </p>
         </div>
         <div className="col-4 w-[100px]">
           <p className="text-[14px] text-gray-500">July 12, 2023</p>

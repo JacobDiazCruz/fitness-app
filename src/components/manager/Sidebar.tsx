@@ -81,7 +81,7 @@ export default function Sidebar () {
                   )}
                 </div>
                 {!openNav && (
-                  <span className="absolute z-[999] scale-0 left-20 top-5 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
+                  <span className="absolute z-100 scale-0 left-20 top-5 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
                     {item.name}
                   </span>
                 )}
@@ -90,8 +90,7 @@ export default function Sidebar () {
           })}
         </ul>
         <div className="p-5">
-          {}
-          <UserMenu />
+          <UserMenu openNav={openNav} />
         </div>
 
         {openNav && (

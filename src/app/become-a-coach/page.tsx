@@ -8,6 +8,14 @@ import Uploader from "@/components/global/Uploader";
 import { useRouter } from "next/navigation";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
+import { becomeCoach } from "@/api/Profile";
+import { useMutation } from "react-query";
+
+interface Form {
+  label: string;
+  field: string;
+  value: any;
+}
 
 const Stepper = ({ currentStep }: number) => {
   return (
@@ -22,12 +30,54 @@ const Stepper = ({ currentStep }: number) => {
 export default function BecomeACoach() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [stepOneForm, setStepOneForm] = useState<Array<Form>>([
+    {
+      label: "Years of coaching experience",
+      field: "yearsOfExp",
+      value: ""
+    },
+    {
+      label: "Are you a full-time or a part-time coach?",
+      field: "employmentType",
+      value: ""
+    },
+    {
+      label: "Upload coaching license if you have any",
+      field: "idImage",
+      value: ""
+    }
+  ]);
+  const [stepTwoForm, setStepTwoForm] = useState<Array<Form>>([
+    {
+      label: "About Me",
+      field: "about",
+      value: ""
+    },
+    {
+      label: "Upload your portfolio",
+      field: "portfolioImages",
+      value: []
+    }
+  ]);
+
+  // login request
+  const becomeCoachMutation = useMutation(becomeCoach, {
+    onSuccess: async (data) => {
+      router.push('/manager/clients?welcomePopup=true')
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
 
   const handleNext = () => {
     if(currentStep === 1) {
       setCurrentStep(2)
     } else if (currentStep === 2) {
-      router.push('/manager/clients?welcomePopup=true')
+      becomeCoachMutation.mutateAsync({
+        profileId: "",
+        data: {}
+      })
     }
   }
 
@@ -47,9 +97,15 @@ export default function BecomeACoach() {
           Step {currentStep}
         </h2>
         {currentStep === 1 ? (
-          <StepOne />
+          <StepOne 
+            stepOneForm={stepOneForm}
+            setStepOneForm={setStepOneForm}
+          />
         ) : currentStep === 2 && (
-          <StepTwo />
+          <StepTwo 
+            stepTwoForm={stepTwoForm}
+            setStepTwoForm={setStepTwoForm}
+          />
         )}
         <div className="mt-12">
           <Button
