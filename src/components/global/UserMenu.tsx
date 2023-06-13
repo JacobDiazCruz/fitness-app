@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { DropdownIcon } from "./Icons";
+import { ArrowUpDownIcon, DropdownIcon } from "./Icons";
 import { useMutation } from "react-query";
 import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -48,11 +48,16 @@ export default function UserMenu({
           />
         </div>
         {openNav && (
-          <p className="ml-2 text-[14px] text-gray-600">
-            John Doe
-          </p>
+          <div>
+            <p className="ml-2 text-[14px] text-gray-800 font-medium">
+              John Doe
+            </p>
+            <p className="ml-2 text-[12px] text-gray-500 font-light">
+              johndoe@gmail.com
+            </p>
+          </div>
         )}
-        <DropdownIcon className={`${openNav ? 'relative ml-1' : 'absolute ml-9'} w-4 h-4`} />
+        <ArrowUpDownIcon className={`${openNav ? 'relative ml-5' : 'absolute ml-9'} w-5 h-5 text-gray-400`} />
         {openUserDropdown && (
           <div className="dropdown w-[150px] absolute z-[999] bg-white mt-[150px] shadow-md rounded-md">
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">

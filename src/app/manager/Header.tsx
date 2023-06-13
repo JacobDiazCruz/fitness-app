@@ -28,7 +28,11 @@ export default function Header ({
       </div>
       {showActionButtons && (
         <div>
-          <Button variant="outlined" className="mr-3">
+          <Button 
+            variant="outlined"
+            className="mr-3"
+            onClick={() => router.back()}
+          >
             Cancel
           </Button>
           <Button 

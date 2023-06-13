@@ -12,11 +12,6 @@ export default function Sidebar () {
   const [openNav, setOpenNav] = useState(true);
   const [navItems, setNavItems] = useState([
     {
-      icon: <svg t="1685199933183" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8018" width="25" height="25"><path d="M858.5 763.6c-18.9-44.8-46.1-85-80.6-119.5-34.5-34.5-74.7-61.6-119.5-80.6-0.4-0.2-0.8-0.3-1.2-0.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-0.4 0.2-0.8 0.3-1.2 0.5-44.8 18.9-85 46-119.5 80.6-34.5 34.5-61.6 74.7-80.6 119.5C146.9 807.5 137 854 136 901.8c-0.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c0.1 4.4 3.6 7.8 8 7.8h60c4.5 0 8.1-3.7 8-8.2-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z" fill="#90959A" p-id="8019"></path></svg>,
-      name: "Profile",
-      path: "/manager/profile"
-    },
-    {
       icon: <DoubleUserIcon className="w-6 h-6 text-gray-400" />,
       name: "Clients",
       path: "/manager/clients"
@@ -41,18 +36,23 @@ export default function Sidebar () {
       name: "Messages",
       path: "/manager/messages"
     },
+    {
+      icon: <svg t="1685199933183" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8018" width="25" height="25"><path d="M858.5 763.6c-18.9-44.8-46.1-85-80.6-119.5-34.5-34.5-74.7-61.6-119.5-80.6-0.4-0.2-0.8-0.3-1.2-0.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-0.4 0.2-0.8 0.3-1.2 0.5-44.8 18.9-85 46-119.5 80.6-34.5 34.5-61.6 74.7-80.6 119.5C146.9 807.5 137 854 136 901.8c-0.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c0.1 4.4 3.6 7.8 8 7.8h60c4.5 0 8.1-3.7 8-8.2-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z" fill="#90959A" p-id="8019"></path></svg>,
+      name: "Profile",
+      path: "/manager/profile"
+    }
   ]);
 
   const ToggleButton = () => {
     return (
       <div
         onClick={() => setOpenNav(!openNav)}
-        className={`bg-white ${openNav ? 'ml-[210px]' : 'ml-[60px]'} rounded-full w-[45px] h-[45px] flex border border-solid border-[#ECECEC] cursor-pointer z-100 absolute`}
+        className={`bg-white ${openNav ? 'ml-[210px]' : 'ml-[60px]'} shadow-md rounded-full w-[45px] h-[45px] flex border border-solid border-[#ECECEC] cursor-pointer z-100 absolute`}
       >
         {openNav ? (
-          <svg t="1685329522863" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4186" width="25" height="25"><path d="M268.8 480L633.6 149.333333c17.066667-14.933333 44.8-14.933333 59.733333 2.133334 6.4 8.533333 10.666667 19.2 10.666667 29.866666v661.333334c0 23.466667-19.2 42.666667-42.666667 42.666666-10.666667 0-21.333333-4.266667-27.733333-10.666666l-362.666667-330.666667c-17.066667-14.933333-19.2-42.666667-2.133333-59.733333-2.133333-2.133333 0-2.133333 0-4.266667z" fill="#666666" p-id="4187"></path></svg>
+          <svg t="1685329522863" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4186" width="22" height="22"><path d="M268.8 480L633.6 149.333333c17.066667-14.933333 44.8-14.933333 59.733333 2.133334 6.4 8.533333 10.666667 19.2 10.666667 29.866666v661.333334c0 23.466667-19.2 42.666667-42.666667 42.666666-10.666667 0-21.333333-4.266667-27.733333-10.666666l-362.666667-330.666667c-17.066667-14.933333-19.2-42.666667-2.133333-59.733333-2.133333-2.133333 0-2.133333 0-4.266667z" fill="#666666" p-id="4187"></path></svg>
         ) : (
-          <svg t="1685329505482" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3213" width="25" height="25"><path d="M755.2 544L390.4 874.666667c-17.066667 14.933333-44.8 14.933333-59.733333-2.133334-6.4-8.533333-10.666667-19.2-10.666667-29.866666v-661.333334c0-23.466667 19.2-42.666667 42.666667-42.666666 10.666667 0 21.333333 4.266667 27.733333 10.666666l362.666667 330.666667c17.066667 14.933333 19.2 42.666667 2.133333 59.733333 2.133333 2.133333 0 2.133333 0 4.266667z" fill="#666666" p-id="3214"></path></svg>
+          <svg t="1685329505482" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3213" width="22" height="22"><path d="M755.2 544L390.4 874.666667c-17.066667 14.933333-44.8 14.933333-59.733333-2.133334-6.4-8.533333-10.666667-19.2-10.666667-29.866666v-661.333334c0-23.466667 19.2-42.666667 42.666667-42.666666 10.666667 0 21.333333 4.266667 27.733333 10.666666l362.666667 330.666667c17.066667 14.933333 19.2 42.666667 2.133333 59.733333 2.133333 2.133333 0 2.133333 0 4.266667z" fill="#666666" p-id="3214"></path></svg>
         )}
       </div>
     );
@@ -60,24 +60,27 @@ export default function Sidebar () {
 
   return (
     <>
-      <div className={`bg-white ${openNav ? 'w-[270px]' : 'w-[85px]'} h-[100vh] border-right border-right-solid border-right-[#ECECEC] sticky top-0`}>
-        <div className="px-8 pt-8">
-          <p>Logo</p>
+      <div className={`bg-[#f7f7f7] ${openNav ? 'w-[270px]' : 'w-[85px]'} h-[100vh] border-r border-r-solid border-gray-200 sticky top-0`}>
+        <div className="px-6 pt-8">
+          <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
+            <div className="m-auto text-white font-medium">L.</div>
+          </div>
         </div>
+        <hr className="mt-6 absolute w-full"/>
         <ToggleButton />
-        <ul className="pt-12">
+        <ul className="pt-12 px-3">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.path);
             return (
               <li
-                className={`${isActive && 'bg-gray-50 border-r-[7px] border-r-[#24282C]'} group relative hover:bg-gray-100 cursor-pointer px-6 py-5`}
+                className={`${isActive && 'bg-[#eeeeee]'} rounded-lg group relative hover:bg-gray-100 cursor-pointer px-3 py-4`}
                 onClick={() => router.push(item.path)}
                 key={item.name}
               >
                 <div className="flex items-center" >
                   {item.icon}
                   {openNav && (
-                    <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-[#7F8489]'} ml-4 text-[14px]`}>{item.name}</p>
+                    <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-gray-500'} font-light ml-4 text-[14px]`}>{item.name}</p>
                   )}
                 </div>
                 {!openNav && (
@@ -93,7 +96,7 @@ export default function Sidebar () {
           <UserMenu openNav={openNav} />
         </div>
 
-        {openNav && (
+        {/* {openNav && (
           <div className="rounded-xl bg-[#24282C] w-[85%] mx-auto mt-5 p-5">
             <h4 className="font-medium text-white">How to use</h4>
             <p className="text-[#A8AAAE] mt-1 text-[14px]">Get more clients by purchasing our latest AI client finder</p>
@@ -101,7 +104,7 @@ export default function Sidebar () {
               <div className="text-center m-auto">Coming soon</div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

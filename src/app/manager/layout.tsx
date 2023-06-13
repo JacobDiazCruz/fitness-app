@@ -20,7 +20,7 @@ export default function ManagerLayout ({
 }) {
   return (
     <Providers>
-      <div className="flex">
+      <div className="flex bg-white">
         <Sidebar />
         <Alert />
         <WelcomePopup />
