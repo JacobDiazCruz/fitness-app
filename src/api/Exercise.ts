@@ -9,9 +9,26 @@ export const addExercise = async (data) => {
   return res.data;
 };
 
+export const editExercise = async ({ id, data }) => {
+  const payload = {
+    url: `/exercise/edit/${id}`,
+    data
+  };
+  const res = await putRequest(payload);
+  return res.data;
+};
+
 export const listExercises = async () => {
   const payload = {
     url: `/exercise/list`
+  };
+  const res = await getRequest(payload);
+  return res.data?.data;
+};
+
+export const getExercise = async (id) => {
+  const payload = {
+    url: `/exercise/${id}`
   };
   const res = await getRequest(payload);
   return res.data?.data;

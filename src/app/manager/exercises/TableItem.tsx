@@ -3,6 +3,7 @@ import IconButton from "@/components/global/IconButton";
 import TableItemActions from "@/components/global/TableItemActions";
 
 export default function TableItem({
+  itemId,
   name,
   primaryFocus,
   category,
@@ -40,7 +41,7 @@ export default function TableItem({
           <p className="text-[14px] text-gray-500">July 12, 2023</p>
         </div>
         <div className="col-5">
-          <TableItemActions />
+          <TableItemActions itemId={itemId} />
         </div>
       </div>
     </div>

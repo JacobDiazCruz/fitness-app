@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, memo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useMutation } from "react-query";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
@@ -9,13 +9,15 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import Uploader from "@/components/global/Uploader";
 import Header from "@/app/manager/Header";
-import { addExercise, uploadFiles } from "@/api/Exercise";
+import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
 import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../../ExerciseForm";
 import useExercise from "../../useExercise";
+import { useQuery } from "react-query";
 
 export default function EditExercise() {
   const router = useRouter();
+  const params = useParams();
   const {
     initialFilesList,
     setInitialFilesList,
@@ -26,9 +28,17 @@ export default function EditExercise() {
     categoryItems,
     setCategoryItems
   } = useExercise();
+
+  const { 
+    isLoading, 
+    isError,
+    data: exerciseData, 
+    error,
+    refetch
+  } = useQuery('exercises', getExercise(params.id));
   
-  // add exercise request
-  const addExerciseMutation = useMutation(addExercise, {
+  // edit exercise request
+  const editExerciseMutation = useMutation(editExercise, {
     onSuccess: async (data) => {
       return data;
     },
@@ -51,17 +61,20 @@ export default function EditExercise() {
     try {
       const formData = new FormData();
       initialFilesList.forEach((file) => {
-        formData.append('files', file)
+        formData.append('files', file);
       });
 
       // call upload files mutation
       const filesRes = await uploadFilesMutation.mutateAsync(formData);
 
-      // call add exercise mutation
+      // call edit exercise mutation
       if(filesRes.data.length) {
-        await addExerciseMutation.mutateAsync({
-          ...exerciseForm,
-          files: filesRes.data
+        await editExerciseMutation.mutateAsync({
+          id: params.id,
+          data: {
+            ...exerciseForm,
+            files: filesRes.data
+          }
         });
         router.push('/manager/exercises');
       }
@@ -73,11 +86,11 @@ export default function EditExercise() {
   return (
     <>
       <Header
-        pageTitle="Add New Exercise"
+        pageTitle="Edit Exercise"
         backIcon
         backPath="/manager/exercises"
         showActionButtons
-        isLoading={uploadFilesMutation.isLoading || addExerciseMutation.isLoading}
+        isLoading={uploadFilesMutation.isLoading || editExerciseMutation.isLoading}
         handleSubmit={() => handleSubmit()}
       />
       <ExerciseForm
