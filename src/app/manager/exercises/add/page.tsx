@@ -1,4 +1,4 @@
-import AddExerciseForm from "./AddExerciseForm";
+import AddNewExercise from "./AddNewExercise";
 
 export const metadata = {
   title: 'Add New Exercise',
@@ -7,6 +7,6 @@ export const metadata = {
 
 export default function AddExercise() {
   return (
-    <AddExerciseForm />
+    <AddNewExercise />
   )
 }

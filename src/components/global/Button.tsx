@@ -2,13 +2,13 @@ import { LoadingIcon } from "./Icons";
 
 export default function Button({
   id,
-  variant,
-  className,
+  variant = "",
+  className = "h-[45px]",
   startIcon,
   endIcon,
   onClick,
-  loading,
-  disabled,
+  loading = false,
+  disabled = false,
   children
 }: any) {
   return (
@@ -30,10 +30,3 @@ export default function Button({
     </button>
   );
 }
-
-Button.defaultProps = {
-  variant: "",
-  loading: false,
-  disabled: false,
-  className: "h-[45px]"
-};

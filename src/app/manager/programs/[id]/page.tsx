@@ -76,7 +76,7 @@ const MappedWorkouts = ({
               e.preventDefault();
               setDraggedWorkout(null)
             }}
-            className="w-full rounded-lg mt-2 bg-indigo-100 p-3 cursor-pointer shadow-sm"
+            className="w-full rounded-lg mt-2 bg-white p-3 cursor-pointer shadow-md"
             style={{
               opacity: draggedWorkout === workout ? "0.01" : "1"
             }}
@@ -220,7 +220,7 @@ export default function EditProgram() {
             data-index={dayIndex}
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, dayIndex)}
-            className="h-[100vh] bg-white w-full p-2 shadow-sm"
+            className="h-[100vh] bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
           >
             <div className="flex justify-between items-center">
               <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>

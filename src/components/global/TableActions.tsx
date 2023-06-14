@@ -6,8 +6,8 @@ import { SearchIcon } from "./Icons";
 import TextField from "./TextField";
 
 export default function TableActions({
-  primaryBtnPath,
-  primaryBtnIcon,
+  primaryBtnPath = "",
+  primaryBtnIcon = <></>,
   primaryBtnContent
 }) {
   return (

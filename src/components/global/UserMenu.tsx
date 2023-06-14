@@ -9,6 +9,7 @@ import { useMutation } from "react-query";
 import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
+import Switch from "./Switch";
 
 export default function UserMenu({
   openNav
@@ -32,13 +33,60 @@ export default function UserMenu({
     }
   });
 
+  const DropdownMenu = () => {
+    return (
+      <div className="dropdown w-[250px] absolute z-[999] bg-white shadow-md rounded-md">
+        <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
+          <li className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100 flex items-center gap-[10px]">
+            <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
+              <Image
+                alt="Trainer Image"
+                src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+                style={{ objectFit: "cover" }}
+                fill
+              />
+            </div>
+            <div>
+              <p className="text-[14px] text-gray-800 font-medium">
+                John Doe
+              </p>
+              <p className="text-[12px] text-gray-500 font-light">
+                johndoe@gmail.com
+              </p>
+            </div>
+          </li>
+          <hr className="my-2" />
+          <li className="block px-4 py-2 flex items-center justify-between gap-[10px]">
+            <div>Public profile</div>
+            <Switch />
+          </li>
+          <li onClick={() => router.push('/manager/exercises')} className="cursor-pointer">
+            <Link 
+              href="/manager/profile" 
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100"
+            >
+              Open Manager
+            </Link>
+          </li>
+          <li 
+            onClick={() => {
+              localStorage.removeItem("accessToken")
+              logoutMutation.mutateAsync({ accessToken })
+            }}
+            className="cursor-pointer"
+          >
+            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+              Sign out
+            </div>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div
-        className="flex items-center cursor-pointer"
-        onClick={() => setOpenUserDropdown(!openUserDropdown)}
-        ref={ref}
-      >
+    <div ref={ref} className="user-menu">
+      <div className="flex items-center cursor-pointer" onClick={() => setOpenUserDropdown(!openUserDropdown)}>
         <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
           <Image
             alt="Trainer Image"
@@ -58,24 +106,11 @@ export default function UserMenu({
           </div>
         )}
         <ArrowUpDownIcon className={`${openNav ? 'relative ml-5' : 'absolute ml-9'} w-5 h-5 text-gray-400`} />
-        {openUserDropdown && (
-          <div className="dropdown w-[150px] absolute z-[999] bg-white mt-[150px] shadow-md rounded-md">
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
-              <li onClick={() => router.push('/manager/exercises')}>
-                <Link href="/manager/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">Open Manager</Link>
-              </li>
-              <li onClick={() => {
-                localStorage.removeItem("accessToken")
-                logoutMutation.mutateAsync({ accessToken })
-              }}>
-                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
-                  Sign out
-                </div>
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
-    </> 
+      
+      {openUserDropdown && (
+        <DropdownMenu />
+      )}
+    </div>
   );
 }

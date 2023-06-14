@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState, useMemo } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";

@@ -31,8 +31,8 @@ export default function TextField({
         type={type}
         className={`
           ${startIcon && 'pl-8'}
-          ${className || "bg-white"} 
-          border h-[45px] z-[10] relative text-gray-900 text-sm rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 border-gray-200 placeholder-gray-400`} 
+          ${className} 
+          bg-[#f6f6f6] border h-[45px] z-[10] relative text-gray-900 text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 border-gray-200 placeholder-gray-400`} 
         placeholder={placeholder}
         required={required}
         onChange={onChange}

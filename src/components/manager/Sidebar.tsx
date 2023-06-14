@@ -47,7 +47,7 @@ export default function Sidebar () {
     return (
       <div
         onClick={() => setOpenNav(!openNav)}
-        className={`bg-white ${openNav ? 'ml-[210px]' : 'ml-[60px]'} shadow-md rounded-full w-[45px] h-[45px] flex border border-solid border-[#ECECEC] cursor-pointer z-100 absolute`}
+        className={`bg-white ${openNav ? 'ml-[210px]' : 'ml-[60px]'} shadow-md rounded-full w-[45px] h-[45px] flex border border-solid border-[#ECECEC] cursor-pointer z-[100] absolute`}
       >
         {openNav ? (
           <svg t="1685329522863" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4186" width="22" height="22"><path d="M268.8 480L633.6 149.333333c17.066667-14.933333 44.8-14.933333 59.733333 2.133334 6.4 8.533333 10.666667 19.2 10.666667 29.866666v661.333334c0 23.466667-19.2 42.666667-42.666667 42.666666-10.666667 0-21.333333-4.266667-27.733333-10.666666l-362.666667-330.666667c-17.066667-14.933333-19.2-42.666667-2.133333-59.733333-2.133333-2.133333 0-2.133333 0-4.266667z" fill="#666666" p-id="4187"></path></svg>
@@ -68,7 +68,7 @@ export default function Sidebar () {
         </div>
         <hr className="mt-6 absolute w-full"/>
         <ToggleButton />
-        <ul className="pt-12 px-3">
+        <ul className="pt-9 pb-3 px-3">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.path);
             return (
@@ -92,6 +92,7 @@ export default function Sidebar () {
             )
           })}
         </ul>
+        <hr />
         <div className="p-5">
           <UserMenu openNav={openNav} />
         </div>

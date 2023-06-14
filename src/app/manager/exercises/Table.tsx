@@ -25,18 +25,26 @@ export default function Table() {
       />
       <div className="page-table mt-8">
         <div className="flex justify-between px-5 py-3 text-[14px]">
-          <div className="w-[235px]">Exercises</div>
-          <div className="w-[100px]">Primary focus</div>
-          <div className="w-[80px]">Category</div>
-          <div className="w-[100px]">Date added</div>
-          <div></div>
+          <div className="flex-1">
+            <p>Exercises</p>
+          </div>
+          <div className="flex-1">
+            <p>Primary focus</p>
+          </div>
+          <div className="flex-1">
+            <p>Category</p>
+          </div>
+          <div className="flex-1">
+            <p>Date added</p>
+          </div>
+          <div className="w-[32px]"></div>
         </div>
         {data?.map((exercise: Exercise) => {
-          const { name, focus, category, files } = exercise;
+          const { name, primaryFocus, category, files } = exercise;
           return (
-            <TableItem 
+            <TableItem
               name={name}
-              focus={focus}
+              primaryFocus={primaryFocus}
               category={category}
               coverImage={files[0] || ""}
             />

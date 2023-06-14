@@ -61,7 +61,7 @@ export default function AutoComplete({
 
   const DropdownList = () => {
     return (
-      <ul ref={ref} className="z-200 absolute mt-1 max-h-60 w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
+      <ul ref={ref} className="z-[100] absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
         {filteredItems.length ? (
           <>
             {filteredItems?.map((item: any) => (
@@ -98,7 +98,7 @@ export default function AutoComplete({
           type={type}
           required={required}
           value={inputValue}
-          className="w-full bg-white border border-gray-200 p-2.5 text-sm leading-5 rounded-lg text-gray-900 focus:ring-0" 
+          className="w-full bg-[#f6f6f6] border border-gray-200 p-2.5 text-sm leading-5 rounded-lg text-gray-900" 
           role="combobox"
           type="text"
           aria-expanded="false"
