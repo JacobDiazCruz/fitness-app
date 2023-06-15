@@ -36,7 +36,7 @@ export default function Header ({
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             variant="contained"
             onClick={handleSubmit}
             loading={isLoading}

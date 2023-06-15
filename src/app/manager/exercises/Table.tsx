@@ -89,12 +89,14 @@ export default function Table() {
       <div className="page-table mt-8">
         <TableColumnHeaders />
         {filteredExercises?.length <= 0 ? (
-          <p className="text-center mt-[100px] text-[14px] text-gray-500 font-light">
-            No results found.
-          </p>
+          <div className="border-t border-t-solid border-gray-100">
+            <p className="text-center mt-[70px] text-[14px] text-gray-500 font-light">
+              No results found.
+            </p>
+          </div>
         ) : (
           filteredExercises?.map((exercise: Exercise) => {
-            const { _id, name, primaryFocus, category, files } = exercise;
+            const { _id, name, primaryFocus, category, files, createdAt } = exercise;
             return (
               <TableItem
                 key={_id}
@@ -102,6 +104,7 @@ export default function Table() {
                 primaryFocus={primaryFocus}
                 category={category}
                 itemId={_id}
+                createdAt={createdAt}
                 coverImage={files[0] || ""}
               />
             );

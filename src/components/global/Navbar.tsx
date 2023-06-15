@@ -8,6 +8,8 @@ import Link from "next/link";
 import Providers from "@/utils/provider";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import LoginGoogle from "./LoginGoogle";
+import IconButton from "./IconButton";
+import { ChatIcon } from "./Icons";
 
 export default function Navbar() {
   const router = useRouter();
@@ -16,7 +18,7 @@ export default function Navbar() {
 
   return (
     <Providers>
-      <div className="w-full bg-[#F8F8F8] md:w-[1200px] lg:w-[1450px] m-auto">
+      <div className="w-full bg-transparent md:w-[1200px] lg:w-[1450px] m-auto">
         <div className="py-6 flex items-center justify-between">
           <h2>Logo</h2>
           {accessToken ? (
@@ -28,6 +30,12 @@ export default function Navbar() {
                   </Button>
                 </Link>
               )}
+              <Link href="/messages">
+                <IconButton className="bg-gray-200 w-[35px] p-1.5 mr-4 h-[35px] flex items-center relative">
+                  <div className="bg-red-500 w-[10px] h-[10px] rounded-full absolute right-0 top-0"></div>
+                  <ChatIcon className="w-7 h-7 text-gray-700"/>
+                </IconButton>
+              </Link>
               <UserMenu />
             </div>
           ) : (

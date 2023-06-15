@@ -8,10 +8,15 @@ export default function TableItem({
   name,
   primaryFocus,
   category,
+  createdAt,
   coverImage
 }) {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   
+  const date = new Date(createdAt);
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+
   return (
     <div className="bg-white cursor-pointer w-full border-t border-gray-100 border-t-solid rounded-lg py-4 px-5">
       <div className="flex items-center w-full justify-between">
@@ -41,7 +46,9 @@ export default function TableItem({
           </p>
         </div>
         <div className="col-5 flex-1">
-          <p className="text-[14px] text-gray-500">July 12, 2023</p>
+          <p className="text-[14px] text-gray-500">
+            {formattedDate || '--'}
+          </p>
         </div>
         <div className="col-5">
           <TableItemActions itemId={itemId} />
