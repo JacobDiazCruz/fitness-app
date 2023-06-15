@@ -1,4 +1,8 @@
-import { getRequest, postRequest } from ".";
+import { 
+  getRequest, 
+  postRequest,
+  putRequest 
+} from ".";
 
 export const addExercise = async (data) => {
   const payload = {

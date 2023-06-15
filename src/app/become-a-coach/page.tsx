@@ -37,9 +37,9 @@ export default function BecomeACoach() {
       value: ""
     },
     {
-      label: "Are you a full-time or a part-time coach?",
-      field: "employmentType",
-      value: ""
+      label: "Select your services",
+      field: "services",
+      value: []
     },
     {
       label: "Upload coaching license if you have any",

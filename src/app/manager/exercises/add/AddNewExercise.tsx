@@ -12,10 +12,12 @@ import Header from "@/app/manager/Header";
 import { addExercise, uploadFiles } from "@/api/Exercise";
 import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../ExerciseForm";
-import useExercise from "../useExercise";
+import useExercise from "../../../../hooks/useExercise";
+import useAlert from "@/contexts/Alert";
 
 export default function AddNewExercise() {
   const router = useRouter();
+  const { dispatchAlert } = useAlert();
   const {
     initialFilesList,
     setInitialFilesList,
@@ -62,6 +64,10 @@ export default function AddNewExercise() {
         await addExerciseMutation.mutateAsync({
           ...exerciseForm,
           files: filesRes.data
+        });
+        dispatchAlert({
+          type: "SUCCESS",
+          message: "Exercise created successfully"
         });
         router.push('/manager/exercises');
       }

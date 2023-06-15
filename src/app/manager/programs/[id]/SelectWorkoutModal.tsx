@@ -35,7 +35,7 @@ export default function SelectWorkoutModal({ onClose }: any) {
         }
       });
     setWorkouts(filteredWorkouts);
-  }, [searchVal])
+  }, [searchVal]);
 
   return (
     <Modal onClose={onClose} className="w-[350px] h-[80%] p-7">

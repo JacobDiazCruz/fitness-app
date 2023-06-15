@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import TextField from "@/components/global/TextField";
 import Button from "@/components/global/Button";
 import { UploadIcon } from "@/components/global/Icons";
+import AutoComplete from "@/components/global/AutoComplete";
+import AutoCompleteMultiple from "@/components/global/AutoCompleteMultiple";
 
 export default function StepOne({
   stepOneForm,
@@ -13,7 +16,26 @@ export default function StepOne({
       updatedForm[index].value = newValue;
       return updatedForm;
     });
-  }
+  };
+
+  const [services, setServices] = useState<Array<any>>([
+    {
+      name: "Nutrition plan"
+    },
+    {
+      name: "Strength Training"
+    },
+    {
+      name: "Calisthenics Training"
+    },
+    {
+      name: "Bodybuilding"
+    }
+  ]);
+
+  useEffect(() => {
+    console.log("ste2pOneForm", stepOneForm);
+  }, [stepOneForm])
 
   return (
     <div className="form border border-solid border-gray-100 rounded-xl px-6 py-8">
@@ -31,12 +53,26 @@ export default function StepOne({
       </div>
       <div className="field mb-7">
         <h4 className="font-medium mb-3">
-          Are you a full-time or a part-time coach?
+          Select your services
         </h4>
-        <TextField
-          placeholder="Enter years"
+        <AutoCompleteMultiple
+          placeholder="Select services"
           value={stepOneForm[1].value}
-          onChange={(e) => updateFormValue(1, e.target.value)}
+          items={services}
+          onChange={(val) => {
+            setStepOneForm((prevForm) => {
+              const updatedForm = [...prevForm];
+              updatedForm[1].value.push(val);
+              return updatedForm;
+            });
+          }}
+          removeSelectedItem={(val) => {
+            setStepOneForm((prevForm) => {
+              const updatedForm = [...prevForm];
+              updatedForm[1].value = updatedForm[1].value.filter(item => item !== val);
+              return updatedForm;
+            });
+          }}
         />
       </div>
       <div className="field">

@@ -39,7 +39,7 @@ export default function ExerciseForm({
           </div>
           <div className="field-container mt-7">
             <p className="text-[14px] mb-2">Primary focus</p>
-            <AutoComplete 
+            <AutoComplete
               placeholder="Choose one"
               value={exerciseForm.primaryFocus}
               items={primayFocusItems}

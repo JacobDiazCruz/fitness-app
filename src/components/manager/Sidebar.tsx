@@ -80,7 +80,7 @@ export default function Sidebar () {
                 <div className="flex items-center" >
                   {item.icon}
                   {openNav && (
-                    <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-gray-500'} font-light ml-4 text-[14px]`}>{item.name}</p>
+                    <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-[#898995]'} font-light ml-4 text-[14px]`}>{item.name}</p>
                   )}
                 </div>
                 {!openNav && (
@@ -92,9 +92,14 @@ export default function Sidebar () {
             )
           })}
         </ul>
-        <hr />
-        <div className="p-5">
-          <UserMenu openNav={openNav} />
+        <div className="absolute bottom-0">
+          <hr />
+          <div className="pb-6 pt-4 px-5">
+            <UserMenu 
+              openNav={openNav} 
+              showTop={true} 
+            />
+          </div>
         </div>
 
         {/* {openNav && (

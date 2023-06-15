@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import Button from "@/components/global/Button";
 import { useRouter } from "next/navigation";
+import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 
 // export const initialExercises: Array[Exercise] = [
 //   {
@@ -79,6 +80,7 @@ import { useRouter } from "next/navigation";
 
 export default function YourExercises({}) {
   const router = useRouter();
+  const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   const [searchExercise, setSearchExercise] = useState<string>("");
   const [exercisesList, setExercisesList] = useState<Array[Exercise]>([]);
   const { isLoading, isError, data: initialExercises, error, refetch } = useQuery('exercises', listExercises);
@@ -96,30 +98,6 @@ export default function YourExercises({}) {
     e.dataTransfer.setData("exercise", JSON.stringify(exercise))
   }
 
-  const handlePrimaryFocusColor = (primaryFocus) => {
-    const collection = {
-      "Abs": "bg-green-200 text-green-900",
-      "Biceps": "bg-green-200 text-green-900",
-      "Core": "bg-green-200 text-green-900",
-      "Upper Chest": "bg-indigo-200 text-indigo-900",
-      "Middle Chest": "bg-cyan-200 text-cyan-900",
-      "Lower Chest": "bg-sky-200 text-sky-900",
-      "Triceps": "bg-blue-200 text-blue-900",
-      "Upper Back": "bg-violet-200 text-violet-900",
-      "Back Lats": "bg-purple-200 text-purple-900",
-      "Lower Back": "bg-fuchsia-200 text-fuchsia-900",
-      "Traps": "bg-pink-200 text-pink-900",
-      "Hamstrings (Legs)": "bg-red-200 text-red-900",
-      "Quadraceps (Legs)": "bg-rose-200 text-rose-900",
-      "Calves (Legs)": "bg-rose-200 text-rose-900",
-      "Forearms": "bg-amber-200 text-amber-900",
-      "Front Delts": "bg-orange-200 text-orange-900",
-      "Side Delts": "bg-yellow-200 text-yellow-900",
-      "Rear Delts": "bg-amber-200 text-amber-900"
-    }
-    return collection[primaryFocus];
-  }
-
   const PrimaryFocus = ({ primaryFocus }: string) => {
     return (
       <div 
@@ -131,7 +109,6 @@ export default function YourExercises({}) {
   }
 
   const DraggableExerciseItem = ({ exercise }: Exercise) => {
-    console.log("exercise", exercise)
     return (
       <div
         onDragStart={(e) => onDragStart(e, exercise)}

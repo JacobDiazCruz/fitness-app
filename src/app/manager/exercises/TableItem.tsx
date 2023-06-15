@@ -1,31 +1,7 @@
 import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
 import TableItemActions from "@/components/global/TableItemActions";
-
-const handlePrimaryFocusColor = (primaryFocus) => {
-  console.log("primaryFocus", primaryFocus)
-  const collection = {
-    "Abs": "bg-green-200 text-green-900",
-    "Biceps": "bg-green-200 text-green-900",
-    "Core": "bg-green-200 text-green-900",
-    "Upper Chest": "bg-indigo-200 text-indigo-900",
-    "Middle Chest": "bg-cyan-200 text-cyan-900",
-    "Lower Chest": "bg-sky-200 text-sky-900",
-    "Triceps": "bg-blue-200 text-blue-900",
-    "Upper Back": "bg-violet-200 text-violet-900",
-    "Back Lats": "bg-purple-200 text-purple-900",
-    "Lower Back": "bg-fuchsia-200 text-fuchsia-900",
-    "Traps": "bg-pink-200 text-pink-900",
-    "Hamstrings (Legs)": "bg-red-200 text-red-900",
-    "Quadraceps (Legs)": "bg-rose-200 text-rose-900",
-    "Calves (Legs)": "bg-rose-200 text-rose-900",
-    "Forearms": "bg-amber-200 text-amber-900",
-    "Front Delts": "bg-orange-200 text-orange-900",
-    "Side Delts": "bg-yellow-200 text-yellow-900",
-    "Rear Delts": "bg-amber-200 text-amber-900"
-  }
-  return collection[primaryFocus];
-}
+import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 
 export default function TableItem({
   itemId,
@@ -34,6 +10,7 @@ export default function TableItem({
   category,
   coverImage
 }) {
+  const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   
   return (
     <div className="bg-white cursor-pointer w-full border-t border-gray-100 border-t-solid rounded-lg py-4 px-5">

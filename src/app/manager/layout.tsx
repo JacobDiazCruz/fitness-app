@@ -7,6 +7,7 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Alert from "@/components/global/Alert";
 import Providers from "@/utils/provider";
 import WelcomePopup from "./WelcomePopup";
+import AppContextProvider from "@/contexts";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -20,14 +21,16 @@ export default function ManagerLayout ({
 }) {
   return (
     <Providers>
-      <div className="flex bg-white">
-        <Sidebar />
-        <Alert />
-        <WelcomePopup />
-        <div className="w-full p-10 height-[100vh]">
-          {children}
+      <AppContextProvider>
+        <div className="flex bg-white">
+          <Sidebar />
+          <WelcomePopup />
+          <Alert />
+          <div className="w-full p-10 height-[100vh]">
+            {children}
+          </div>
         </div>
-      </div>
+      </AppContextProvider>
     </Providers>
   );
 }

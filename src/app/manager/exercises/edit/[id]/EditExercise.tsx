@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, memo } from "react";
+import { useState, memo, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useMutation } from "react-query";
 import AutoComplete from "@/components/global/AutoComplete";
@@ -12,7 +12,7 @@ import Header from "@/app/manager/Header";
 import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
 import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../../ExerciseForm";
-import useExercise from "../../useExercise";
+import useExercise from "../../../../../hooks/useExercise";
 import { useQuery } from "react-query";
 
 export default function EditExercise() {
@@ -29,14 +29,40 @@ export default function EditExercise() {
     setCategoryItems
   } = useExercise();
 
+  // get exercise data
   const { 
-    isLoading, 
+    isLoading,
     isError,
-    data: exerciseData, 
+    data: exerciseData,
     error,
     refetch
-  } = useQuery('exercises', getExercise(params.id));
+  } = useQuery('exercise', () => getExercise(params.id), {
+    refetchOnMount: true
+  });
+
+  // assign exercise data to exercise form
+  useEffect(() => {
+    if (exerciseData) {
+      const { 
+        name, 
+        primaryFocus,
+        category, 
+        instruction, 
+        videoLink,
+        files
+      } = exerciseData;
   
+      setExerciseForm(() => ({
+        name,
+        primaryFocus,
+        category,
+        instruction,
+        videoLink,
+        files
+      }))
+    }
+  }, [exerciseData]);
+
   // edit exercise request
   const editExerciseMutation = useMutation(editExercise, {
     onSuccess: async (data) => {
@@ -68,16 +94,14 @@ export default function EditExercise() {
       const filesRes = await uploadFilesMutation.mutateAsync(formData);
 
       // call edit exercise mutation
-      if(filesRes.data.length) {
-        await editExerciseMutation.mutateAsync({
-          id: params.id,
-          data: {
-            ...exerciseForm,
-            files: filesRes.data
-          }
-        });
-        router.push('/manager/exercises');
-      }
+      await editExerciseMutation.mutateAsync({
+        id: params.id,
+        data: {
+          ...exerciseForm,
+          files: filesRes?.data
+        }
+      });
+      router.push('/manager/exercises');
     } catch(err) {
       console.log(err);
     }

@@ -16,11 +16,11 @@ export default function AddWorkout() {
         showActionButtons
       />
       <div className="flex gap-[40px]">
-        <div className="form bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 w-[25%] py-8 rounded-lg mt-5">
+        <div className="md:w-[40%] form bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 py-8 rounded-lg mt-5">
           <YourExercises />
         </div>
 
-        <div className="form bg-white border border-solid border-gray-200 shadow-sm w-[75%] p-8 rounded-lg mt-5">
+        <div className="form bg-white border border-solid border-gray-200 shadow-sm w-full p-8 rounded-lg mt-5">
           <EditExercises />
         </div>
       </div>

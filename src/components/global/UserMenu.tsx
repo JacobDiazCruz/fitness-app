@@ -12,7 +12,8 @@ import Link from "next/link";
 import Switch from "./Switch";
 
 export default function UserMenu({
-  openNav
+  openNav,
+  showTop = false
 }) {
   const router = useRouter();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
@@ -35,9 +36,14 @@ export default function UserMenu({
 
   const DropdownMenu = () => {
     return (
-      <div className="dropdown w-[250px] absolute z-[999] bg-white shadow-md rounded-md">
+      <div 
+        className={`${showTop && 'bottom-20'} dropdown w-[250px] absolute z-[999] bg-white shadow-md rounded-md`}
+      >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
-          <li className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100 flex items-center gap-[10px]">
+          <li 
+            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100 flex items-center gap-[10px]"
+            onClick={() => router.push('/manager/profile')}
+          >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
               <Image
                 alt="Trainer Image"
@@ -86,7 +92,10 @@ export default function UserMenu({
 
   return (
     <div ref={ref} className="user-menu">
-      <div className="flex items-center cursor-pointer" onClick={() => setOpenUserDropdown(!openUserDropdown)}>
+      <div 
+        className="flex items-center cursor-pointer"
+        onClick={() => setOpenUserDropdown(!openUserDropdown)}
+      >
         <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
           <Image
             alt="Trainer Image"

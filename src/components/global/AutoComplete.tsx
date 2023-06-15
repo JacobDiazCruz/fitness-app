@@ -9,7 +9,7 @@
   />
 **/
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface Props {
@@ -19,23 +19,26 @@ interface Props {
   startIcon: SVGAElement;
   items: Array<any>;
   placeholder: string;
+  multiple: boolean;
   onChange: () => void;
   required: boolean;
 };
 
-export default function AutoComplete({
+function AutoComplete({
   value,
-  addClass,
-  type,
+  addClass = "",
+  type = "text",
   items,
   startIcon,
-  placeholder,
+  multiple = false,
+  placeholder = "",
   onChange,
-  required
+  required = false
 }: Props) {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [filteredItems, setFilteredItems] = useState<Array>(items);
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState<string | Array<any>>(value);
+  const [key, setKey] = useState<number>(0); // Add key state
 
   const ref = useOutsideClick(() => {
     setOpenDropdown(false);
@@ -44,13 +47,19 @@ export default function AutoComplete({
   useEffect(() => {
     // filter dropdown items based on input value
     const newItems = items.filter((item) => {
-      if(item.name.includes(inputValue)) {
-        return item.name
-      }
+      return item.name
+      // if(item.name.includes(inputValue)) {
+      //   return item.name
+      // }
     });
     setFilteredItems(newItems);
     setInputValue(inputValue);
   }, [inputValue]);
+
+  useEffect(() => {
+    setInputValue(value);
+    setKey(prevKey => prevKey + 1); // Update key whenever value changes
+  }, [value]);
 
   // used to assign default value to input whenever the dropdown is toggled
   useEffect(() => {
@@ -59,18 +68,28 @@ export default function AutoComplete({
 
   // check if the valued type exists in the list. if it doesn't, empty the input
 
+  const handleOpenDropdown = () => {
+    if(!openDropdown) {
+      setOpenDropdown(true)
+    }
+  };
+
   const DropdownList = () => {
+    const handleClickDropdownItem = (name) => {
+      onChange(name);
+      setInputValue(name);
+      if(!multiple) {
+        setOpenDropdown(false);
+      }
+    };
+
     return (
       <ul ref={ref} className="z-[100] absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
         {filteredItems.length ? (
           <>
             {filteredItems?.map((item: any) => (
               <li
-                onClick={() => {
-                  onChange(item.name);
-                  setInputValue(item.name);
-                  setOpenDropdown(false);
-                }}
+                onClick={() => handleClickDropdownItem(item.name)}
                 className="relative hover:bg-gray-100 cursor-pointer select-none py-2 px-4 text-gray-900" id="headlessui-combobox-option-:rm:" role="option" tabindex="-1" aria-selected="false" data-headlessui-state=""
               >
                 <span className="block truncate font-normal">{item.name}</span>
@@ -87,12 +106,12 @@ export default function AutoComplete({
   }
 
   return (
-    <div className="autocomplete-field">
+    <div className="autocomplete-field" key={key}>
       <div
         className="relative w-full cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
       >
         <input
-          onClick={() => !openDropdown && setOpenDropdown(true)}
+          onClick={() => handleOpenDropdown()}
           onChange={(e: any) => setInputValue(e.target.value)}
           placeholder={placeholder}
           type={type}
@@ -124,10 +143,4 @@ export default function AutoComplete({
   );
 }
 
-AutoComplete.defaultProps = {
-  value: "",
-  addClass: "",
-  type: "text",
-  placeholder: "",
-  required: false
-}
+export default memo(AutoComplete);
