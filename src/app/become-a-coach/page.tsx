@@ -22,7 +22,6 @@ const Stepper = ({ currentStep }: number) => {
     <div className="flex items-center gap-[10px] mb-10">
       <div className={`${currentStep === 1 || currentStep === 2 ? 'bg-violet-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
       <div className={`${currentStep === 2 ? 'bg-violet-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
-      <div className={`${currentStep === 3 ? 'bg-violet-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
     </div>
   );
 }
@@ -74,9 +73,23 @@ export default function BecomeACoach() {
     if(currentStep === 1) {
       setCurrentStep(2)
     } else if (currentStep === 2) {
+      // submit form request
+      let stepOneData = {};
+      let stepTwoData = {};
+
+      stepOneForm.forEach((form, key) => {
+        stepOneData[form.field] = form.value
+      });
+      stepTwoForm.forEach((form, key) => {
+        stepTwoData[form.field] = form.value
+      });
+
       becomeCoachMutation.mutateAsync({
-        profileId: "",
-        data: {}
+        userId: localStorage.getItem("userId"),
+        data: {
+          ...stepOneData,
+          ...stepTwoData
+        }
       })
     }
   }

@@ -50,6 +50,7 @@ const Signin = () => {
   const loginGoogleMutation = useMutation(loginGoogle, {
     onSuccess: async (data) => {
       const { userId, accessToken, profileImage, firstName, lastName, email } = data;
+      localStorage.setItem("userId", userId);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("profileImage", profileImage);
       localStorage.setItem("firstName", firstName);

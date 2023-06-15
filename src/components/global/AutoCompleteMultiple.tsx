@@ -9,7 +9,7 @@
   />
 **/
 
-import { memo, useEffect, useState } from "react";
+import { memo, SyntheticEvent, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { CloseIcon } from "./Icons";
 
@@ -112,7 +112,7 @@ function AutoComplete({
             ))}
             <input
               onClick={() => handleOpenDropdown()}
-              onChange={(e: any) => setInputValue(e.target.value)}
+              onChange={(e: SyntheticEvent) => setInputValue(e.target.value)}
               type={type}
               required={required}
               className="bg-transparent py-2 px-1 flex-1 min-w-0"

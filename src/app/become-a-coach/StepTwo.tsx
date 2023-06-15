@@ -6,7 +6,7 @@ export default function StepTwo({
   setStepTwoForm
 }) {
   const updateFormValue = (index, newValue) => {
-    setStepOneForm((prevForm) => {
+    setStepTwoForm((prevForm) => {
       const updatedForm = [...prevForm];
       updatedForm[index].value = newValue;
       return updatedForm;
@@ -21,7 +21,7 @@ export default function StepTwo({
         </h4>
         <TextArea 
           placeholder=""
-          value={stepTwoForm.value}
+          value={stepTwoForm[0].value}
           onChange={(e) => updateFormValue(0, e.target.value)}
         />
       </div>

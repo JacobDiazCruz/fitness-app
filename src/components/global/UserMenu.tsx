@@ -27,6 +27,12 @@ export default function UserMenu({
   // logout request
   const logoutMutation = useMutation(logoutUser, {
     onSuccess: (data) => {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("profileImage");
+      localStorage.removeItem("firstName");
+      localStorage.removeItem("lastName");
+      localStorage.removeItem("email");
       router.push('/signin')
     },
     onError: (err) => {

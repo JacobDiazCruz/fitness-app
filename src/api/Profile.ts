@@ -8,9 +8,9 @@ export const getProfile = async (userId) => {
   return res.data.data;
 };
 
-export const becomeCoach = async ({ profileId, data }) => {
+export const becomeCoach = async ({ userId, data }) => {
   const payload = {
-    url: `/profile/${profileId}`,
+    url: `/profile/become-coach/${userId}`,
     data
   };
   const res = await patchRequest(payload);
