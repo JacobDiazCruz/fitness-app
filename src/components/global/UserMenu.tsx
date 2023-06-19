@@ -11,12 +11,14 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 import Switch from "./Switch";
 import useTheme from "@/contexts/Theme";
+import useDarkTheme from "@/hooks/useDarkTheme";
 
 export default function UserMenu({
   openNav,
   showTop = false
 }) {
   const router = useRouter();
+  const { secondaryBgColor } = useDarkTheme();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
   const [accessToken, setAccessToken] = useState("");
@@ -45,11 +47,15 @@ export default function UserMenu({
   const DropdownMenu = () => {
     return (
       <div 
-        className={`${showTop && 'bottom-20'} dropdown w-[250px] absolute z-[999] bg-white shadow-md rounded-md`}
+        className={`
+          ${showTop && 'bottom-20'}
+          ${secondaryBgColor}
+          dropdown w-[250px] absolute z-[999] shadow-md rounded-md`
+        }
       >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
           <li 
-            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100 flex items-center gap-[10px]"
+            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900 flex items-center gap-[10px]"
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
@@ -61,30 +67,30 @@ export default function UserMenu({
               />
             </div>
             <div>
-              <p className="text-[14px] text-gray-800 font-medium">
+              <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">
                 John Doe
               </p>
-              <p className="text-[12px] text-gray-500 font-light">
+              <p className="dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
                 johndoe@gmail.com
               </p>
             </div>
           </li>
-          <hr className="my-2" />
-          <li className="block px-4 py-2 flex items-center justify-between gap-[10px]">
+          <hr className="my-2 dark:border-neutral-700 border-neutral-200" />
+          <li className="dark:text-neutral-200 text-gray-900 px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Public coaching profile</div>
             <Switch />
           </li>
-          <li className="block px-4 py-2 flex items-center justify-between gap-[10px]">
+          <li className="dark:text-neutral-200 text-gray-900 block px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Dark mode</div>
             <Switch 
               value={darkMode}
               handleClick={() => toggleDarkMode()}
             />
           </li>
-          <li onClick={() => router.push('/manager/exercises')} className="cursor-pointer">
+          <li onClick={() => router.push('/manager/exercises')} className="dark:text-neutral-200 text-gray-900 cursor-pointer">
             <Link 
               href="/manager/profile" 
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100"
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900"
             >
               Open Manager
             </Link>
@@ -94,9 +100,9 @@ export default function UserMenu({
               localStorage.removeItem("accessToken")
               logoutMutation.mutateAsync({ accessToken })
             }}
-            className="cursor-pointer"
+            className="dark:text-neutral-200 text-gray-900 cursor-pointer"
           >
-            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
               Sign out
             </div>
           </li>
@@ -122,8 +128,8 @@ export default function UserMenu({
         {openNav && (
           <div>
             <p 
-              className={
-                `${darkMode ? 'text-white' : 'text-gray-800'}
+              className={`
+                dark:text-neutral-200 text-gray-900
                 ml-2 text-[14px] font-medium
               `}
             >

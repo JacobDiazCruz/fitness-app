@@ -11,6 +11,7 @@
 
 import { memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import useDarkTheme from "@/hooks/useDarkTheme";
 
 interface Props {
   value: string | number;
@@ -35,6 +36,7 @@ function AutoComplete({
   onChange,
   required = false
 }: Props) {
+  const { fieldBgColor, secondaryTextColor } = useDarkTheme();
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [filteredItems, setFilteredItems] = useState<Array>(items);
   const [inputValue, setInputValue] = useState<string | Array<any>>(value);
@@ -106,9 +108,9 @@ function AutoComplete({
   }
 
   return (
-    <div className="autocomplete-field" key={key}>
+    <div className="autocomplete-field rounded-lg" key={key}>
       <div
-        className="relative w-full cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
+        className="relative w-full rounded-lg cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm"
       >
         <input
           onClick={() => handleOpenDropdown()}
@@ -117,7 +119,11 @@ function AutoComplete({
           type={type}
           required={required}
           value={inputValue}
-          className="w-full bg-[#f6f6f6] border border-gray-200 p-2.5 text-sm leading-5 rounded-lg text-gray-900" 
+          className={`
+            ${fieldBgColor}
+            ${secondaryTextColor}
+            w-full border border-gray-200 p-2.5 text-sm leading-5
+          `} 
           role="combobox"
           type="text"
           aria-expanded="false"

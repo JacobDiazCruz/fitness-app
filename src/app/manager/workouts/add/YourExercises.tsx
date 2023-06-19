@@ -113,7 +113,7 @@ export default function YourExercises({}) {
       <div
         onDragStart={(e) => onDragStart(e, exercise)}
         draggable
-        className="cursor-grab bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[10px] h-[83px]"
+        className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[10px] h-[83px]"
       >
         <div className="bg-gray-600 rounded-sm flex items-center w-[40%] h-full overflow-hidden relative">
           <Image
@@ -124,7 +124,9 @@ export default function YourExercises({}) {
           />
         </div>
         <div className="pr-3 w-[60%]">
-          <p className="text-[14px]">{exercise.name}</p>
+          <p className="dark:text-neutral-50 text-neutral-950 text-[14px]">
+            {exercise.name}
+          </p>
           <div className="flex">
             <PrimaryFocus primaryFocus={exercise.primaryFocus} />
           </div>
@@ -139,7 +141,9 @@ export default function YourExercises({}) {
   return (
     <>
       <div className="px-6">
-        <h2 className="text-[18px] font-medium">Your Exercises</h2>
+        <h2 className="dark:text-neutral-50 text-neutral-950 text-[18px] font-medium">
+          Your Exercises
+        </h2>
         <div className="mt-5">
           <TextField
             startIcon={<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>}

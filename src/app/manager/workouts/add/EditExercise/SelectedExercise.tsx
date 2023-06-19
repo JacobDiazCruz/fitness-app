@@ -19,8 +19,8 @@ const SelectedExercise = ({
   </svg>;
 
   return (
-    <div className="border border-solid border-gray-200 overflow-hidden">
-      <div className="py-2 px-4 bg-gray-100 h-[55px] flex justify-between items-center">
+    <div className="dark:border-neutral-700 border-gray-200 border border-solid overflow-hidden">
+      <div className="py-2 px-4 dark:bg-neutral-900 bg-gray-100 h-[55px] flex justify-between items-center">
         <div className="flex gap-[10px] items-center">
           {showCheckInput && (
             <input
@@ -40,7 +40,7 @@ const SelectedExercise = ({
             />
           </div>
           <div>
-            <p>{exercise.name}</p>
+            <p className="dark:text-neutral-50 text-neutral-950">{exercise.name}</p>
           </div>
           <div className="rounded-md text-center bg-[#DAF6E0] text-[#015212] px-2 text-[13px]">
             Core
@@ -50,10 +50,10 @@ const SelectedExercise = ({
           {trashIcon}
         </button>
       </div>
-      <div className="bg-white p-6">
+      <div className="dark:bg-neutral-950 bg-white p-6">
         <div className="flex gap-[15px]">
           <div className="field">
-            <p className="mb-2">Set</p>
+            <p className="dark:text-neutral-50 text-neutral-950 mb-2">Set</p>
             <AutoComplete
               items={[
                 {
@@ -64,14 +64,14 @@ const SelectedExercise = ({
             />
           </div>
           <div className="field">
-            <p className="mb-2">Reps</p>
+            <p className="dark:text-neutral-50 text-neutral-950 mb-2">Reps</p>
             <TextField
               value={setReps}
               onChange={(val) => setSelectedSet(val)}
             />
           </div>
           <div className="field">
-            <p className="mb-2">Rest</p>
+            <p className="dark:text-neutral-50 text-neutral-950 mb-2">Rest</p>
             <TextField
               value={setReps}
               onChange={(val) => setSelectedSet(val)}

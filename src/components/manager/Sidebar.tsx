@@ -11,7 +11,7 @@ export default function Sidebar () {
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode } = useTheme();
-  const { borderColor, primaryBgColor } = useDarkTheme();
+  const { borderColor, primaryBgColor, secondaryBgColor } = useDarkTheme();
 
   const [openNav, setOpenNav] = useState(true);
   const [navItems, setNavItems] = useState([
@@ -81,9 +81,9 @@ export default function Sidebar () {
     return (
       <li
         className={`
-          ${(isActive && darkMode) && 'bg-gray-900 '} 
+          ${(isActive && darkMode) && 'bg-neutral-800 '} 
           ${(isActive && !darkMode) && 'bg-[#eeeeee]'}
-          ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-[#f2f2f2]'}
+          ${darkMode ? 'hover:bg-neutral-900' : 'hover:bg-[#f2f2f2]'}
           rounded-lg group relative cursor-pointer px-3 py-2
         `}
         onClick={() => router.push(path)}
@@ -113,7 +113,13 @@ export default function Sidebar () {
   }
 
   return (
-    <div className={`${darkMode ? "bg-black" : "bg-[#f7f7f7]"} ${openNav ? 'w-[270px]' : 'w-[85px]'} h-[100vh] border-r border-r-solid border-gray-200 sticky top-0`}>
+    <div className={`
+      ${darkMode ? "bg-black" : "bg-[#f7f7f7]"} 
+      ${openNav ? 'w-[270px]' : 'w-[85px]'}
+      ${borderColor}
+      h-[100vh] border-r border-r-solid sticky top-0`
+      }
+    >
       <div className="px-6 pt-8">
         <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
           <div className="m-auto text-white font-medium">L.</div>

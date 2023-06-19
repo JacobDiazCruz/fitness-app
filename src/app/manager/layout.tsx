@@ -9,6 +9,7 @@ import Providers from "@/utils/provider";
 import AppContextProvider from "@/contexts";
 import WelcomePopup from "./WelcomePopup";
 import MobileTopbar from "@/components/manager/MobileTopbar";
+import ThemeWrapper from "./ThemeWrapper";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -28,9 +29,9 @@ export default function ManagerLayout ({
           <Sidebar />
           <WelcomePopup />
           <Alert />
-          <div className="w-full p-10 height-[100vh]">
+          <ThemeWrapper>
             {children}
-          </div>
+          </ThemeWrapper>
         </div>
       </AppContextProvider>
     </Providers>

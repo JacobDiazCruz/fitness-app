@@ -1,4 +1,6 @@
 'use client';
+
+import useDarkTheme from "@/hooks/useDarkTheme";
 import { useState } from "react";
 
 interface Props {
@@ -12,14 +14,15 @@ interface Props {
 };
 
 export default function TextField({
-  value,
-  className,
-  type,
+  value = "",
+  className = "",
+  type = "text",
   startIcon,
-  placeholder,
-  onChange,
-  required
+  placeholder = "",
+  onChange = () => {},
+  required = false
 }: Props) {
+  const { fieldBgColor, primaryTextColor } = useDarkTheme();
   return (
     <div className="text-field relative z-[10]">
       {startIcon && (
@@ -31,8 +34,10 @@ export default function TextField({
         type={type}
         className={`
           ${startIcon && 'pl-8'}
-          ${className} 
-          bg-[#f6f6f6] border h-[45px] z-[10] relative text-gray-900 text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 border-gray-200 placeholder-gray-400`} 
+          ${className}
+          ${fieldBgColor}
+          ${primaryTextColor}
+          border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 placeholder-gray-400`} 
         placeholder={placeholder}
         required={required}
         onChange={onChange}
@@ -40,13 +45,4 @@ export default function TextField({
       />
     </div>
   );
-}
-
-TextField.defaultProps = {
-  value: "",
-  className: "",
-  type: "text",
-  placeholder: "",
-  required: false,
-  onChange: () => {}
 }

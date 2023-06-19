@@ -95,7 +95,7 @@ export default function MappedExercises({
       {selectedExercises?.map((exercise: any, index: number) => (
         <div key={exercise.secondaryId} className="relative">
           <div
-            className="bg-gray-200 w-full h-[180px] absolute rounded-lg"
+            className="dark:bg-neutral-900 bg-neutral-200 w-full h-[180px] absolute rounded-lg"
             style={{
               display: draggedExercise === exercise ? "block" : "none"
             }}

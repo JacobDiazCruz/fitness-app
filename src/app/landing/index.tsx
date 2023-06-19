@@ -14,14 +14,16 @@ export default function Landing() {
   return (
     <div className="landing-page">
       <div>
-        <h1 className="text-[62px] font-bold">Train with better coaches</h1>
-        <p className="text-[24px] text-gray-600 mt-1">
+        <h1 className="dark:text-neutral-50 text-neutral-950 text-[62px] font-bold">
+          Train with better coaches
+        </h1>
+        <p className="dark:text-neutral-200 text-neutral-800 text-[24px] text-gray-600 mt-1">
           Discover the best coaches that can help you achieve your fitness goals
         </p>
       </div>
       <div className="flex flex-wrap items-center mt-20">
         {trainersList.map(trainer => (
-          <div 
+          <div
             onClick={() => router.push('/trainer')}
             style={{
               paddingRight: '15px',

@@ -7,10 +7,11 @@ import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
+import useDarkTheme from "@/hooks/useDarkTheme";
 
-const TableColumnHeaders = () => {
+const TableColumnHeaders = ({ primaryTextColor }: string) => {
   return (
-    <div className="flex justify-between px-5 py-3 text-[14px]">
+    <div className={`${primaryTextColor} flex justify-between px-5 py-3 text-[14px]`}>
       <div className="flex-1">
         <p>Exercises</p>
       </div>
@@ -31,6 +32,7 @@ const TableColumnHeaders = () => {
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [filteredExercises, setFilteredExercises] = useState([]);
+  const { primaryTextColor } = useDarkTheme();
   const { 
     isLoading, 
     isError,
@@ -87,10 +89,10 @@ export default function Table() {
         }}
       />
       <div className="page-table mt-8">
-        <TableColumnHeaders />
+        <TableColumnHeaders primaryTextColor={primaryTextColor} />
         {filteredExercises?.length <= 0 ? (
           <div className="border-t border-t-solid border-gray-100">
-            <p className="text-center mt-[70px] text-[14px] text-gray-500 font-light">
+            <p className={`${primaryTextColor} text-center mt-[70px] text-[14px] font-light`}>
               No results found.
             </p>
           </div>

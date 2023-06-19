@@ -16,7 +16,9 @@ export default function EditExercises() {
   const WorkoutNameField = () => {
     return (
       <div className="field w-[50%]">
-        <p className="mb-3 text-[14px]">Workout name</p>
+        <p className="dark:text-neutral-50 text-neutral-950 mb-3 text-[14px]">
+          Workout name
+        </p>
         <TextField placeholder="e.g. Chest workout" />
       </div>
     );
@@ -92,17 +94,21 @@ export default function EditExercises() {
         onDragOver={onDragOverFromExercises}
         onDrop={(e) => onDropFromExercises(e)}
       >
-        <p className="mb-3 text-[14px]">Exercises</p>
-        <div className="btn-actions flex items-center sticky top-[0] h-[70px] bg-white z-[500] border-b border-b-solid border-gray-200 shadow-sm">
+        <p className="mb-3 text-[14px] dark:text-neutral-50 text-neutral-950">
+          Exercises
+        </p>
+        <div className="dark:bg-neutral-950 bg-white dark:border-neutral-700 border-gray-200 btn-actions flex items-center sticky top-[0] h-[70px] z-[500] border-b border-b-solid shadow-sm">
           <Button
-            variant="outlined mr-2"
+            variant="outlined"
+            className="mr-2"
             startIcon={<CubeTransparentIcon />}
             onClick={() => makeSuperset()}
           >
             Merge Superset
           </Button>
           <Button
-            variant="outlined mr-2"
+            variant="outlined"
+            className="mr-2"
             startIcon={<CubeTransparentIcon />}
             onClick={() => unmergeSuperset()}
           >
@@ -119,12 +125,14 @@ export default function EditExercises() {
           selectedExercises={selectedExercises}
           setSelectedExercises={setSelectedExercises}
         />
-        <div className="border-[2px] rounded-lg border-dashed border-gray-200 mt-5 h-[196px] flex items-center">
+        <div className="border-[2px] rounded-lg border-dashed dark:border-neutral-700 border-gray-200 mt-5 h-[196px] flex items-center">
           <div className="m-auto">
-            <div className="rounded-full w-[52px] h-[52px] bg-gray-100 flex m-auto items-center">
+            <div className="rounded-full w-[52px] h-[52px] dark:bg-neutral-900 bg-gray-100 flex m-auto items-center">
               <BarbellIcon className="m-auto w-6 h-6 fill-gray-500" />
             </div>
-            <p className="mt-3 text-[16px] text-gray-500">Drag &amp; Drop your exercise</p>
+            <p className="dark:text-neutral-400 text-neutral-500 mt-3 text-[16px]">
+              Drag &amp; Drop your exercise
+            </p>
           </div>
         </div>
       </div>

@@ -53,26 +53,34 @@ export default function Profile() {
             </div>
             <div className="flex flex-wrap w-[650px] gap-[15px]">
               <div className="field w-half">
-                <h4 className="mb-2">First name</h4>
+                <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                  First name
+                </p>
                 <TextField 
                   value="John Doe"
                 />
               </div>
               <div className="field w-half">
-                <h4 className="mb-2">Last name</h4>
+                <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                  Last name
+                </p>
                 <TextField
                   value="John Doe"
                 />
               </div>
               <div className="field w-full mt-4">
-                <h4 className="mb-2">Email</h4>
+                <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                  Email
+                </p>
                 <TextField
                   disabled
                   value="John Doe"
                 />
               </div>
               <div className="field w-half mt-4">
-                <h4 className="mb-2">Contact number</h4>
+                <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                  Contact number
+                </p>
                 <TextField
                   disabled
                   value="John Doe"
@@ -94,7 +102,9 @@ export default function Profile() {
             {servicesList.map((service: Service, key: number) => (
               <div className="pb-5 flex gap-[20px] w-full">
                 <div className="w-[226px]">
-                  <p className="mb-2">Title</p>
+                  <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                    Title
+                  </p>
                   <TextField 
                     value={service.title}
                     placeholder="e.g. Nutrition plan"
@@ -102,7 +112,9 @@ export default function Profile() {
                   />
                 </div>
                 <div className="w-[350px]">
-                  <p className="mb-2">Description</p>
+                  <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                    Description
+                  </p>
                   <TextField
                     value={service.description}
                     className="h-[49px]"
@@ -110,7 +122,9 @@ export default function Profile() {
                   />
                 </div>
                 <div className="w-[90px]">
-                  <p className="mb-2">Price</p>
+                  <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+                    Price
+                  </p>
                   <TextField
                     value={service.price}
                     placeholder="Enter price"

@@ -1,4 +1,5 @@
 'use client';
+import useDarkTheme from "@/hooks/useDarkTheme";
 import { useState } from "react";
 
 interface Props {
@@ -20,6 +21,8 @@ export default function TextArea({
   onChange,
   required
 }: Props) {
+  const { secondaryTextColor, fieldBgColor } = useDarkTheme();
+  
   return (
     <div className="text-field relative">
       {startIcon && (
@@ -32,7 +35,9 @@ export default function TextArea({
         cols="60"
         className={`
           ${startIcon && 'pl-10'}
-          ${className} 
+          ${className}
+          ${secondaryTextColor}
+          ${fieldBgColor}
           bg-[#f6f6f6] border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-300 block w-full p-2.5 border-gray-200 placeholder-gray-400`} 
         placeholder={placeholder}
         required={required}
