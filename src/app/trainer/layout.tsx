@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <>
       <Navbar />
-      <div className="my-[100px] mx-auto w-[1250px] xl:w-[1450px]">
+      <div className="my-[100px] mx-auto w-[1250px] xl:w-[1300px] 2xl:w-[1450px]">
         {children}
       </div>
     </>

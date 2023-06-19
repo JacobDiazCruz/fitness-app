@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function Landing() {
   const router = useRouter();
   const [trainersList, setTrainersList] = useState([
-    1,2,3,4,5,67,7
+    1,2,3,4,5,69,7
   ]);
 
   return (

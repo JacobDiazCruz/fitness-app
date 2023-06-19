@@ -10,6 +10,7 @@ import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 import Switch from "./Switch";
+import useTheme from "@/contexts/Theme";
 
 export default function UserMenu({
   openNav,
@@ -19,6 +20,7 @@ export default function UserMenu({
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
   const [accessToken, setAccessToken] = useState("");
+  const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     setAccessToken(localStorage.getItem("accessToken"));
@@ -69,8 +71,15 @@ export default function UserMenu({
           </li>
           <hr className="my-2" />
           <li className="block px-4 py-2 flex items-center justify-between gap-[10px]">
-            <div>Public profile</div>
+            <div>Public coaching profile</div>
             <Switch />
+          </li>
+          <li className="block px-4 py-2 flex items-center justify-between gap-[10px]">
+            <div>Dark mode</div>
+            <Switch 
+              value={darkMode}
+              handleClick={() => toggleDarkMode()}
+            />
           </li>
           <li onClick={() => router.push('/manager/exercises')} className="cursor-pointer">
             <Link 
@@ -80,7 +89,7 @@ export default function UserMenu({
               Open Manager
             </Link>
           </li>
-          <li 
+          <li
             onClick={() => {
               localStorage.removeItem("accessToken")
               logoutMutation.mutateAsync({ accessToken })
@@ -112,10 +121,20 @@ export default function UserMenu({
         </div>
         {openNav && (
           <div>
-            <p className="ml-2 text-[14px] text-gray-800 font-medium">
+            <p 
+              className={
+                `${darkMode ? 'text-white' : 'text-gray-800'}
+                ml-2 text-[14px] font-medium
+              `}
+            >
               John Doe
             </p>
-            <p className="ml-2 text-[12px] text-gray-500 font-light">
+            <p
+              className={
+                `${darkMode ? 'text-gray-400' : 'text-gray-500'}
+                ml-2 text-[12px] font-light
+              `}
+            >
               johndoe@gmail.com
             </p>
           </div>

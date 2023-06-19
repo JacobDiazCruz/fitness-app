@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <Providers>
-      <div className="w-full bg-transparent md:w-[1200px] lg:w-[1450px] m-auto">
+      <div className="w-full bg-transparent xl:w-[1300px] 2xl:w-[1450px] m-auto">
         <div className="py-6 flex items-center justify-between">
           <h2>Logo</h2>
           {accessToken ? (

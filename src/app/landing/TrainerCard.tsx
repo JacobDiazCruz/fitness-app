@@ -19,8 +19,10 @@ export default function TrainerCard() {
     status: "Top Coach"
   });
 
+  const cardSize = 'xl:w-[415px] 2xl:w-[342px]';
+
   return (
-    <div className="bg-white rounded-lg w-[342px] h-[390px] overflow-hidden cursor-pointer">
+    <div className={`${cardSize} bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer`}>
       <div className="w-full h-[200px] relative overflow-hidden">
         <Image
           alt="Cover Image"

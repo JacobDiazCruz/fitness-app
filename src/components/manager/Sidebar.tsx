@@ -4,10 +4,14 @@ import { usePathname } from 'next/navigation';
 import Link from "next/link";
 import UserMenu from '../global/UserMenu';
 import { CalendarIcon, ChatIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "../global/Icons";
+import useTheme from "@/contexts/Theme";
+import useDarkTheme from "@/hooks/useDarkTheme";
 
 export default function Sidebar () {
   const router = useRouter();
   const pathname = usePathname();
+  const { darkMode } = useTheme();
+  const { borderColor, primaryBgColor } = useDarkTheme();
 
   const [openNav, setOpenNav] = useState(true);
   const [navItems, setNavItems] = useState([
@@ -55,7 +59,12 @@ export default function Sidebar () {
     return (
       <div
         onClick={() => setOpenNav(!openNav)}
-        className={`bg-white ${openNav ? 'ml-[215px]' : 'ml-[60px]'} shadow-md rounded-full w-[35px] h-[35px] flex border border-solid border-[#ECECEC] cursor-pointer z-[100] absolute`}
+        className={`
+          ${borderColor}
+          ${primaryBgColor}
+          ${openNav ? 'ml-[215px]' : 'ml-[60px]'} 
+          shadow-md rounded-full w-[35px] h-[35px] flex border border-solid cursor-pointer z-[100] absolute
+        `}
       >
         {openNav ? (
           <svg t="1685329522863" className="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4186" width="18" height="18"><path d="M268.8 480L633.6 149.333333c17.066667-14.933333 44.8-14.933333 59.733333 2.133334 6.4 8.533333 10.666667 19.2 10.666667 29.866666v661.333334c0 23.466667-19.2 42.666667-42.666667 42.666666-10.666667 0-21.333333-4.266667-27.733333-10.666666l-362.666667-330.666667c-17.066667-14.933333-19.2-42.666667-2.133333-59.733333-2.133333-2.133333 0-2.133333 0-4.266667z" fill="#666666" p-id="4187"></path></svg>
@@ -71,14 +80,25 @@ export default function Sidebar () {
 
     return (
       <li
-        className={`${isActive && 'bg-[#eeeeee]'} rounded-lg group relative hover:bg-[#f2f2f2] cursor-pointer px-3 py-2`}
+        className={`
+          ${(isActive && darkMode) && 'bg-gray-900 '} 
+          ${(isActive && !darkMode) && 'bg-[#eeeeee]'}
+          ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-[#f2f2f2]'}
+          rounded-lg group relative cursor-pointer px-3 py-2
+        `}
         onClick={() => router.push(path)}
         key={name}
       >
         <div className="flex items-center">
           {icon}
           {openNav && (
-            <p className={`${isActive ? 'text-[#24282C] font-medium' : 'text-[#898995]'} font-light ml-4 text-[12px]`}>
+            <p
+              className={`
+                ${(isActive && darkMode) ? "text-white font-medium" : "text-[#898995]"}
+                ${(isActive && !darkMode) ? 'text-[#24282C] font-medium' : 'text-[#898995]'} 
+                font-light ml-4 text-[12px]
+              `}
+            >
               {name}
             </p>
           )}
@@ -93,65 +113,68 @@ export default function Sidebar () {
   }
 
   return (
-    <>
-      <div className={`bg-[#f7f7f7] ${openNav ? 'w-[270px]' : 'w-[85px]'} h-[100vh] border-r border-r-solid border-gray-200 sticky top-0`}>
-        <div className="px-6 pt-8">
-          <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
-            <div className="m-auto text-white font-medium">L.</div>
-          </div>
+    <div className={`${darkMode ? "bg-black" : "bg-[#f7f7f7]"} ${openNav ? 'w-[270px]' : 'w-[85px]'} h-[100vh] border-r border-r-solid border-gray-200 sticky top-0`}>
+      <div className="px-6 pt-8">
+        <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
+          <div className="m-auto text-white font-medium">L.</div>
         </div>
-        <hr className="mt-6 absolute w-full"/>
-        <ToggleButton />
-        <ul className="pt-9 pb-3 px-3">
-          {navItems.map((item, key) => {
-            return (
-              <List
-                key={key}
-                path={item.path}
-                name={item.name}
-                icon={item.icon}
-              />
-            )
-          })}
-        </ul>
-        <hr />
-        <ul className="pb-3 px-3 pt-6">
+      </div>
+      <hr className={`${borderColor} mt-6 absolute w-full`} />
+      <ToggleButton />
+      <ul className="pt-9 pb-3 px-3">
+        {navItems.map((item, key) => {
+          return (
+            <List
+              key={key}
+              path={item.path}
+              name={item.name}
+              icon={item.icon}
+            />
+          )
+        })}
+      </ul>
+      <hr className={borderColor}/>
+      <ul className="pb-3 px-3 pt-6">
+        {openNav && (
           <p className="text-[13px] text-[#898995] px-3 mb-1">
             Fitness
           </p>
-          {fitnessNavItems.map((item, key) => {
-            return (
-              <List
-                key={key}
-                path={item.path}
-                name={item.name}
-                icon={item.icon}
-              />
-            )
-          })}
-        </ul>
-
-        {/* User Menu */}
-        <div className="absolute bottom-0 bg-[#f7f7f7] w-full">
-          <hr />
-          <div className="pb-6 pt-4 px-5">
-            <UserMenu 
-              openNav={openNav}
-              showTop={true} 
+        )}
+        {fitnessNavItems.map((item, key) => {
+          return (
+            <List
+              key={key}
+              path={item.path}
+              name={item.name}
+              icon={item.icon}
             />
+          )
+        })}
+      </ul>
+
+      {/* User Menu */}
+      <div className={`
+        ${primaryBgColor}
+        absolute bottom-0 w-full`}
+      >
+        <hr className={borderColor} />
+        <div className="pb-6 pt-4 px-5">
+          <UserMenu
+            openNav={openNav}
+            showTop={true}
+          />
+        </div>
+      </div>
+
+      {/* {openNav && (
+        <div className="rounded-xl bg-[#24282C] w-[85%] mx-auto mt-5 p-5">
+          <h4 className="font-medium text-white">How to use</h4>
+          <p className="text-[#A8AAAE] mt-1 text-[14px]">Get more clients by purchasing our latest AI client finder</p>
+          <div className="bg-[#D3F26C] rounded-full w-full h-[40px] mt-5 text-center flex flex-center">
+            <div className="text-center m-auto">Coming soon</div>
           </div>
         </div>
-
-        {/* {openNav && (
-          <div className="rounded-xl bg-[#24282C] w-[85%] mx-auto mt-5 p-5">
-            <h4 className="font-medium text-white">How to use</h4>
-            <p className="text-[#A8AAAE] mt-1 text-[14px]">Get more clients by purchasing our latest AI client finder</p>
-            <div className="bg-[#D3F26C] rounded-full w-full h-[40px] mt-5 text-center flex flex-center">
-              <div className="text-center m-auto">Coming soon</div>
-            </div>
-          </div>
-        )} */}
-      </div>
-    </>
+      )} */}
+    </div>
   );
 }
