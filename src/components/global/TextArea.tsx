@@ -17,12 +17,13 @@ export default function TextArea({
   className,
   type,
   startIcon,
+  rows = 4,
   placeholder,
   onChange,
   required
 }: Props) {
   const { secondaryTextColor, fieldBgColor } = useDarkTheme();
-  
+
   return (
     <div className="text-field relative">
       {startIcon && (
@@ -31,7 +32,7 @@ export default function TextArea({
         </div>
       )}
       <textarea
-        rows="4"
+        rows={rows}
         cols="60"
         className={`
           ${startIcon && 'pl-10'}

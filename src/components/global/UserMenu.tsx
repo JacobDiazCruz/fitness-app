@@ -50,6 +50,8 @@ export default function UserMenu({
         className={`
           ${showTop && 'bottom-20'}
           ${secondaryBgColor}
+          dark:border-neutral-700
+          border border-solid
           dropdown w-[250px] absolute z-[999] shadow-md rounded-md`
         }
       >

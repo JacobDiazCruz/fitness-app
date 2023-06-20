@@ -109,26 +109,28 @@ export default function YourExercises({}) {
   }
 
   const DraggableExerciseItem = ({ exercise }: Exercise) => {
+    const { files, primaryFocus, name } = exercise;
+
     return (
       <div
         onDragStart={(e) => onDragStart(e, exercise)}
         draggable
-        className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[10px] h-[83px]"
+        className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]"
       >
-        <div className="bg-gray-600 rounded-sm flex items-center w-[40%] h-full overflow-hidden relative">
+        <div className="bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
           <Image
             alt="Exercise"
-            src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+            src={files[0]}
             width={200}
             height={200}
           />
         </div>
         <div className="pr-3 w-[60%]">
           <p className="dark:text-neutral-50 text-neutral-950 text-[14px]">
-            {exercise.name}
+            {name}
           </p>
           <div className="flex">
-            <PrimaryFocus primaryFocus={exercise.primaryFocus} />
+            <PrimaryFocus primaryFocus={primaryFocus} />
           </div>
         </div>
         <div className="pr-2">

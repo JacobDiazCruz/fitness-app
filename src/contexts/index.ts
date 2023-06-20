@@ -1,10 +1,12 @@
 import { AlertProvider } from "./Alert"
-import { combineComponents } from "@/utils/combineComponents"
+import { WorkoutProvider } from "./Workout";
 import { ThemeProvider } from "./Theme";
+import { combineComponents } from "@/utils/combineComponents"
 
 const providers = [
   AlertProvider,
-  ThemeProvider
+  ThemeProvider,
+  WorkoutProvider
 ];
 
 const AppContextProvider = combineComponents(...providers);

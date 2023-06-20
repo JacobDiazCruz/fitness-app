@@ -6,7 +6,7 @@ export default function IconButton({
   return (
     <button 
       onClick={onClick}
-      className={`${className} p-2 rounded-full hover:bg-gray-100 text-left`}>
+      className={`${className} dark:hover:bg-neutral-800 p-2 rounded-full hover:bg-neutral-100 text-left`}>
       {children}
     </button>
   );  

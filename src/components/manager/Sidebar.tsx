@@ -114,7 +114,7 @@ export default function Sidebar () {
 
   return (
     <div className={`
-      ${darkMode ? "bg-black" : "bg-[#f7f7f7]"} 
+      ${darkMode ? "bg-neutral-950" : "bg-[#f7f7f7]"} 
       ${openNav ? 'w-[270px]' : 'w-[85px]'}
       ${borderColor}
       h-[100vh] border-r border-r-solid sticky top-0`
@@ -160,7 +160,8 @@ export default function Sidebar () {
 
       {/* User Menu */}
       <div className={`
-        ${primaryBgColor}
+        dark:bg-neutral-950
+        bg-[#f7f7f7]
         absolute bottom-0 w-full`}
       >
         <hr className={borderColor} />

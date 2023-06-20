@@ -86,15 +86,24 @@ function AutoComplete({
     };
 
     return (
-      <ul ref={ref} className="z-[100] absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
+      <ul 
+        ref={ref} 
+        className="z-[100] dark:bg-neutral-950 bg-white dark:border-neutral-700 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
+        aria-labelledby="headlessui-combobox-button-:R4q:" 
+        role="listbox" 
+        id="headlessui-combobox-options-:rl:" 
+        data-headlessui-state="open"
+      >
         {filteredItems.length ? (
           <>
             {filteredItems?.map((item: any) => (
               <li
                 onClick={() => handleClickDropdownItem(item.name)}
-                className="relative hover:bg-gray-100 cursor-pointer select-none py-2 px-4 text-gray-900" id="headlessui-combobox-option-:rm:" role="option" tabindex="-1" aria-selected="false" data-headlessui-state=""
+                className="relative dark:hover:bg-neutral-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabindex="-1" aria-selected="false" data-headlessui-state=""
               >
-                <span className="block truncate font-normal">{item.name}</span>
+                <span className="dark:text-neutral-50 text-neutral-900 block truncate font-normal">
+                  {item.name}
+                </span>
               </li>
             ))}
           </>

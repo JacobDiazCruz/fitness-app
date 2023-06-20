@@ -5,7 +5,8 @@ import IconButton from "./IconButton";
 import { useRouter } from "next/navigation";
 
 export default function TableItemActions({
-  itemId
+  itemId,
+  editPath = "/error"
 }) {
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
@@ -20,20 +21,20 @@ export default function TableItemActions({
         <VertDotsIcon />
       </IconButton>
       {openUserDropdown && (
-        <div className="dropdown w-[150px] ml-[-140px] absolute z-[999] bg-white mt-[150px] shadow-md rounded-md">
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
-            <li onClick={() => router.push(`/manager/exercises/edit/${itemId}`)}>
-              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+        <div className="dropdown bg-white dark:bg-neutral-950 dark:border-neutral-700 dark:border dark:border-style w-[150px] ml-[-140px] absolute z-[999] mt-[150px] shadow-md rounded-md">
+          <ul className="py-2 text-sm text-gray-700 dark:text-neutral-50" aria-labelledby="dropdownDefaultButton">
+            <li onClick={() => router.push(editPath)}>
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
                 Edit
               </div>
             </li>
             <li>
-              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
                 Duplicate
               </div>
             </li>
             <li>
-              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-100">
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
                 Delete
               </div>
             </li>

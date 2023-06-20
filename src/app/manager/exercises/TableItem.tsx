@@ -15,7 +15,7 @@ export default function TableItem({
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   const { 
     borderColor, 
-    secondaryTextColor, 
+    secondaryTextColor,
     primaryTextColor 
   } = useDarkTheme();
   const date = new Date(createdAt);
@@ -60,7 +60,10 @@ export default function TableItem({
           </p>
         </div>
         <div className="col-5">
-          <TableItemActions itemId={itemId} />
+          <TableItemActions 
+            itemId={itemId}
+            editPath={`/manager/exercises/edit/${itemId}`}
+          />
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@ interface Props {
 // 2. calculate if the draggable element is on the top half of the droppable element
    // if yes, drag the element to the top
    // if it's in the bottom half no, drag the element to the bottom
-export default function MappedExercises({
+export default function DraggableExercises({
   selectedExercises,
   setSelectedExercises
 }: Props) {
@@ -146,15 +146,28 @@ export default function MappedExercises({
                 </div>
                 {showExerciseForm && (
                   <>
-                    {exercise?.supersetExercises.map((superExercise) => (
-                      <SelectedExercise
-                        key={superExercise.secondaryId}
-                        exercise={superExercise}
-                        exerciseId={superExercise.secondaryId}
-                        showCheckInput={false}
-                        onCheck={() => handleCheck(superExercise.secondaryId)}
-                      />
-                    ))}
+                    {exercise?.supersetExercises.map((superExercise) => {
+                      const { 
+                        secondaryId, 
+                        name, 
+                        checked, 
+                        files, 
+                        primaryFocus 
+                      } = superExercise;
+
+                      return (
+                        <SelectedExercise
+                          key={secondaryId}
+                          name={name}
+                          checked={checked}
+                          imageSrc={files[0]}
+                          exerciseId={secondaryId}
+                          primaryFocus={primaryFocus}
+                          showCheckInput={false}
+                          onCheck={() => handleCheck(secondaryId)}
+                        />
+                      )
+                    })}
                     {(targetExerciseId == exercise.secondaryId) && (
                       <div
                         className="h-[120px] my-5 bg-white w-[97%] rounded-lg m-auto flex items-center border-dashed border-[2px] border-indigo-900"
@@ -170,8 +183,11 @@ export default function MappedExercises({
               </div>
             ) : (
               <SelectedExercise
-                exercise={exercise}
+                name={exercise.name}
                 exerciseId={exercise.secondaryId}
+                imageSrc={exercise.files[0]}
+                primaryFocus={exercise.primaryFocus}
+                checked={exercise.checked}
                 onCheck={() => handleCheck(exercise.secondaryId)}
               />
             )}
