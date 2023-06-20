@@ -1,8 +1,6 @@
-import useDarkTheme from "@/hooks/useDarkTheme";
+import { primaryBgColor } from "@/utils/themeColors";
 
 export default function ThemeWrapper({children}: any) {
-  const { primaryBgColor } = useDarkTheme();
-
   return (
     <div className={`${primaryBgColor} p-10 w-full height-[100vh]`}>
       {children}

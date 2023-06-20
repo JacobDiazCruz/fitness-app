@@ -76,6 +76,18 @@ export default function DraggableExercises({
     setShowDropContainer(false);  
   };
 
+  const handleRemoveExercise = (secondaryId) => {
+    setSelectedExercises((prevExercises) => {
+      return prevExercises.filter((prevExercise) => {
+        if(prevExercise.secondaryId !== secondaryId) {
+          return {
+            ...prevExercise
+          }
+        }
+      })
+    })
+  };
+
   const handleCheck = (exerciseId) => {
     setSelectedExercises((prevExercises) => {
       return prevExercises.map((prevExercise) => {
@@ -163,6 +175,7 @@ export default function DraggableExercises({
                           imageSrc={files[0]}
                           exerciseId={secondaryId}
                           primaryFocus={primaryFocus}
+                          handleRemoveExercise={() => handleRemoveExercise(secondaryId)}
                           showCheckInput={false}
                           onCheck={() => handleCheck(secondaryId)}
                         />
@@ -187,6 +200,7 @@ export default function DraggableExercises({
                 exerciseId={exercise.secondaryId}
                 imageSrc={exercise.files[0]}
                 primaryFocus={exercise.primaryFocus}
+                handleRemoveExercise={() => handleRemoveExercise(exercise.secondaryId)}
                 checked={exercise.checked}
                 onCheck={() => handleCheck(exercise.secondaryId)}
               />

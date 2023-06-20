@@ -10,6 +10,7 @@ import AppContextProvider from "@/contexts";
 import WelcomePopup from "./WelcomePopup";
 import MobileTopbar from "@/components/manager/MobileTopbar";
 import ThemeWrapper from "./ThemeWrapper";
+import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -25,6 +26,7 @@ export default function ManagerLayout ({
     <Providers>
       <AppContextProvider>
         <MobileTopbar />
+        <DarkThemeLoader />
         <div className="flex bg-white">
           <Sidebar />
           <WelcomePopup />

@@ -1,12 +1,20 @@
 'use client'
 
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import Header from "@/app/manager/Header";
 import HeaderActions from "./HeaderActions";
 import Button from "@/components/global/Button";
 import { AddIcon } from "@/components/global/Icons";
 import SelectWorkoutModal from "./SelectWorkoutModal";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
+import { useMutation, useQuery } from "react-query";
+
+import { 
+  primaryTextColor, 
+  secondaryTextColor 
+} from "@/utils/themeColors";
+import { editProgram, getProgram } from "@/api/Program";
+import { useParams, useSearchParams } from "next/navigation";
 
 // Mapped workouts
 const MappedWorkouts = ({ 
@@ -22,7 +30,7 @@ const MappedWorkouts = ({
     e.preventDefault();
 
     const targetIndex = programDays[dayIndex]?.workouts.findIndex(
-      workout => workout.name === draggedWorkout?.name
+      workout => workout.secondaryId === draggedWorkout?.secondaryId
     );
 
     if (targetIndex !== -1) {
@@ -41,12 +49,12 @@ const MappedWorkouts = ({
     <>
       {workouts.map((workout, index) => (
         <div
-          key={workout._id}
+          key={workout.secondaryId}
           className="relative"
           onClick={() => setShowWorkoutDetailsModal(true)}
         >
           <div
-            className="bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
+            className="dark:bg-neutral-900 bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
             style={{
               display: draggedWorkout === workout ? "block" : "none"
             }}
@@ -76,13 +84,17 @@ const MappedWorkouts = ({
               e.preventDefault();
               setDraggedWorkout(null)
             }}
-            className="w-full rounded-lg mt-2 bg-white p-3 cursor-pointer shadow-md"
+            className="w-full bg-white dark:bg-neutral-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
             style={{
               opacity: draggedWorkout === workout ? "0.01" : "1"
             }}
           >
-            <h5 className="text-[14px] font-medium">{workout.name}</h5>
-            <p className="text-[12px] mt-1 text-normal">{workout.exercises.length} exercises</p>
+            <h5 className={`${primaryTextColor} text-[14px] font-medium`}>
+              {workout.name}
+            </h5>
+            <p className={`${secondaryTextColor} text-[12px] mt-1 text-normal`}>
+              {workout.exercises.length} exercises
+            </p>
           </div>
 
         </div>
@@ -92,97 +104,66 @@ const MappedWorkouts = ({
 };
 
 export default function EditProgram() {
+  const params = useParams();
+  const searchParams = useSearchParams();
   const [draggedWorkout, setDraggedWorkout] = useState(null);
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
+
+  // Select Workouts modal states
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
+  const [selectedWorkouts, setSelectedWorkouts] = useState<Array<any>>([]);
+
   const [programDays, setProgramDays] = useState([
-    {
-      name: "Day 1",
-      workouts: [
-        {
-          _id: "2141245",
-          name: "Leg workout",
-          exercises: [
-            {
-              name: "Leg curl",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            },
-            {
-              name: "Squats",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            }
-          ]
-        },
-        {
-          _id: "563622",
-          name: "Chest workout",
-          exercises: [
-            {
-              name: "Leg curl",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            },
-            {
-              name: "Squats",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "Day 2",
-      workouts: [
-        {
-          _id: "536341124",
-          name: "Back workout",
-          exercises: [
-            {
-              name: "Leg curl",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            },
-            {
-              name: "Squats",
-              primaryFocus: "leg",
-              category: "strength",
-              instructions: "",
-              videoLink: "",
-              files: []
-            }
-          ]
-        }
-      ]
-    },
+    { name: "Day 1", workouts: [] },
+    { name: "Day 2", workouts: [] },
     { name: "Day 3", workouts: [] },
     { name: "Day 5", workouts: [] },
     { name: "Day 6", workouts: [] },
     { name: "Day 7", workouts: [] }
   ]);
+  const [weeks, setWeeks] = useState<Array<any>>([]);
+
+  // mutate edit program
+  const editProgramMutation = useMutation(editProgram, {
+    onSuccess: async (data) => {
+      console.log("editData:", data)
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  // get exercise data
+  const {
+    isLoading,
+    isError,
+    data: programData,
+    error,
+    refetch
+  } = useQuery('program', () => getProgram(params.id), {
+    refetchOnMount: true
+  });
+
+  // set weeks
+  useEffect(() => {
+    if(programData) {
+      setWeeks(programData?.weeks)
+    }
+  }, [programData]);
+
+  // set progamDays via week params
+  useEffect(() => {
+    if(programData) {
+      setProgramDays(programData?.weeks[searchParams?.get('week') - 1].days)
+    }
+  }, [searchParams.get('week'), programData]);
 
   const removeDraggedWorkout = useCallback((prevDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
       const cloneProgramDays = [...prevProgramDays];
       const prevWorkoutIndex = programDays[prevDayIndex]?.workouts.findIndex(
-        wk => wk.name === workout?.name
+        wk => wk.secondaryId === workout?.secondaryId
       );
       cloneProgramDays[prevDayIndex].workouts.splice(prevWorkoutIndex, 1);
       return cloneProgramDays;
@@ -207,29 +188,38 @@ export default function EditProgram() {
         addDroppedWorkout(dayIndex, workout);
       }
     }
+    editProgramMutation.mutateAsync({
+      id: params.id,
+      data: programDays
+    });
   };
 
   return (
     <>
-      <Header pageTitle="Full Body Program" />
-      <HeaderActions />
+      <Header pageTitle={programData?.name} />
+      <HeaderActions 
+        weeks={weeks}
+      />
       <div className="flex gap-[10px]">
-        {programDays.map((day, dayIndex) => (
+        {programDays?.map((day, dayIndex) => (
           <div
             key={day.name}
             data-index={dayIndex}
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, dayIndex)}
-            className="h-[100vh] bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
+            className="day-board h-[100vh] dark:border-neutral-800 dark:border dark:border-solid dark:bg-neutral-950 bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
           >
             <div className="flex justify-between items-center">
               <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>
-              <button 
+              <button
                 variant="outlined"
-                className="group h-[32px] flex items-center border-gray-200 border-solid border rounded-lg px-2"
-                onClick={() => setShowAddWorkoutModal(true)}
+                className="group h-[32px] flex items-center dark:border-neutral-700 border-gray-200 border-solid border rounded-lg px-2"
+                onClick={() => {
+                  setShowAddWorkoutModal(true);
+                  setSelectedDayIndex(dayIndex);
+                }}
               >
-                <AddIcon className="w-3 h-3" />
+                <AddIcon className={`${primaryTextColor} w-3 h-3`} />
                 <span className="absolute mt-[60px] z-[99] scale-0 transition-all rounded-lg bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
                   Add workout
                 </span>
@@ -255,6 +245,9 @@ export default function EditProgram() {
         {showAddWorkoutModal && (
           <SelectWorkoutModal
             onClose={() => setShowAddWorkoutModal(false)}
+            setSelectedWorkouts={setSelectedWorkouts}
+            setProgramDays={setProgramDays}
+            selectedDayIndex={selectedDayIndex}
           />
         )}
         {showWorkoutDetailsModal && (

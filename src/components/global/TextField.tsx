@@ -1,8 +1,11 @@
 'use client';
 
-import useDarkTheme from "@/hooks/useDarkTheme";
-import { useState } from "react";
 
+import { useState } from "react";
+import {
+  primaryTextColor, 
+  fieldBgColor
+} from "@/utils/themeColors";
 interface Props {
   value: string | number;
   className: string;
@@ -22,7 +25,6 @@ export default function TextField({
   onChange = () => {},
   required = false
 }: Props) {
-  const { fieldBgColor, primaryTextColor } = useDarkTheme();
   return (
     <div className="text-field relative z-[10]">
       {startIcon && (

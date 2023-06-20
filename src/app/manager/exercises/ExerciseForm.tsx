@@ -9,7 +9,11 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import Uploader from "@/components/global/Uploader";
 import { UploadIcon } from "@/components/global/Icons";
-import useDarkTheme from "@/hooks/useDarkTheme";
+
+import { 
+  secondaryBgColor, 
+  primaryTextColor 
+} from "@/utils/themeColors";
 
 const MemoizedUploader = memo(Uploader);
 
@@ -22,9 +26,7 @@ export default function ExerciseForm({
   setPrimaryFocusItems,
   categoryItems,
   setCategoryItems
-}) {
-  const { secondaryBgColor, primaryTextColor } = useDarkTheme();
-  
+}) {  
   return (
     <div className={`${secondaryBgColor} form width-full p-5 rounded-lg mt-5`}>
       <div className="flex gap-[40px]">

@@ -11,14 +11,13 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 import Switch from "./Switch";
 import useTheme from "@/contexts/Theme";
-import useDarkTheme from "@/hooks/useDarkTheme";
+import { secondaryBgColor } from "@/utils/themeColors";
 
 export default function UserMenu({
   openNav,
   showTop = false
 }) {
   const router = useRouter();
-  const { secondaryBgColor } = useDarkTheme();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
   const [accessToken, setAccessToken] = useState("");
@@ -50,7 +49,7 @@ export default function UserMenu({
         className={`
           ${showTop && 'bottom-20'}
           ${secondaryBgColor}
-          dark:border-neutral-700
+          dark:border-neutral-800
           border border-solid
           dropdown w-[250px] absolute z-[999] shadow-md rounded-md`
         }
@@ -77,7 +76,7 @@ export default function UserMenu({
               </p>
             </div>
           </li>
-          <hr className="my-2 dark:border-neutral-700 border-neutral-200" />
+          <hr className="my-2 dark:border-neutral-800 border-neutral-200" />
           <li className="dark:text-neutral-200 text-gray-900 px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Public coaching profile</div>
             <Switch />

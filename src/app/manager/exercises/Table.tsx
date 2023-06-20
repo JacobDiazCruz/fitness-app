@@ -7,9 +7,9 @@ import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
-import useDarkTheme from "@/hooks/useDarkTheme";
+import { primaryTextColor } from "@/utils/themeColors";
 
-const TableColumnHeaders = ({ primaryTextColor }: string) => {
+const TableColumnHeaders = () => {
   return (
     <div className={`${primaryTextColor} flex justify-between px-5 py-3 text-[14px]`}>
       <div className="flex-1">
@@ -32,7 +32,6 @@ const TableColumnHeaders = ({ primaryTextColor }: string) => {
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [filteredExercises, setFilteredExercises] = useState([]);
-  const { primaryTextColor } = useDarkTheme();
   const { 
     isLoading, 
     isError,
@@ -54,7 +53,7 @@ export default function Table() {
   if (isLoading) {
     return (
       <>
-        <TableActions 
+        <TableActions
           primaryBtnContent="Add New Exercise"
           primaryBtnIcon={<AddIcon />}
           primaryBtnPath="/manager/exercises/add"

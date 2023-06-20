@@ -1,15 +1,16 @@
 'use state';
 
-import useDarkTheme from '@/hooks/useDarkTheme';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
+import { 
+  borderColor, 
+  secondaryTextColor 
+} from "@/utils/themeColors";
 
 export default function Uploader({
   initialFilesList = [],
   setInitialFilesList
 }) {
-  const { borderColor, secondaryTextColor } = useDarkTheme();
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files);
     setInitialFilesList(prevFiles => [...prevFiles, ...newFiles]);

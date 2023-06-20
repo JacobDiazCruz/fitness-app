@@ -11,7 +11,10 @@
 
 import { memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import useDarkTheme from "@/hooks/useDarkTheme";
+import { 
+  fieldBgColor, 
+  secondaryTextColor 
+} from "@/utils/themeColors";
 
 interface Props {
   value: string | number;
@@ -36,7 +39,6 @@ function AutoComplete({
   onChange,
   required = false
 }: Props) {
-  const { fieldBgColor, secondaryTextColor } = useDarkTheme();
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [filteredItems, setFilteredItems] = useState<Array>(items);
   const [inputValue, setInputValue] = useState<string | Array<any>>(value);
@@ -88,7 +90,7 @@ function AutoComplete({
     return (
       <ul 
         ref={ref} 
-        className="z-[100] dark:bg-neutral-950 bg-white dark:border-neutral-700 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
+        className="z-[100] dark:bg-neutral-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
         aria-labelledby="headlessui-combobox-button-:R4q:" 
         role="listbox" 
         id="headlessui-combobox-options-:rl:" 

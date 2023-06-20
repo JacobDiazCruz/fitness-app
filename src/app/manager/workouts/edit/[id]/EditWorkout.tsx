@@ -6,7 +6,7 @@ import YourExercises from "../../YourExercises";
 import Header from "../../../Header";
 import TextField from "@/components/global/TextField";
 import TextArea from "@/components/global/TextArea";
-import { addWorkout, getWorkout } from "@/api/Workout";
+import { addWorkout, editWorkout, getWorkout } from "@/api/Workout";
 import { useMutation, useQuery } from "react-query";
 import useAlert from "@/contexts/Alert";
 import { useRouter, useParams } from "next/navigation";
@@ -20,11 +20,11 @@ export default function EditWorkout() {
   const { dispatchAlert } = useAlert();
 
   // upload files to cloudinary request
-  const addWorkoutMutation = useMutation(addWorkout, {
+  const editWorkoutMutation = useMutation(editWorkout, {
     onSuccess: async (data) => {
       dispatchAlert({
         type: "SUCCESS",
-        message: "Workout created successfully"
+        message: "Workout edited successfully"
       });
       router.push('/manager/workouts');
     },
@@ -34,7 +34,7 @@ export default function EditWorkout() {
   });
 
   // get exercise data
-  const { 
+  const {
     isLoading,
     isError,
     data: workoutData,
@@ -60,10 +60,14 @@ export default function EditWorkout() {
         backIcon
         backPath="/manager/workouts"
         showActionButtons
-        handleSubmit={() => addWorkoutMutation.mutateAsync({
-          name: workoutName,
-          description: workoutDescription,
-          exercises: selectedExercises
+        isLoading={editWorkoutMutation.isLoading}
+        handleSubmit={() => editWorkoutMutation.mutateAsync({
+          id: params.id,
+          data: {
+            name: workoutName,
+            description: workoutDescription,
+            exercises: selectedExercises
+          }
         })}
       />
       <div className="flex gap-[40px]">
@@ -86,7 +90,7 @@ export default function EditWorkout() {
             <p className="dark:text-neutral-50 text-neutral-950 mb-3 text-[14px]">
               Description
             </p>
-            <TextArea 
+            <TextArea
               rows={2}
               value={workoutDescription}
               onChange={(e) => setWorkoutDescription(e.target.value)}

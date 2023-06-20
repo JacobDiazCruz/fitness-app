@@ -18,7 +18,6 @@ export default function AddNewWorkout() {
   const [selectedExercises, setSelectedExercises] = useState<Array<any>>([]);
   const { dispatchAlert } = useAlert();
 
-  // upload files to cloudinary request
   const addWorkoutMutation = useMutation(addWorkout, {
     onSuccess: async (data) => {
       dispatchAlert({
@@ -39,6 +38,7 @@ export default function AddNewWorkout() {
         backIcon
         backPath="/manager/workouts"
         showActionButtons
+        isLoading={addWorkoutMutation.isLoading}
         handleSubmit={() => addWorkoutMutation.mutateAsync({
           name: workoutName,
           description: workoutDescription,

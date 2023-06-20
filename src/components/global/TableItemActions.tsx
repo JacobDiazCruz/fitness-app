@@ -21,7 +21,7 @@ export default function TableItemActions({
         <VertDotsIcon />
       </IconButton>
       {openUserDropdown && (
-        <div className="dropdown bg-white dark:bg-neutral-950 dark:border-neutral-700 dark:border dark:border-style w-[150px] ml-[-140px] absolute z-[999] mt-[150px] shadow-md rounded-md">
+        <div className="dropdown bg-white dark:bg-neutral-950 dark:border-neutral-800 dark:border dark:border-style w-[150px] ml-[-140px] absolute z-[999] mt-[150px] shadow-md rounded-md">
           <ul className="py-2 text-sm text-gray-700 dark:text-neutral-50" aria-labelledby="dropdownDefaultButton">
             <li onClick={() => router.push(editPath)}>
               <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">

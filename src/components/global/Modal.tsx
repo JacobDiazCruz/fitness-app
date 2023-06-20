@@ -1,3 +1,8 @@
+
+import {
+  secondaryBgColor, 
+  borderColor
+} from "@/utils/themeColors";
 interface Props {
   onClose: any;
   className: string;
@@ -16,7 +21,12 @@ export default function Modal({
         onClick={onClose}
       ></div>
       <div
-        className={`${className} bg-white shadow-sm rounded-lg m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-[100] outline-none focus:outline-none`}
+        className={`
+          ${className} 
+          ${secondaryBgColor} 
+          ${borderColor}
+          dark:border-style dark:border
+          shadow-sm rounded-lg m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-[100] outline-none focus:outline-none`}
       >
         {children}
       </div>

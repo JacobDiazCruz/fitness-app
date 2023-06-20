@@ -5,15 +5,20 @@ import { AddIcon } from "@/components/global/Icons";
 import TableActions from "@/components/global/TableActions";
 import TableItem from "./TableItem";
 import { useQuery } from "react-query";
+import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
-import { listWorkouts } from "@/api/Workout";
+import { listPrograms } from "@/api/Program";
+import { Program } from "@/utils/types";
 
-const TableColumnHeaders = ({ primaryTextColor }: string) => {
+const TableColumnHeaders = () => {
   return (
     <div className={`${primaryTextColor} flex justify-between px-5 py-3 text-[14px]`}>
       <div className="flex-1">
-        <p>Workouts</p>
+        <p>Programs</p>
+      </div>
+      <div className="flex-1">
+        <p>Weeks</p>
       </div>
       <div className="flex-1">
         <p>Date added</p>
@@ -25,32 +30,32 @@ const TableColumnHeaders = ({ primaryTextColor }: string) => {
 
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [filteredWorkouts, setFilteredWorkouts] = useState([]);
+  const [filteredPrograms, setFilteredPrograms] = useState([]);
   const { 
     isLoading, 
     isError,
-    data: workouts,
+    data: programs,
     error
-  } = useQuery('workouts', listWorkouts, {
+  } = useQuery('programs', listPrograms, {
     refetchOnMount: true
   });
 
   // Search filter logic
   useEffect(() => {
-    const filteredWorkouts = workouts?.filter((workout: any) =>
-      workout?.name.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredPrograms = programs?.filter((program: Program) =>
+      program.name.toLowerCase().includes(searchValue.toLowerCase())
     );
-    setFilteredWorkouts(filteredWorkouts);
-  }, [searchValue, workouts]);
+    setFilteredPrograms(filteredPrograms);
+  }, [searchValue, programs]);
 
   // Return loading state if data is still loading
   if (isLoading) {
     return (
       <>
-        <TableActions 
-          primaryBtnContent="Add New Workout"
+        <TableActions
+          primaryBtnContent="Add New Program"
           primaryBtnIcon={<AddIcon />}
-          primaryBtnPath="/manager/workouts/add"
+          primaryBtnPath="/manager/programs/add"
           searchValue={searchValue}
           handleSearch={(value) => {
             setSearchValue(value)
@@ -73,9 +78,9 @@ export default function Table() {
   return (
     <>
       <TableActions 
-        primaryBtnContent="Add New Workout"
+        primaryBtnContent="Add New Program"
         primaryBtnIcon={<AddIcon />}
-        primaryBtnPath="/manager/workouts/add"
+        primaryBtnPath="/manager/programs/add"
         searchValue={searchValue}
         handleSearch={(value) => {
           setSearchValue(value)
@@ -83,22 +88,22 @@ export default function Table() {
       />
       <div className="page-table mt-8">
         <TableColumnHeaders primaryTextColor={primaryTextColor} />
-        {filteredWorkouts?.length <= 0 ? (
+        {filteredPrograms?.length <= 0 ? (
           <div className="border-t border-t-solid border-gray-100">
             <p className={`${primaryTextColor} text-center mt-[70px] text-[14px] font-light`}>
               No results found.
             </p>
           </div>
         ) : (
-          filteredWorkouts?.map((workout: any) => {
-            const { _id, name, description, exercises, createdAt } = workout;
+          filteredPrograms?.map((program: Program) => {
+            const { _id, name, description, weeks, createdAt } = program;
             return (
               <TableItem
                 key={_id}
                 name={name}
                 description={description}
+                weeks={weeks}
                 itemId={_id}
-                exercisesCount={exercises.length}
                 createdAt={createdAt}
               />
             );

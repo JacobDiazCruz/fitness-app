@@ -5,13 +5,16 @@ import Link from "next/link";
 import UserMenu from '../global/UserMenu';
 import { CalendarIcon, ChatIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "../global/Icons";
 import useTheme from "@/contexts/Theme";
-import useDarkTheme from "@/hooks/useDarkTheme";
+import {
+  borderColor,
+  primaryBgColor,
+  secondaryBgColor
+} from "@/utils/themeColors";
 
 export default function Sidebar () {
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode } = useTheme();
-  const { borderColor, primaryBgColor, secondaryBgColor } = useDarkTheme();
 
   const [openNav, setOpenNav] = useState(true);
   const [navItems, setNavItems] = useState([

@@ -8,3 +8,14 @@ export interface Exercise {
   instruction: string;
   files: Array<any>;
 }
+
+export interface Program {
+  _id?: string;
+  ownerId: string;
+  users: Array<any>;
+  name: string;
+  description: string;
+  weeks: number;
+  workouts: Array<any>;
+  createdAt?: number;
+}

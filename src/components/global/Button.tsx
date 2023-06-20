@@ -15,8 +15,8 @@ export default function Button({
   const { darkMode } = useTheme();
   
   const variantsCollection = {
-    contained: `${darkMode ? 'bg-white text-black' : 'bg-[#24282C] border-[#24282C] text-white'} border border-solid`,
-    outlined: `${darkMode ? 'bg-black border-neutral-700 text-neutral-400' : 'bg-white border-neutral-300 text-neutral-900'} border border-solid`
+    contained: 'dark:bg-blue-600 dark:text-white bg-[#24282C] border-[#24282C] text-white border border-solid',
+    outlined: 'dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-400 bg-white border-neutral-300 text-neutral-900 border border-solid'
   };
 
   return (

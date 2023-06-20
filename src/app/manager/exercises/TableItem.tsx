@@ -2,7 +2,12 @@ import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
 import TableItemActions from "@/components/global/TableItemActions";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
-import useDarkTheme from "@/hooks/useDarkTheme";
+
+import {
+  borderColor, 
+  secondaryTextColor,
+  primaryTextColor
+} from "@/utils/themeColors";
 
 export default function TableItem({
   itemId,
@@ -13,11 +18,6 @@ export default function TableItem({
   coverImage
 }) {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
-  const { 
-    borderColor, 
-    secondaryTextColor,
-    primaryTextColor 
-  } = useDarkTheme();
   const date = new Date(createdAt);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US', options);

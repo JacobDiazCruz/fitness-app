@@ -1,7 +1,10 @@
 'use client';
-import useDarkTheme from "@/hooks/useDarkTheme";
-import { useState } from "react";
 
+import { useState } from "react";
+import {
+  secondaryTextColor, 
+  fieldBgColor
+} from "@/utils/themeColors";
 interface Props {
   value: string | number;
   className: string;
@@ -22,7 +25,6 @@ export default function TextArea({
   onChange,
   required
 }: Props) {
-  const { secondaryTextColor, fieldBgColor } = useDarkTheme();
 
   return (
     <div className="text-field relative">

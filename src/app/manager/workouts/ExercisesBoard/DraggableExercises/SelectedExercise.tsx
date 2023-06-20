@@ -12,7 +12,9 @@ const SelectedExercise = ({
   name,
   imageSrc,
   onCheck,
+  exerciseId,
   primaryFocus,
+  handleRemoveExercise,
   checked,
   showCheckInput = true
 }) => {
@@ -21,7 +23,7 @@ const SelectedExercise = ({
   const [reps, setReps] = useState("");
 
   return (
-    <div className="dark:border-neutral-700 border-gray-200 border border-solid overflow-hidden">
+    <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">
       <div className="py-2 px-4 dark:bg-neutral-900 bg-gray-100 h-[55px] flex justify-between items-center">
         <div className="flex gap-[10px] items-center">
           {showCheckInput && (
@@ -50,8 +52,10 @@ const SelectedExercise = ({
             {primaryFocus}
           </div>
         </div>
-        <IconButton>
-          <TrashIcon className="w-5 h-5 dark:text-white text-neutral-700" />
+        <IconButton
+          onClick={handleRemoveExercise}
+        >
+          <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
         </IconButton>
       </div>
       <div className="dark:bg-neutral-950 bg-white p-6">
@@ -86,6 +90,7 @@ const SelectedExercise = ({
             <Button
               startIcon={<AddIcon />}
               className="border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
+              variant="outlined"
             >
               Add a set
             </Button>
