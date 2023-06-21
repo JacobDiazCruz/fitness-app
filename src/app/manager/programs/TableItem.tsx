@@ -8,7 +8,7 @@ import TableItemActions from "@/components/global/TableItemActions";
 interface Props {
   itemId: string;
   name: string;
-  weeks: number;
+  weeks: Array<any>;
   description: string;
 };
 
@@ -38,7 +38,7 @@ export default function TableItem({
         </div>
         <div className="col-2 flex-1">
           <p className={`${secondaryTextColor} text-[14px]`}>
-            {weeks} weeks
+            {weeks?.length} weeks
           </p>
         </div>
         <div className="col-3 flex-1">

@@ -3,7 +3,6 @@ import { CloseIcon, SearchIcon } from "@/components/global/Icons";
 import Modal from "@/components/global/Modal";
 import TextField from "@/components/global/TextField";
 import Button from "@/components/global/Button";
-
 import { useQuery } from "react-query";
 import { listWorkouts } from "@/api/Workout";
 import {
@@ -12,15 +11,23 @@ import {
   borderColor,
   secondaryBgColor
 } from "@/utils/themeColors";
+import { useParams, useSearchParams } from "next/navigation";
+import { useMutation } from "react-query";
+import { editProgram } from "@/api/Program";
 
 export default function SelectWorkoutModal({ 
+  programName,
+  programDescription,
   onClose,
   setSelectedWorkouts,
   setProgramDays,
+  weeks,
   selectedDayIndex
 }: any) {
   const [searchVal, setSearchVal] = useState<string>("");
   const [workouts, setWorkouts] = useState([]);
+  const searchParams = useSearchParams();
+  const params = useParams();
 
   const { 
     isLoading, 
@@ -29,6 +36,15 @@ export default function SelectWorkoutModal({
     error
   } = useQuery('workouts', listWorkouts, {
     refetchOnMount: true
+  });
+
+  const editProgramMutation = useMutation(editProgram, {
+    onSuccess: async (data) => {
+      return data;
+    },
+    onError: (err) => {
+      console.log(err);
+    }
   });
 
   const toggleWorkoutSelection = (index: number) => {
@@ -42,8 +58,7 @@ export default function SelectWorkoutModal({
     const filteredWorkouts = initialWorkouts?.filter((workout) =>
       workout.name.toLowerCase().includes(searchVal.toLowerCase())
     ).map((workout) => ({
-      ...workout,
-      secondaryId: Math.random()
+      ...workout
     }));
   
     setWorkouts(filteredWorkouts);
@@ -51,7 +66,10 @@ export default function SelectWorkoutModal({
   
   // triggered on click of "Select" button
   const handleSelectWorkouts = () => {
-    const selectedWorkouts = workouts?.filter((workout) => workout.selected);
+    const selectedWorkouts = workouts?.filter((workout) => workout.selected).map((workout) => ({
+      ...workout,
+      secondaryId: Math.random()
+    }));
     setSelectedWorkouts(selectedWorkouts);
 
     setProgramDays(prevProgramDays => {
@@ -61,6 +79,18 @@ export default function SelectWorkoutModal({
         ...selectedWorkouts
       ];
       return cloneProgramDays;
+    });
+
+    const currentWeek = searchParams.get('week');
+    const day = weeks[currentWeek - 1].days[selectedDayIndex]
+
+    editProgramMutation.mutateAsync({
+      id: params.id,
+      data: {
+        name: programName,
+        description: programDescription,
+        weeks
+      }
     });
 
     onClose();

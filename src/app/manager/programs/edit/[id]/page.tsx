@@ -4,7 +4,7 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import Header from "@/app/manager/Header";
 import HeaderActions from "./HeaderActions";
 import Button from "@/components/global/Button";
-import { AddIcon } from "@/components/global/Icons";
+import { AddIcon, SettingsIcon, VertDotsIcon } from "@/components/global/Icons";
 import SelectWorkoutModal from "./SelectWorkoutModal";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
 import { useMutation, useQuery } from "react-query";
@@ -15,6 +15,8 @@ import {
 } from "@/utils/themeColors";
 import { editProgram, getProgram } from "@/api/Program";
 import { useParams, useSearchParams } from "next/navigation";
+import IconButton from "@/components/global/IconButton";
+import TableItemActions from "@/components/global/TableItemActions";
 
 // Mapped workouts
 const MappedWorkouts = ({ 
@@ -23,6 +25,7 @@ const MappedWorkouts = ({
   draggedWorkout,
   setDraggedWorkout,
   setShowWorkoutDetailsModal,
+  handleMutateProgram,
   programDays,
   setProgramDays
 }) => {
@@ -44,6 +47,19 @@ const MappedWorkouts = ({
       setProgramDays(updatedArr);
     }
   });
+
+  const handleDelete = (workout) => {
+    setProgramDays(prevProgramDays => {
+      const cloneProgramDays = [...prevProgramDays];
+      const prevWorkoutIndex = programDays[dayIndex]?.workouts.findIndex(
+        wk => wk.secondaryId === workout?.secondaryId
+      );
+      cloneProgramDays[dayIndex].workouts.splice(prevWorkoutIndex, 1);
+      return cloneProgramDays;
+    });
+
+    handleMutateProgram();
+  }
 
   return (
     <>
@@ -84,19 +100,24 @@ const MappedWorkouts = ({
               e.preventDefault();
               setDraggedWorkout(null)
             }}
-            className="w-full bg-white dark:bg-neutral-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
+            className="w-full flex justify-between bg-white dark:bg-neutral-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
             style={{
               opacity: draggedWorkout === workout ? "0.01" : "1"
             }}
           >
-            <h5 className={`${primaryTextColor} text-[14px] font-medium`}>
-              {workout.name}
-            </h5>
-            <p className={`${secondaryTextColor} text-[12px] mt-1 text-normal`}>
-              {workout.exercises.length} exercises
-            </p>
+            <div>
+              <h5 className={`${primaryTextColor} text-[14px] font-medium`}>
+                {workout.name}
+              </h5>
+              <p className={`${secondaryTextColor} text-[12px] mt-1 text-normal`}>
+                {workout.exercises.length} exercises
+              </p>
+            </div>
+            <TableItemActions
+              editPath={`/manager/exercises/edit`}
+              handleDelete={() => handleDelete(workout)}
+            />
           </div>
-
         </div>
       ))}
     </>
@@ -123,11 +144,13 @@ export default function EditProgram() {
     { name: "Day 7", workouts: [] }
   ]);
   const [weeks, setWeeks] = useState<Array<any>>([]);
+  const [programName, setProgramName] = useState<string>("");
+  const [programDescription, setProgramDescription] = useState<string>("");
 
   // mutate edit program
   const editProgramMutation = useMutation(editProgram, {
     onSuccess: async (data) => {
-      console.log("editData:", data)
+      return data;
     },
     onError: (err) => {
       console.log(err);
@@ -149,6 +172,8 @@ export default function EditProgram() {
   useEffect(() => {
     if(programData) {
       setWeeks(programData?.weeks)
+      setProgramName(programData?.name)
+      setProgramDescription(programData?.description)
     }
   }, [programData]);
 
@@ -159,13 +184,22 @@ export default function EditProgram() {
     }
   }, [searchParams.get('week'), programData]);
 
+  const handleMutateProgram = () => {
+    editProgramMutation.mutateAsync({
+      id: params.id,
+      data: {
+        name: programName,
+        description: programDescription,
+        weeks
+      }
+    });
+  };
+
   const removeDraggedWorkout = useCallback((prevDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
       const cloneProgramDays = [...prevProgramDays];
-      const prevWorkoutIndex = programDays[prevDayIndex]?.workouts.findIndex(
-        wk => wk.secondaryId === workout?.secondaryId
-      );
-      cloneProgramDays[prevDayIndex].workouts.splice(prevWorkoutIndex, 1);
+      const filteredWorkouts = cloneProgramDays[prevDayIndex].workouts.filter((wk) => wk.secondaryId !== workout.secondaryId)
+      cloneProgramDays[prevDayIndex].workouts = filteredWorkouts;
       return cloneProgramDays;
     });
   }, []);
@@ -178,20 +212,17 @@ export default function EditProgram() {
     });
   }, []);
 
-  const handleDrop = (e, dayIndex) => {
+  const handleDrop = async (e, dayIndex) => {
     e.preventDefault();
     const draggedWorkoutData = JSON.parse(e.dataTransfer.getData("application/json"));
     if (draggedWorkoutData) {
       const { prevDayIndex, prevWorkoutIndex, workout } = draggedWorkoutData;
       if(prevDayIndex !== dayIndex) {
-        removeDraggedWorkout(prevDayIndex, workout);
-        addDroppedWorkout(dayIndex, workout);
+        await removeDraggedWorkout(prevDayIndex, workout);
+        await addDroppedWorkout(dayIndex, workout);
+        await handleMutateProgram();
       }
     }
-    editProgramMutation.mutateAsync({
-      id: params.id,
-      data: programDays
-    });
   };
 
   return (
@@ -231,6 +262,7 @@ export default function EditProgram() {
                   workouts={day.workouts} 
                   dayIndex={dayIndex}
                   draggedWorkout={draggedWorkout}
+                  handleMutateProgram={handleMutateProgram}
                   setDraggedWorkout={(val) => {
                     setDraggedWorkout(val)
                   }}
@@ -247,7 +279,10 @@ export default function EditProgram() {
             onClose={() => setShowAddWorkoutModal(false)}
             setSelectedWorkouts={setSelectedWorkouts}
             setProgramDays={setProgramDays}
+            programName={programName}
+            programDescription={programDescription}
             selectedDayIndex={selectedDayIndex}
+            weeks={weeks}
           />
         )}
         {showWorkoutDetailsModal && (
