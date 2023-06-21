@@ -49,7 +49,7 @@ export default function TableItem({
         <div className="col-5">
           <TableItemActions 
             itemId={itemId}
-            editPath={`/manager/programs/edit/${itemId}`}
+            editPath={`/manager/programs/edit/${itemId}?week=1`}
           />
         </div>
       </div>

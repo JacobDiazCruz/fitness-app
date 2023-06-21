@@ -8,80 +8,21 @@ import { initialExercises } from "../YourExercises";
 import { Exercise } from "@/utils/types";
 import DraggableExercises from "./DraggableExercises";
 import { BarbellIcon, CubeTransparentIcon, DropdownIcon, ViewFinderIcon } from "@/components/global/Icons";
+import useWorkout from "@/contexts/Workout";
 
-export default function ExercisesBoard({
-  selectedExercises,
-  setSelectedExercises
-}: any) {  
-  // on drag over event from "Your Exercises" section to the DraggableExercises
-  const onDragOverFromExercises = (e) => {
-    e.preventDefault();
-  };
-
-  // on drop event from "Your Exercises" section to the DraggableExercises
-  const onDropFromExercises = (e) => {
-    if (e.dataTransfer.getData("exercise")) {
-      const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
-      const exercisesList = [...selectedExercises, {
-        ...exercise,
-        secondaryId: Math.random()
-      }];
-      setSelectedExercises(exercisesList);
-    }
-  };
-
-  // Merge superset logic
-  const handleMergeSuperset = () => {
-    const checkedItems = selectedExercises.filter((exercise) => exercise.checked);
-  
-    if (checkedItems.length > 0) {
-      const firstCheckedItem = checkedItems[0];
-  
-      const updatedExercises = selectedExercises.reduce((acc, exercise) => {
-        if (exercise === firstCheckedItem) {
-          // Replace the first checked item with the new object
-          acc.push({
-            _id: "424445233242",
-            secondaryId: Math.random().toString(),
-            name: "",
-            checked: false,
-            primaryFocus: "",
-            category: "",
-            supersetExercises: checkedItems
-          });
-        } else if (!checkedItems.includes(exercise)) {
-          // Exclude the other checked items
-          acc.push(exercise);
-        }
-        return acc;
-      }, []);
-  
-      setSelectedExercises(updatedExercises);
-    }
-  };
-
-  const handleUnmergeSuperset = () => {
-    const checkedSupersets = selectedExercises.filter((exercise) => {
-      if(exercise.checked && exercise.supersetExercises.length > 0) {
-        return exercise
-      }
-    });
-
-    const unmergedExercises = checkedSupersets.map(exercise => {
-      return exercise.supersetExercises;
-    }).flat();
-
-    const filteredExercises = checkedSupersets.flatMap((checkedSuperset) =>
-      selectedExercises.filter((exercise) => exercise.secondaryId !== checkedSuperset.secondaryId)
-    );
-
-    setSelectedExercises([...filteredExercises, ...unmergedExercises]);
-  };
+export default function ExercisesBoard() { 
+  const { 
+    selectedExercises, 
+    updateSelectedExercises,
+    handleMergeSuperset,
+    handleUnmergeSuperset,
+    onDropFromExercises
+  } = useWorkout();
 
   return (
     <div
       className="exercises-section mt-5"
-      onDragOver={onDragOverFromExercises}
+      onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => onDropFromExercises(e)}
     >
       <p className="mb-3 text-[14px] dark:text-neutral-50 text-neutral-950">
@@ -113,7 +54,7 @@ export default function ExercisesBoard({
       </div>
       <DraggableExercises
         selectedExercises={selectedExercises}
-        setSelectedExercises={setSelectedExercises}
+        updateSelectedExercises={updateSelectedExercises}
       />
       <div className="border-[2px] rounded-lg border-dashed dark:border-neutral-800 border-gray-200 mt-5 h-[196px] flex items-center">
         <div className="m-auto">

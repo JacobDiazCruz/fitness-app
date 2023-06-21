@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import SelectedExercise from "./SelectedExercise";
 import { CubeTransparentIcon, DropdownIcon } from "@/components/global/Icons";
+import useWorkout from "@/contexts/Workout";
 
 interface Props {
   selectedExercises: Array<any>;
-  setSelectedExercises: any;
+  updateSelectedExercises: any;
 }
 
 // few things to make sure this component works
@@ -16,10 +17,12 @@ interface Props {
 // 2. calculate if the draggable element is on the top half of the droppable element
    // if yes, drag the element to the top
    // if it's in the bottom half no, drag the element to the bottom
-export default function DraggableExercises({
-  selectedExercises,
-  setSelectedExercises
-}: Props) {
+export default function DraggableExercises() {
+  const { 
+    selectedExercises,
+    updateSelectedExercises 
+  } = useWorkout();
+
   const [draggedExercise, setDraggedExercise] = useState(null);
   const [draggedExerciseId, setDraggedExerciseId] = useState(null);
   const [showExerciseForm, setShowExerciseForm] = useState(true);
@@ -42,7 +45,7 @@ export default function DraggableExercises({
       updatedArr.splice(targetIndex, 1);
       updatedArr.splice(index, 0, draggedExercise);
 
-      setSelectedExercises(updatedArr);
+      updateSelectedExercises(updatedArr);
     }
 
     setTargetExerciseId("");
@@ -68,7 +71,7 @@ export default function DraggableExercises({
 
       // Move the source exercise into the target exercise's supersetExercises array
       targetExercise.supersetExercises.push(sourceExercise || dataDraggedExercise);
-      setSelectedExercises(updatedExercises);
+      updateSelectedExercises(updatedExercises);
     }
     
     setTargetExerciseId("");
@@ -77,7 +80,7 @@ export default function DraggableExercises({
   };
 
   const handleRemoveExercise = (secondaryId) => {
-    setSelectedExercises((prevExercises) => {
+    updateSelectedExercises((prevExercises) => {
       return prevExercises.filter((prevExercise) => {
         if(prevExercise.secondaryId !== secondaryId) {
           return {
@@ -89,7 +92,7 @@ export default function DraggableExercises({
   };
 
   const handleCheck = (exerciseId) => {
-    setSelectedExercises((prevExercises) => {
+    updateSelectedExercises((prevExercises) => {
       return prevExercises.map((prevExercise) => {
         if (exerciseId === prevExercise.secondaryId) {
           return {
@@ -158,22 +161,27 @@ export default function DraggableExercises({
                 </div>
                 {showExerciseForm && (
                   <>
-                    {exercise?.supersetExercises.map((superExercise) => {
+                    {exercise?.supersetExercises.map((superExercise, supersetIndex) => {
                       const { 
                         secondaryId, 
                         name, 
                         checked, 
                         files, 
-                        primaryFocus 
+                        primaryFocus,
+                        sets
                       } = superExercise;
 
                       return (
                         <SelectedExercise
+                          exerciseType="superset"
                           key={secondaryId}
                           name={name}
                           checked={checked}
                           imageSrc={files[0]}
                           exerciseId={secondaryId}
+                          sets={sets}
+                          exerciseIndex={index}
+                          supersetIndex={supersetIndex}
                           primaryFocus={primaryFocus}
                           handleRemoveExercise={() => handleRemoveExercise(secondaryId)}
                           showCheckInput={false}
@@ -196,8 +204,11 @@ export default function DraggableExercises({
               </div>
             ) : (
               <SelectedExercise
+                exerciseType="normal"
                 name={exercise.name}
                 exerciseId={exercise.secondaryId}
+                sets={exercise?.sets}
+                exerciseIndex={index}
                 imageSrc={exercise.files[0]}
                 primaryFocus={exercise.primaryFocus}
                 handleRemoveExercise={() => handleRemoveExercise(exercise.secondaryId)}

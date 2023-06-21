@@ -3,41 +3,21 @@ import { AddIcon, CloseIcon, SearchIcon } from "@/components/global/Icons";
 import Modal from "@/components/global/Modal";
 import Image from "next/image";
 import Button from "@/components/global/Button";
+import { Exercise } from "@/utils/types";
+
+interface Props {
+  workoutName: string;
+  workoutDescription: string;
+  exercises: Array<Exercise>;
+  onClose: void;
+};
 
 export default function WorkoutDetailsModal({
+  workoutName,
+  workoutDescription,
+  exercises,
   onClose
-}: any) {
-  const [workout, setWorkout] = useState({
-    name: "Chest Workout",
-    description: "Four rounds of five exercises. One minute of workout, no rest between exercises. 45 seconds of recovery between each round.",
-    exercises: [
-      {
-        _id: "214124",
-        name: "Medicine ball Full Twist",
-        primaryFocus: "Core",
-        length: "1 min",
-        sets: "3",
-        category: "Strength"
-      },
-      {
-        _id: "424242",
-        name: "Incline dumbbell press",
-        primaryFocus: "Upper Chest",
-        length: "1 min",
-        sets: "3",
-        category: "strength"
-      },
-      {
-        _id: "424242",
-        name: "Incline dumbbell press",
-        primaryFocus: "Upper Chest",
-        length: "1 min",
-        sets: "3",
-        category: "strength"
-      },
-    ]
-  });
-
+}: Props) {
   const SelectedExercise = ({ exercise }) => {
     return (
       <div className="border shadow-sm border-solid border-gray-200 mb-3 rounded-lg overflow-hidden">
@@ -92,18 +72,18 @@ export default function WorkoutDetailsModal({
     <Modal onClose={onClose} className="w-[500px] h-[90%]">
       <div className="bg-[#10182a] p-7">
         <div className="flex justify-between">
-          <h2 className="font-semibold text-white">{workout.name}</h2>
+          <h2 className="font-semibold text-white">{workoutName}</h2>
           <button onClick={onClose}>
             <CloseIcon className="w-5 h-5 text-white" />
           </button>
         </div>
         <p className="text-[13px] text-gray-50 w-[80%] font-light mt-3">
-          {workout.description}
+          {workoutDescription}
         </p>
       </div>
 
       <div className="workout p-7">
-        {workout.exercises.map((exercise) => (
+        {exercises.map((exercise) => (
           <SelectedExercise exercise={exercise} />
         ))}
       </div>

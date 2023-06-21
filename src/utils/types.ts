@@ -1,6 +1,7 @@
 export interface Exercise {
   _id?: string;
   userId: string;
+  secondaryId?: string;
   name: string;
   focus: string;
   category: string;

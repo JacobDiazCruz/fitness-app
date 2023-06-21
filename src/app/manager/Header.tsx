@@ -23,7 +23,7 @@ export default function Header ({
     <div className="w-full mb-[50px] flex items-center justify-between">
       <div className="flex gap-[10px] items-center">
         {backIcon && (
-          <button onClick={() => router.back() || backPath}>
+          <button onClick={() => backPath ? router.push(backPath) : router.back()}>
             {leftArrowIcon}
           </button>
         )}
