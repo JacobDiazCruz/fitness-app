@@ -10,6 +10,7 @@ import io from "socket.io-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
+import ChatList from "../ChatList";
 
 const roomId = Math.random().toString();
 
@@ -63,32 +64,7 @@ export default function Messages() {
         Messages
       </h5>
       <div className="h-[100vh] flex">
-        {/* Messages list */}
-        <div className={`${primaryBgColor} ${borderColor} w-[520px] border-r border-r-solid`}>
-          <div className={`${borderColor} p-3 border-t border-t-solid`}>
-            <div className="flex gap-[12px]">
-              <div className="rounded-full w-[50px] h-[50px] relative overflow-hidden">
-                <Image
-                  alt="Trainer Image"
-                  src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                  style={{ objectFit: "cover" }}
-                  fill
-                />
-              </div>
-              <div className="flex justify-between w-[80%]">
-                <div>
-                  <h4 className={`${primaryTextColor} font-semibold`}>John Doe</h4>
-                  <p className={`${secondaryTextColor} font-light text-[14px]`}>
-                    Last message...
-                  </p>
-                </div>
-                <p className={`${secondaryTextColor} text-[12px]`}>
-                  May 30
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ChatList />
 
         {/* Chat */}
         <div className={`${primaryBgColor} ${borderColor} w-full relative p-3 border-t border-t-solid`}>

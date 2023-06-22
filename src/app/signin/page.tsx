@@ -59,8 +59,9 @@ const Signin = () => {
       
       try {
         const profileData = await getProfile(userId);
-        const { role } = profileData;
+        const { role, profileImage } = profileData;
         localStorage.setItem("userRole", role);
+        localStorage.setItem("thumbnailImage", profileImage?.thumbnailImage)
       } catch (error) {
         console.log("Error fetching profile data:", error);
       }

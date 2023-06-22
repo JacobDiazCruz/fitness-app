@@ -23,6 +23,12 @@ export default function UserMenu({
   const [accessToken, setAccessToken] = useState("");
   const { darkMode, toggleDarkMode } = useTheme();
 
+  // data for user display
+  const thumbnailImage = useLocalStorage("thumbnailImage");
+  const firstName = useLocalStorage("firstName");
+  const lastName = useLocalStorage("lastName");
+  const email = useLocalStorage("email");
+
   useEffect(() => {
     setAccessToken(localStorage.getItem("accessToken"));
   }, []);
@@ -32,7 +38,7 @@ export default function UserMenu({
     onSuccess: (data) => {
       localStorage.removeItem("userId");
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("profileImage");
+      localStorage.removeItem("thumbnailImage");
       localStorage.removeItem("firstName");
       localStorage.removeItem("lastName");
       localStorage.removeItem("email");
@@ -60,19 +66,21 @@ export default function UserMenu({
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-              <Image
-                alt="Trainer Image"
-                src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                style={{ objectFit: "cover" }}
-                fill
-              />
+              {thumbnailImage && (
+                <Image
+                  alt="Trainer Image"
+                  src={thumbnailImage}
+                  style={{ objectFit: "cover" }}
+                  fill
+                />
+              )}
             </div>
             <div>
               <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">
-                John Doe
+                {firstName} {lastName}
               </p>
               <p className="dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
-                johndoe@gmail.com
+                {email}
               </p>
             </div>
           </li>
@@ -119,12 +127,14 @@ export default function UserMenu({
         onClick={() => setOpenUserDropdown(!openUserDropdown)}
       >
         <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-          <Image
-            alt="Trainer Image"
-            src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-            style={{ objectFit: "cover" }}
-            fill
-          />
+          {thumbnailImage && (
+            <Image
+              alt="Trainer Image"
+              src={thumbnailImage}
+              style={{ objectFit: "cover" }}
+              fill
+            />
+          )}
         </div>
         {openNav && (
           <div>
@@ -134,7 +144,7 @@ export default function UserMenu({
                 ml-2 text-[14px] font-medium
               `}
             >
-              John Doe
+              {firstName} {lastName}
             </p>
             <p
               className={
@@ -142,7 +152,7 @@ export default function UserMenu({
                 ml-2 text-[12px] font-light
               `}
             >
-              johndoe@gmail.com
+              {/* {email} */}
             </p>
           </div>
         )}

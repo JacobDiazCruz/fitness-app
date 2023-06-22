@@ -4,15 +4,24 @@ import { useState } from 'react';
 import TrainerRating from './TrainerRating';
 import Image from 'next/image';
 
-interface Trainer {
-  name: string;
-  description: string;
-  displayedPrice: number;
-  status: string;
+interface Props {
+  firstName: string;
+  lastName: string;
+  profileImage: any;
+  userId: string;
+  reviews: Array<any>;
+  about: string;
 };
 
-export default function TrainerCard() {
-  const [trainerData, setTrainerData] = useState<Trainer>({
+export default function TrainerCard({
+  firstName,
+  lastName,
+  profileImage,
+  userId,
+  reviews,
+  about
+}: Props) {
+  const [trainerData, setTrainerData] = useState<any>({
     name: "John Doe",
     description: "I will be your online personal trainer and nutritionist",
     displayedPrice: 200,
@@ -24,24 +33,30 @@ export default function TrainerCard() {
   return (
     <div className={`${cardSize} dark:bg-neutral-950 bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer`}>
       <div className="w-full h-[200px] relative overflow-hidden">
-        <Image
-          alt="Cover Image"
-          fill
-          style={{ objectFit: 'cover' }}
-          src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png" 
-        />
+        {profileImage?.thumbnailImage && (
+          <Image
+            alt="Cover Image"
+            fill
+            style={{ objectFit: 'cover' }}
+            src={profileImage?.thumbnailImage}
+          />
+        )}
       </div>
       <div className="p-[15px]">
         <div className="flex items-center gap-[10px]">
           <div className="w-[35px] h-[35px] rounded-full relative overflow-hidden">
-            <Image
-              alt="Cover Image"
-              fill
-              style={{ objectFit: 'cover' }}
-              src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png" 
-            />
+            {profileImage?.thumbnailImage && (
+              <Image
+                alt="Cover Image"
+                fill
+                style={{ objectFit: 'cover' }}
+                src={profileImage?.thumbnailImage}
+              />
+            )}
           </div>
-          <p className="dark:text-neutral-50 text-neutral-900">John Doe</p>
+          <p className="dark:text-neutral-50 text-neutral-900">
+            {firstName} {lastName}
+          </p>
         </div>
         <div className="mt-4">
           <p className="dark:text-neutral-50 text-neutral-900 text-[14px] leading-[20px]">
