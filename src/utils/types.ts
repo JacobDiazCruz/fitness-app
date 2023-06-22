@@ -20,3 +20,11 @@ export interface Program {
   workouts: Array<any>;
   createdAt?: number;
 }
+
+export interface Message {
+  _id?: string;
+  roomId: string;
+  message: string;
+  senderId: string;
+  createdAt?: number;
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import TrainerRating from '../trainer/TrainerRating';
+import TrainerRating from './TrainerRating';
 import Image from 'next/image';
 
 interface Trainer {

@@ -39,7 +39,7 @@ export default function TextField({
           ${className}
           ${fieldBgColor}
           ${primaryTextColor}
-          border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 placeholder-gray-400`} 
+          border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5`} 
         placeholder={placeholder}
         required={required}
         onChange={onChange}

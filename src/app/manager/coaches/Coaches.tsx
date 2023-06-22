@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import TrainerCard from '@/app/landing/TrainerCard';
 import HomeLayout from '@/layouts/HomeLayout';
-import Landing from '../../landing';
 import Header from '../Header';
 import { useRouter } from 'next/navigation';
+import TrainerCard from '@/components/manager/coach/TrainerCard';
 
 export default function Coaches() {
   const router = useRouter();
@@ -21,7 +20,7 @@ export default function Coaches() {
       <div className="flex flex-wrap items-center">
         {trainersList.map(trainer => (
           <div
-            onClick={() => router.push('/manager/coach/123')}
+            onClick={() => router.push('/manager/coach/648b0216c03d32d5e87f6720')}
             style={{
               paddingRight: '15px',
               paddingBottom: '15px'

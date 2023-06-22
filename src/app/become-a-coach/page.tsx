@@ -10,6 +10,7 @@ import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import { becomeCoach } from "@/api/Profile";
 import { useMutation } from "react-query";
+import { primaryBgColor, primaryTextColor } from "@/utils/themeColors";
 
 interface Form {
   label: string;
@@ -20,8 +21,8 @@ interface Form {
 const Stepper = ({ currentStep }: number) => {
   return (
     <div className="flex items-center gap-[10px] mb-10">
-      <div className={`${currentStep === 1 || currentStep === 2 ? 'bg-violet-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
-      <div className={`${currentStep === 2 ? 'bg-violet-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
+      <div className={`${currentStep === 1 || currentStep === 2 ? 'bg-blue-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
+      <div className={`${currentStep === 2 ? 'bg-blue-500' : 'bg-gray-300'} h-[3px] w-full`}></div>
     </div>
   );
 }
@@ -103,10 +104,10 @@ export default function BecomeACoach() {
   }
   
   return (
-    <div className="become-coach-app flex items-center h-[100vh] bg-white w-full">
+    <div className={`${primaryBgColor} become-coach-app flex items-center h-[100vh] w-full`}>
       <div className="form m-auto rounded-lg w-[600px] h-[80%]">
         <Stepper currentStep={currentStep} />
-        <h2 className="text-[24px] font-normal mb-6 text-gray-600">
+        <h2 className={`${primaryTextColor} text-[24px] font-normal mb-6`}>
           Step {currentStep}
         </h2>
         {currentStep === 1 ? (

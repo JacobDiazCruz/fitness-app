@@ -11,6 +11,7 @@ import { primaryTextColor, secondaryBgColor } from "@/utils/themeColors";
 import { addProgram } from "@/api/Program";
 import { useMutation } from "react-query";
 import useAlert from "@/contexts/Alert";
+import FieldName from "@/components/global/FieldName";
 
 export default function AddNewProgram() {
   const router = useRouter();
@@ -56,6 +57,9 @@ export default function AddNewProgram() {
     })
   }
 
+  // Validate form fields
+  const isFormValid = programName !== "" && programWeeks > 0;
+
   return (
     <>
       <Header
@@ -64,14 +68,15 @@ export default function AddNewProgram() {
         backPath="/manager/programs"
         isLoading={addProgramMutation.isLoading}
         handleSubmit={() => handleSubmit()}
+        disableSubmit={!isFormValid}
         showActionButtons
       />
       <div className={`${secondaryBgColor} form shadow-md width-full p-8 rounded-lg mt-5`}>
         <div className="w-[45%]">
           <div className="field-container">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Program name
-            </p>
+            </FieldName>
             <TextField
               placeholder="e.g. Incline dumbbell press"
               value={programName}
@@ -79,9 +84,9 @@ export default function AddNewProgram() {
             />
           </div>
           <div className="field-container mt-7">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName>
               Description
-            </p>
+            </FieldName>
             <TextArea 
               placeholder=""
               value={programDescription}
@@ -89,11 +94,10 @@ export default function AddNewProgram() {
             />
           </div>
           <div className="field-container mt-7 w-[100px]">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Weeks
-            </p>
+            </FieldName>
             <TextField
-              placeholder="1"
               type="number"
               value={programWeeks}
               onChange={(e) => setProgramWeeks(e.target.value)}

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image'
-import TrainerCard from './TrainerCard';
+import TrainerCard from '@/components/manager/coach/TrainerCard';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

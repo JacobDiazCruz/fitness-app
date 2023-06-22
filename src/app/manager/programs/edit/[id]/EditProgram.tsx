@@ -74,7 +74,7 @@ export default function EditProgram() {
   // set progamDays via week params
   useEffect(() => {
     if(programData && searchParams.get('week') ) {
-      setProgramDays(programData?.weeks[searchParams?.get('week') - 1].days)
+      setProgramDays(programData?.weeks[searchParams?.get('week') - 1]?.days)
     }
   }, [searchParams.get('week'), programData]);
 

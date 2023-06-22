@@ -14,6 +14,7 @@ export default function Header ({
   backPath,
   backIcon,
   handleSubmit,
+  disableSubmit,
   showActionButtons = false
 }: any) {
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function Header ({
             variant="contained"
             onClick={handleSubmit}
             loading={isLoading}
+            disabled={disableSubmit}
           >
             Submit
           </Button>

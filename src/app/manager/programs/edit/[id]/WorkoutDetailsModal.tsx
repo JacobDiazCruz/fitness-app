@@ -4,6 +4,8 @@ import Modal from "@/components/global/Modal";
 import Image from "next/image";
 import Button from "@/components/global/Button";
 import { Exercise } from "@/utils/types";
+import { borderColor, primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
+import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 
 interface Props {
   workoutName: string;
@@ -12,62 +14,95 @@ interface Props {
   onClose: void;
 };
 
+const SelectedExercise = ({
+  name,
+  primaryFocus,
+  sets
+}: any) => {
+  const { handlePrimaryFocusColor } = usePrimaryFocusColor();
+  return (
+    <div className={`${borderColor} border shadow-sm border-solid mb-3 rounded-lg overflow-hidden`}>
+      <div className="py-2 px-4 h-[55px] flex justify-between items-center">
+        <div className="flex gap-[10px] items-center">
+          <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
+            <Image
+              alt="Trainer Image"
+              src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+              style={{ objectFit: "cover" }}
+              fill
+            />
+          </div>
+          <p className={`${primaryTextColor} text-[14px]`}>
+            {name}
+          </p>
+          <div className={`${handlePrimaryFocusColor(primaryFocus)} rounded-md text-center px-2 text-[12px]`}>
+            Core
+          </div>
+        </div>
+      </div>
+      <div className={`${primaryBgColor} p-6 text-center text-[13px]`}>
+        <div className="headers flex gap-[15px]">
+          <div className="field w-[100px] flex">
+            <p className={`${secondaryTextColor} font-light`}>
+              Set
+            </p>
+          </div>
+          <div className="field w-[100px] flex">
+            <p className={`${secondaryTextColor} font-light`}>
+              Set type
+            </p>
+          </div>
+          <div className="field w-[100px] flex">
+            <p className={`${secondaryTextColor} font-light`}>
+              Reps
+            </p>
+          </div>
+          <div className="field w-[100px] flex">
+            <p className={`${secondaryTextColor} font-light`}>
+              Rest
+            </p>
+          </div>
+        </div>
+        <div className="mt-4">
+          {sets?.map((set: any, index: number) => {
+            const { setType, reps, rest } = set;
+            return (
+              <div className="flex gap-[15px] mt-2">
+                <div className="field w-[100px] flex">
+                  <p className={`${primaryTextColor} font-light`}>
+                    {index + 1}
+                  </p>
+                </div>
+                <div className="field w-[100px] flex">
+                  <p className={`${primaryTextColor} font-light`}>
+                    {setType || '--'}
+                  </p>
+                </div>
+                <div className="field w-[100px] flex">
+                  <p className={`${primaryTextColor} font-light`}>
+                    {reps || '--'}
+                  </p>
+                </div>
+                <div className="field w-[100px] flex">
+                  <p className={`${primaryTextColor} font-light`}>
+                    {rest || '--'}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function WorkoutDetailsModal({
   workoutName,
   workoutDescription,
   exercises,
   onClose
 }: Props) {
-  const SelectedExercise = ({ exercise }) => {
-    return (
-      <div className="border shadow-sm border-solid border-gray-200 mb-3 rounded-lg overflow-hidden">
-        <div className="py-2 px-4 bg-gray-100 h-[55px] flex justify-between items-center">
-          <div className="flex gap-[10px] items-center">
-            <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
-              <Image
-                alt="Trainer Image"
-                src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                style={{ objectFit: "cover" }}
-                fill
-              />
-            </div>
-            <p className="text-[14px]">{exercise.name}</p>
-            <div className="rounded-md text-center bg-[#DAF6E0] text-[#015212] px-2 text-[12px]">
-              Core
-            </div>
-          </div>
-          <button>
-            {/* {trashIcon} */}
-          </button>
-        </div>
-        <div className="bg-white p-6 text-center text-[12px]">
-          <div className="flex gap-[15px]">
-            <div className="field w-[100px]">
-              <p className="mb-2 text-gray-500">Set</p>
-              <p className="font-light">1</p>
-              <p className="font-light">2</p>
-            </div>
-            <div className="field w-[100px]">
-              <p className="mb-2 text-gray-500">Reps</p>
-              <p className="font-light">5</p>
-              <p className="font-light">3</p>
-            </div>
-            <div className="field w-[100px]">
-              <p className="mb-2 text-gray-500">Time</p>
-              <p className="font-light">--</p>
-              <p className="font-light">--</p>
-            </div>
-            <div className="field w-[100px]">
-              <p className="mb-2 text-gray-500">Rest</p>
-              <p className="font-light">00:00</p>
-              <p className="font-light">00:00</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <Modal onClose={onClose} className="w-[500px] h-[90%]">
       <div className="bg-[#10182a] p-7">
@@ -83,9 +118,16 @@ export default function WorkoutDetailsModal({
       </div>
 
       <div className="workout p-7">
-        {exercises.map((exercise) => (
-          <SelectedExercise exercise={exercise} />
-        ))}
+        {exercises.map((exercise) => {
+          const { name, primaryFocus, sets } = exercise;
+          return (
+            <SelectedExercise 
+              name={name} 
+              primaryFocus={primaryFocus}
+              sets={sets} 
+            />
+          );
+        })}
       </div>
     </Modal>
   );

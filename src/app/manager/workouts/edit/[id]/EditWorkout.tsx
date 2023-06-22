@@ -59,7 +59,6 @@ export default function EditWorkout() {
       <Header 
         pageTitle="Edit Workout"
         backIcon
-        backPath="/manager/workouts"
         showActionButtons
         isLoading={editWorkoutMutation.isLoading}
         handleSubmit={() => editWorkoutMutation.mutateAsync({

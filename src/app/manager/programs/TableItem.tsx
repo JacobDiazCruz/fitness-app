@@ -4,7 +4,9 @@ import {
   secondaryTextColor,
   primaryTextColor 
 } from "@/utils/themeColors";
-import TableItemActions from "@/components/global/TableItemActions";
+import ItemActionsMenu from "@/components/global/ItemActionsMenu";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 interface Props {
   itemId: string;
   name: string;
@@ -19,12 +21,18 @@ export default function TableItem({
   description,
   createdAt
 }: Props) {
+  const router = useRouter();
+
+  // date format
   const date = new Date(createdAt);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
-    <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
+    <div 
+      className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}
+      onClick={() => router.push(`/manager/programs/edit/${itemId}?week=1`)}
+    >
       <div className="flex items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
           <div>
@@ -47,7 +55,7 @@ export default function TableItem({
           </p>
         </div>
         <div className="col-5">
-          <TableItemActions 
+          <ItemActionsMenu 
             itemId={itemId}
             editPath={`/manager/programs/edit/${itemId}?week=1`}
           />

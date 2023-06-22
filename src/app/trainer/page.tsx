@@ -1,10 +1,10 @@
 'use client';
 
-import Profile from "./Profile";
-import PricingCard from "./PricingCard";
-import Carousel from "./Carousel";
-import Reviews from "./Reviews";
-import MyPortfolio from "./MyPortfolio";
+import Profile from "../../components/manager/coach/Profile";
+import PricingCard from "../../components/manager/coach/PricingCard";
+import Carousel from "../../components/manager/coach/Carousel";
+import Reviews from "../../components/manager/coach/Reviews";
+import MyPortfolio from "../../components/manager/coach/MyPortfolio";
 
 export default function Trainer() {
   return (

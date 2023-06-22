@@ -1,6 +1,6 @@
 import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
-import TableItemActions from "@/components/global/TableItemActions";
+import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 
 import {
@@ -51,7 +51,7 @@ export default function TableItem({
           </p>
         </div>
         <div className="col-5">
-          <TableItemActions 
+          <ItemActionsMenu 
             itemId={itemId}
             editPath={`/manager/workouts/edit/${itemId}`}
           />

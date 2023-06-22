@@ -12,6 +12,7 @@
 import { memo, SyntheticEvent, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { CloseIcon } from "./Icons";
+import { fieldBgColor, primaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   value: Array<any>;
@@ -71,21 +72,30 @@ function AutoComplete({
     };
 
     return (
-      <ul ref={ref} className="z-[100] absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" aria-labelledby="headlessui-combobox-button-:R4q:" role="listbox" id="headlessui-combobox-options-:rl:" data-headlessui-state="open">
+      <ul 
+        ref={ref} 
+        className="z-[100] dark:bg-neutral-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
+        aria-labelledby="headlessui-combobox-button-:R4q:" 
+        role="listbox" 
+        id="headlessui-combobox-options-:rl:" 
+        data-headlessui-state="open"
+      >
         {filteredItems.length ? (
           <>
             {filteredItems?.map((item: any) => (
               <li
                 onClick={() => handleClickDropdownItem(item.name)}
-                className="relative hover:bg-gray-100 cursor-pointer select-none py-2 px-4 text-gray-900" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" aria-selected="false" data-headlessui-state=""
+                className="relative dark:hover:bg-neutral-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" ariaSelected="false" data-headlessui-state=""
               >
-                <span className="block truncate font-normal">{item.name}</span>
+                <span className="dark:text-neutral-50 text-neutral-900 block truncate font-normal">
+                  {item.name}
+                </span>
               </li>
             ))}
           </>
         ) : (
           <li className="py-3 pl-4">
-            <span>No result.</span>
+            <span className={primaryTextColor}>No result.</span>
           </li>
         )}
       </ul>
@@ -94,8 +104,8 @@ function AutoComplete({
 
   return (
     <div className="autocomplete-container" key={key}>
-      <div className="autocomplete-field relative w-full cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-        <div className="w-full cursor-auto gap-[7px] bg-[#f6f6f6] border border-gray-200 text-sm leading-5 rounded-lg text-gray-900" >
+      <div className={`${fieldBgColor} autocomplete-field relative w-full cursor-default overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm`}>
+        <div className={`${fieldBgColor} w-full cursor-auto gap-[7px] border border-gray-200 text-sm leading-5 rounded-lg text-gray-900`}>
           <div className="flex flex-wrap w-half gap-[7px] p-2">
             {value?.map((val, index) => (
               <div 
@@ -113,7 +123,11 @@ function AutoComplete({
               onChange={(e: SyntheticEvent) => setInputValue(e.target.value)}
               type={type}
               required={required}
-              className="bg-transparent py-2 px-1 flex-1 min-w-0"
+              className={`
+                ${primaryTextColor}
+                bg-transparent
+                py-2 px-1 flex-1 min-w-0`
+              }
               value={inputValue}
               role="combobox"
               type="text"

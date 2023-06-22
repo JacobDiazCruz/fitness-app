@@ -15,6 +15,7 @@ import {
   primaryTextColor 
 } from "@/utils/themeColors";
 import Container from "@/components/global/Container";
+import FieldName from "@/components/global/FieldName";
 
 const MemoizedUploader = memo(Uploader);
 
@@ -33,9 +34,9 @@ export default function ExerciseForm({
       <div className="flex gap-[40px]">
         <div className="w-[415px]">
           <div className="field-container">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Exercise name
-            </p>
+            </FieldName>
             <TextField 
               placeholder="e.g. Incline dumbbell press"
               value={exerciseForm.name}
@@ -46,9 +47,9 @@ export default function ExerciseForm({
             />
           </div>
           <div className="field-container mt-7">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Primary focus
-            </p>
+            </FieldName>
             <AutoComplete
               placeholder="Choose one"
               value={exerciseForm.primaryFocus}
@@ -60,9 +61,9 @@ export default function ExerciseForm({
             />
           </div>
           <div className="field-container mt-7">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Category
-            </p>
+            </FieldName>
             <AutoComplete 
               placeholder="Choose category"
               value={exerciseForm.category}
@@ -74,9 +75,9 @@ export default function ExerciseForm({
             />
           </div>
           <div className="field-container mt-7">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName>
               Instructions / Note
-            </p>
+            </FieldName>
             <TextArea 
               placeholder="Write insructions / notes"
               value={exerciseForm.instruction}
@@ -89,9 +90,9 @@ export default function ExerciseForm({
         </div>
         <div className="w-[415px]">
           <div className="field-container w-full">
-            <p className={`${primaryTextColor} text-[14px] mb-2`}>
+            <FieldName required>
               Video
-            </p>
+            </FieldName>
             <TextField
               placeholder="Paste a link from youtube or vimeo"
               value={exerciseForm.videoLink}
@@ -108,10 +109,12 @@ export default function ExerciseForm({
             </div>
           </div>
           <div className="field-container mt-8">
-            <p className={`${primaryTextColor} text-[14px]`}>
-              Upload videos or images
+            <FieldName>
+              Upload images or videos
+            </FieldName>
+            <p className="text-[#9C9EA0] text-[12px]">
+              Upload your own workout videos and images.
             </p>
-            <p className="text-[#9C9EA0] text-[12px]">Upload your own workout videos and images.</p>
             <MemoizedUploader
               initialFilesList={initialFilesList}
               setInitialFilesList={setInitialFilesList}

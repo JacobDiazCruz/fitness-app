@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TableItemActions from "@/components/global/TableItemActions";
+import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { Exercise } from "@/utils/types";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
@@ -120,8 +120,8 @@ export default function DraggableWorkouts ({
                 {workout.exercises.length} exercises
               </p>
             </div>
-            <TableItemActions
-              editPath={`/manager/exercises/edit`}
+            <ItemActionsMenu
+              editPath={`/manager/workouts/edit/${workout._id}`}
               handleDelete={() => handleDelete(workout)}
             />
           </div>
