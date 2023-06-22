@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "@/components/global/Button";
 import { ImageIcon } from "@/components/global/Icons";
@@ -17,6 +17,9 @@ import ChatList from "../ChatList";
 export default function Messages() {
   const router = useRouter();
   const params = useParams();
+  const myUserId = useLocalStorage("userId");
+
+  const chatBoxRef = useRef(null);
 
   // get initial receiverId
   const searchParams = useSearchParams();
@@ -40,6 +43,11 @@ export default function Messages() {
       setMessages((prevMessages) => [...prevMessages, messageData]);
     });
   }, []);
+
+  useEffect(() => {
+    // Scroll to the bottom of the container when its size adjusts
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  }, [messages]);
 
   // list messages data
   const { 
@@ -84,44 +92,51 @@ export default function Messages() {
         <ChatList />
 
         {/* Chat */}
-        <div className={`${primaryBgColor} ${borderColor} w-full relative p-3 border-t border-t-solid`}>
-          <div className="relative overflow-auto h-[70vh]">
-            {messages?.map((message: Message, index: number) => (
-              // Other
-              <div className="flex gap-[12px] mt-3">
-                <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-                  <Image
-                    alt="Trainer Image"
-                    src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                    style={{ objectFit: "cover" }}
-                    fill
-                  />
-                </div>
-                <div className={`${tertiaryBgColor} text-gray-900 py-3 px-4 rounded-3xl w-[50%]`}>
-                  <p className={`${primaryTextColor} text-[14px]`}>
-                    {message?.message}
-                  </p>
-                </div>
-              </div>
-            ))}
-            {/* ME */}
-            <div className="mt-3 flex flex-row-reverse">
-              <div className="flex gap-[12px]">
-                <div className="bg-gray-800 text-gray-50 py-3 px-4 rounded-3xl lg:w-[500px]">
-                  <p className="text-[14px]">
-                    Hey hey, just a reminder that I will be out of town for a wedding next week! town for a wedding next week!town for a wedding next week!town for a wedding next week!town for a wedding next week!town for a wedding next week!
-                  </p>
-                </div>
-                <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-                  <Image
-                    alt="Trainer Image"
-                    src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                    style={{ objectFit: "cover" }}
-                    fill
-                  />
-                </div>
-              </div>
-            </div>
+        <div className={`${primaryBgColor} ${borderColor}' w-full relative p-3 border-t border-t-solid`}>
+          <div ref={chatBoxRef} className="relative overflow-auto h-[70vh]">
+            {messages?.map((message: Message, index: number) => {
+              if(message.senderId !== myUserId) {
+                return (
+                  // Other
+                  <div className="flex gap-[12px] mt-3">
+                    <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
+                      <Image
+                        alt="Trainer Image"
+                        src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+                        style={{ objectFit: "cover" }}
+                        fill
+                      />
+                    </div>
+                    <div className={`${tertiaryBgColor} text-gray-900 py-3 px-4 rounded-3xl w-[50%]`}>
+                      <p className={`${primaryTextColor} text-[14px]`}>
+                        {message?.message}
+                      </p>
+                    </div>
+                  </div>
+                );
+              } else {
+                // ME
+                return (
+                  <div className="mt-3 flex flex-row-reverse">
+                    <div className="flex gap-[12px]">
+                      <div className="dark:bg-neutral-100 dark:text-neutral-900 text-gray-50 py-3 px-4 rounded-3xl lg:w-[500px]">
+                        <p className="text-[14px]">
+                          {message?.message}
+                        </p>
+                      </div>
+                      <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
+                        <Image
+                          alt="Trainer Image"
+                          src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+                          style={{ objectFit: "cover" }}
+                          fill
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}          
           </div>
           {/* Send */}
           <div className="relative w-full h-[60px]">
