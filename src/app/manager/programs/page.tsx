@@ -4,7 +4,7 @@ import Table from "./Table";
 export default function Programs() {
   return (
     <>
-      <Header pageTitle="Exercises" />
+      <Header pageTitle="Programs" />
       <Table />
     </>
   );

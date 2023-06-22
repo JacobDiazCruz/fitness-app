@@ -2,6 +2,12 @@ import { useState, createContext, useReducer, useContext, useMemo, useEffect } f
 
 const WorkoutContext = createContext();
 
+const initialSet = {
+  setType: "",
+  reps: null,
+  rest: "00:00"
+};
+
 export const WorkoutProvider = ({ children }) => {
   const [
     selectedExercises,
@@ -33,13 +39,7 @@ export const WorkoutProvider = ({ children }) => {
       const exercisesList = [...selectedExercises, {
         ...exercise,
         secondaryId: Math.random(),
-        sets: [
-          {
-            setType: "",
-            reps: null,
-            rest: null
-          }
-        ]
+        sets: [initialSet]
       }];
       updateSelectedExercises(exercisesList);
     }
@@ -109,29 +109,41 @@ export const WorkoutProvider = ({ children }) => {
     setSelectedExercises((prevExercises) => {
       const updatedExercises = [...prevExercises];
       if(exerciseType === "normal") {
-        updatedExercises[index].sets.push({
-          setType: "",
-          reps: null,
-          rest: null
-        });
+        updatedExercises[index].sets.push(initialSet);
       } else {
-        updatedExercises[index].supersetExercises[supersetIndex].sets.push({
-          setType: "",
-          reps: null,
-          rest: null
-        });
+        updatedExercises[index].supersetExercises[supersetIndex].sets.push(initialSet);
       }
       return updatedExercises;
     });
   };
 
+  /**
+   * @Purpose to update the "set" field's value
+   * @Note N/A
+   */
   const handleChangeSetField = ({value, field, exerciseIndex, setIndex}) => {
     setSelectedExercises((prevExercises) => {
       const updatedExercises = [...prevExercises];
-      updatedExercises[exerciseIndex].sets[setIndex][field] = value
+      // create copies of the nested "set" object to ensure immutability
+      const updatedSets = [...updatedExercises[exerciseIndex].sets];
+      // update the field's value
+      updatedSets[setIndex] = {
+        ...updatedSets[setIndex],
+        [field]: value
+      };
+      // update the actual set field
+      updatedExercises[exerciseIndex] = {
+        ...updatedExercises[exerciseIndex],
+        sets: updatedSets
+      };
       return updatedExercises;
     });
   };
+  
+
+  useEffect(() => {
+    console.log("selectedExercises", selectedExercises)
+  }, [selectedExercises])
 
   // value prop to return all necessary data
   const value = useMemo(() => {

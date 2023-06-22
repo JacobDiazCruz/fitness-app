@@ -75,7 +75,7 @@ export default function YourExercises({}) {
 
   return (
     <>
-      <div className="px-6">
+      <div>
         <h2 className="dark:text-neutral-50 text-neutral-950 text-[18px] font-medium">
           Your Exercises
         </h2>
@@ -88,7 +88,7 @@ export default function YourExercises({}) {
           />
         </div>
       </div>
-      <div className="exercises-list overflow-auto overflow-x-hidden h-[61vh] mt-2 p-6">
+      <div className="exercises-list overflow-auto overflow-x-hidden h-[61vh] mt-2 pt-6">
         {exercisesList?.length > 0 ? (
           exercisesList?.map((exercise: Exercise) => (
             <DraggableExerciseItem exercise={exercise} />

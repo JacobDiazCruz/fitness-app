@@ -48,12 +48,10 @@ function AutoComplete({
   useEffect(() => {
     // filter dropdown items based on input value
     const newItems = items.filter((item) => {
-      console.log("inputValue", inputValue)
       const itemName = item.name.toLowerCase();
       const input = inputValue.toLowerCase();
       return itemName.includes(input);
     });
-    console.log("newItems", newItems)
     setFilteredItems(newItems);
   }, [inputValue]);
 
@@ -79,7 +77,7 @@ function AutoComplete({
             {filteredItems?.map((item: any) => (
               <li
                 onClick={() => handleClickDropdownItem(item.name)}
-                className="relative hover:bg-gray-100 cursor-pointer select-none py-2 px-4 text-gray-900" id="headlessui-combobox-option-:rm:" role="option" tabindex="-1" aria-selected="false" data-headlessui-state=""
+                className="relative hover:bg-gray-100 cursor-pointer select-none py-2 px-4 text-gray-900" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" aria-selected="false" data-headlessui-state=""
               >
                 <span className="block truncate font-normal">{item.name}</span>
               </li>

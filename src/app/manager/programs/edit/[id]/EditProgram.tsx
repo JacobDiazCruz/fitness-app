@@ -4,7 +4,7 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import Header from "@/app/manager/Header";
 import HeaderActions from "./HeaderActions";
 import Button from "@/components/global/Button";
-import { AddIcon, SettingsIcon, VertDotsIcon } from "@/components/global/Icons";
+import { AddIcon, ArrowLeftIcon, PencilIcon, SettingsIcon, VertDotsIcon } from "@/components/global/Icons";
 import SelectWorkoutModal from "./SelectWorkoutModal";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
 import { useMutation, useQuery } from "react-query";
@@ -14,12 +14,13 @@ import {
   secondaryTextColor 
 } from "@/utils/themeColors";
 import { editProgram, getProgram } from "@/api/Program";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import IconButton from "@/components/global/IconButton";
 import DraggableWorkouts from "./DraggableWorkouts";
 
 export default function EditProgram() {
   const params = useParams();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [draggedWorkout, setDraggedWorkout] = useState(null);
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
@@ -125,11 +126,19 @@ export default function EditProgram() {
 
   return (
     <>
-      <Header 
-        pageTitle={programData?.name}
-        backIcon
-        backPath="/manager/programs"
-      />
+      <div className="w-full mb-[50px] flex items-center justify-between">
+        <div className="flex gap-[10px] items-center">
+          <button onClick={() => router.push("/manager/programs")}>
+            <ArrowLeftIcon className={`${primaryTextColor} w-4 h-4`} />
+          </button>
+          <h5 className={`${primaryTextColor} text-[22px] text-medium`}>
+            {programData?.name}
+          </h5>
+          <IconButton className="ml-1">
+            <PencilIcon className={`${primaryTextColor} w-4 h-4`} />
+          </IconButton>
+        </div>
+      </div>
       <HeaderActions 
         weeks={weeks}
       />

@@ -30,6 +30,39 @@ const SelectedExercise = ({
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   const [selectedSet, setSelectedSet] = useState("");
   const [reps, setReps] = useState("");
+  const [value, setValue] = useState("00:00");
+
+  const formatTime = (time) => {
+    // Remove any non-digit characters
+    const digitsOnly = time.replace(/\D/g, "");
+
+    // Extract hours and minutes
+    const hours = digitsOnly.slice(0, 2);
+    const minutes = digitsOnly.slice(2, 4);
+
+    // Format the time as "HH:MM"
+    return `${hours}:${minutes}`;
+  };
+
+  const handleTimeChange = ({
+    value,
+    field,
+    exerciseIndex,
+    setIndex
+  }) => {
+    const inputTime = value;
+    const formattedTime = formatTime(inputTime);
+    setValue(formattedTime);
+
+    handleChangeSetField({
+      value: formattedTime,
+      field: "rest",
+      exerciseIndex,
+      setIndex
+    })
+  };
+
+  // const formattedValue = formatTime(value);
 
   return (
     <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">
@@ -67,11 +100,11 @@ const SelectedExercise = ({
           <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
         </IconButton>
       </div>
-      <div className="dark:bg-neutral-950 bg-white p-6">
+      <div className="dark:bg-neutral-950 bg-white px-6">
         {sets?.map((set: any, setIndex: number) => {
           const {setType, reps, rest} = set;
           return (
-            <div key={setIndex} className="flex gap-[15px]">
+            <div key={setIndex} className="flex gap-[15px] my-6">
               <div className="field">
                 <p className="dark:text-neutral-50 text-neutral-950 mb-2">Set</p>
                 <AutoComplete
@@ -81,36 +114,43 @@ const SelectedExercise = ({
                     }
                   ]}
                   value={setType}
-                  onChange={(e) => handleChangeSetField({
-                    value: e.target.value,
-                    type: "setType",
-                    exerciseIndex,
-                    setIndex
-                  })}
+                  onChange={(value) => {
+                    handleChangeSetField({
+                      value,
+                      field: "setType",
+                      exerciseIndex,
+                      setIndex
+                    })
+                  }}
                 />
               </div>
               <div className="field">
-                <p className="dark:text-neutral-50 text-neutral-950 mb-2">Reps</p>
+                <p className="dark:text-neutral-50 text-neutral-950 mb-2">
+                  Reps
+                </p>
                 <TextField
                   value={reps}
+                  type="number"
                   onChange={(e) => handleChangeSetField({
                     value: e.target.value,
-                    type: "reps",
+                    field: "reps",
                     exerciseIndex,
                     setIndex
                   })}
                 />
               </div>
               <div className="field">
-                <p className="dark:text-neutral-50 text-neutral-950 mb-2">Rest</p>
+                <p className="dark:text-neutral-50 text-neutral-950 mb-2">
+                  Rest
+                </p>
                 <TextField
-                  value={rest}
-                  onChange={(e) => handleChangeSetField({
+                  onChange={(e) => handleTimeChange({
                     value: e.target.value,
-                    type: "rest",
+                    field: "reps",
                     exerciseIndex,
                     setIndex
                   })}
+                  value={rest}
                 />
               </div>
               <div>

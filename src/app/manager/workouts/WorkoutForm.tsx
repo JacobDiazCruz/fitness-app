@@ -2,6 +2,7 @@ import YourExercises from "./YourExercises";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import ExercisesBoard from "./ExercisesBoard";
+import Container from "@/components/global/Container";
 
 interface Props {
   workoutName: string;
@@ -18,8 +19,10 @@ export default function WorkoutForm ({
 }: Props) {
   return (
     <div className="flex gap-[40px]">
-      <div className="md:w-[40%] form dark:bg-neutral-950 dark:border-neutral-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 py-8 rounded-lg mt-5">
-        <YourExercises />
+      <div className="md:w-[40%] form dark:bg-neutral-950 dark:border-neutral-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
+        <Container>
+          <YourExercises />
+        </Container>
       </div>
 
       <div className="form dark:bg-neutral-950 dark:border-neutral-950 border border-solid border-gray-200 shadow-sm w-full p-8 rounded-lg mt-5">

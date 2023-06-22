@@ -2,6 +2,7 @@ import Button from "@/components/global/Button";
 import Container from "@/components/global/Container";
 import TextField from "@/components/global/TextField";
 import Header from "@/app/manager/Header";
+import { primaryTextColor } from "@/utils/themeColors";
 
 export default function AddNewClient () {
   return (
@@ -15,14 +16,18 @@ export default function AddNewClient () {
       <Container>
         <div className="flex gap-[20px] w-[700px]">
           <div className="w-[50%]">
-            <p className="mb-2">First name</p>
+            <p className={`mb-2 ${primaryTextColor}`}>
+              First name
+            </p>
             <TextField
               placeholder="First name"
               className="h-[49px]"
             />
           </div>
           <div className="w-[50%]">
-            <p className="mb-2">Last name</p>
+            <p className={`mb-2 ${primaryTextColor}`}>
+              Last name
+            </p>
             <TextField
               placeholder="Last name"
               className="h-[49px]"
@@ -30,14 +35,18 @@ export default function AddNewClient () {
           </div>
         </div>
         <div className="w-[700px] mt-7">
-          <p className="mb-2">Email address</p>
+          <p className={`mb-2 ${primaryTextColor}`}>
+            Email address
+          </p>
           <TextField
             placeholder="e.g. johndoe@email.com"
             className="h-[49px]"
           />
         </div>
         <div className="w-[700px] mt-7">
-          <p className="mb-2">Contact number</p>
+          <p className={`mb-2 ${primaryTextColor}`}>
+            Contact number
+          </p>
           <TextField
             placeholder="xxxxxxxxx"
             className="h-[49px]"

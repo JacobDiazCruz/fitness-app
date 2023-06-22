@@ -14,6 +14,7 @@ import {
   secondaryBgColor, 
   primaryTextColor 
 } from "@/utils/themeColors";
+import Container from "@/components/global/Container";
 
 const MemoizedUploader = memo(Uploader);
 
@@ -28,7 +29,7 @@ export default function ExerciseForm({
   setCategoryItems
 }) {  
   return (
-    <div className={`${secondaryBgColor} form width-full p-5 rounded-lg mt-5`}>
+    <Container>
       <div className="flex gap-[40px]">
         <div className="w-[415px]">
           <div className="field-container">
@@ -118,6 +119,6 @@ export default function ExerciseForm({
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
