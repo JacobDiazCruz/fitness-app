@@ -27,12 +27,14 @@ export default function TableItem({
       <div className="flex items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
           <div className="rounded-md bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
-            <Image
-              alt="Trainer Image"
-              src={coverImage}
-              style={{ objectFit: "cover" }}
-              fill
-            />
+            {coverImage && (
+              <Image
+                alt="Trainer Image"
+                src={coverImage}
+                style={{ objectFit: "cover" }}
+                fill
+              />
+            )}
           </div>
           <div>
             <h5 className={`${primaryTextColor} font-medium text-[14px]`}>

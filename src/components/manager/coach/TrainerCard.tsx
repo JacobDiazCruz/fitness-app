@@ -50,7 +50,7 @@ export default function TrainerCard({
                 alt="Cover Image"
                 fill
                 style={{ objectFit: 'cover' }}
-                src={profileImage?.thumbnailImage}
+                src={profileImage?.thumbnailImage ?? "/"}
               />
             )}
           </div>

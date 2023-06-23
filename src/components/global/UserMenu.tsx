@@ -66,14 +66,14 @@ export default function UserMenu({
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-              {thumbnailImage && (
+              {/* {thumbnailImage && (
                 <Image
                   alt="Trainer Image"
                   src={thumbnailImage}
                   style={{ objectFit: "cover" }}
                   fill
                 />
-              )}
+              )} */}
             </div>
             <div>
               <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">
