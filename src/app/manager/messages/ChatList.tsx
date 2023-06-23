@@ -10,7 +10,6 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
-import { listMessages } from "@/api/Message";
 import useChat from "./useChat";
 
 export default function ChatList() {

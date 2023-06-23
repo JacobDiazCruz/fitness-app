@@ -12,6 +12,14 @@ export const getChat = async (roomId) => {
   const payload = {
     url: `/chat/${roomId}`
   };
-  const res = await getRequest(payload);
-  return res.data?.data;
+  try {
+    const res = await getRequest(payload);
+    if(res.data) {
+      return res?.data?.data;
+    } else {
+      throw new Error(res);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
 };

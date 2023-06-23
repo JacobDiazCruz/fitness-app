@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "@/components/global/Button";
-import { ImageIcon, SmileyIcon } from "@/components/global/Icons";
+import { ImageIcon, LoadingIcon, SmileyIcon } from "@/components/global/Icons";
 import Header from "../../Header";
 import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -20,9 +20,14 @@ import MessageInput from "../MessageInput";
 export default function Messages() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  
+  // your account's essentials
+  const accessToken = useLocalStorage("accessToken");
   const myUserId = useLocalStorage("userId");
-  const { sendMessage, socket } = useChat();
-
+  
+  const { sendMessage, socket, chatBoxRef } = useChat();
+  
   const [myChatDetails, setMyChatDetails] = useState({
     userId: "",
     firstName: "",
@@ -35,16 +40,16 @@ export default function Messages() {
     lastName: "",
     thumbnailImage: ""
   });
-  const chatBoxRef = useRef(null);
+  const [messagesLimit, setMessagesLimit] = useState<number>(20);
 
   // get initial receiverId
-  const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
-  const accessToken = useLocalStorage("accessToken");
 
   // state messages
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [remountKey, setRemountKey] = useState(0);
+  const [forceScrollBottom, setForceScrollBottom] = useState(true);
+  const [firstMount, setFirstMount] = useState(true);
 
   useEffect(() => {
     // join room
@@ -55,29 +60,50 @@ export default function Messages() {
       const { roomId, message, createdAt} = messageData;
       console.log("Received message:", message);
       setMessages((prevMessages) => [...prevMessages, messageData]);
+      
+      // Set force scroll to the bottom after sending a message
+      setForceScrollBottom(true);
     });
   }, []);
 
   useEffect(() => {
-    // Scroll to the bottom of the container when its size adjusts
-    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    // Scroll to the bottom of the container when a new message is added
+    if(forceScrollBottom) {
+      chatBoxRef.current.scrollTop = 
+        chatBoxRef.current.scrollHeight;
+      setForceScrollBottom(false);
+    } else if (firstMount) {
+      // Scroll to the bottom of the container on first mount of component
+      chatBoxRef.current.scrollTop = 
+        chatBoxRef.current.scrollHeight;
+      setFirstMount(false);
+    }
   }, [messages]);
 
-  // list messages data
+  // list messages query
   const { 
-    isLoading,
-    isError,
+    isLoading: isLoadingMessages,
+    isFetching: isFetchingMessages,
+    isError: isErrorMessages,
     data: messagesData,
-    error,
-    refetch
-  } = useQuery('messages', () => listMessages(params.id), {
-    refetchOnMount: true
+    refetch: refetchMessagesData
+  } = useQuery('messages', () => listMessages({ 
+    roomId: params.id,
+    limit: messagesLimit
+  }), {
+    refetchOnMount: true,
   });
 
+  /**
+   * @Purpose To refetch the messages data everytime the url param updates
+   */
   useEffect(() => {
-    refetch();
+    refetchMessagesData();
   }, [params.id]);
 
+  /**
+   * @Purpose To set the requested messages data on messages state and display it on the UI
+   */
   useEffect(() => {
     if(messagesData) {
       setMessages(messagesData);
@@ -97,10 +123,44 @@ export default function Messages() {
   });
 
   /**
-   * @Purpose sets chat details on the chatbox whenever chatData is available
+   * @Purpose To fetch the previous messages data upon scrolling to the -
+   * upmost part of the parent messages container.
+   * FIX THIS BUGGY
+   */
+   useEffect(() => {
+    if(!firstMount) {
+      let prevScrollHeight = 0;
+      let prevScrollTop = 0;
+    
+      function handleScroll() {
+        const chatBoxElement = chatBoxRef.current;
+        if (chatBoxElement.scrollTop <= 30) {
+          prevScrollHeight = chatBoxElement.scrollHeight;
+          prevScrollTop = chatBoxElement.scrollTop;
+    
+          setMessagesLimit((prevLimit) => prevLimit + 10);
+          refetchMessagesData();
+          console.log("prevScrollTop", prevScrollTop)
+          console.log("prevScrollHeight", prevScrollHeight)
+          chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight - 20
+        }
+      }
+    
+      const chatBoxElement = chatBoxRef.current;
+      chatBoxElement.addEventListener("scroll", handleScroll);
+    
+      return () => {
+        chatBoxElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [messagesLimit, firstMount]);
+  
+  /**
+   * @Purpose To set chat details on the chatbox whenever chatData is available
+   * @Note This is used to display the thumbnailImage and get the profile link of the sender and receiver.
    */
   useEffect(() => {
-    if(!chatData) {
+    if(chatData) {
       chatData?.users?.forEach((user) => {
         if(user.userId === myUserId) {
           setMyChatDetails(user);
@@ -116,12 +176,15 @@ export default function Messages() {
       <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
         Messages
       </h5>
-      <div className="h-[100vh] flex">
+      <div className="h-full flex">
         <ChatList />
 
         {/* Chat */}
         <div className={`${primaryBgColor} ${borderColor}' w-full relative border-t border-t-solid`}>
           <div ref={chatBoxRef} className="relative overflow-auto h-[70vh] p-5">
+            {isFetchingMessages && (
+              <LoadingIcon className="w-4 h-4 m-auto" />
+            )}
             {messages?.map((message: Message, index: number) => {
               if(message.senderId !== myUserId) {
                 return (
@@ -158,14 +221,14 @@ export default function Messages() {
               }
             })}
           </div>
-          <MessageInput 
+          <MessageInput
             handleSendMessage={(e) => {
               sendMessage({
                 e,
                 roomId: params.id,
                 accessToken,
                 receiverId
-              })
+              });
             }}
           />
         </div>

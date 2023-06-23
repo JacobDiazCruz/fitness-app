@@ -1,7 +1,7 @@
 import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
-import { ImageIcon, SmileyIcon } from "@/components/global/Icons";
-import { fieldBgColor, primaryTextColor } from "@/utils/themeColors";
+import { CloseIcon, ImageIcon, SmileyIcon } from "@/components/global/Icons";
+import { fieldBgColor, primaryBgColor, primaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   handleSendMessage: () => void;
@@ -12,7 +12,24 @@ export default function MessageInput({
 }: Props) {
   return (
     <div className="relative w-full h-[60px]">
-
+      <div className={`${primaryBgColor} w-full p-3 relative flex gap-[10px]`}>
+        <div className="h-[45px] w-[45px] bg-gray-200 relative rounded-md">
+          <button className="w-[25px] h-[25px] right-[-8px] mt-[-10px] absolute bg-white rounded-full border border-solid border-neutral-300">
+            <CloseIcon className="w-4 h-4 m-auto" />
+          </button>
+          <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
+            Image
+          </div>
+        </div>
+        <div className="h-[45px] w-[45px] bg-gray-200 relative rounded-md">
+          <button className="w-[25px] h-[25px] right-[-8px] mt-[-10px] absolute bg-white rounded-full border border-solid border-neutral-300">
+            <CloseIcon className="w-4 h-4 m-auto" />
+          </button>
+          <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
+            Image
+          </div>
+        </div>
+      </div>
       {/* Message input field */}
       <div 
         className={`

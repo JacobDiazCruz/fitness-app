@@ -1,5 +1,5 @@
 import { listChats } from "@/api/Chat";
-import { useEffect } from "react"
+import { useRef, useEffect } from "react"
 import { useQuery } from "react-query";
 import io from "socket.io-client";
 
@@ -7,6 +7,8 @@ import io from "socket.io-client";
 const socket = io("http://localhost:4000");
 
 export default function useChat() {
+  const chatBoxRef = useRef(null);
+
   const { 
     isLoading: isLoadingChats, 
     isError: isErrorChats,
@@ -32,17 +34,19 @@ export default function useChat() {
 
       // send private chat and message will also be created with the receiver
       socket.emit("privateMessage", messageData);
+
       e.target.innerText = "";
     }
   };
 
   useEffect(() => {
-    console.log("chats", chats)
-  }, [chats])
+    console.log("chats", chats);
+  }, [chats]);
 
   return {
     chats,
     socket,
+    chatBoxRef,
     sendMessage
   }
 };

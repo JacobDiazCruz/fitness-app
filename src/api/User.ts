@@ -19,13 +19,11 @@ export const logoutUser = async (data) => {
 };
 
 export const verifyUserToken = async () => {
+  const payload = {
+    url: `/user/check-token`
+  };
   try {
-    const payload = {
-      url: `/user/check-token`
-    };
     const res = await getRequest(payload);
-    console.log("res.data", res.data);
-    // return res.data;
     if(res.data) {
       return res.data;
     } else {
