@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function TrainerRating() {
+export default function CoachRating() {
   const [value, setValue] = useState<number | null>(4);
 
   return (

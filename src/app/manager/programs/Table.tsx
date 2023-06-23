@@ -10,6 +10,7 @@ import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
 import { listPrograms } from "@/api/Program";
 import { Program } from "@/utils/types";
+import TableNoResults from "@/components/global/TableNoResults";
 
 const TableColumnHeaders = () => {
   return (
@@ -89,11 +90,7 @@ export default function Table() {
       <div className="page-table mt-8">
         <TableColumnHeaders primaryTextColor={primaryTextColor} />
         {filteredPrograms?.length <= 0 ? (
-          <div className="border-t border-t-solid border-gray-100">
-            <p className={`${primaryTextColor} text-center mt-[70px] text-[14px] font-light`}>
-              No results found.
-            </p>
-          </div>
+          <TableNoResults />
         ) : (
           filteredPrograms?.map((program: Program) => {
             const { _id, name, description, weeks, createdAt } = program;

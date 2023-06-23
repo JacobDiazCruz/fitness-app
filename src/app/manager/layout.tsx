@@ -11,6 +11,8 @@ import WelcomePopup from "./WelcomePopup";
 import MobileTopbar from "@/components/manager/MobileTopbar";
 import ThemeWrapper from "./ThemeWrapper";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
+import { useEffect } from "react";
+import VerifyUser from "./VerifyUser";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -25,9 +27,10 @@ export default function ManagerLayout ({
   return (
     <Providers>
       <AppContextProvider>
+        <VerifyUser />
         <MobileTopbar />
         <DarkThemeLoader />
-        <div className="flex bg-white">
+        <div className="flex">
           <Sidebar />
           <WelcomePopup />
           <Alert />

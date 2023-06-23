@@ -25,33 +25,42 @@ export default function ChatList() {
   const myUserId = useLocalStorage("userId");
 
   return (
-    <div className={`${primaryBgColor} ${borderColor} w-[520px] border-r border-r-solid`}>
+    <div className={`${primaryBgColor} ${borderColor} w-[460px] border-r border-r-solid`}>
       {chats?.map((chat: any, index: any) => {
         const { users, roomId, lastMessage, createdAt } = chat;
 
         // Find the user ID that is not equal to "myUserId"
-        const otherUserId = users.find((userId: string) => userId !== myUserId);
+        const otherUser = users.find((user: any) => user.userId !== myUserId);
 
-        if(otherUserId) {
+        const { firstName, lastName, thumbnailImage } = otherUser;
+        if(otherUser) {
           return (
-            <div 
+            <div
               key={index}
               onClick={() => router.push(`/manager/messages/${roomId}`)}
-              className={`${borderColor} p-3 border-t border-t-solid cursor-pointer`}
+              className={`
+                ${borderColor}
+                ${params.id === roomId && 'dark:bg-neutral-900'}
+                p-3 border-t border-t-solid cursor-pointer
+              `}
             >
               <div className="flex gap-[12px]">
                 <div className="rounded-full w-[50px] h-[50px] relative overflow-hidden">
-                  <Image
-                    alt="Trainer Image"
-                    src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                    style={{ objectFit: "cover" }}
-                    fill
-                  />
+                  {thumbnailImage && (
+                    <Image
+                      alt="Trainer Image"
+                      src={thumbnailImage}
+                      style={{ objectFit: "cover" }}
+                      fill
+                    />
+                  )}
                 </div>
                 <div className="flex justify-between w-[80%]">
                   <div>
-                    <h4 className={`${primaryTextColor} font-semibold`}>{otherUserId}</h4>
-                    <p className={`${secondaryTextColor} font-light text-[14px]`}>
+                    <h4 className={`${primaryTextColor} font-semibold`}>
+                      {firstName} {lastName}
+                    </h4>
+                    <p className={`${secondaryTextColor} truncate w-[180px] font-light text-[14px]`}>
                       {lastMessage}
                     </p>
                   </div>
@@ -62,9 +71,8 @@ export default function ChatList() {
               </div>
             </div>
           );
-        } else {
-          return <></>;
         }
+        return <></>;
       })}
     </div>
   );

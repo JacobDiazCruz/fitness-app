@@ -1,21 +1,17 @@
-import { 
-    getRequest, 
-    postRequest,
-    putRequest 
-  } from ".";
+import { getRequest } from ".";
     
-  export const listChats = async () => {
-    const payload = {
-      url: `/chats/list`
-    };
-    const res = await getRequest(payload);
-    return res.data?.data;
+export const listChats = async () => {
+  const payload = {
+    url: `/chats/list`
   };
-  
-  // export const getProgram = async (id) => {
-  //   const payload = {
-  //     url: `/program/${id}`
-  //   };
-  //   const res = await getRequest(payload);
-  //   return res.data?.data;
-  // };
+  const res = await getRequest(payload);
+  return res.data?.data;
+};
+
+export const getChat = async (roomId) => {
+  const payload = {
+    url: `/chat/${roomId}`
+  };
+  const res = await getRequest(payload);
+  return res.data?.data;
+};

@@ -11,6 +11,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 import ChatList from "../ChatList";
+import { getCoachProfile, getProfile } from "@/api/Profile";
+import { useQuery } from "react-query";
 
 const roomId = Math.random().toString();
 
@@ -35,11 +37,21 @@ export default function Messages() {
     // Handle incoming messages
     socket.on("message", (messageData) => {
       const { roomId, message, createdAt} = messageData;
-      console.log("Received message:", message);
       router.push(`/manager/messages/${roomId}`);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
   }, []);
+
+  // get exercise data
+  const { 
+    isLoading,
+    isError,
+    data: receiverProfile,
+    error,
+    refetch
+  } = useQuery('receiverProfile', () => getProfile(receiverId), {
+    refetchOnMount: true
+  });
   
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
@@ -48,7 +60,12 @@ export default function Messages() {
       const messageData = {
         roomId,
         accessToken,
-        receiverId,
+        receiver: {
+          userId: receiverId,
+          thumbnailImage: receiverProfile?.profileImage?.thumbnailImage,
+          firstName: receiverProfile?.firstName,
+          lastName: receiverProfile?.lastName
+        },
         message: e.target.innerText
       };
 

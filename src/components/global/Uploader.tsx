@@ -40,7 +40,6 @@ export default function Uploader({
         onChange={handleFileChange}
         multiple
       />
-
       <label for="file" className="cursor-pointer">
         <div className={`${borderColor} border-[2px] flex rounded-lg w-full h-[200px] border-dashed`}>
           <div className="m-auto text-center w-full">

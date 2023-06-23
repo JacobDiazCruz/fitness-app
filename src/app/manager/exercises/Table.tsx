@@ -7,7 +7,8 @@ import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
-import { primaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor } from "@/utils/themeColors";
+import TableNoResults from "@/components/global/TableNoResults";
 
 const TableColumnHeaders = () => {
   return (
@@ -90,11 +91,7 @@ export default function Table() {
       <div className="page-table mt-8">
         <TableColumnHeaders primaryTextColor={primaryTextColor} />
         {filteredExercises?.length <= 0 ? (
-          <div className="border-t border-t-solid border-gray-100">
-            <p className={`${primaryTextColor} text-center mt-[70px] text-[14px] font-light`}>
-              No results found.
-            </p>
-          </div>
+          <TableNoResults />
         ) : (
           filteredExercises?.map((exercise: Exercise) => {
             const { _id, name, primaryFocus, category, files, createdAt } = exercise;

@@ -39,10 +39,10 @@ export const getRequest = async (payload: Payload) => {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`, 
       config
-    )
-    return res
+    );
+    return res;
   } catch (err) {
-    return err
+    return err?.response?.data
   }
 }
 

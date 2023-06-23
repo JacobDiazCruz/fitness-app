@@ -4,6 +4,7 @@ import Image from 'next/image'
 import TrainerCard from '@/components/manager/coach/TrainerCard';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import CoachList from '@/components/manager/coach/CoachList';
 
 export default function Landing() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Landing() {
   ]);
 
   return (
-    <div className="landing-page">
+    <div className="landing-page min-h-[100vh]">
       <div>
         <h1 className="dark:text-neutral-50 text-neutral-950 text-[62px] font-bold">
           Train with better coaches
@@ -22,17 +23,7 @@ export default function Landing() {
         </p>
       </div>
       <div className="flex flex-wrap items-center mt-20">
-        {trainersList.map(trainer => (
-          <div
-            onClick={() => router.push('/trainer')}
-            style={{
-              paddingRight: '15px',
-              paddingBottom: '15px'
-            }}
-          >
-            <TrainerCard />
-          </div>
-        ))}
+        <CoachList />
       </div>
     </div>
   );

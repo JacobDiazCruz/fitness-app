@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
 import { listWorkouts } from "@/api/Workout";
+import TableNoResults from "@/components/global/TableNoResults";
 
 const TableColumnHeaders = ({ primaryTextColor }: string) => {
   return (
@@ -84,11 +85,7 @@ export default function Table() {
       <div className="page-table mt-8">
         <TableColumnHeaders primaryTextColor={primaryTextColor} />
         {filteredWorkouts?.length <= 0 ? (
-          <div className="border-t border-t-solid border-gray-100">
-            <p className={`${primaryTextColor} text-center mt-[70px] text-[14px] font-light`}>
-              No results found.
-            </p>
-          </div>
+          <TableNoResults />
         ) : (
           filteredWorkouts?.map((workout: any) => {
             const { _id, name, description, exercises, createdAt } = workout;

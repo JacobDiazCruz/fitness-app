@@ -66,7 +66,7 @@ const Signin = () => {
         console.log("Error fetching profile data:", error);
       }
       
-      router.push('/');
+      router.push('/manager/exercises');
     },
     onError: (err) => {
       console.log(err);

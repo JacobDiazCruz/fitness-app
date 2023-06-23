@@ -2,7 +2,7 @@ import { Avatar, Divider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { theme } from '../../utils/mui';
 import { ThemeProvider } from "@mui/material/styles";
-import TrainerRating from "./TrainerRating";
+import CoachRating from "./CoachRating";
 import Rating from '@mui/material/Rating';
 import Image from "next/image";
 import Container from "@/components/global/Container";
@@ -29,7 +29,7 @@ export default function Reviews({
       <h4 className={`${primaryTextColor} text-[22px] font-semibold`}>
         Reviews
       </h4>
-      <TrainerRating />
+      <CoachRating />
 
       {reviewsList.map((review: Review) => (
         <>

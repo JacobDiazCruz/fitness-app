@@ -11,6 +11,15 @@ import {
   secondaryBgColor
 } from "@/utils/themeColors";
 
+const ChatIconWrapper = () => {
+  return (
+    <div className="relative">
+      <div className="bg-red-500 w-[10px] h-[10px] rounded-full absolute right-0 top-0"></div>
+      <ChatIcon className="w-6 h-6 text-gray-400" />
+    </div>
+  );
+}
+
 export default function Sidebar () {
   const router = useRouter();
   const pathname = usePathname();
@@ -24,7 +33,7 @@ export default function Sidebar () {
       path: "/manager/clients"
     },
     {
-      icon: <ChatIcon className="w-6 h-6 text-gray-400" />,
+      icon: <ChatIconWrapper />,
       name: "Messages",
       path: "/manager/messages"
     },

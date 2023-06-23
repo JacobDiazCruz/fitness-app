@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import CoachRating from './CoachRating';
+import CoachRating from '../CoachRating';
 import Image from 'next/image';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   about: string;
 };
 
-export default function TrainerCard({
+export default function Coach({
   firstName,
   lastName,
   profileImage,

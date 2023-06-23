@@ -66,20 +66,26 @@ export default function UserMenu({
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-              {/* {thumbnailImage && (
+              {thumbnailImage && (
                 <Image
                   alt="Trainer Image"
                   src={thumbnailImage}
                   style={{ objectFit: "cover" }}
                   fill
                 />
-              )} */}
+              )}
+              {/* <img
+                src={thumbnailImage}
+                style={{ 
+                  objectFit: "fill"
+                }}
+              /> */}
             </div>
             <div>
               <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">
                 {firstName} {lastName}
               </p>
-              <p className="dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
+              <p className="truncate w-[150px] dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
                 {email}
               </p>
             </div>
@@ -135,6 +141,12 @@ export default function UserMenu({
               fill
             />
           )}
+          {/* <img 
+            src={thumbnailImage}
+            style={{ 
+              objectFit: "fill"
+            }}
+          /> */}
         </div>
         {openNav && (
           <div>
@@ -150,9 +162,10 @@ export default function UserMenu({
               className={
                 `${darkMode ? 'text-gray-400' : 'text-gray-500'}
                 ml-2 text-[12px] font-light
+                truncate w-[100px]
               `}
             >
-              {/* {email} */}
+              {email}
             </p>
           </div>
         )}

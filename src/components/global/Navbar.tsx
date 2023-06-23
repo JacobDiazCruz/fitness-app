@@ -10,6 +10,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import LoginGoogle from "./LoginGoogle";
 import IconButton from "./IconButton";
 import { ChatIcon } from "./Icons";
+import { primaryTextColor } from "@/utils/themeColors";
 
 export default function Navbar() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function Navbar() {
               </div>
             ) : (
               <>
-                <Link href="/signin">
+                <Link href="/signin" className={primaryTextColor}>
                   <Button>
                     Sign in
                   </Button>
