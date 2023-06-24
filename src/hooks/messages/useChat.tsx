@@ -2,10 +2,6 @@ import { listChats } from "@/api/Chat";
 import { uploadFiles } from "@/api/Exercise";
 import { useRef, useEffect } from "react"
 import { useMutation, useQuery } from "react-query";
-import io from "socket.io-client";
-
-// Establish a connection to the socket server
-const socket = io("http://localhost:4000");
 
 export default function useChat() {
   const chatBoxRef = useRef(null);
@@ -33,7 +29,6 @@ export default function useChat() {
 
   return {
     chats,
-    socket,
     chatBoxRef,
     uploadFilesMutation
   }

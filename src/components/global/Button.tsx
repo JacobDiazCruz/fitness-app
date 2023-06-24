@@ -23,7 +23,7 @@ export default function Button({
     <button
       id={id}
       type="button"
-      className={`${variantsCollection[variant]} ${className} text-center h-[45px] px-4 rounded-lg overflow-hidden relative`}
+      className={`${variantsCollection[variant]} ${className} text-center h-[45px] px-4 rounded-lg overflow-hidden`}
       disabled={disabled}
       onClick={onClick}
     >

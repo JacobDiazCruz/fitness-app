@@ -13,10 +13,13 @@ import { useQuery } from "react-query";
 import { listMessages } from "@/api/Message";
 import ChatList from "../ChatList";
 import { getChat } from "@/api/Chat";
-import useChat from "../useChat";
 import IconButton from "@/components/global/IconButton";
 import MessageInput from "../MessageInput";
 import FilesDisplay from "../FilesDisplay";
+import { socket } from "@/utils/socket";
+import useChatNotif from "@/hooks/messages/useChatNotif";
+import useChat from "@/hooks/messages/useChat";
+import useMessageSender from "@/hooks/messages/useMessageSender";
 
 export default function Messages() {
   const router = useRouter();
@@ -27,11 +30,10 @@ export default function Messages() {
   const accessToken = useLocalStorage("accessToken");
   const myUserId = useLocalStorage("userId");
   
-  const { 
-    socket, 
-    chatBoxRef,
-    uploadFilesMutation
-  } = useChat();
+  // hooks
+  const { chatNotifData } = useChatNotif();
+  const { chatBoxRef } = useChat();
+  const { uploadFilesMutation } = useMessageSender();
   
   const [myChatDetails, setMyChatDetails] = useState({
     userId: "",
@@ -46,9 +48,6 @@ export default function Messages() {
     thumbnailImage: ""
   });
   const [messagesLimit, setMessagesLimit] = useState<number>(20);
-
-  // get initial receiverId
-  const receiverId = searchParams.get("receiverId");
 
   // state messages
   const [messages, setMessages] = useState<Array<Message>>([]);
@@ -203,7 +202,7 @@ export default function Messages() {
                         />
                       )}
                     </div>
-                    <div className={`${tertiaryBgColor} py-3 px-4 rounded-xl lg:max-w-[500px]`}>
+                    <div className={`rounded-xl lg:max-w-[500px]`}>
                       {message?.files?.length ? (
                         <FilesDisplay 
                           files={message?.files}
@@ -212,7 +211,7 @@ export default function Messages() {
                       ) : message?.message && (
                         <div 
                           dangerouslySetInnerHTML={{__html: message?.message}}
-                          className="dark:bg-blue-500 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
+                          className="dark:bg-neutral-900 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
                         />
                       )}
                     </div>
@@ -242,7 +241,7 @@ export default function Messages() {
             socket={socket}
             roomId={params.id}
             accessToken={accessToken}
-            receiverId={receiverId}
+            receiverId={otherChatDetails?.userId}
             uploadFilesMutation={uploadFilesMutation}
           />
         </div>

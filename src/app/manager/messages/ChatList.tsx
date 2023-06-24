@@ -10,7 +10,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
-import useChat from "./useChat";
+import useChat from "@/hooks/messages/useChat";
 
 export default function ChatList() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function ChatList() {
   const myUserId = useLocalStorage("userId");
 
   return (
-    <div className={`${primaryBgColor} ${borderColor} w-[460px] border-r border-r-solid`}>
+    <div className={`${primaryBgColor} ${borderColor} w-[460px] relative border-r border-r-solid`}>
       {chats?.map((chat: any, index: any) => {
         const { users, roomId, lastMessage, createdAt } = chat;
 

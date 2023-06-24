@@ -78,7 +78,7 @@ export default function MessageInput({
     }
 
     // Example: Send a private message
-    const messageData = {
+    const privateMessageData = {
       roomId,
       accessToken,
       receiverId,
@@ -88,8 +88,8 @@ export default function MessageInput({
 
     // send private chat and message will also be created with the receiver
     messageField.innerHTML = "";
-    socket.emit("privateMessage", messageData);
-
+    socket.emit("privateMessage", privateMessageData);
+    
     // upload files if there are any
     if(initialFilesList?.length) {
       handleUploadFiles(messageData)

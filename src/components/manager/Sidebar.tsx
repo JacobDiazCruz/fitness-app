@@ -10,11 +10,15 @@ import {
   primaryBgColor,
   secondaryBgColor
 } from "@/utils/themeColors";
+import useChatNotif from "@/hooks/messages/useChatNotif";
 
 const ChatIconWrapper = () => {
+  const { chatNotifData } = useChatNotif();
   return (
     <div className="relative">
-      <div className="bg-red-500 w-[10px] h-[10px] rounded-full absolute right-0 top-0"></div>
+      {chatNotifData?.receiverId && (
+        <div className="bg-red-500 w-[10px] h-[10px] rounded-full absolute right-0 top-0"></div>
+      )}
       <ChatIcon className="w-6 h-6 text-gray-400" />
     </div>
   );

@@ -22,6 +22,7 @@ export default function Messages() {
   // get initial receiverId
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
+
   const accessToken = useLocalStorage("accessToken");
 
   // Establish a connection to the socket server
@@ -60,12 +61,13 @@ export default function Messages() {
       const messageData = {
         roomId,
         accessToken,
-        receiver: {
+        newReceiver: {
           userId: receiverId,
           thumbnailImage: receiverProfile?.profileImage?.thumbnailImage,
           firstName: receiverProfile?.firstName,
           lastName: receiverProfile?.lastName
         },
+        receiverId,
         message: e.target.innerText
       };
 
@@ -104,24 +106,6 @@ export default function Messages() {
                 </div>
               </div>
             ))}
-            {/* ME */}
-            <div className="mt-3 flex flex-row-reverse">
-              <div className="flex gap-[12px]">
-                <div className="bg-gray-800 text-gray-50 py-3 px-4 rounded-3xl lg:w-[500px]">
-                  <p className="text-[14px]">
-                    Hey hey, just a reminder that I will be out of town for a wedding next week! town for a wedding next week!town for a wedding next week!town for a wedding next week!town for a wedding next week!town for a wedding next week!
-                  </p>
-                </div>
-                <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-                  <Image
-                    alt="Trainer Image"
-                    src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-                    style={{ objectFit: "cover" }}
-                    fill
-                  />
-                </div>
-              </div>
-            </div>
           </div>
           {/* Send */}
           <div className="relative w-full h-[60px]">
