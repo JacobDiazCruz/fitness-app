@@ -16,6 +16,7 @@ import { getChat } from "@/api/Chat";
 import useChat from "../useChat";
 import IconButton from "@/components/global/IconButton";
 import MessageInput from "../MessageInput";
+import FilesDisplay from "../FilesDisplay";
 
 export default function Messages() {
   const router = useRouter();
@@ -26,7 +27,11 @@ export default function Messages() {
   const accessToken = useLocalStorage("accessToken");
   const myUserId = useLocalStorage("userId");
   
-  const { sendMessage, socket, chatBoxRef } = useChat();
+  const { 
+    socket, 
+    chatBoxRef,
+    uploadFilesMutation
+  } = useChat();
   
   const [myChatDetails, setMyChatDetails] = useState({
     userId: "",
@@ -57,8 +62,8 @@ export default function Messages() {
 
     // Handle incoming messages
     socket.on("message", (messageData) => {
-      const { roomId, message, createdAt} = messageData;
-      console.log("Received message:", message);
+      const { roomId, message = "", files, createdAt} = messageData;
+      console.log("Received message:", message, files);
       setMessages((prevMessages) => [...prevMessages, messageData]);
       
       // Set force scroll to the bottom after sending a message
@@ -134,15 +139,13 @@ export default function Messages() {
     
       function handleScroll() {
         const chatBoxElement = chatBoxRef.current;
-        if (chatBoxElement.scrollTop <= 30) {
+        if (chatBoxElement.scrollTop <= 50) {
           prevScrollHeight = chatBoxElement.scrollHeight;
           prevScrollTop = chatBoxElement.scrollTop;
     
           setMessagesLimit((prevLimit) => prevLimit + 10);
           refetchMessagesData();
-          console.log("prevScrollTop", prevScrollTop)
-          console.log("prevScrollHeight", prevScrollHeight)
-          chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight - 20
+          chatBoxRef.current.scrollTop = 250 - chatBoxRef.current.scrollTop
         }
       }
     
@@ -172,11 +175,11 @@ export default function Messages() {
   }, [chatData]);
 
   return (
-    <div key={remountKey} className="messages-page">
+    <div key={remountKey} className="messages-page h-[100vh] overflow-hidden">
       <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
         Messages
       </h5>
-      <div className="h-full flex">
+      <div className="flex h-full">
         <ChatList />
 
         {/* Chat */}
@@ -201,35 +204,46 @@ export default function Messages() {
                       )}
                     </div>
                     <div className={`${tertiaryBgColor} py-3 px-4 rounded-xl lg:max-w-[500px]`}>
-                      <p className={`${primaryTextColor} text-[14px]`}>
-                        {message?.message}
-                      </p>
+                      {message?.files?.length ? (
+                        <FilesDisplay 
+                          files={message?.files}
+                          isLoading={uploadFilesMutation?.isLoading}
+                        />
+                      ) : message?.message && (
+                        <div 
+                          dangerouslySetInnerHTML={{__html: message?.message}}
+                          className="dark:bg-blue-500 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
+                        />
+                      )}
                     </div>
                   </div>
                 );
               } else {
                 // ME
                 return (
-                  <div className="mt-3 flex flex-row-reverse">
-                    <div className="dark:bg-neutral-100 dark:text-neutral-900 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]">
-                      <p className="text-[14px]">
-                        {message?.message}
-                      </p>
-                    </div>
+                  <div className="mt-1 flex flex-row-reverse">
+                    {message?.files?.length ? (
+                      <FilesDisplay 
+                        files={message?.files}
+                        isLoading={uploadFilesMutation?.isLoading}
+                      />
+                    ) : message?.message && (
+                      <div 
+                        dangerouslySetInnerHTML={{__html: message?.message}}
+                        className="dark:bg-blue-500 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
+                      />
+                    )}
                   </div>
                 );
               }
             })}
           </div>
           <MessageInput
-            handleSendMessage={(e) => {
-              sendMessage({
-                e,
-                roomId: params.id,
-                accessToken,
-                receiverId
-              });
-            }}
+            socket={socket}
+            roomId={params.id}
+            accessToken={accessToken}
+            receiverId={receiverId}
+            uploadFilesMutation={uploadFilesMutation}
           />
         </div>
       </div>

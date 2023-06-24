@@ -74,8 +74,7 @@ export default function Sidebar () {
         className={`
           ${borderColor}
           ${primaryBgColor}
-          ${openNav ? 'ml-[215px]' : 'ml-[60px]'} 
-          shadow-md rounded-full w-[35px] h-[35px] flex border border-solid cursor-pointer z-[100] absolute
+          shadow-md rounded-full right-[-15px] w-[35px] h-[35px] flex border border-solid cursor-pointer z-[100] absolute
         `}
       >
         {openNav ? (

@@ -32,7 +32,7 @@ export default function PricingCard({
   ));
 
   return (
-    <div className="w-[500px] h-[467px] sticky top-[5em]">
+    <div className="h-[467px] sticky top-[5em]">
       <Container>
         <div className="flex items-center">
           <h3 className={`${primaryTextColor} text-[28px]`}>

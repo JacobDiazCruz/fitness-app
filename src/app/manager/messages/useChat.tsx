@@ -1,6 +1,7 @@
 import { listChats } from "@/api/Chat";
+import { uploadFiles } from "@/api/Exercise";
 import { useRef, useEffect } from "react"
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import io from "socket.io-client";
 
 // Establish a connection to the socket server
@@ -16,28 +17,15 @@ export default function useChat() {
     error: errorChats
   } = useQuery('chats', listChats);
 
-  const sendMessage = ({
-    e,
-    roomId,
-    accessToken,
-    receiverId
-  }) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      // Example: Send a private message
-      const messageData = {
-        roomId,
-        accessToken,
-        receiverId,
-        message: e.target.innerText
-      };
-
-      // send private chat and message will also be created with the receiver
-      socket.emit("privateMessage", messageData);
-
-      e.target.innerText = "";
+  // upload files to cloudinary request
+  const uploadFilesMutation = useMutation(uploadFiles, {
+    onSuccess: async (data) => {
+      return data;
+    },
+    onError: (err) => {
+      console.log(err);
     }
-  };
+  });
 
   useEffect(() => {
     console.log("chats", chats);
@@ -47,6 +35,6 @@ export default function useChat() {
     chats,
     socket,
     chatBoxRef,
-    sendMessage
+    uploadFilesMutation
   }
 };

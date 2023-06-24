@@ -13,7 +13,7 @@ export default function Carousel({
   return (
     <div className="carousel-container">
       <div className="w-full h-[363px] overflow-hidden relative">
-        <div className="z-[100] relative flex h-full items-center cursor-pointer justify-between">
+        <div className="z-[50] relative flex h-full items-center cursor-pointer justify-between">
           <div onClick={() => alert(1)}>
             {backIcon}
           </div>
