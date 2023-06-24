@@ -30,11 +30,20 @@ export default function Messages() {
       <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
         Messages
       </h5>
-      <div className="h-[100vh] flex">
-        <ChatList />
-        <div className={`${primaryBgColor} ${borderColor} w-full relative p-3 border-t border-t-solid`}>
-        </div>
-      </div>
+        {chats?.length ? (
+          <div className="h-[100vh] flex">
+            <ChatList />
+          </div>
+        ) : (
+          <div className="text-center m-auto mt-[25vh]">
+            <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>
+              No messages yet
+            </h4>
+            <p className={`${primaryTextColor} font-light text-[14px]`}>
+              Start by messaging the people you know
+            </p>
+          </div>
+        )}
     </div>
   );
 }

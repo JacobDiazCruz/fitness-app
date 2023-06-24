@@ -8,7 +8,7 @@ import MyPortfolio from "@/components/manager/coach/MyPortfolio";
 import { useQuery } from "react-query";
 import { getCoachProfile } from "@/api/Profile";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Container from "@/components/global/Container";
 import { primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
@@ -18,6 +18,7 @@ import { ArrowLeftIcon } from "@/components/global/Icons";
 export default function CoachDetails() {
   const params = useParams();
   const router = useRouter();
+  const [coachData, setCoachData] = useState(null);
 
   // get exercise data
   const { 
@@ -29,6 +30,12 @@ export default function CoachDetails() {
   } = useQuery('coach', () => getCoachProfile(params.id), {
     refetchOnMount: true
   });
+
+  useEffect(() => {
+    if(coach) {
+      setCoachData(coach)
+    }
+  }, [coach]);
 
   return (
     <div className="coach-details">
@@ -81,9 +88,9 @@ export default function CoachDetails() {
             ]}
           />
           <Profile
-            imagePath="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-            name="John Doe"
-            about="I am Deniz Yozkan, a certified fitness trainer and a kyokushin karate international champion. I offer the highest quality personal training and self-development services!"
+            imagePath={coach?.profileImage?.thumbnailImage}
+            name={`${coach?.firstName} ${coach?.lastName}`}
+            about={coach?.coachingDetails?.about}
           />
           <Reviews
             reviewsList={[

@@ -49,14 +49,30 @@ export default function ChatList() {
   }
 
   return (
-    <div className={`${primaryBgColor} ${borderColor} w-[460px] relative border-r border-r-solid`}>
+    <div className={`${primaryBgColor} ${borderColor} w-[40%] relative border-r border-t border-t-solid border-r-solid`}>
+      {!chats?.length && (
+        <div className="text-center m-auto mt-[25vh]">
+          <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>
+            No messages yet
+          </h4>
+          <p className={`${primaryTextColor} font-light text-[14px]`}>
+            Start by messaging the people you know
+          </p>
+        </div>
+      )}
+
       {chats?.map((chat: any, index: any) => {
-        const { users, roomId, lastMessage, createdAt, updatedAt } = chat;
+        const { users, roomId, lastMessageDetails, createdAt, updatedAt } = chat;
 
         // Find the user ID that is not equal to "myUserId"
         const otherUser = users.find((user: any) => user.userId !== myUserId);
 
-        const { firstName, lastName, thumbnailImage } = otherUser;
+        const { firstName, lastName, thumbnailImage } = otherUser || {
+          firstName: "",
+          lastName: "",
+          thumbnailImage: ""
+        };
+
         if(otherUser) {
           return (
             <div
@@ -65,7 +81,7 @@ export default function ChatList() {
               className={`
                 ${borderColor}
                 ${params.id === roomId && 'dark:bg-neutral-900'}
-                p-3 border-t border-t-solid cursor-pointer
+                p-3 border-b border-b-solid cursor-pointer
               `}
             >
               <div className="flex gap-[12px]">
@@ -85,7 +101,8 @@ export default function ChatList() {
                       {firstName} {lastName}
                     </h4>
                     <p className={`${secondaryTextColor} truncate w-[180px] font-light text-[14px]`}>
-                      {lastMessage}
+                      {lastMessageDetails?.senderId === myUserId ? "You: " : `${firstName}: `}
+                      {lastMessageDetails?.message}
                     </p>
                   </div>
                   <p className={`${secondaryTextColor} text-[12px]`}>

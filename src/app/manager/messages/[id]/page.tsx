@@ -20,6 +20,7 @@ import { socket } from "@/utils/socket";
 import useChatNotif from "@/hooks/messages/useChatNotif";
 import useChat from "@/hooks/messages/useChat";
 import useMessageSender from "@/hooks/messages/useMessageSender";
+import MessagesList from "../MessagesList";
 
 export default function Messages() {
   const router = useRouter();
@@ -178,7 +179,7 @@ export default function Messages() {
       <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
         Messages
       </h5>
-      <div className="flex h-full">
+      <div className="flex h-full w-full">
         <ChatList />
 
         {/* Chat */}
@@ -187,62 +188,16 @@ export default function Messages() {
             {isFetchingMessages && (
               <LoadingIcon className="w-4 h-4 m-auto" />
             )}
-            {messages?.map((message: Message, index: number) => {
-              if(message.senderId !== myUserId) {
-                return (
-                  // Other
-                  <div className="flex gap-[12px] mt-3">
-                    <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-                      {otherChatDetails?.thumbnailImage && (
-                        <Image
-                          alt="Other Chat Image"
-                          src={otherChatDetails?.thumbnailImage}
-                          style={{ objectFit: "cover" }}
-                          fill
-                        />
-                      )}
-                    </div>
-                    <div className={`rounded-xl lg:max-w-[500px]`}>
-                      {message?.files?.length ? (
-                        <FilesDisplay 
-                          files={message?.files}
-                          isLoading={uploadFilesMutation?.isLoading}
-                        />
-                      ) : message?.message && (
-                        <div 
-                          dangerouslySetInnerHTML={{__html: message?.message}}
-                          className="dark:bg-neutral-900 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              } else {
-                // ME
-                return (
-                  <div className="mt-1 flex flex-row-reverse">
-                    {message?.files?.length ? (
-                      <FilesDisplay 
-                        files={message?.files}
-                        isLoading={uploadFilesMutation?.isLoading}
-                      />
-                    ) : message?.message && (
-                      <div 
-                        dangerouslySetInnerHTML={{__html: message?.message}}
-                        className="dark:bg-blue-500 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
-                      />
-                    )}
-                  </div>
-                );
-              }
-            })}
+            <MessagesList 
+              messages={messages}
+              otherChatDetails={otherChatDetails}
+            />
           </div>
           <MessageInput
             socket={socket}
             roomId={params.id}
             accessToken={accessToken}
             receiverId={otherChatDetails?.userId}
-            uploadFilesMutation={uploadFilesMutation}
           />
         </div>
       </div>

@@ -2,20 +2,23 @@ import { uploadFiles } from "@/api/Exercise";
 import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
 import { CloseIcon, ImageIcon, SmileyIcon } from "@/components/global/Icons";
+import useMessageSender from "@/hooks/messages/useMessageSender";
 import { fieldBgColor, primaryBgColor, primaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 
 export default function MessageInput({
-  uploadFilesMutation,
   socket,
   roomId,
+  type = null,
   accessToken,
-  receiverId
+  receiverId,
+  newReceiver = null
 }: any) {
   const messageFieldRef = useRef();
   const messageField = messageFieldRef.current;
+  const { uploadFilesMutation } = useMessageSender();
 
   const [initialFilesList, setInitialFilesList] = useState([]);
 
@@ -38,7 +41,7 @@ export default function MessageInput({
     setInitialFilesList(filteredFiles);
   };
 
-  const handleUploadFiles = async (messageData) => {
+  const handleUploadFiles = async (privateMessageData) => {
     try {
       const formData = new FormData();
       initialFilesList.forEach((file) => {
@@ -50,9 +53,12 @@ export default function MessageInput({
       const filesRes = await uploadFilesMutation.mutateAsync(formData);
 
       // call add exercise mutation
-      if(filesRes.data.length) {
-        messageData.files = filesRes.data;
-        socket.emit("privateMessage", messageData);
+      if(filesRes?.data?.length) {
+        privateMessageData.files = filesRes.data;
+        socket.emit("privateMessage", {
+          ...privateMessageData,
+          type
+        });
       }
     } catch(err) {
       console.log(err);
@@ -81,6 +87,8 @@ export default function MessageInput({
     const privateMessageData = {
       roomId,
       accessToken,
+      newReceiver,
+      type: !initialFilesList?.length && type,
       receiverId,
       message: messageField.innerHTML.trim(),
       files: []
@@ -88,11 +96,14 @@ export default function MessageInput({
 
     // send private chat and message will also be created with the receiver
     messageField.innerHTML = "";
-    socket.emit("privateMessage", privateMessageData);
+    
+    if(privateMessageData.message) {
+      socket.emit("privateMessage", privateMessageData);
+    }
     
     // upload files if there are any
     if(initialFilesList?.length) {
-      handleUploadFiles(messageData)
+      handleUploadFiles(privateMessageData)
     }
   };
 
@@ -104,7 +115,7 @@ export default function MessageInput({
             <button
               onClick={() => {
                 handleRemoveFile(index)
-              }} 
+              }}
               className="w-[25px] h-[25px] right-[-8px] mt-[-10px] z-[100] absolute bg-white rounded-full border border-solid border-neutral-300"
             >
               <CloseIcon className="w-4 h-4 m-auto text-neutral-950" />

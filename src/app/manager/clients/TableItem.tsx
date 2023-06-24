@@ -1,35 +1,62 @@
 import Image from "next/image";
+import IconButton from "@/components/global/IconButton";
+import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 
-export default function TableItem() {
+import {
+  borderColor, 
+  secondaryTextColor,
+  primaryTextColor
+} from "@/utils/themeColors";
+
+export default function TableItem({
+  itemId,
+  fullName,
+  email,
+  thumbnailImage,
+  createdAt
+}) {
+  const date = new Date(createdAt);
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+
   return (
-    <div className="bg-white w-full border border-gray-200 border-solid rounded-lg py-4 px-5 my-2">
+    <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
       <div className="flex items-center w-full justify-between">
-        <div className="col-1 flex items-center gap-[20px] w-[235px]">
-          <div className="rounded-lg bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
-            <Image
-              alt="Trainer Image"
-              src={"/user.png"}
-              style={{ objectFit: "cover" }}
-              fill
-            />
+        <div className="col-1 flex items-center gap-[20px] flex-1">
+          <div className="rounded-full bg-gray-300 w-[40px] h-[40px] overflow-hidden relative">
+            {thumbnailImage && (
+              <Image
+                alt="Trainer Image"
+                src={thumbnailImage}
+                style={{ objectFit: "cover" }}
+                fill
+              />
+            )}
           </div>
           <div>
-            <h5 className="font-medium text-[14px]">Dumbbell Bicep Curls</h5>
+            <h5 className={`${primaryTextColor} truncate w-[80%] font-medium text-[14px]`}>
+              {fullName || '--'}asfasfafafasfafasafafasfasasfafasf
+            </h5>
+            <div className={`${secondaryTextColor} text-[12px]`}>
+              {email}
+            </div>
           </div>
         </div>
-        <div className="col-2 w-[100px]">
-          <p className="text-[14px] text-gray-500">Biceps</p>
+        <div className="col-3 flex-1">
+          <div className={`${primaryTextColor}`}>
+            Active
+          </div>
         </div>
-        <div className="col-3 w-[80px]">
-          <p className="text-[14px] text-gray-500">Strength</p>
-        </div>
-        <div className="col-4 w-[100px]">
-          <p className="text-[14px] text-gray-500">July 12, 2023</p>
+        <div className="col-5 flex-1">
+          <p className={`${secondaryTextColor} text-[14px]`}>
+            {formattedDate || '--'}
+          </p>
         </div>
         <div className="col-5">
-          <button>
-            <svg t="1685428629909" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7656" width="20" height="20"><path d="M512 512m-116.949333 0a116.949333 116.949333 0 1 0 233.898666 0 116.949333 116.949333 0 1 0-233.898666 0Z" fill="#b9b6b6" p-id="7657"></path><path d="M512 159.616m-116.949333 0a116.949333 116.949333 0 1 0 233.898666 0 116.949333 116.949333 0 1 0-233.898666 0Z" fill="#b9b6b6" p-id="7658"></path><path d="M512 864.384m-116.949333 0a116.949333 116.949333 0 1 0 233.898666 0 116.949333 116.949333 0 1 0-233.898666 0Z" fill="#b9b6b6" p-id="7659"></path></svg>
-          </button>
+          <ItemActionsMenu
+            itemId={itemId}
+            editPath={`/manager/clients/edit/${itemId}`}
+          />
         </div>
       </div>
     </div>

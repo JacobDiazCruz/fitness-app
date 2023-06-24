@@ -2,7 +2,7 @@ import { getRequest } from ".";
     
 export const listChats = async () => {
   const payload = {
-    url: `/chats/list`
+    url: `/chat/list`
   };
   const res = await getRequest(payload);
   return res.data?.data;

@@ -3,14 +3,19 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
 import UserMenu from '../global/UserMenu';
-import { CalendarIcon, ChatIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "../global/Icons";
+import { ArrowRightIcon, CalendarIcon, ChatIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "../global/Icons";
 import useTheme from "@/contexts/Theme";
 import {
   borderColor,
   primaryBgColor,
-  secondaryBgColor
+  primaryTextColor,
+  secondaryBgColor,
+  secondaryTextColor,
+  tertiaryBgColor
 } from "@/utils/themeColors";
 import useChatNotif from "@/hooks/messages/useChatNotif";
+import Button from "../global/Button";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const ChatIconWrapper = () => {
   const { chatNotifData } = useChatNotif();
@@ -28,6 +33,7 @@ export default function Sidebar () {
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode } = useTheme();
+  const userRole = useLocalStorage("userRole");
 
   const [openNav, setOpenNav] = useState(true);
   const [navItems, setNavItems] = useState([
@@ -188,13 +194,22 @@ export default function Sidebar () {
         </div>
       </div>
 
-      {/* {openNav && (
-        <div className="rounded-xl bg-[#24282C] w-[85%] mx-auto mt-5 p-5">
-          <h4 className="font-medium text-white">How to use</h4>
-          <p className="text-[#A8AAAE] mt-1 text-[14px]">Get more clients by purchasing our latest AI client finder</p>
-          <div className="bg-[#D3F26C] rounded-full w-full h-[40px] mt-5 text-center flex flex-center">
-            <div className="text-center m-auto">Coming soon</div>
-          </div>
+      {/* {(openNav && userRole == 1) && (
+        <div className="dark:bg-neutral-800 bg-neutral-200 rounded-xl w-[85%] mx-auto mt-5 p-5">
+          <h4 className={`${primaryTextColor} font-medium`}>
+            Become a coach
+          </h4>
+          <p className={`${secondaryTextColor} mt-1 text-[14px]`}>
+            Become an online coach and get reviews from your clients
+          </p>
+          <Button
+            variant="special"
+            className="w-full mt-4"
+            onClick={() => router.push('/become-a-coach')}
+            endIcon={<ArrowRightIcon className={`text-white w-4 h-4 mt-[2px]`}/>}
+          >
+            Start now
+          </Button>
         </div>
       )} */}
     </div>

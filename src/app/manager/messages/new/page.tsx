@@ -6,27 +6,28 @@ import Button from "@/components/global/Button";
 import { ImageIcon } from "@/components/global/Icons";
 import Header from "../../Header";
 import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
-import io from "socket.io-client";
+import { socket } from "@/utils/socket";
 import { useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 import ChatList from "../ChatList";
 import { getCoachProfile, getProfile } from "@/api/Profile";
 import { useQuery } from "react-query";
+import MessageInput from "../MessageInput";
+import useMessageSender from "@/hooks/messages/useMessageSender";
 
 const roomId = Math.random().toString();
 
 export default function Messages() {
   const router = useRouter();
 
-  // get initial receiverId
+  // get essentials
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
-
   const accessToken = useLocalStorage("accessToken");
 
-  // Establish a connection to the socket server
-  const socket = io("http://localhost:4000");
+  // hooks
+  const { uploadFilesMutation } = useMessageSender();  
 
   // state messages
   const [messages, setMessages] = useState<Array<Message>>([]);
@@ -50,32 +51,16 @@ export default function Messages() {
     data: receiverProfile,
     error,
     refetch
-  } = useQuery('receiverProfile', () => getProfile(receiverId), {
+  } = useQuery('getReceiverProfile', () => getProfile(receiverId), {
     refetchOnMount: true
   });
-  
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      // Example: Send a private message
-      const messageData = {
-        roomId,
-        accessToken,
-        newReceiver: {
-          userId: receiverId,
-          thumbnailImage: receiverProfile?.profileImage?.thumbnailImage,
-          firstName: receiverProfile?.firstName,
-          lastName: receiverProfile?.lastName
-        },
-        receiverId,
-        message: e.target.innerText
-      };
 
-      // send private chat and message will also be created with the receiver
-      socket.emit("privateMessage", messageData);
-      e.target.innerText = "";
-    }
-  };
+  const newReceiver = {
+    userId: receiverId,
+    thumbnailImage: receiverProfile?.profileImage?.thumbnailImage,
+    firstName: receiverProfile?.firstName,
+    lastName: receiverProfile?.lastName
+  }
 
   return (
     <div className="messages-page">
@@ -86,66 +71,54 @@ export default function Messages() {
         <ChatList />
 
         {/* Chat */}
-        <div className={`${primaryBgColor} ${borderColor} w-full relative p-3 border-t border-t-solid`}>
-          <div className="relative overflow-auto h-[70vh]">
-            {messages?.map((message: Message, index: number) => (
-              // Other
-              <div className="flex gap-[12px] mt-3">
-                <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
+          <div className={`${primaryBgColor} ${borderColor} w-full relative px-6 py-3 border-t border-t-solid`}>
+            <div className={`${primaryBgColor} ${borderColor} z-[100] flex w-full py-5 mb-6 sticky top-0 border-b border-b-solid`}>
+              <div className="rounded-full relative overflow-hidden w-10 h-10">
+                {receiverProfile?.profileImage?.thumbnailImage && (
                   <Image
                     alt="Trainer Image"
-                    src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
+                    src={receiverProfile?.profileImage?.thumbnailImage}
                     style={{ objectFit: "cover" }}
                     fill
                   />
-                </div>
-                <div className={`${tertiaryBgColor} text-gray-900 py-3 px-4 rounded-3xl w-[50%]`}>
-                  <p className={`${primaryTextColor} text-[14px]`}>
-                    {message?.message}
-                  </p>
-                </div>
+                )}
+              </div>
+              <div className="ml-3">
+                <h4 className={`${primaryTextColor} font-semibold text-[14px]`}>
+                  {receiverProfile?.firstName} {receiverProfile?.lastName}
+                </h4>
+                <p className={`${secondaryTextColor} font-light text-[12px]`}>
+                  {receiverProfile?.email}
+                </p>
+              </div>
+          </div>
+          <div className="relative overflow-auto h-[70vh]">
+            {messages?.map((message: Message, index: number) => (
+              <div className="mt-1 flex flex-row-reverse">
+                {message?.files?.length ? (
+                  <FilesDisplay 
+                    files={message?.files}
+                    isLoading={uploadFilesMutation?.isLoading}
+                  />
+                ) : message?.message && (
+                  <div
+                    dangerouslySetInnerHTML={{__html: message?.message}}
+                    className="dark:bg-blue-500 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
+                  />
+                )}
               </div>
             ))}
           </div>
-          {/* Send */}
-          <div className="relative w-full h-[60px]">
-            <div 
-              className={`
-                ${fieldBgColor}
-                ${primaryTextColor}
-                text-[14px]
-                h-[60px] overflow-auto border-solid border rounded-lg p-3
-              `}
-              onKeyDown={handleKeyDown}
-              contentEditable
-            ></div>
-            <div className="flex justify-between mt-2">
-              <div>
-                <ImageIcon className="w-8 h-8" />
-              </div>
-              <div>
-                <Button variant="contained">
-                  Send
-                </Button>
-              </div>
-            </div>
-          </div>
+          <MessageInput
+            socket={socket}
+            roomId={roomId}
+            type="NEW_CHAT"
+            accessToken={accessToken}
+            receiverId={receiverId}
+            uploadFilesMutation={uploadFilesMutation}
+            newReceiver={newReceiver}
+          />
         </div>
-
-        {/* Profiles */}
-        {/* <div className="bg-white w-[0px] border-l border-l-solid border-gray-200 p-6">
-          <div className="rounded-full w-[60px] h-[60px] relative overflow-hidden m-auto">
-            <Image
-              alt="Trainer Image"
-              src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              style={{ objectFit: "cover" }}
-              fill
-            />
-          </div>
-          <h3 className="font-semibold text-center mt-1">
-            John Doe
-          </h3>
-        </div> */}
       </div>
     </div>
   );

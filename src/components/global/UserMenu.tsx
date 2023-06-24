@@ -69,7 +69,7 @@ export default function UserMenu({
               {thumbnailImage && (
                 <Image
                   alt="Trainer Image"
-                  src={thumbnailImage}
+                  src={thumbnailImage || "/"}
                   style={{ objectFit: "cover" }}
                   fill
                 />
@@ -91,6 +91,13 @@ export default function UserMenu({
             </div>
           </li>
           <hr className="my-2 dark:border-neutral-800 border-neutral-200" />
+          <Link href="/become-a-coach">
+            <li className="dark:text-neutral-200 text-gray-900 cursor-pointer">
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
+                Become a coach
+              </div>
+            </li>
+          </Link>
           <li className="dark:text-neutral-200 text-gray-900 px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Public coaching profile</div>
             <Switch />
@@ -101,14 +108,6 @@ export default function UserMenu({
               value={darkMode}
               handleClick={() => toggleDarkMode()}
             />
-          </li>
-          <li onClick={() => router.push('/manager/exercises')} className="dark:text-neutral-200 text-gray-900 cursor-pointer">
-            <Link 
-              href="/manager/profile" 
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900"
-            >
-              Open Manager
-            </Link>
           </li>
           <li
             onClick={() => {
@@ -136,7 +135,7 @@ export default function UserMenu({
           {thumbnailImage && (
             <Image
               alt="Trainer Image"
-              src={thumbnailImage}
+              src={thumbnailImage || "/"}
               style={{ objectFit: "cover" }}
               fill
             />
