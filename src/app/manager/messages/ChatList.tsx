@@ -23,10 +23,35 @@ export default function ChatList() {
   const accessToken = useLocalStorage("accessToken");
   const myUserId = useLocalStorage("userId");
 
+  const getTimeDifference = (updatedAt) => {
+    const currentTime = new Date();
+    const updatedTime = new Date(updatedAt);
+  
+    const timeDiff = Math.abs(currentTime - updatedTime);
+    
+    // calculate & construct minutes display
+    const minutes = Math.floor(timeDiff / (1000 * 60));
+    if (minutes < 60) {
+      // ${minutes !== 1 ? "" : ""} 
+      return `${minutes}m ago`;
+    }
+    
+    // calculate & construct hours display
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) {
+      // ${hours !== 1 ? "s" : ""}
+      return `${hours}h ago`;
+    }
+    
+    // calculate & construct days and months
+    const options = { month: "long", day: "numeric" };
+    return updatedTime.toLocaleDateString(undefined, options);
+  }
+
   return (
     <div className={`${primaryBgColor} ${borderColor} w-[460px] relative border-r border-r-solid`}>
       {chats?.map((chat: any, index: any) => {
-        const { users, roomId, lastMessage, createdAt } = chat;
+        const { users, roomId, lastMessage, createdAt, updatedAt } = chat;
 
         // Find the user ID that is not equal to "myUserId"
         const otherUser = users.find((user: any) => user.userId !== myUserId);
@@ -64,7 +89,7 @@ export default function ChatList() {
                     </p>
                   </div>
                   <p className={`${secondaryTextColor} text-[12px]`}>
-                    May 30
+                    {getTimeDifference(updatedAt)}
                   </p>
                 </div>
               </div>
