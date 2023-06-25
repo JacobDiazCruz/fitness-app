@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "@/components/global/Button";
 import { ImageIcon } from "@/components/global/Icons";
-import Header from "../../Header";
+import Header from "../Header";
 import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
 import io from "socket.io-client";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -27,23 +27,21 @@ export default function Messages() {
 
   return (
     <div className="messages-page">
-      <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
-        Messages
-      </h5>
-        {chats?.length ? (
-          <div className="h-[100vh] flex">
-            <ChatList />
-          </div>
-        ) : (
-          <div className="text-center m-auto mt-[25vh]">
-            <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>
-              No messages yet
-            </h4>
-            <p className={`${primaryTextColor} font-light text-[14px]`}>
-              Start by messaging the people you know
-            </p>
-          </div>
-        )}
+      {chats?.length ? (
+        <div className="h-full flex">
+          <ChatList />
+          <div className={`${primaryBgColor} ${borderColor} w-full border-t border-t-solid`}></div>
+        </div>
+      ) : (
+        <div className="text-center m-auto mt-[25vh]">
+          <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>
+            No messages yet
+          </h4>
+          <p className={`${primaryTextColor} font-light text-[14px]`}>
+            Start by messaging the people you know
+          </p>
+        </div>
+      )}
     </div>
   );
 }

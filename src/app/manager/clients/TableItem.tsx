@@ -35,7 +35,7 @@ export default function TableItem({
           </div>
           <div>
             <h5 className={`${primaryTextColor} truncate w-[80%] font-medium text-[14px]`}>
-              {fullName || '--'}asfasfafafasfafasafafasfasasfafasf
+              {fullName || '--'}
             </h5>
             <div className={`${secondaryTextColor} text-[12px]`}>
               {email}
@@ -43,7 +43,7 @@ export default function TableItem({
           </div>
         </div>
         <div className="col-3 flex-1">
-          <div className={`${primaryTextColor}`}>
+          <div className={`${primaryTextColor} text-[14px]`}>
             Active
           </div>
         </div>

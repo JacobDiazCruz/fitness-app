@@ -26,7 +26,7 @@ export default function Profile() {
   };
 
   return (
-    <>
+    <div className="profile-page">
       <Header pageTitle="Profile" />
       <div className="profile">
         <ProfileForm
@@ -164,6 +164,6 @@ export default function Profile() {
           <Uploader />
         </ProfileForm>
       </div>
-    </>
+    </div>
   );
 }

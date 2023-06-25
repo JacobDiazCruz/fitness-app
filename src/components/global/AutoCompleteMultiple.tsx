@@ -9,7 +9,7 @@
   />
 **/
 
-import { memo, SyntheticEvent, useEffect, useState } from "react";
+import { memo, ReactNode, SyntheticEvent, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { CloseIcon } from "./Icons";
 import { fieldBgColor, primaryTextColor } from "@/utils/themeColors";
@@ -20,6 +20,7 @@ interface Props {
   type: string;
   startIcon: SVGAElement;
   items: Array<any>;
+  chips: ReactNode;
   placeholder: string;
   removeSelectedItem: any;
   onChange: () => void;
@@ -31,6 +32,7 @@ function AutoComplete({
   addClass = "",
   type = "text",
   items,
+  chips,
   removeSelectedItem,
   startIcon,
   placeholder = "",
@@ -38,7 +40,7 @@ function AutoComplete({
   required = false
 }: Props) {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
-  const [filteredItems, setFilteredItems] = useState<Array>(items);
+  const [filteredItems, setFilteredItems] = useState<Array>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [key, setKey] = useState<number>(0); // Add key state
 
@@ -47,12 +49,17 @@ function AutoComplete({
   });
 
   useEffect(() => {
+    setFilteredItems(items);
+  }, [items]);
+
+  useEffect(() => {
     // filter dropdown items based on input value
     const newItems = items.filter((item) => {
       const itemName = item.name.toLowerCase();
       const input = inputValue.toLowerCase();
       return itemName.includes(input);
     });
+    console.log("newItems", newItems);
     setFilteredItems(newItems);
   }, [inputValue]);
 
@@ -109,7 +116,7 @@ function AutoComplete({
           <div className="flex flex-wrap w-half gap-[7px] p-2">
             {value?.map((val, index) => (
               <div 
-                key={index} 
+                key={index}
                 className="bg-white flex gap-[5px] shadow-sm py-2 px-3 rounded-full"
               >
                 <p>{val}</p>

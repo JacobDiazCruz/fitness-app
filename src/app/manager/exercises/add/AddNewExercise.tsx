@@ -14,6 +14,7 @@ import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../ExerciseForm";
 import useExercise from "../../../../hooks/useExercise";
 import useAlert from "@/contexts/Alert";
+import PaddedWrapper from "@/components/global/PaddedWrapper";
 
 export default function AddNewExercise() {
   const router = useRouter();

@@ -45,7 +45,6 @@ export default function Table() {
     const filteredClients = clients?.filter((client: any) =>
       client?.client.firstName.toLowerCase().includes(searchValue.toLowerCase())
     );
-    console.log("filteredClients", filteredClients)
     setFilteredClients(filteredClients);
   }, [searchValue, clients]);
 
@@ -95,10 +94,10 @@ export default function Table() {
           filteredClients?.map((clientData: any, index: number) => {
             const { _id, createdAt } = clientData;
             const { 
-              thumbnailImage, 
-              firstName, 
-              lastName, 
-              email 
+              thumbnailImage,
+              firstName,
+              lastName,
+              email
             } = clientData?.client;
 
             return (

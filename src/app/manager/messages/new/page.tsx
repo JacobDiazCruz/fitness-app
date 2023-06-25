@@ -64,9 +64,6 @@ export default function Messages() {
 
   return (
     <div className="messages-page">
-      <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
-        Messages
-      </h5>
       <div className="h-[100vh] flex">
         <ChatList />
 

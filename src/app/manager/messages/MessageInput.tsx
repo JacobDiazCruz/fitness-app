@@ -3,10 +3,19 @@ import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
 import { CloseIcon, ImageIcon, SmileyIcon } from "@/components/global/Icons";
 import useMessageSender from "@/hooks/messages/useMessageSender";
-import { fieldBgColor, primaryBgColor, primaryTextColor } from "@/utils/themeColors";
+import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
+
+interface Props {
+  socket: any;
+  roomId: string;
+  type: any;
+  accessToken: string;
+  receiverId: string;
+  newReceiver: any;
+};
 
 export default function MessageInput({
   socket,
@@ -15,7 +24,7 @@ export default function MessageInput({
   accessToken,
   receiverId,
   newReceiver = null
-}: any) {
+}: Props) {
   const messageFieldRef = useRef();
   const messageField = messageFieldRef.current;
   const { uploadFilesMutation } = useMessageSender();
@@ -108,69 +117,76 @@ export default function MessageInput({
   };
 
   return (
-    <div className="relative w-full h-[60px]">
-      <div className={`${primaryBgColor} w-full p-3 relative flex gap-[13px]`}>
-        {initialFilesList?.map((file, index) => (
-          <div className="h-[45px] w-[45px] bg-gray-200 relative rounded-md">
-            <button
-              onClick={() => {
-                handleRemoveFile(index)
-              }}
-              className="w-[25px] h-[25px] right-[-8px] mt-[-10px] z-[100] absolute bg-white rounded-full border border-solid border-neutral-300"
-            >
-              <CloseIcon className="w-4 h-4 m-auto text-neutral-950" />
-            </button>
-            <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
-              <Image
-                alt="Uploaded Image"
-                src={URL.createObjectURL(file)}
-                style={{ objectFit: "cover" }}
-                fill
-              />
+    <div className={`${primaryBgColor} relative bottom-0 w-full`}>
+      {/* Uploaded Images Container */}
+      {initialFilesList.length ? (
+        <div className={`${primaryBgColor} ${borderColor} w-full px-3 h-[80px] top-[-80px] py-4 absolute flex gap-[13px] border-t border-t-solid`}>
+          {initialFilesList?.map((file, index) => (
+            <div className="h-[45px] w-[45px] bg-gray-200 relative rounded-md">
+              <button
+                onClick={() => {
+                  handleRemoveFile(index)
+                }}
+                className="w-[25px] h-[25px] right-[-8px] mt-[-10px] z-[100] absolute bg-white rounded-full border border-solid border-neutral-300"
+              >
+                <CloseIcon className="w-4 h-4 m-auto text-neutral-950" />
+              </button>
+              <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
+                <Image
+                  alt="Uploaded Image"
+                  src={URL.createObjectURL(file)}
+                  style={{ objectFit: "cover" }}
+                  fill
+                />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      {/* Message input field */}
-      <div 
-        ref={messageFieldRef}
-        className={`
-          ${fieldBgColor}
-          ${primaryTextColor}
-          text-[14px]
-          h-[60px] overflow-auto border-solid border rounded-lg p-3
-        `}
-        onKeyDown={invokeEnterKey}
-        contentEditable
-      ></div>
-
-      {/* Action buttons */}
-      <div className="flex justify-between mt-2">
-        <div className="ml-2">
-          <input 
-            className="invisible h-[0px] w-[0]" 
-            type="file" 
-            name="file"
-            id="file"
-            onChange={handleFileChange}
-            multiple
-          />
-          <IconButton>
-            <label for="file" className="cursor-pointer">
-              <ImageIcon className={`${primaryTextColor} w-8 h-8`} />
-            </label>
-          </IconButton>
-          <IconButton>
-            <SmileyIcon className={`${primaryTextColor} w-8 h-8`} />
-          </IconButton>
+          ))}
         </div>
-        <div>
-          <Button 
-            variant="contained"
-            onClick={sendMessage}
-          >
-            Send
-          </Button>
+      ) : <></>}
+
+      {/* Message input field */}
+      <div className="p-4">
+        <div 
+          ref={messageFieldRef}
+          className={`
+            ${fieldBgColor}
+            ${primaryTextColor}
+            text-[14px]
+            h-[60px] overflow-auto border-solid border rounded-lg p-3
+          `}
+          onKeyDown={invokeEnterKey}
+          contentEditable
+          data-text="Enter text here"
+        ></div>
+
+        {/* Action buttons */}
+        <div className="flex justify-between mt-2">
+          <div>
+            <input 
+              className="invisible h-[0px] w-[0]" 
+              type="file" 
+              name="file"
+              id="file"
+              onChange={handleFileChange}
+              multiple
+            />
+            <IconButton>
+              <label for="file" className="cursor-pointer">
+                <ImageIcon className={`${primaryTextColor} w-8 h-8`} />
+              </label>
+            </IconButton>
+            <IconButton>
+              <SmileyIcon className={`${primaryTextColor} w-8 h-8`} />
+            </IconButton>
+          </div>
+          <div>
+            <Button 
+              variant="contained"
+              onClick={sendMessage}
+            >
+              Send
+            </Button>
+          </div>
         </div>
       </div>
     </div>

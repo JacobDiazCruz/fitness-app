@@ -175,20 +175,17 @@ export default function Messages() {
   }, [chatData]);
 
   return (
-    <div key={remountKey} className="messages-page h-[100vh] overflow-hidden">
-      <h5 className={`${primaryTextColor} text-[22px] text-medium mb-5`}>
-        Messages
-      </h5>
+    <div key={remountKey} className="messages-page h-full w-full">
       <div className="flex h-full w-full">
         <ChatList />
 
         {/* Chat */}
-        <div className={`${primaryBgColor} ${borderColor}' w-full relative border-t border-t-solid`}>
-          <div ref={chatBoxRef} className="relative overflow-auto h-[70vh] p-5">
+        <div className={`${primaryBgColor} ${borderColor} w-full border-t border-t-solid relative`}>
+          <div ref={chatBoxRef} className="overflow-auto h-[60vh] p-5">
             {isFetchingMessages && (
               <LoadingIcon className="w-4 h-4 m-auto" />
             )}
-            <MessagesList 
+            <MessagesList
               messages={messages}
               otherChatDetails={otherChatDetails}
             />

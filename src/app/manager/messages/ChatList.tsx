@@ -49,7 +49,7 @@ export default function ChatList() {
   }
 
   return (
-    <div className={`${primaryBgColor} ${borderColor} w-[40%] relative border-r border-t border-t-solid border-r-solid`}>
+    <div className={`${primaryBgColor} ${borderColor} w-[500px] border-r border-t border-t-solid border-r-solid`}>
       {!chats?.length && (
         <div className="text-center m-auto mt-[25vh]">
           <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>
@@ -81,7 +81,7 @@ export default function ChatList() {
               className={`
                 ${borderColor}
                 ${params.id === roomId && 'dark:bg-neutral-900'}
-                p-3 border-b border-b-solid cursor-pointer
+                px-8 py-4 border-b border-b-solid cursor-pointer
               `}
             >
               <div className="flex gap-[12px]">

@@ -16,6 +16,7 @@ import {
 } from "@/utils/themeColors";
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
+import PaddedWrapper from "@/components/global/PaddedWrapper";
 
 const MemoizedUploader = memo(Uploader);
 

@@ -1,12 +1,13 @@
 import { ReactNode } from "react";
 import Providers from "@/utils/provider";
+import PaddedWrapper from "@/components/global/PaddedWrapper";
 
-export default function Layout({
+export default function WorkoutsLayout({
   children
 }) {
   return (
-    <Providers>
+    <PaddedWrapper>
       {children}
-    </Providers>
+    </PaddedWrapper>
   );
 }
