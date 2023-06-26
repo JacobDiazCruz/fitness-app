@@ -41,12 +41,11 @@ export default function Table() {
     error
   } = useQuery('programs', () => {
     const userRole = localStorage?.getItem("userRole");
-    return listPrograms(userRole == 1 ? "client" : "");
+    return listPrograms(userRole == "Client" ? "Client" : "");
   });
 
   // Search filter logic
   useEffect(() => {
-    console.log("programs", programs)
     const filteredPrograms = programs?.filter((program: Program) =>
       program.name.toLowerCase().includes(searchValue.toLowerCase())
     );

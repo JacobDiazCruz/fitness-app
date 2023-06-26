@@ -8,12 +8,14 @@ import { AddIcon, TrashIcon } from "@/components/global/Icons";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import IconButton from "@/components/global/IconButton";
 import useWorkout from "@/contexts/Workout";
+import VideoThumbnail from "@/app/manager/programs/edit/[id]/VideoThumbnail";
 
 const SelectedExercise = ({
   exerciseType,
   name,
   sets,
   imageSrc,
+  videoLink,
   onCheck,
   supersetIndex,
   exerciseIndex,
@@ -77,14 +79,21 @@ const SelectedExercise = ({
               onChange={onCheck}
             />
           )}
-          <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
+          {/* <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
             <Image
               alt="Trainer Image"
               src={imageSrc}
               style={{ objectFit: "cover" }}
               fill
             />
-          </div>
+          </div> */}
+          {videoLink && (
+            <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md cursor-pointer">
+              <VideoThumbnail
+                videoUrl={videoLink}
+              />
+            </div>
+          )}
           <div>
             <p className="dark:text-neutral-50 text-neutral-950">
               {name}

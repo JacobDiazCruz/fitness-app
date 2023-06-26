@@ -17,6 +17,8 @@ import {
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
 import PaddedWrapper from "@/components/global/PaddedWrapper";
+import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import VideoModal from "../programs/edit/[id]/VideoModal";
 
 const MemoizedUploader = memo(Uploader);
 
@@ -29,7 +31,9 @@ export default function ExerciseForm({
   setPrimaryFocusItems,
   categoryItems,
   setCategoryItems
-}) {  
+}) {
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
   return (
     <Container>
       <div className="flex gap-[40px]">
@@ -121,6 +125,26 @@ export default function ExerciseForm({
               setInitialFilesList={setInitialFilesList}
             />
           </div>
+        </div>
+        <div>
+          {exerciseForm.videoLink && (
+            <div 
+              onClick={() => {
+                setShowVideoModal(true)
+              }}
+              className="w-[260px] relative overflow-hidden rounded-md cursor-pointer"
+            >
+              <VideoThumbnail
+                videoUrl={exerciseForm.videoLink}
+              />
+            </div>
+          )}
+          {showVideoModal && (
+            <VideoModal 
+              videoUrl={exerciseForm.videoLink}
+              handleClose={() => setShowVideoModal(false)}
+            />
+          )}
         </div>
       </div>
     </Container>

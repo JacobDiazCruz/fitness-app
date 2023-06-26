@@ -209,6 +209,7 @@ export default function DraggableExercises() {
                 exerciseId={exercise.secondaryId}
                 sets={exercise?.sets}
                 exerciseIndex={index}
+                videoLink={exercise.videoLink}
                 imageSrc={exercise.files[0]}
                 primaryFocus={exercise.primaryFocus}
                 handleRemoveExercise={() => handleRemoveExercise(exercise.secondaryId)}

@@ -25,12 +25,6 @@ const VideoThumbnail = ({ videoUrl }) => {
 
   const thumbnailUrl = getThumbnailUrl(videoUrl);
 
-  useEffect(() => {
-    console.log("thumbnailUrl", thumbnailUrl)
-    if(thumbnailUrl) {
-    }
-  }, [thumbnailUrl]);
-
   return thumbnailUrl ? <img src={thumbnailUrl} alt="Video Thumbnail" /> : null;
 };
 

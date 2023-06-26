@@ -10,6 +10,7 @@ import { listExercises } from "@/api/Exercise";
 import Button from "@/components/global/Button";
 import { useRouter } from "next/navigation";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
+import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
 
 export default function YourExercises({}) {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function YourExercises({}) {
   }
 
   const DraggableExerciseItem = ({ exercise }: Exercise) => {
-    const { files, primaryFocus, name } = exercise;
+    const { files, primaryFocus, name, videoLink } = exercise;
 
     return (
       <div
@@ -51,12 +52,13 @@ export default function YourExercises({}) {
         className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]"
       >
         <div className="bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
-          <Image
-            alt="Exercise"
-            src={files[0]}
-            width={200}
-            height={200}
-          />
+          {videoLink && (
+            <div className="w-full h-[80px] relative overflow-hidden rounded-md cursor-pointer">
+              <VideoThumbnail
+                videoUrl={videoLink}
+              />
+            </div>
+          )}
         </div>
         <div className="pr-3 w-[60%]">
           <p className="dark:text-neutral-50 text-neutral-950 text-[14px]">

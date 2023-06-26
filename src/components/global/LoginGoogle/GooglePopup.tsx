@@ -60,7 +60,7 @@ const GooglePopup = ({ roleType }: { roleType: string }) => {
         localStorage.setItem("userRole", role);
         localStorage.setItem("firstName", firstName);
         localStorage.setItem("lastName", lastName);
-        localStorage.setItem("profileImage", profileImage?.thumbnailImage);
+        localStorage.setItem("thumbnailImage", profileImage?.thumbnailImage);
       } catch (error) {
         console.log("Error fetching profile data:", error);
       }

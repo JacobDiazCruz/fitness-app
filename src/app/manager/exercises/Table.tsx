@@ -94,11 +94,12 @@ export default function Table() {
           <TableNoResults />
         ) : (
           filteredExercises?.map((exercise: Exercise) => {
-            const { _id, name, primaryFocus, category, files, createdAt } = exercise;
+            const { _id, name, primaryFocus, videoLink, category, files, createdAt } = exercise;
             return (
               <TableItem
                 key={_id}
                 name={name}
+                videoLink={videoLink}
                 primaryFocus={primaryFocus}
                 category={category}
                 itemId={_id}
