@@ -11,6 +11,7 @@ import { primaryTextColor } from "@/utils/themeColors";
 import { listPrograms } from "@/api/Program";
 import { Program } from "@/utils/types";
 import TableNoResults from "@/components/global/TableNoResults";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const TableColumnHeaders = () => {
   return (
@@ -32,17 +33,20 @@ const TableColumnHeaders = () => {
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [filteredPrograms, setFilteredPrograms] = useState([]);
-  const { 
+
+  const {
     isLoading, 
     isError,
     data: programs,
     error
-  } = useQuery('programs', listPrograms, {
-    refetchOnMount: true
+  } = useQuery('programs', () => {
+    const userRole = localStorage?.getItem("userRole");
+    return listPrograms(userRole == 1 ? "client" : "");
   });
 
   // Search filter logic
   useEffect(() => {
+    console.log("programs", programs)
     const filteredPrograms = programs?.filter((program: Program) =>
       program.name.toLowerCase().includes(searchValue.toLowerCase())
     );

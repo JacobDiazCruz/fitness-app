@@ -6,10 +6,18 @@ import Button from "@/components/global/Button";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import AutoCompleteMultiple from "@/components/global/AutoCompleteMultiple";
 import { listClients } from "@/api/Client";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import FieldName from "@/components/global/FieldName";
+import DatePickerField from "@/components/global/DatePickerField";
+import AutoComplete from "@/components/global/AutoComplete";
+import { assignProgramToClient } from "@/api/Program";
+import { useParams } from "next/navigation";
+import useAlert from "@/contexts/Alert";
 
 export default function AssignClientModal({ onClose }: any) {
+  const params = useParams();
+  const { dispatchAlert } = useAlert();
+
   const { 
     isLoading, 
     isError,
@@ -20,7 +28,9 @@ export default function AssignClientModal({ onClose }: any) {
   });
 
   const [clientsList, setClientsList] = useState<Array<any>>([]);
-  const [selectedClients, setSelectedClients] = useState<Array<any>>([]);
+  
+  const [startingDate, setStartingDate] = useState(null);
+  const [selectedClient, setSelectedClient] = useState(null);
 
   useEffect(() => {
     if(clients) {
@@ -32,10 +42,34 @@ export default function AssignClientModal({ onClose }: any) {
           name: `${firstName} ${lastName}`
         })
       });
-      console.log("clientsDetails", clientsDetails)
       setClientsList(clientsDetails);
     }
   }, [clients]);
+
+  const assignProgramToClientMutation = useMutation(assignProgramToClient, {
+    onSuccess: async (data) => {
+      dispatchAlert({
+        type: "SUCCESS",
+        message: `Program assigned to ${selectedClient?.name}!`
+      });
+      onClose();
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  const handleAssign = () => {
+    assignProgramToClientMutation.mutateAsync({
+      id: params.id,
+      client: {
+        userId: selectedClient?.userId,
+        fullName: selectedClient?.name,
+        thumbnailImage: selectedClient?.thumbnailImage,
+        startingDate
+      }
+    });
+  };
   
   return (
     <Modal onClose={onClose} className="w-[500px] h-[500px] p-7">
@@ -49,34 +83,33 @@ export default function AssignClientModal({ onClose }: any) {
         <FieldName>
           Assign to
         </FieldName>
-        <AutoCompleteMultiple
-          placeholder="Select clients"
-          value={selectedClients}
+        <AutoComplete
+          placeholder="Select client"
+          value={selectedClient}
           items={clientsList}
           onChange={(val) => {
-            setSelectedClients((prevForm) => {
-              const updatedForm = [...prevForm];
-              updatedForm.push(val);
-              return updatedForm;
-            });
+            console.log("val", val)
+            setSelectedClient(val)
           }}
-          removeSelectedItem={(val) => {
-            setSelectedClients((prevForm) => {
-              let updatedForm = [...prevForm];
-              updatedForm = updatedForm.filter(item => item !== val);
-              return updatedForm;
-            });
-          }}
+          removeSelectedItem={(val) => setSelectedClient(null)}
         />
       </div>
       <div className="field mt-7">
         <FieldName>
-          Starting day
+          Starting date
         </FieldName>
-        <TextField />
+        <DatePickerField 
+          value={startingDate}
+          onChange={(val) => setStartingDate(val)}
+        />
       </div>
       <div className="modal-footer absolute left-0 bottom-0 w-full p-4 dark:bg-neutral-950 bg-gray-100">
-        <Button className="w-full text-center" variant="contained">
+        <Button 
+          className="w-full text-center"
+          variant="contained"
+          onClick={() => handleAssign()}
+          loading={assignProgramToClientMutation?.isLoading}
+        >
           Assign
         </Button>
       </div>

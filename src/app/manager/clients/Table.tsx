@@ -34,7 +34,7 @@ export default function Table() {
   const { 
     isLoading, 
     isError,
-    data: clients,
+    data: clients = [],
     error
   } = useQuery('clients', listClients, {
     refetchOnMount: true
@@ -42,10 +42,12 @@ export default function Table() {
 
   // Search filter logic
   useEffect(() => {
-    const filteredClients = clients?.filter((client: any) =>
-      client?.client.firstName.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setFilteredClients(filteredClients);
+    if(clients && Array.isArray(clients)) {
+      const filteredClients = clients?.filter((client: any) =>
+        client?.client.firstName.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilteredClients(filteredClients);
+    }
   }, [searchValue, clients]);
 
   // Return loading state if data is still loading

@@ -20,12 +20,12 @@ export const logoutUser = async (data) => {
 
 export const verifyUserToken = async () => {
   const payload = {
-    url: `/user/check-token`
+    url: `/user/verify-access`
   };
   try {
     const res = await getRequest(payload);
     if(res.data) {
-      return res.data;
+      return res.data.data;
     } else {
       throw new Error("Failed to verify user token.");
     }

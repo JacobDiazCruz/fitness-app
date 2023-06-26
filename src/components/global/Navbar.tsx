@@ -41,14 +41,19 @@ export default function Navbar() {
                 <UserMenu />
               </div>
             ) : (
-              <>
-                <Link href="/signin" className={primaryTextColor}>
+              <div>
+                <Link href="/signup/role" className={primaryTextColor}>
                   <Button>
+                    Join now
+                  </Button>
+                </Link>
+                <Link href="/signin" className={primaryTextColor}>
+                  <Button variant="outlined">
                     Sign in
                   </Button>
                 </Link>
                 {/* <LoginGoogle /> */}
-              </>
+              </div>
             )}
           </div>
         </div>

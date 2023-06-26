@@ -11,16 +11,16 @@ import jwt_decode from "jwt-decode";
 import { loginGoogle } from "@/api/User";
 import { getProfile } from "@/api/Profile";
 
-const GooglePopup = () => {
+const GooglePopup = ({ roleType }: { roleType: string }) => {
   const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
   const router = useRouter();
 
   const googleLogin = () => {
-    window.google?.accounts?.id.initialize({
+    window?.google?.accounts?.id.initialize({
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       callback: handleCredentialResponse
     });
-    window.google?.accounts?.id?.prompt();
+    window?.google?.accounts?.id?.prompt();
   };
 
   // google init callback
@@ -37,7 +37,7 @@ const GooglePopup = () => {
         token: res.credential,
         password: "",
         scope: "",
-        role: "user",
+        role: roleType,
         type: "google"
       }
       await loginGoogleMutation.mutateAsync(requestData);
@@ -49,22 +49,23 @@ const GooglePopup = () => {
   // login request
   const loginGoogleMutation = useMutation(loginGoogle, {
     onSuccess: async (data) => {
-      const { userId, accessToken, profileImage, firstName, lastName, email } = data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("profileImage", profileImage);
-      localStorage.setItem("firstName", firstName);
-      localStorage.setItem("lastName", lastName);
-      localStorage.setItem("email", email);
-      
       try {
-        const profileData = await getProfile(userId);
-        const { role } = profileData;
+        const profileData = await getProfile(data.userId);
+        const { userId, role, email, firstName, lastName, profileImage } = profileData;
+
+        // set all static values that won't be updated
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("email", email);
         localStorage.setItem("userRole", role);
+        localStorage.setItem("firstName", firstName);
+        localStorage.setItem("lastName", lastName);
+        localStorage.setItem("profileImage", profileImage?.thumbnailImage);
       } catch (error) {
         console.log("Error fetching profile data:", error);
       }
       
-      router.push('/');
+      router.push('/manager/clients');
     },
     onError: (err) => {
       console.log(err);

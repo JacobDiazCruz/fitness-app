@@ -26,7 +26,7 @@ export default function TableItem({
     <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
       <div className="flex items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
-          <div className="rounded-md bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
+          <div className="rounded-md dark:bg-neutral-900 bg-gray-300 w-[50px] h-[50px] overflow-hidden relative">
             {coverImage && (
               <Image
                 alt="Trainer Image"

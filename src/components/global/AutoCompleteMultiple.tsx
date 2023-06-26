@@ -51,7 +51,7 @@ function AutoComplete({
   useEffect(() => {
     setFilteredItems(items);
   }, [items]);
-
+  
   useEffect(() => {
     // filter dropdown items based on input value
     const newItems = items.filter((item) => {
@@ -59,7 +59,6 @@ function AutoComplete({
       const input = inputValue.toLowerCase();
       return itemName.includes(input);
     });
-    console.log("newItems", newItems);
     setFilteredItems(newItems);
   }, [inputValue]);
 
@@ -74,8 +73,8 @@ function AutoComplete({
   };
 
   const DropdownList = () => {
-    const handleClickDropdownItem = (name) => {
-      onChange(name);
+    const handleSelectItem = (item) => {
+      onChange(item);
     };
 
     return (
@@ -91,7 +90,7 @@ function AutoComplete({
           <>
             {filteredItems?.map((item: any) => (
               <li
-                onClick={() => handleClickDropdownItem(item.name)}
+                onClick={() => handleSelectItem(item.name)}
                 className="relative dark:hover:bg-neutral-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" ariaSelected="false" data-headlessui-state=""
               >
                 <span className="dark:text-neutral-50 text-neutral-900 block truncate font-normal">
@@ -113,7 +112,7 @@ function AutoComplete({
     <div className="autocomplete-container" key={key}>
       <div className={`${fieldBgColor} autocomplete-field relative w-full cursor-default overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm`}>
         <div className={`${fieldBgColor} w-full cursor-auto gap-[7px] border border-gray-200 text-sm leading-5 rounded-lg text-gray-900`}>
-          <div className="flex flex-wrap w-half gap-[7px] p-2">
+          <div className="flex flex-wrap w-half gap-[7px] py-1 px-2">
             {value?.map((val, index) => (
               <div 
                 key={index}

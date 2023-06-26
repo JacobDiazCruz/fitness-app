@@ -54,8 +54,8 @@ export default function EditExercise() {
   
       setExerciseForm(() => ({
         name,
-        primaryFocus,
-        category,
+        primaryFocus: { name: primaryFocus },
+        category: { name: category },
         instruction,
         videoLink,
         files
@@ -98,6 +98,8 @@ export default function EditExercise() {
         id: params.id,
         data: {
           ...exerciseForm,
+          primaryFocus: exerciseForm.primaryFocus?.name,
+          category: exerciseForm.category?.name,
           files: filesRes?.data
         }
       });

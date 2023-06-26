@@ -6,6 +6,8 @@ import Button from "@/components/global/Button";
 import { Exercise } from "@/utils/types";
 import { borderColor, primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
+import VideoThumbnail from "./VideoThumbnail";
+import VideoModal from "./VideoModal";
 
 interface Props {
   workoutName: string;
@@ -16,22 +18,31 @@ interface Props {
 
 const SelectedExercise = ({
   name,
+  videoLink,
   primaryFocus,
-  sets
+  sets,
+  setShowVideoModal,
+  setCurrentVideoLink,
 }: any) => {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
+
   return (
     <div className={`${borderColor} border shadow-sm border-solid mb-3 rounded-lg overflow-hidden`}>
       <div className="py-2 px-4 h-[55px] flex justify-between items-center">
         <div className="flex gap-[10px] items-center">
-          <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
-            <Image
-              alt="Trainer Image"
-              src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              style={{ objectFit: "cover" }}
-              fill
-            />
-          </div>
+          {videoLink && (
+            <div 
+              onClick={() => {
+                setShowVideoModal(true)
+                setCurrentVideoLink(videoLink)
+              }}
+              className="w-[42px] h-[33px] relative overflow-hidden rounded-md cursor-pointer"
+            >
+              <VideoThumbnail
+                videoUrl={videoLink}
+              />
+            </div>
+          )}
           <p className={`${primaryTextColor} text-[14px]`}>
             {name}
           </p>
@@ -75,7 +86,7 @@ const SelectedExercise = ({
                 </div>
                 <div className="field w-[100px] flex">
                   <p className={`${primaryTextColor} font-light`}>
-                    {setType || '--'}
+                    {setType?.name || '--'}
                   </p>
                 </div>
                 <div className="field w-[100px] flex">
@@ -103,6 +114,9 @@ export default function WorkoutDetailsModal({
   exercises,
   onClose
 }: Props) {
+  const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
+  const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
+
   return (
     <Modal onClose={onClose} className="w-[500px] h-[90%]">
       <div className="bg-[#10182a] p-7">
@@ -119,16 +133,26 @@ export default function WorkoutDetailsModal({
 
       <div className="workout p-7">
         {exercises.map((exercise) => {
-          const { name, primaryFocus, sets } = exercise;
+          const { name, primaryFocus, sets, videoLink } = exercise;
           return (
             <SelectedExercise 
               name={name} 
               primaryFocus={primaryFocus}
+              setShowVideoModal={setShowVideoModal}
+              setCurrentVideoLink={setCurrentVideoLink}
+              videoLink={videoLink}
               sets={sets} 
             />
           );
         })}
       </div>
+      
+      {showVideoModal && (
+        <VideoModal 
+          videoUrl={currentVideoLink}
+          handleClose={() => setShowVideoModal(false)}
+        />
+      )}
     </Modal>
   );
 }

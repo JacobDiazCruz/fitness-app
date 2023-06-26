@@ -42,13 +42,19 @@ function AutoComplete({
   required = false
 }: Props) {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
-  const [filteredItems, setFilteredItems] = useState<Array>(items);
+  const [filteredItems, setFilteredItems] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState<string | Array<any>>(value);
   const [key, setKey] = useState<number>(0); // Add key state
 
   const ref = useOutsideClick(() => {
     setOpenDropdown(false);
   });
+
+  useEffect(() => {
+    if(items) {
+      setFilteredItems(items);
+    }
+  }, [items]);
 
   useEffect(() => {
     // filter dropdown items based on input value
@@ -81,12 +87,10 @@ function AutoComplete({
   };
 
   const DropdownList = () => {
-    const handleClickDropdownItem = (name) => {
-      onChange(name);
-      setInputValue(name);
-      if(!multiple) {
-        setOpenDropdown(false);
-      }
+    const handleClickDropdownItem = (item) => {
+      onChange(item);
+      setInputValue(item?.name);
+      setOpenDropdown(false);
     };
 
     return (
@@ -103,7 +107,7 @@ function AutoComplete({
             {filteredItems?.map((item: any, index: number) => (
               <li
                 key={index}
-                onClick={() => handleClickDropdownItem(item.name)}
+                onClick={() => handleClickDropdownItem(item)}
                 className="relative dark:hover:bg-neutral-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" ariaSelected="false" data-headlessui-state=""
               >
                 <span className="dark:text-neutral-50 text-neutral-900 block truncate font-normal">
@@ -132,7 +136,7 @@ function AutoComplete({
           placeholder={placeholder}
           type={type}
           required={required}
-          value={inputValue}
+          value={inputValue?.name}
           className={`
             ${startIcon && 'pl-8'}
             ${fieldBgColor}

@@ -133,7 +133,7 @@ export default function SelectWorkoutModal({
               {workout.name}
             </h3>
             <p className={`${secondaryTextColor} font-regular text-gray-500 mt-1 text-[13px]`}>
-              {workout?.exercises.length} Exercises
+              {workout?.exercises?.length} Exercises
             </p>
           </div>
         ))}

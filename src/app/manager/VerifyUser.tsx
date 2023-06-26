@@ -19,6 +19,14 @@ export default function VerifyUser() {
   });
 
   useEffect(() => {
+    // set all dynamic values that can be updated
+    if(verifyUser) {
+      const { userId } = verifyUser;
+      localStorage.setItem("userId", userId);
+    }
+  }, [verifyUser]);
+
+  useEffect(() => {
     if(isError) {
       router.push("/signin");
     }

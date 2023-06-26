@@ -1,5 +1,6 @@
 import { 
   getRequest, 
+  patchRequest, 
   postRequest,
   putRequest 
 } from ".";
@@ -13,6 +14,15 @@ export const addProgram = async (data) => {
   return res.data;
 };
 
+export const assignProgramToClient = async ({ id, client }) => {
+  const payload = {
+    url: `/program/assign/${id}`,
+    data: client
+  };
+  const res = await patchRequest(payload);
+  return res.data;
+};
+
 export const editProgram = async ({ id, data }) => {
   const payload = {
     url: `/program/edit/${id}`,
@@ -22,9 +32,9 @@ export const editProgram = async ({ id, data }) => {
   return res.data;
 };
 
-export const listPrograms = async () => {
+export const listPrograms = async (type) => {
   const payload = {
-    url: `/program/list`
+    url: type ? `/program/list?type=${type}` : `/program/list/`
   };
   const res = await getRequest(payload);
   return res.data?.data;

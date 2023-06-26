@@ -64,6 +64,8 @@ export default function AddNewExercise() {
       if(filesRes.data.length) {
         await addExerciseMutation.mutateAsync({
           ...exerciseForm,
+          category: exerciseForm?.category?.name,
+          primaryFocus: exerciseForm?.primaryFocus?.name,
           files: filesRes.data
         });
         dispatchAlert({

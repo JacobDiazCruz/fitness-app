@@ -20,7 +20,7 @@ interface Props {
 export default function DraggableExercises() {
   const { 
     selectedExercises,
-    updateSelectedExercises 
+    updateSelectedExercises
   } = useWorkout();
 
   const [draggedExercise, setDraggedExercise] = useState(null);
