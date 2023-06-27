@@ -231,7 +231,5 @@ export const CoachRoleIcon = ({ className }) => {
 }
 
 export const CheckIcon = ({ className }) => {
-  return <svg className={`${className ? className : 'w-4 h-4' }`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-  </svg>
+  return <svg t="1687874987896" className={`${className ? className : 'w-4 h-4' }`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2438" width="300" height="300"><path d="M486.4 661.333333l273.066667-273.066666c17.066667-17.066667 17.066667-42.666667 0-59.733334-17.066667-17.066667-42.666667-17.066667-59.733334 0L426.666667 601.6l-102.4-102.4c-17.066667-17.066667-42.666667-17.066667-59.733334 0-17.066667 17.066667-17.066667 42.666667 0 59.733333l102.4 102.4 29.866667 29.866667c17.066667 17.066667 42.666667 17.066667 59.733333 0l29.866667-29.866667z" p-id="2439"></path></svg>
 }

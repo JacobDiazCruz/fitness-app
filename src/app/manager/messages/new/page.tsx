@@ -51,7 +51,7 @@ export default function Messages() {
     data: receiverProfile,
     error,
     refetch
-  } = useQuery('getReceiverProfile', () => getProfile(receiverId), {
+  } = useQuery('getReceiverProfile', () => getProfile({ userId: receiverId }), {
     refetchOnMount: true
   });
 
@@ -61,6 +61,8 @@ export default function Messages() {
     firstName: receiverProfile?.firstName,
     lastName: receiverProfile?.lastName
   }
+
+  console.log("newReceiver", newReceiver)
 
   return (
     <div className="messages-page">

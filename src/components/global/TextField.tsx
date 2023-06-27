@@ -12,6 +12,7 @@ interface Props {
   type: string;
   startIcon: SVGAElement;
   placeholder: string;
+  disabled: boolean;
   onChange: () => void;
   required: boolean;
 };
@@ -21,6 +22,7 @@ export default function TextField({
   className = "",
   type = "text",
   startIcon,
+  disabled = false,
   placeholder = "",
   onChange = () => {},
   required = false
@@ -42,6 +44,7 @@ export default function TextField({
           border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5`} 
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         onChange={onChange}
         value={value}
       />

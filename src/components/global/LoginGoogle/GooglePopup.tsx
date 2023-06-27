@@ -10,10 +10,12 @@ import { useRouter } from "next/navigation";
 import jwt_decode from "jwt-decode";
 import { loginGoogle } from "@/api/User";
 import { getProfile } from "@/api/Profile";
+import useVerifyUser from "@/hooks/useVerifyUser";
 
 const GooglePopup = ({ roleType }: { roleType: string }) => {
   const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
   const router = useRouter();
+  const { triggerVerification, userAccess } = useVerifyUser();
 
   const googleLogin = () => {
     window?.google?.accounts?.id.initialize({
@@ -50,12 +52,18 @@ const GooglePopup = ({ roleType }: { roleType: string }) => {
   const loginGoogleMutation = useMutation(loginGoogle, {
     onSuccess: async (data) => {
       try {
-        const profileData = await getProfile(data.userId);
-        const { userId, role, email, firstName, lastName, profileImage } = profileData;
+        // call verify user token
+        localStorage.setItem("accessToken", data.accessToken);        
+        triggerVerification();
 
+        console.log("data", data)
+        
+        // call get profile
+        const profileData = await getProfile({ userId: data?.userId });
+        const { userId, role, email, firstName, lastName, profileImage } = profileData;
+        
         // set all static values that won't be updated
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("userId", data?.userId);
         localStorage.setItem("email", email);
         localStorage.setItem("userRole", role);
         localStorage.setItem("firstName", firstName);

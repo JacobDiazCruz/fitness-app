@@ -40,6 +40,7 @@ export default function UserMenu({
       localStorage.removeItem("accessToken");
       localStorage.removeItem("thumbnailImage");
       localStorage.removeItem("firstName");
+      localStorage.removeItem("userRole");
       localStorage.removeItem("lastName");
       localStorage.removeItem("email");
       router.push('/signin')
@@ -74,12 +75,6 @@ export default function UserMenu({
                   fill
                 />
               )}
-              {/* <img
-                src={thumbnailImage}
-                style={{ 
-                  objectFit: "fill"
-                }}
-              /> */}
             </div>
             <div>
               <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">

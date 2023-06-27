@@ -8,12 +8,14 @@ interface Props {
   profileForm: Form;
   uploadedProfileImage: any;
   handleFileChange: void;
+  setProfileForm: any;
 };
 
 export default function AccountDetails({
   profileForm,
   uploadedProfileImage,
-  handleFileChange
+  handleFileChange,
+  setProfileForm
 }: Props) {
   return (
     <FormContainer
@@ -28,7 +30,7 @@ export default function AccountDetails({
             type="file" 
             name="profileImage" 
             id="profileImage" 
-            onChange={handleFileChange} 
+            onChange={handleFileChange}
             multiple={false} 
           />
           <div className="rounded-full bg-gray-300 w-[130px] h-[130px] overflow-hidden relative z-10">
@@ -54,6 +56,12 @@ export default function AccountDetails({
             </p>
             <TextField
               value={profileForm.firstName}
+              onChange={(e) => {
+                setProfileForm(prev => ({
+                  ...prev,
+                  firstName: e.target.value
+                }))
+              }}
             />
           </div>
           <div className="field w-half">
@@ -62,6 +70,12 @@ export default function AccountDetails({
             </p>
             <TextField
               value={profileForm.lastName}
+              onChange={(e) => {
+                setProfileForm(prev => ({
+                  ...prev,
+                  lastName: e.target.value
+                }))
+              }}
             />
           </div>
           <div className="field w-full mt-4">
@@ -69,7 +83,7 @@ export default function AccountDetails({
               Email
             </p>
             <TextField
-              disabled
+              disabled={true}
               value={profileForm.email}
             />
           </div>
@@ -78,8 +92,13 @@ export default function AccountDetails({
               Contact number
             </p>
             <TextField
-              disabled
               value={profileForm.contact}
+              onChange={(e) => {
+                setProfileForm(prev => ({
+                  ...prev,
+                  contact: e.target.value
+                }))
+              }}
             />
           </div>
           <div className="field w-full mt-4">
@@ -89,6 +108,12 @@ export default function AccountDetails({
             <TextArea
               disabled
               value={profileForm.contact}
+              onChange={(e) => {
+                setProfileForm(prev => ({
+                  ...prev,
+                  about: e.target.value
+                }))
+              }}
             />
           </div>
         </div>

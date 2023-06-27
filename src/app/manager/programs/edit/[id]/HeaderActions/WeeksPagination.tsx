@@ -29,6 +29,14 @@ export default function WeeksPagination({ weeks }: Props) {
     }
   };
 
+  const activeWeekStyle = (index) => {
+    if(currentWeek == startIndex + index + 1) {
+      return 'dark:border-green-500 border-green-300 dark:bg-green-950 bg-green-50 dark:text-green-500 text-green-500';
+    } else {
+      return 'dark:border-neutral-700 dark:text-neutral-400';
+    }
+  }
+
   return (
     <div className="weeks-pagination flex gap-[25px] items-center justify-between max:w-[320px]">
       <h5 className="dark:text-neutral-50 text-neutral-950 font-medium text-[14px]">
@@ -48,8 +56,8 @@ export default function WeeksPagination({ weeks }: Props) {
               router.push(`/manager/programs/edit/${params.id}?week=${startIndex + index + 1}`);
             }}
             className={`
-              ${currentWeek == startIndex + index + 1 ? 'dark:border-green-500 dark:text-green-500 text-green-500' : 'dark:border-neutral-700 dark:text-neutral-400'}
-              dark:bg-black dark:border dark:border-solid
+              ${activeWeekStyle(index)}
+              dark:bg-black dark:border dark:border-solid border
               bg-white cursor-pointer shadow-md py-1 px-2 h-[29px] min-w-[28px] text-[14px] text-center rounded-md`}
           >
             {startIndex + index + 1}

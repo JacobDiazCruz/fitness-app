@@ -10,8 +10,8 @@ import Image from 'next/image';
 import Header from "@/app/manager/Header";
 import { AddIcon } from "@/components/global/Icons";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { getCoachProfile, getProfile } from "@/api/Profile";
-import { useQuery } from "react-query";
+import { editProfileImage, getCoachProfile, getProfile } from "@/api/Profile";
+import { useMutation, useQuery } from "react-query";
 import TextArea from "@/components/global/TextArea";
 import AccountDetails from "./AccountDetails";
 import MyServices from "./MyServices";
@@ -48,13 +48,38 @@ export default function Profile() {
     data: profile,
     error,
     refetch
-  } = useQuery('profile', () => getProfile(), {
+  } = useQuery('profile', () => getProfile({ userId: localStorage?.getItem("userId") }), {
     refetchOnMount: true
   });
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUploadedProfileImage(e.target.files[0]);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files);
+    const formData = new FormData();
+  
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+    setUploadedProfileImage(files[0]);
+  
+    try {
+      const res = await editProfileImageMutation.mutateAsync(formData);
+      if(res?.data) {
+        localStorage.setItem("thumbnailImage", res.data);
+      }
+    } catch (err) {
+      console.log(err)
+    }
   };
+
+  // edit profile image mutation
+  const editProfileImageMutation = useMutation(editProfileImage, {
+    onSuccess: async (data) => {
+      return data;
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
 
   useEffect(() => {
     if(profile) {
@@ -63,7 +88,7 @@ export default function Profile() {
         firstName: profile.firstName,
         lastName: profile.lastName,
         email: profile.email,
-        profileImage: profile.profileImage.thumbnailImage
+        profileImage: profile?.profileImage?.thumbnailImage
       }));
     }
   }, [profile]);
@@ -74,6 +99,7 @@ export default function Profile() {
       <div className="profile">
         <AccountDetails 
           profileForm={profileForm}
+          setProfileForm={setProfileForm}
           uploadedProfileImage={uploadedProfileImage}
           handleFileChange={handleFileChange}
         />
@@ -81,7 +107,6 @@ export default function Profile() {
           servicesList={servicesList}
           setServicesList={setServicesList}
         />
-        
         <FormContainer
           formTitle="Gallery"
           formIcon={<svg t="1685420066688" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}

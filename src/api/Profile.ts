@@ -1,8 +1,8 @@
 import { getRequest, patchRequest } from ".";
 
-export const getProfile = async () => {
+export const getProfile = async ({ userId = null }: { userId: string | null }) => {
   const payload = {
-    url: `/profile/get`
+    url: `/profile/get/${userId}`
   };
   const res = await getRequest(payload);
   return res.data.data;
@@ -14,6 +14,20 @@ export const listCoaches = async () => {
   };
   const res = await getRequest(payload);
   return res.data.data;
+};
+
+export const editProfileImage = async (data) => {
+  let accessToken = localStorage.getItem("accessToken");
+  const payload = {
+    url: `/profile/upload-image`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    data
+  };
+  const res = await patchRequest(payload);
+  return res.data;
 };
 
 export const getCoachProfile = async (profileId) => {

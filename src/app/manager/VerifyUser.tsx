@@ -22,7 +22,7 @@ export default function VerifyUser() {
     if(isError) {
       router.push("/signin");
     }
-  }, [isError])
+  }, [isError]);
 
   return <></>;
 }

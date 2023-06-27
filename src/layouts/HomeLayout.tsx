@@ -14,16 +14,6 @@ export default function HomeLayout({
   children: React.ReactNode
 }) {
   const router = useRouter();
-  const accessToken = useLocalStorage("accessToken");
-  const profileImage = useLocalStorage("profileImage");
-  const firstName = useLocalStorage("firstName");
-  const lastName = useLocalStorage("lastName");
-
-  // useEffect(() => {
-  //   if(!accessToken || !profileImage || !firstName || !lastName) {
-  //     router.push('/signin')
-  //   }
-  // }, []);
 
   return (
     <Providers>
