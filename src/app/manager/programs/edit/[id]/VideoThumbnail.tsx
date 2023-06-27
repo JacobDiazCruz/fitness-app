@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 
-const VideoThumbnail = ({ videoUrl }) => {
+const VideoThumbnail = ({ 
+  videoUrl, 
+  onClick 
+}) => {
   const getThumbnailUrl = (url) => {
     let thumbnailUrl = '';
     const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
@@ -25,7 +28,14 @@ const VideoThumbnail = ({ videoUrl }) => {
 
   const thumbnailUrl = getThumbnailUrl(videoUrl);
 
-  return thumbnailUrl ? <img src={thumbnailUrl} alt="Video Thumbnail" /> : null;
+  return thumbnailUrl ? (
+    <img 
+      src={thumbnailUrl} 
+      alt="Video Thumbnail" 
+      onClick={onClick}
+      className="cursor-pointer"
+    />
+  ) : null;
 };
 
 export default VideoThumbnail;

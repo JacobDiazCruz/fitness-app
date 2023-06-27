@@ -164,18 +164,20 @@ const SelectedExercise = ({
               </div>
               <div>
                 <p className="invisible mb-2">Actions</p>
-                <Button
-                  startIcon={<AddIcon />}
-                  className="border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
-                  variant="outlined"
-                  onClick={() => handleAddExerciseSet(
-                    exerciseType, 
-                    exerciseIndex,
-                    supersetIndex
-                  )}
-                >
-                  Add a set
-                </Button>
+                {setIndex == sets.length - 1 && (
+                  <Button
+                    startIcon={<AddIcon />}
+                    className="border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
+                    variant="outlined"
+                    onClick={() => handleAddExerciseSet(
+                      exerciseType, 
+                      exerciseIndex,
+                      supersetIndex
+                    )}
+                  >
+                    Add a set
+                  </Button>
+                )}
               </div>
             </div>
           );

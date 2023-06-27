@@ -11,7 +11,7 @@ import { useMutation, useQuery } from "react-query";
 
 import { 
   primaryTextColor, 
-  secondaryTextColor 
+  secondaryTextColor
 } from "@/utils/themeColors";
 import { editProgram, getProgram } from "@/api/Program";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -169,9 +169,10 @@ export default function EditProgram() {
             </div>
             <div className="mt-3">
               {day.workouts.length > 0 && (
-                <DraggableWorkouts 
+                <DraggableWorkouts
                   workouts={day.workouts}
                   dayIndex={dayIndex}
+                  dayName={day.name}
                   draggedWorkout={draggedWorkout}
                   handleMutateProgram={handleMutateProgram}
                   setDraggedWorkout={(val) => {

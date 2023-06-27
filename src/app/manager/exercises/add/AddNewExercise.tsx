@@ -58,22 +58,23 @@ export default function AddNewExercise() {
       });
 
       // call upload files mutation
-      const filesRes = await uploadFilesMutation.mutateAsync(formData);
+      let filesRes: any = null
+      if(initialFilesList?.length) {
+        filesRes = await uploadFilesMutation.mutateAsync(formData);
+      }
 
       // call add exercise mutation
-      if(filesRes.data.length) {
-        await addExerciseMutation.mutateAsync({
-          ...exerciseForm,
-          category: exerciseForm?.category?.name,
-          primaryFocus: exerciseForm?.primaryFocus?.name,
-          files: filesRes.data
-        });
-        dispatchAlert({
-          type: "SUCCESS",
-          message: "Exercise created successfully"
-        });
-        router.push('/manager/exercises');
-      }
+      await addExerciseMutation.mutateAsync({
+        ...exerciseForm,
+        category: exerciseForm?.category?.name,
+        primaryFocus: exerciseForm?.primaryFocus?.name,
+        files: filesRes?.data.length ? filesRes?.data : []
+      });
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Exercise created successfully"
+      });
+      router.push('/manager/exercises');
     } catch(err) {
       console.log(err);
     }

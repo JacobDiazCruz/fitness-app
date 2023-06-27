@@ -36,19 +36,40 @@ export default function AddNewProgram() {
   const handleSubmit = () => {
     // add weeks based on inputted number of weeks
     const initialWeeks = [];
+
+    // increment on weeks and add the objects
+    // data will look something like this
+    // [
+    //   {
+    //     name: `Week 1`,
+    //     days: [
+    //       { name: "Day 1", workouts: [] },
+    //       { name: "Day 2", workouts: [] },
+    //       { name: "Day 3", workouts: [] },
+    //       { name: "Day 5", workouts: [] },
+    //       { name: "Day 6", workouts: [] },
+    //       { name: "Day 7", workouts: [] }
+    //     ]
+    //   },
+    // ]
     Array.from({ length: parseInt(programWeeks) }).forEach((_, index) => {
-      initialWeeks.push({
-        name: `Week ${index + 1}`,
-        days: [
-          { name: "Day 1", workouts: [] },
-          { name: "Day 2", workouts: [] },
-          { name: "Day 3", workouts: [] },
-          { name: "Day 5", workouts: [] },
-          { name: "Day 6", workouts: [] },
-          { name: "Day 7", workouts: [] }
-        ]
-      })
+      const weekNumber = index + 1;
+      const days = Array.from({ length: 7 }, (_, dayIndex) => {
+        const dayNumber = index * 7 + dayIndex + 1;
+        return {
+          name: `Day ${dayNumber}`,
+          workouts: []
+        };
+      });
+
+      const weekObject = {
+        name: `Week ${weekNumber}`,
+        days: days
+      };
+
+      initialWeeks.push(weekObject);
     });
+
     addProgramMutation.mutateAsync({
       name: programName,
       description: programDescription,

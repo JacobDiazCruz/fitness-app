@@ -14,10 +14,13 @@ import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../../ExerciseForm";
 import useExercise from "../../../../../hooks/useExercise";
 import { useQuery } from "react-query";
+import useAlert from "@/contexts/Alert";
 
 export default function EditExercise() {
   const router = useRouter();
   const params = useParams();
+  const { dispatchAlert } = useAlert();
+
   const {
     initialFilesList,
     setInitialFilesList,
@@ -44,10 +47,10 @@ export default function EditExercise() {
   useEffect(() => {
     if (exerciseData) {
       const { 
-        name, 
+        name,
         primaryFocus,
-        category, 
-        instruction, 
+        category,
+        instruction,
         videoLink,
         files
       } = exerciseData;
@@ -91,7 +94,10 @@ export default function EditExercise() {
       });
 
       // call upload files mutation
-      const filesRes = await uploadFilesMutation.mutateAsync(formData);
+      let filesRes: any = null
+      if(initialFilesList?.length) {
+        filesRes = await uploadFilesMutation.mutateAsync(formData);
+      }
 
       // call edit exercise mutation
       await editExerciseMutation.mutateAsync({
@@ -100,8 +106,12 @@ export default function EditExercise() {
           ...exerciseForm,
           primaryFocus: exerciseForm.primaryFocus?.name,
           category: exerciseForm.category?.name,
-          files: filesRes?.data
+          files: filesRes?.data.length ? filesRes?.data : []
         }
+      });
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Exercise edited successfully"
       });
       router.push('/manager/exercises');
     } catch(err) {

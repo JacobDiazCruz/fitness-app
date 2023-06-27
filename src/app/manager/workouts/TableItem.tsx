@@ -37,13 +37,15 @@ export default function TableItem({
             <h5 className={`${primaryTextColor} font-medium text-[16px]`}>
               {name || '--'}
             </h5>
-            <p className="dark:text-neutral-400 text-neutral-800 text-[14px]">
+            <p className="dark:text-neutral-400 text-neutral-800 w-[60%] text-[14px] mt-2 line-clamp-2">
               {description}
             </p>
-            <p className="dark:text-neutral-400 text-neutral-800 text-[14px]">
-              {exercisesCount} exercises
-            </p>
           </div>
+        </div>
+        <div className="col-5 flex-1">
+          <p className={`${secondaryTextColor} text-[14px]`}>
+            {exercisesCount} exercises
+          </p>
         </div>
         <div className="col-5 flex-1">
           <p className={`${secondaryTextColor} text-[14px]`}>

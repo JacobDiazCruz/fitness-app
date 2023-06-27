@@ -16,6 +16,7 @@ import {
 import useChatNotif from "@/hooks/messages/useChatNotif";
 import Button from "../global/Button";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import PermissionAccess from "../global/PermissionAccess";
 
 const ChatIconWrapper = () => {
   const { chatNotifData } = useChatNotif();
@@ -40,22 +41,26 @@ export default function Sidebar () {
     {
       icon: <DoubleUserIcon className="w-6 h-6 text-gray-400" />,
       name: "Clients",
-      path: "/manager/clients"
+      path: "/manager/clients",
+      roleAccess: "Coach"
     },
     {
       icon: <ChatIconWrapper />,
       name: "Messages",
-      path: "/manager/messages"
+      path: "/manager/messages",
+      roleAccess: "All"
     },
     {
       icon: <ShoppingBagIcon className="w-6 h-6 text-gray-400" />,
       name: "Coaches",
-      path: "/manager/coaches"
+      path: "/manager/coaches",
+      roleAccess: "All"
     },
     {
       icon: <SettingsIcon className="w-6 h-6 text-gray-400" />,
       name: "Account Settings",
-      path: "/manager/profile"
+      path: "/manager/profile",
+      roleAccess: "All"
     }
   ]);
 
@@ -151,13 +156,15 @@ export default function Sidebar () {
       <ul className="pt-9 pb-3 px-3">
         {navItems.map((item, key) => {
           return (
-            <List
-              key={key}
-              path={item.path}
-              name={item.name}
-              icon={item.icon}
-            />
-          )
+            <PermissionAccess roleAccess={item?.roleAccess}>
+              <List
+                key={key}
+                path={item.path}
+                name={item.name}
+                icon={item.icon}
+              />
+            </PermissionAccess>
+          );
         })}
       </ul>
       <hr className={borderColor}/>

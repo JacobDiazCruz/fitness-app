@@ -1,8 +1,8 @@
 import { getRequest, patchRequest } from ".";
 
-export const getProfile = async (userId) => {
+export const getProfile = async () => {
   const payload = {
-    url: `/profile/${userId}`
+    url: `/profile/get`
   };
   const res = await getRequest(payload);
   return res.data.data;

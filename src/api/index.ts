@@ -2,7 +2,7 @@ import axios from "axios";
 
 interface Payload {
   url: string;
-  data: object;
+  data?: object;
 }
 
 // POST REQUEST

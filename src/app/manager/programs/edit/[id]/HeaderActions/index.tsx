@@ -4,6 +4,7 @@ import { AddIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@/co
 import AssignClientModal from "../AssignClientModal";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import WeeksPagination from "./WeeksPagination";
+import PermissionAccess from "@/components/global/PermissionAccess";
 
 interface Props {
   weeks: Array<any>;
@@ -26,13 +27,15 @@ export default function HeaderActions({
         <Button variant="outlined" startIcon={<AddIcon />}>
           Add Week
         </Button>
-        <Button 
-          variant="contained" 
-          startIcon={<ArrowRightIcon />}
-          onClick={() => setShowAssignClientModal(true)}
-        >
-          Assign to Client
-        </Button>
+        <PermissionAccess roleAccess="Coach">
+          <Button
+            variant="contained"
+            startIcon={<ArrowRightIcon />}
+            onClick={() => setShowAssignClientModal(true)}
+          >
+            Assign to Client
+          </Button>
+        </PermissionAccess>
       </div>
 
       {showAssignClientModal && (

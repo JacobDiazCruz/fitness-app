@@ -3,6 +3,7 @@ import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { Exercise } from "@/utils/types";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
+import PermissionAccess from "@/components/global/PermissionAccess";
 
 interface CurrentWorkoutDetails {
   name: string;
@@ -13,6 +14,7 @@ interface CurrentWorkoutDetails {
 export default function DraggableWorkouts ({ 
   workouts, 
   dayIndex,
+  dayName,
   draggedWorkout,
   setDraggedWorkout,
   handleMutateProgram,
@@ -120,10 +122,12 @@ export default function DraggableWorkouts ({
                 {workout.exercises.length} exercises
               </p>
             </div>
-            <ItemActionsMenu
-              editPath={`/manager/workouts/edit/${workout._id}`}
-              handleDelete={() => handleDelete(workout)}
-            />
+            <PermissionAccess roleAccess="Coach">
+              <ItemActionsMenu
+                editPath={`/manager/workouts/edit/${workout._id}`}
+                handleDelete={() => handleDelete(workout)}
+              />
+            </PermissionAccess>
           </div>
         </div>
       ))}
@@ -132,6 +136,7 @@ export default function DraggableWorkouts ({
         <WorkoutDetailsModal
           workoutName={currentWorkoutDetails.name}
           workoutDescription={currentWorkoutDetails.description}
+          workoutDay={dayName}
           exercises={currentWorkoutDetails.exercises}
           onClose={() => setShowWorkoutDetailsModal(false)}
         />

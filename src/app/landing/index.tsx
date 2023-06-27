@@ -1,15 +1,14 @@
 'use client';
 
 import Image from 'next/image'
-import TrainerCard from '@/components/manager/coach/TrainerCard';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import CoachList from '@/components/manager/coach/CoachList';
 
-export default function Landing() {
+const Landing: React.FC = () => {
   const router = useRouter();
-  const [trainersList, setTrainersList] = useState([
-    1,2,3,4,5,69,7
+  const [trainersList, setTrainersList] = useState<number[]>([
+    1,2,3,4,5,69
   ]);
 
   return (
@@ -28,3 +27,5 @@ export default function Landing() {
     </div>
   );
 };
+
+export default Landing;

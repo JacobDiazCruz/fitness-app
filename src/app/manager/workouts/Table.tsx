@@ -17,6 +17,9 @@ const TableColumnHeaders = ({ primaryTextColor }: string) => {
         <p>Workouts</p>
       </div>
       <div className="flex-1">
+        <p>Exercises</p>
+      </div>
+      <div className="flex-1">
         <p>Date added</p>
       </div>
       <div className="w-[32px]"></div>

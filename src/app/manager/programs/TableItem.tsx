@@ -39,7 +39,7 @@ export default function TableItem({
             <h5 className={`${primaryTextColor} font-medium text-[16px]`}>
               {name || '--'}
             </h5>
-            <p className="dark:text-neutral-400 text-neutral-800 text-[14px]">
+            <p className="dark:text-neutral-400 text-neutral-800 text-[14px] line-clamp-2 w-[60%]">
               {description}
             </p>
           </div>

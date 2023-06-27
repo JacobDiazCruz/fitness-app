@@ -51,9 +51,9 @@ export default function YourExercises({}) {
         draggable
         className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]"
       >
-        <div className="bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
+        <div className="dark:bg-black bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
           {videoLink && (
-            <div className="w-full h-[80px] relative overflow-hidden rounded-md cursor-pointer">
+            <div className="w-full relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
                 videoUrl={videoLink}
               />
