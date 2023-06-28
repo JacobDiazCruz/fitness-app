@@ -79,7 +79,7 @@ export default function DraggableWorkouts ({
           onClick={() => handleClickWorkout(workout)}
         >
           <div
-            className="dark:bg-neutral-900 bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
+            className="dark:bg-darkTheme-900 bg-gray-300 w-full rounded-lg h-[60px] absolute mt-2"
             style={{
               display: draggedWorkout === workout ? "block" : "none"
             }}
@@ -109,7 +109,7 @@ export default function DraggableWorkouts ({
               e.preventDefault();
               setDraggedWorkout(null)
             }}
-            className="w-full flex justify-between bg-white dark:bg-neutral-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
+            className="w-full flex justify-between bg-white dark:bg-darkTheme-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
             style={{
               opacity: draggedWorkout === workout ? "0.01" : "1"
             }}

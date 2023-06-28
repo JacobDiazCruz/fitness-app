@@ -9,7 +9,7 @@
   />
 **/
 
-import { memo, useEffect, useState } from "react";
+import { ReactElement, memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { 
   borderColor,
@@ -22,7 +22,7 @@ interface Props {
   value: string | number;
   addClass: string;
   type: string;
-  startIcon: SVGAElement;
+  startIcon?: ReactElement | SVGAElement;
   items: Array<any>;
   placeholder: string;
   multiple: boolean;
@@ -96,7 +96,7 @@ function AutoComplete({
     return (
       <ul 
         ref={ref} 
-        className="z-[100] dark:bg-neutral-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
+        className="z-[100] dark:bg-darkTheme-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
         aria-labelledby="headlessui-combobox-button-:R4q:" 
         role="listbox" 
         id="headlessui-combobox-options-:rl:" 
@@ -108,9 +108,9 @@ function AutoComplete({
               <li
                 key={index}
                 onClick={() => handleClickDropdownItem(item)}
-                className="relative dark:hover:bg-neutral-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" ariaSelected="false" data-headlessui-state=""
+                className="relative dark:hover:bg-darkTheme-900 hover:bg-gray-100 cursor-pointer select-none py-2 px-4" id="headlessui-combobox-option-:rm:" role="option" tabIndex="-1" ariaSelected="false" data-headlessui-state=""
               >
-                <span className="dark:text-neutral-50 text-neutral-900 block truncate font-normal">
+                <span className="dark:text-neutral-50 text-darkTheme-900 block truncate font-normal">
                   {item.name}
                 </span>
               </li>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
@@ -101,19 +101,24 @@ export default function Sidebar () {
     );
   };
 
-  const List = ({ path, name, icon }) => {
+  const List = ({ index, path, name, icon } : {
+    index: number;
+    path: string;
+    name: string;
+    icon: React.ReactNode;
+  }) => {
     const isActive = pathname.startsWith(path);
 
     return (
       <li
+        key={index}
         className={`
-          ${(isActive && darkMode) && 'bg-neutral-800 '} 
+          ${(isActive && darkMode) && 'bg-darkTheme-800'} 
           ${(isActive && !darkMode) && 'bg-[#eeeeee]'}
-          ${darkMode ? 'hover:bg-neutral-900' : 'hover:bg-[#f2f2f2]'}
+          ${darkMode ? 'hover:bg-darkTheme-900' : 'hover:bg-[#f2f2f2]'}
           rounded-lg group relative cursor-pointer px-3 py-2
         `}
         onClick={() => router.push(path)}
-        key={name}
       >
         <div className="flex items-center">
           {icon}
@@ -140,7 +145,8 @@ export default function Sidebar () {
 
   return (
     <div className={`
-      ${darkMode ? "bg-neutral-950" : "bg-[#f7f7f7]"} 
+      sidebar
+      ${darkMode ? "bg-darkTheme-900" : "bg-[#f7f7f7]"} 
       ${openNav ? 'w-[270px]' : 'w-[85px]'}
       ${borderColor}
       h-[100vh] border-r border-r-solid sticky top-0`
@@ -154,11 +160,11 @@ export default function Sidebar () {
       <hr className={`${borderColor} mt-6 absolute w-full`} />
       <ToggleButton />
       <ul className="pt-9 pb-3 px-3">
-        {navItems.map((item, key) => {
+        {navItems.map((item, index) => {
           return (
             <PermissionAccess roleAccess={item?.roleAccess}>
               <List
-                key={key}
+                index={index}
                 path={item.path}
                 name={item.name}
                 icon={item.icon}
@@ -174,10 +180,10 @@ export default function Sidebar () {
             Fitness
           </p>
         )}
-        {fitnessNavItems.map((item, key) => {
+        {fitnessNavItems.map((item, index) => {
           return (
             <List
-              key={key}
+              index={index}
               path={item.path}
               name={item.name}
               icon={item.icon}
@@ -188,7 +194,7 @@ export default function Sidebar () {
 
       {/* User Menu */}
       <div className={`
-        dark:bg-neutral-950
+        dark:bg-darkTheme-900
         bg-[#f7f7f7]
         absolute bottom-0 w-full`}
       >
@@ -200,25 +206,6 @@ export default function Sidebar () {
           />
         </div>
       </div>
-
-      {/* {(openNav && userRole == 1) && (
-        <div className="dark:bg-neutral-800 bg-neutral-200 rounded-xl w-[85%] mx-auto mt-5 p-5">
-          <h4 className={`${primaryTextColor} font-medium`}>
-            Become a coach
-          </h4>
-          <p className={`${secondaryTextColor} mt-1 text-[14px]`}>
-            Become an online coach and get reviews from your clients
-          </p>
-          <Button
-            variant="special"
-            className="w-full mt-4"
-            onClick={() => router.push('/become-a-coach')}
-            endIcon={<ArrowRightIcon className={`text-white w-4 h-4 mt-[2px]`}/>}
-          >
-            Start now
-          </Button>
-        </div>
-      )} */}
     </div>
   );
 }

@@ -14,7 +14,7 @@ const Landing: React.FC = () => {
   return (
     <div className="landing-page min-h-[100vh]">
       <div>
-        <h1 className="dark:text-neutral-50 text-neutral-950 text-[62px] font-bold">
+        <h1 className="dark:text-neutral-50 text-darkTheme-950 text-[62px] font-bold">
           Train with better coaches
         </h1>
         <p className="dark:text-neutral-200 text-neutral-800 text-[24px] text-gray-600 mt-1">

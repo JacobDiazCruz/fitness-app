@@ -129,7 +129,7 @@ export default function MessageInput({
                 }}
                 className="w-[25px] h-[25px] right-[-8px] mt-[-10px] z-[100] absolute bg-white rounded-full border border-solid border-neutral-300"
               >
-                <CloseIcon className="w-4 h-4 m-auto text-neutral-950" />
+                <CloseIcon className="w-4 h-4 m-auto text-darkTheme-950" />
               </button>
               <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
                 <Image
@@ -171,7 +171,7 @@ export default function MessageInput({
               multiple
             />
             <IconButton>
-              <label for="file" className="cursor-pointer">
+              <label htmlFor="file" className="cursor-pointer">
                 <ImageIcon className={`${primaryTextColor} w-8 h-8`} />
               </label>
             </IconButton>

@@ -20,10 +20,8 @@ export default function HomeLayout({
       <AppContextProvider>
         <DarkThemeLoader />
         <Navbar />
-        <div className="dark:bg-black bg-[#F8F8F8]">
-          <div className="dark:bg-black bg-[#F8F8F8] py-[100px] mx-auto xl:w-[1300px] 2xl:w-[1450px]">
-            {children}
-          </div>
+        <div className="dark:bg-darkTheme-950 bg-[#F8F8F8] py-[100px] mx-auto xl:w-[1300px] 2xl:w-[1450px]">
+          {children}
         </div>
       </AppContextProvider>
     </Providers>

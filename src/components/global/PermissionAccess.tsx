@@ -12,11 +12,9 @@ export default function PermissionAccess({
 } : Props) {
   const userRole = useLocalStorage('userRole');
 
-  if (userRole === roleAccess) {
-    return <>{children}</>
-  } 
-  
-  if (roleAccess === "All") {
+  if (userRole === roleAccess || roleAccess === "All") {
     return <>{children}</>
   }
+
+  return <></>;
 };

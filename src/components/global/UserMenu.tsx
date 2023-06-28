@@ -13,15 +13,20 @@ import Switch from "./Switch";
 import useTheme from "@/contexts/Theme";
 import { secondaryBgColor } from "@/utils/themeColors";
 
+interface Props {
+  openNav?: boolean;
+  showTop?: boolean;
+};
+
 export default function UserMenu({
   openNav,
   showTop = false
-}) {
+}: Props) {
   const router = useRouter();
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref = useOutsideClick(() => setOpenUserDropdown(false));
-  const [accessToken, setAccessToken] = useState("");
-  const { darkMode, toggleDarkMode } = useTheme();
+  const [accessToken, setAccessToken] = useState<string>("");
+  const { darkMode, toggleDarkMode }: any = useTheme();
 
   // data for user display
   const thumbnailImage = useLocalStorage("thumbnailImage");
@@ -30,7 +35,8 @@ export default function UserMenu({
   const email = useLocalStorage("email");
 
   useEffect(() => {
-    setAccessToken(localStorage.getItem("accessToken"));
+    const initialAccessToken = localStorage.getItem("accessToken") || "";
+    setAccessToken(initialAccessToken);
   }, []);
 
   // logout request
@@ -63,7 +69,7 @@ export default function UserMenu({
       >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
           <li 
-            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900 flex items-center gap-[10px]"
+            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900 flex items-center gap-[10px]"
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
@@ -88,14 +94,14 @@ export default function UserMenu({
           <hr className="my-2 dark:border-neutral-800 border-neutral-200" />
           <Link href="/become-a-coach">
             <li className="dark:text-neutral-200 text-gray-900 cursor-pointer">
-              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
                 Become a coach
               </div>
             </li>
           </Link>
           <li className="dark:text-neutral-200 text-gray-900 px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Public coaching profile</div>
-            <Switch />
+            {/* <Switch /> */}
           </li>
           <li className="dark:text-neutral-200 text-gray-900 block px-4 py-2 flex items-center justify-between gap-[10px]">
             <div>Dark mode</div>
@@ -111,7 +117,7 @@ export default function UserMenu({
             }}
             className="dark:text-neutral-200 text-gray-900 cursor-pointer"
           >
-            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-900">
+            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
               Sign out
             </div>
           </li>

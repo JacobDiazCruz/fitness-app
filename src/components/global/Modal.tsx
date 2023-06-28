@@ -17,7 +17,7 @@ export default function Modal({
   return (
     <>
       <div
-        className="fixed inset-0 w-full h-full bg-black opacity-60 z-[90]"
+        className="fixed inset-0 w-full h-full bg-darkTheme-950 opacity-70 z-[90]"
         onClick={onClose}
       ></div>
       <div

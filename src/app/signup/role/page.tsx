@@ -89,7 +89,7 @@ export default function Signup() {
             Already have an account?
             <span 
               onClick={() => router.push('/signin')}
-              className="ml-1 text-neutral-950 cursor-pointer"
+              className="ml-1 text-darkTheme-950 cursor-pointer"
             >
               Login
             </span>

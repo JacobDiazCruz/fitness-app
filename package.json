@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:ts": "next dev & npm run ts:watch",
+    "ts": "tsc --noEmit --incremental",
+    "ts:watch": "npm run ts --watch",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/query-core": "^4.29.19",
     "@types/gapi": "^0.0.44",
     "@types/node": "20.2.3",
     "@types/react": "18.2.6",

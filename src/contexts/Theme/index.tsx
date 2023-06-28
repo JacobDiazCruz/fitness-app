@@ -6,7 +6,7 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(themeReducer, initialState);
 
-  const toggleDarkMode = (val) => {
+  const toggleDarkMode = (val: any) => {
     dispatch({
       type: "TOGGLE",
       darkMode: val

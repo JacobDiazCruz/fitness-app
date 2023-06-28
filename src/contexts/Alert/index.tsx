@@ -1,12 +1,20 @@
-import { createContext, useReducer, useContext, useMemo } from "react";
+import { ReactNode, createContext, useReducer, useContext, useMemo } from "react";
 import alertReducer, { initialState } from "./reducer";
 
 const AlertContext = createContext();
 
-export const AlertProvider = ({ children }) => {
+interface Alert {
+  type: string | null;
+  title: string | null;
+  message: string | null;
+};
+
+export const AlertProvider = ({ children } : {
+  children: ReactNode
+}) => {
   const [state, dispatch] = useReducer(alertReducer, initialState);
 
-  const dispatchAlert = ({ type, title, message }) => {
+  const dispatchAlert = ({ type, title, message }: Alert) => {
     dispatch({
       type,
       payload: {

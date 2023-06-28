@@ -1,6 +1,8 @@
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
+import { primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
+import { useState } from "react";
 import FormContainer from "./FormContainer";
 import { Form } from "./page";
 
@@ -17,6 +19,7 @@ export default function AccountDetails({
   handleFileChange,
   setProfileForm
 }: Props) {
+
   return (
     <FormContainer
       formTitle="Account Details"
@@ -28,7 +31,7 @@ export default function AccountDetails({
           <input
             className="invisible h-[0px]" 
             type="file" 
-            name="profileImage" 
+            name="profileImage"
             id="profileImage" 
             onChange={handleFileChange}
             multiple={false} 
@@ -43,7 +46,7 @@ export default function AccountDetails({
               />
             )}
           </div>
-          <label for="profileImage" className="cursor-pointer">
+          <label htmlFor="profileImage" className="cursor-pointer">
             <div className="rounded-full bg-gray-300 w-[40px] h-[40px] flex absolute ml-[90px] mt-[-40px] cursor-pointer z-20">
               <svg t="1685415673467" class="icon m-auto" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5439" width="25" height="25"><path d="M891.787816 243.009639 730.550575 243.009639l-21.103644-41.932018c-2.450818-5.426593-24.76094-53.007261-56.271608-53.007261L366.81127 148.07036c-31.510668 0-53.819766 47.580668-56.087413 52.640917l-21.273513 42.298362L128.198777 243.009639c-31.485085 0-57.110719 25.494651-57.110719 56.83545L71.088058 821.820278c0 31.354102 25.625634 56.861032 57.110719 56.861032L891.774513 878.68131c31.485085 0 57.110719-25.507954 57.110719-56.861032l0.026606-66.443271L948.911838 603.052762 948.911838 299.845089C948.910814 268.50429 923.286204 243.009639 891.787816 243.009639zM510.976694 739.325425c-103.498212 0-187.701986-83.758636-187.701986-186.719612 0-102.947673 84.203774-186.706309 187.701986-186.706309s187.701986 83.758636 187.701986 186.706309C698.67868 655.567813 614.474906 739.325425 510.976694 739.325425zM789.573853 408.743288c-25.481348 0-46.217624-20.736277-46.217624-46.217624 0-25.481348 20.736277-46.204321 46.217624-46.204321 25.481348 0 46.204321 20.722974 46.204321 46.204321C835.779198 388.007011 815.055201 408.743288 789.573853 408.743288z" fill="#272636" p-id="5440"></path><path d="M510.976694 429.027264c-68.579935 0-124.365472 55.432497-124.365472 123.579573 0 68.160379 55.786561 123.605156 124.365472 123.605156s124.365472-55.4458 124.365472-123.605156C635.342166 484.45976 579.555605 429.027264 510.976694 429.027264z" fill="#272636" p-id="5441"></path></svg>
             </div>
@@ -51,7 +54,7 @@ export default function AccountDetails({
         </div>
         <div className="flex flex-wrap w-[650px] gap-[15px]">
           <div className="field w-half">
-            <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+            <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               First name
             </p>
             <TextField
@@ -65,7 +68,7 @@ export default function AccountDetails({
             />
           </div>
           <div className="field w-half">
-            <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+            <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               Last name
             </p>
             <TextField
@@ -79,7 +82,7 @@ export default function AccountDetails({
             />
           </div>
           <div className="field w-full mt-4">
-            <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+            <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               Email
             </p>
             <TextField
@@ -88,7 +91,7 @@ export default function AccountDetails({
             />
           </div>
           <div className="field w-full mt-4">
-            <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+            <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               Contact number
             </p>
             <TextField
@@ -102,12 +105,12 @@ export default function AccountDetails({
             />
           </div>
           <div className="field w-full mt-4">
-            <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+            <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               About 
             </p>
             <TextArea
               disabled
-              value={profileForm.contact}
+              value={profileForm.about}
               onChange={(e) => {
                 setProfileForm(prev => ({
                   ...prev,

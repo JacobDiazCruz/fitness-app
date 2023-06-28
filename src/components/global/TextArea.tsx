@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import {
   secondaryTextColor, 
   fieldBgColor
@@ -9,7 +9,8 @@ interface Props {
   value: string | number;
   className: string;
   type: string;
-  startIcon: SVGAElement;
+  rows?: number;
+  startIcon?: ReactElement | ReactNode | SVGAElement | null;
   placeholder: string;
   onChange: () => void;
   required: boolean;
@@ -19,7 +20,7 @@ export default function TextArea({
   value,
   className,
   type,
-  startIcon,
+  startIcon = null,
   rows = 4,
   placeholder,
   onChange,
@@ -35,7 +36,7 @@ export default function TextArea({
       )}
       <textarea
         rows={rows}
-        cols="60"
+        cols={60}
         className={`
           ${startIcon && 'pl-10'}
           ${className}

@@ -149,7 +149,7 @@ export default function EditProgram() {
             data-index={dayIndex}
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, dayIndex)}
-            className="day-board h-[100vh] dark:border-neutral-800 dark:border dark:border-solid dark:bg-neutral-950 bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
+            className="day-board h-[100vh] dark:border-neutral-800 dark:border dark:border-solid dark:bg-darkTheme-950 bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
           >
             <div className="flex justify-between items-center">
               <p className="uppercase text-[12px] text-gray-500 ml-1">{day.name}</p>

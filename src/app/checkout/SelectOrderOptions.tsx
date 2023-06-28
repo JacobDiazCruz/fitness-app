@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
 interface OrderOption {
   price: number;
   title: string;

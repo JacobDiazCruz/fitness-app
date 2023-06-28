@@ -1,9 +1,4 @@
 import { useState } from "react";
-import { Button, Card, ListItemIcon, ListItemText, Typography, List, ListItem, Divider } from "@mui/material";
-import { Box } from "@mui/system";
-import CheckIcon from '@mui/icons-material/Check';
-import { theme } from '../../utils/mui';
-import { ThemeProvider } from "@mui/material/styles";
 
 interface Props {
   featuredPrice?: number;

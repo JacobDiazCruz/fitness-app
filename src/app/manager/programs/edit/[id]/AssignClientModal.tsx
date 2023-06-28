@@ -103,7 +103,7 @@ export default function AssignClientModal({ onClose }: any) {
           onChange={(val) => setStartingDate(val)}
         />
       </div>
-      <div className="modal-footer absolute left-0 bottom-0 w-full p-4 dark:bg-neutral-950 bg-gray-100">
+      <div className="modal-footer absolute left-0 bottom-0 w-full p-4 dark:bg-darkTheme-950 bg-gray-100">
         <Button 
           className="w-full text-center"
           variant="contained"

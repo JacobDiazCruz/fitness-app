@@ -1,13 +1,18 @@
 import { useState } from "react";
 
+interface Props {
+  value: boolean;
+  handleClick: () => void;
+};
+
 export default function Switch({
-  value,
+  value = false,
   handleClick
-}) {
+}: Props) {
   return (
     <div className="relative flex flex-col items-center justify-center overflow-hidden">
       <div className="flex">
-        <label class="inline-flex relative items-center cursor-pointer">
+        <label className="inline-flex relative items-center cursor-pointer">
           <input
             type="checkbox"
             className="sr-only peer"

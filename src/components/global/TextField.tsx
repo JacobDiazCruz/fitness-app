@@ -1,16 +1,16 @@
 'use client';
 
 
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import {
   primaryTextColor, 
   fieldBgColor
 } from "@/utils/themeColors";
 interface Props {
-  value: string | number;
+  value?: string | number;
   className: string;
   type: string;
-  startIcon: SVGAElement;
+  startIcon?: ReactElement | ReactNode | SVGAElement | null;
   placeholder: string;
   disabled: boolean;
   onChange: () => void;
@@ -21,7 +21,7 @@ export default function TextField({
   value = "",
   className = "",
   type = "text",
-  startIcon,
+  startIcon = null,
   disabled = false,
   placeholder = "",
   onChange = () => {},

@@ -12,7 +12,7 @@ import { loginGoogle } from "@/api/User";
 import { getProfile } from "@/api/Profile";
 import useVerifyUser from "@/hooks/useVerifyUser";
 
-const GooglePopup = ({ roleType }: { roleType: string }) => {
+const GooglePopup = ({ roleType }: { roleType?: string }) => {
   const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
   const router = useRouter();
   const { triggerVerification, userAccess } = useVerifyUser();
@@ -26,8 +26,8 @@ const GooglePopup = ({ roleType }: { roleType: string }) => {
   };
 
   // google init callback
-  window.handleCredentialResponse = async (res) => {
-    const details = jwt_decode(res.credential);
+  window.handleCredentialResponse = async (res: any) => {
+    const details: any = jwt_decode(res.credential);
     try {
       const requestData = {
         firstName: details.given_name,
@@ -56,8 +56,6 @@ const GooglePopup = ({ roleType }: { roleType: string }) => {
         localStorage.setItem("accessToken", data.accessToken);        
         triggerVerification();
 
-        console.log("data", data)
-        
         // call get profile
         const profileData = await getProfile({ userId: data?.userId });
         const { userId, role, email, firstName, lastName, profileImage } = profileData;

@@ -19,8 +19,8 @@ export default function Navbar() {
 
   return (
     <Providers>
-      <div className="dark:bg-black bg-[#F8F8F8]">
-        <div className="w-full dark:bg-black bg-[#F8F8F8] xl:w-[1300px] 2xl:w-[1450px] m-auto">
+      <div className="dark:darkTheme-950 bg-[#F8F8F8]">
+        <div className="w-full dark:darkTheme-950 bg-[#F8F8F8] xl:w-[1300px] 2xl:w-[1450px] m-auto">
           <div className="py-6 flex items-center justify-between">
             <h2>Logo</h2>
             {accessToken ? (

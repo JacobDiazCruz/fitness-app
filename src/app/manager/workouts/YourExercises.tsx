@@ -11,6 +11,7 @@ import Button from "@/components/global/Button";
 import { useRouter } from "next/navigation";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import { borderColor, fieldBgColor, tertiaryBgColor } from "@/utils/themeColors";
 
 export default function YourExercises({}) {
   const router = useRouter();
@@ -49,9 +50,9 @@ export default function YourExercises({}) {
       <div
         onDragStart={(e) => onDragStart(e, exercise)}
         draggable
-        className="cursor-grab dark:bg-neutral-900 bg-[#f6f6f6] p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]"
+        className={`${fieldBgColor} ${borderColor} border cursor-grab p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]`}
       >
-        <div className="dark:bg-black bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
+        <div className="dark:bg-darkTheme-950 bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
           {videoLink && (
             <div className="w-full relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
@@ -61,7 +62,7 @@ export default function YourExercises({}) {
           )}
         </div>
         <div className="pr-3 w-[60%]">
-          <p className="dark:text-neutral-50 text-neutral-950 text-[14px]">
+          <p className="dark:text-neutral-50 text-darkTheme-950 text-[14px]">
             {name}
           </p>
           <div className="flex">
@@ -78,7 +79,7 @@ export default function YourExercises({}) {
   return (
     <>
       <div>
-        <h2 className="dark:text-neutral-50 text-neutral-950 text-[18px] font-medium">
+        <h2 className="dark:text-neutral-50 text-darkTheme-950 text-[18px] font-medium">
           Your Exercises
         </h2>
         <div className="mt-5">

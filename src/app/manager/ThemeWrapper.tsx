@@ -1,4 +1,4 @@
-import { primaryBgColor } from "@/utils/themeColors";
+import { primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
 
 export default function ThemeWrapper({children}: any) {
   return (

@@ -23,6 +23,12 @@ export interface Form {
   contact: string | null;
 }
 
+export interface Services {
+  title: string | null;
+  description: string | null;
+  price: number | null;
+}
+
 export default function Profile() {
   const userId = useLocalStorage('userId');
   const [enableAccountEdit, setEnableAccountEdit] = useState(false);
@@ -32,7 +38,7 @@ export default function Profile() {
     lastName: null,
     contact: null
   });
-  const [servicesList, setServicesList] = useState<Array>([
+  const [servicesList, setServicesList] = useState<Services[]>([
     {
       title: "",
       description: "",
@@ -95,7 +101,10 @@ export default function Profile() {
 
   return (
     <div className="profile-page">
-      <Header pageTitle="Profile" />
+      <Header
+        pageTitle="Profile"
+        showActionButtons
+      />
       <div className="profile">
         <AccountDetails 
           profileForm={profileForm}

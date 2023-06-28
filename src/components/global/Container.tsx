@@ -1,12 +1,17 @@
 import React from "react";
-import { secondaryBgColor } from "@/utils/themeColors";
+import { borderColor, secondaryBgColor } from "@/utils/themeColors";
 
 export default function Container({
   children,
   className
 }: React.ReactNode) {
   return (
-    <div className={`${className} ${secondaryBgColor} form shadow-md width-full p-8 rounded-lg`}>
+    <div className={`
+      ${className}
+      ${borderColor}
+      ${secondaryBgColor}
+      dark:border bg-white form shadow-md width-full p-8 rounded-lg
+    `}>
       {children}
     </div>
   );

@@ -22,7 +22,7 @@ export default function Alert() {
             <div className="bg-green-500 w-[20px] h-[20px] rounded-full">
               <CheckIcon className="fill-white w-5 h-5 m-auto"/>
             </div>
-            <p className="font-normal text-white dark:text-neutral-950">
+            <p className="font-normal text-white dark:text-darkTheme-950">
               {message}
             </p>
           </div>

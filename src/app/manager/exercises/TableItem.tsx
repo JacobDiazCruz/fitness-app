@@ -44,7 +44,7 @@ export default function TableItem({
         <div className="col-3 flex-1">
           <div className={`
               ${handlePrimaryFocusColor(primaryFocus)} 
-              w-[fit-content] py-2 px-3 rounded-lg font-medium text-[14px]
+              w-[fit-content] py-1 px-3 rounded-lg font-medium text-[14px]
             `}
           >
             {primaryFocus || '--'}

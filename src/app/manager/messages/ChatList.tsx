@@ -80,7 +80,7 @@ export default function ChatList() {
               onClick={() => router.push(`/manager/messages/${roomId}`)}
               className={`
                 ${borderColor}
-                ${params.id === roomId && 'dark:bg-neutral-900'}
+                ${params.id === roomId && 'dark:bg-darkTheme-900'}
                 px-8 py-4 border-b border-b-solid cursor-pointer
               `}
             >

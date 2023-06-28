@@ -1,12 +1,22 @@
+
+import { Dispatch, SetStateAction } from "react";
 import Button from "@/components/global/Button";
 import { AddIcon } from "@/components/global/Icons";
 import TextField from "@/components/global/TextField";
+import { primaryTextColor } from "@/utils/themeColors";
+import { useState } from "react";
 import FormContainer from "./FormContainer";
+import { Services } from "./page";
+
+interface Props {
+  servicesList: Services;
+  setServicesList: Dispatch<SetStateAction<Services[]>>;
+}
 
 export default function MyServices({
   servicesList,
   setServicesList
-}) {
+}: Props) {
   return (
     <FormContainer
       formTitle="My Services"
@@ -17,7 +27,7 @@ export default function MyServices({
         {servicesList.map((service: any, index: number) => (
           <div key={index} className="pb-5 flex gap-[20px] w-full">
             <div className="w-[226px]">
-              <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+              <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
                 Title
               </p>
               <TextField
@@ -34,7 +44,7 @@ export default function MyServices({
               />
             </div>
             <div className="w-[350px]">
-              <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+              <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
                 Description
               </p>
               <TextField
@@ -51,7 +61,7 @@ export default function MyServices({
               />
             </div>
             <div className="w-[90px]">
-              <p className="dark:text-neutral-50 text-neutral-900 mb-2 text-[14px]">
+              <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
                 Price
               </p>
               <TextField

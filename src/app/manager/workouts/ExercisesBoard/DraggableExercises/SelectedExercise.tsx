@@ -9,6 +9,7 @@ import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import IconButton from "@/components/global/IconButton";
 import useWorkout from "@/contexts/Workout";
 import VideoThumbnail from "@/app/manager/programs/edit/[id]/VideoThumbnail";
+import { borderColor, primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
 
 const SelectedExercise = ({
   exerciseType,
@@ -68,7 +69,7 @@ const SelectedExercise = ({
 
   return (
     <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">
-      <div className="py-2 px-4 dark:bg-neutral-900 bg-gray-100 h-[55px] flex justify-between items-center">
+      <div className={`${borderColor} py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-[55px] flex justify-between items-center`}>
         <div className="flex gap-[10px] items-center">
           {showCheckInput && (
             <input
@@ -79,14 +80,6 @@ const SelectedExercise = ({
               onChange={onCheck}
             />
           )}
-          {/* <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md">
-            <Image
-              alt="Trainer Image"
-              src={imageSrc}
-              style={{ objectFit: "cover" }}
-              fill
-            />
-          </div> */}
           {videoLink && (
             <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
@@ -95,7 +88,7 @@ const SelectedExercise = ({
             </div>
           )}
           <div>
-            <p className="dark:text-neutral-50 text-neutral-950">
+            <p className="dark:text-neutral-50 text-darkTheme-950">
               {name}
             </p>
           </div>
@@ -109,13 +102,13 @@ const SelectedExercise = ({
           <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
         </IconButton>
       </div>
-      <div className="dark:bg-neutral-950 bg-white px-6">
+      <div className={`${primaryBgColor} px-6`}>
         {sets?.map((set: any, setIndex: number) => {
           const {setType, reps, rest} = set;
           return (
-            <div key={setIndex} className="flex gap-[15px] my-6">
+            <div key={setIndex} className="flex gap-[15px] py-6">
               <div className="field">
-                <p className="dark:text-neutral-50 text-neutral-950 mb-2">Set</p>
+                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">Set</p>
                 <AutoComplete
                   items={[
                     {
@@ -134,7 +127,7 @@ const SelectedExercise = ({
                 />
               </div>
               <div className="field">
-                <p className="dark:text-neutral-50 text-neutral-950 mb-2">
+                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">
                   Reps
                 </p>
                 <TextField
@@ -149,7 +142,7 @@ const SelectedExercise = ({
                 />
               </div>
               <div className="field">
-                <p className="dark:text-neutral-50 text-neutral-950 mb-2">
+                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">
                   Rest
                 </p>
                 <TextField

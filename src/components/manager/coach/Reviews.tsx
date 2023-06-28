@@ -1,9 +1,4 @@
-import { Avatar, Divider, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { theme } from '../../utils/mui';
-import { ThemeProvider } from "@mui/material/styles";
 import CoachRating from "./CoachRating";
-import Rating from '@mui/material/Rating';
 import Image from "next/image";
 import Container from "@/components/global/Container";
 import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor } from "@/utils/themeColors";

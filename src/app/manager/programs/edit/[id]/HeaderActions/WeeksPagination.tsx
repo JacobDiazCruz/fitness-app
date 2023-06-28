@@ -39,12 +39,12 @@ export default function WeeksPagination({ weeks }: Props) {
 
   return (
     <div className="weeks-pagination flex gap-[25px] items-center justify-between max:w-[320px]">
-      <h5 className="dark:text-neutral-50 text-neutral-950 font-medium text-[14px]">
+      <h5 className="dark:text-neutral-50 text-darkTheme-950 font-medium text-[14px]">
         Week {currentWeek} <span className="dark:text-neutral-500 text-neutral-700">of {weeks?.length}</span>
       </h5>
       <div className="flex items-center gap-[10px]">
         <div
-          className="dark:bg-black dark:border dark:border-solid dark:border-neutral-700 dark:text-neutral-50 bg-white cursor-pointer shadow-md flex items-center py-1 h-[29px] w-[28px] rounded-md"
+          className="dark:bg-darkTheme-950 dark:border dark:border-solid dark:border-neutral-700 dark:text-neutral-50 bg-white cursor-pointer shadow-md flex items-center py-1 h-[29px] w-[28px] rounded-md"
           onClick={handleClickPrev}
         >
           <ChevronLeftIcon className="w-4 h-4 m-auto" />
@@ -57,14 +57,14 @@ export default function WeeksPagination({ weeks }: Props) {
             }}
             className={`
               ${activeWeekStyle(index)}
-              dark:bg-black dark:border dark:border-solid border
+              dark:bg-darkTheme-950 dark:border dark:border-solid border
               bg-white cursor-pointer shadow-md py-1 px-2 h-[29px] min-w-[28px] text-[14px] text-center rounded-md`}
           >
             {startIndex + index + 1}
           </div>
         ))}
         <div
-          className="dark:bg-black dark:border dark:border-solid dark:border-neutral-700 dark:text-neutral-50 bg-white cursor-pointer shadow-md flex items-center py-1 h-[29px] w-[28px] rounded-md"
+          className="dark:bg-darkTheme-950 dark:border dark:border-solid dark:border-neutral-700 dark:text-neutral-50 bg-white cursor-pointer shadow-md flex items-center py-1 h-[29px] w-[28px] rounded-md"
           onClick={handleClickNext}
         >
           <ChevronRightIcon className="w-4 h-4 m-auto" />

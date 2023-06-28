@@ -9,6 +9,7 @@ import { Exercise } from "@/utils/types";
 import DraggableExercises from "./DraggableExercises";
 import { BarbellIcon, CubeTransparentIcon, DropdownIcon, ViewFinderIcon } from "@/components/global/Icons";
 import useWorkout from "@/contexts/Workout";
+import { secondaryBgColor } from "@/utils/themeColors";
 
 export default function ExercisesBoard() { 
   const { 
@@ -25,10 +26,10 @@ export default function ExercisesBoard() {
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => onDropFromExercises(e)}
     >
-      <p className="mb-3 text-[14px] dark:text-neutral-50 text-neutral-950">
+      <p className="mb-3 text-[14px] dark:text-neutral-50 text-darkTheme-950">
         Exercises
       </p>
-      <div className="dark:bg-neutral-950 bg-white dark:border-neutral-800 border-gray-200 btn-actions flex items-center sticky top-[0] h-[70px] z-[500] border-b border-b-solid shadow-sm">
+      <div className={`${secondaryBgColor} dark:border-neutral-800 border-gray-200 btn-actions flex items-center sticky top-[0] h-[70px] z-[500] border-b border-b-solid shadow-sm`}>
         <Button
           variant="outlined"
           className="mr-2"
@@ -58,7 +59,7 @@ export default function ExercisesBoard() {
       />
       <div className="border-[2px] rounded-lg border-dashed dark:border-neutral-800 border-gray-200 mt-5 h-[196px] flex items-center">
         <div className="m-auto">
-          <div className="rounded-full w-[52px] h-[52px] dark:bg-neutral-900 bg-gray-100 flex m-auto items-center">
+          <div className="rounded-full w-[52px] h-[52px] dark:bg-darkTheme-900 bg-gray-100 flex m-auto items-center">
             <BarbellIcon className="m-auto w-6 h-6 fill-gray-500" />
           </div>
           <p className="dark:text-neutral-400 text-neutral-500 mt-3 text-[16px]">

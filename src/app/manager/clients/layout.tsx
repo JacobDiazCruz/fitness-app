@@ -3,6 +3,8 @@ import PaddedWrapper from "@/components/global/PaddedWrapper";
 
 export default function ClientsLayout({
   children
+}: {
+  children: ReactNode
 }) {
   return (
     <PaddedWrapper>

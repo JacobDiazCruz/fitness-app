@@ -44,7 +44,6 @@ export default function Signup() {
   return (
     <>
       <Script src="https://accounts.google.com/gsi/client" async defer />
-      <Script src="https://connect.facebook.net/en_US/sdk.js" defer="true" async="true" crossorigin="anonymous" />
       <div className="signup-page flex h-screen">
         <div className="w-1/2 flex items-center justify-center">
           <div className="px-5 text-center">
@@ -63,7 +62,7 @@ export default function Signup() {
               Already have an account?
               <span
                 onClick={() => router.push('/signin')}
-                className="ml-1 text-neutral-950 cursor-pointer"
+                className="ml-1 text-darkTheme-950 cursor-pointer"
               >
                 Login
               </span>
