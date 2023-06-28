@@ -8,6 +8,7 @@ import {
   secondaryTextColor,
   primaryTextColor 
 } from "@/utils/themeColors";
+import { useRouter } from "next/navigation";
 
 interface Props {
   itemId: string;
@@ -24,6 +25,7 @@ export default function TableItem({
   exercisesCount,
   createdAt
 }: Props) {
+  const router = useRouter();
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   const date = new Date(createdAt);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -55,7 +57,7 @@ export default function TableItem({
         <div className="col-5">
           <ItemActionsMenu 
             itemId={itemId}
-            editPath={`/manager/workouts/edit/${itemId}`}
+            handleEdit={() => router.push(`/manager/workouts/edit/${itemId}`)}
           />
         </div>
       </div>

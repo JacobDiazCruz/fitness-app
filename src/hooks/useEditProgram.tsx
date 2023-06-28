@@ -30,7 +30,6 @@ export default function useEditProgram() {
 
   // Handler for edit mutation
   const handleMutateProgram = (updatedWeeks: Array<any>) => {
-    console.log("updatedWeeks", updatedWeeks)
     editProgramMutation.mutateAsync({
       id: programId,
       data: {

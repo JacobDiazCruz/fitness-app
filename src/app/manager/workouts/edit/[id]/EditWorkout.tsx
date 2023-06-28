@@ -60,7 +60,7 @@ export default function EditWorkout() {
   });
 
   useEffect(() => {
-    if (workoutData) {
+    if (workoutData && !editProgram) {
       const { name, description, exercises } = workoutData;
       setWorkoutName(name);
       setWorkoutDescription(description);
@@ -68,6 +68,21 @@ export default function EditWorkout() {
     }
   }, [workoutData]);
 
+  useEffect(() => {
+    if (programWeekIndex && editProgram) {
+      const programWorkout = programWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex]
+      const { name, description, exercises } = programWorkout;
+
+      setWorkoutName(name);
+      setWorkoutDescription(description);
+      updateSelectedExercises(exercises);
+    }
+  }, [programWeekIndex]);
+
+  /**
+   * @Purpose This function handles edit workout from workouts page, and edit workout from programs
+   * @Note 
+   */
   const handleSubmit = () => {
     if(!editProgram) {
       editWorkoutMutation.mutateAsync({
@@ -80,14 +95,17 @@ export default function EditWorkout() {
       });
     } else {
       const newProgramWeeks = [...programWeeks];
-      let currentEditedWorkout = newProgramWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex];
-      currentEditedWorkout = {
-        ...currentEditedWorkout,
-        name: workoutName,
-        description: workoutDescription,
-        exercises: selectedExercises
-      };
-      newProgramWeeks[programWeekIndex].days[programDayIndex].workouts[programWorkoutIndex] = currentEditedWorkout;
+      const currentEditedWorkout = newProgramWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex];
+
+      if (currentEditedWorkout) {
+        const updatedWorkout = {
+          ...currentEditedWorkout,
+          name: workoutName,
+          description: workoutDescription,
+          exercises: selectedExercises
+        };
+        newProgramWeeks[programWeekIndex].days[programDayIndex].workouts[programWorkoutIndex] = updatedWorkout;
+      }
       handleMutateProgram(newProgramWeeks);
     }
   };
