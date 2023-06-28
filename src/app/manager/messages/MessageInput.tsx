@@ -3,7 +3,7 @@ import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
 import { CloseIcon, ImageIcon, SmileyIcon } from "@/components/global/Icons";
 import useMessageSender from "@/hooks/messages/useMessageSender";
-import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor } from "@/utils/themeColors";
+import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryBgColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import CoachRating from './CoachRating';
 import Image from 'next/image';
+import { secondaryBgColor } from '@/utils/themeColors';
 
 interface Props {
   firstName: string;
@@ -31,7 +32,11 @@ export default function TrainerCard({
   const cardSize = 'xl:w-[415px] 2xl:w-[342px]';
 
   return (
-    <div className={`${cardSize} dark:bg-darkTheme-950 bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer`}>
+    <div className={`
+      ${cardSize}
+      ${secondaryBgColor} 
+      rounded-lg h-[390px] overflow-hidden cursor-pointer
+    `}>
       <div className="w-full h-[200px] relative overflow-hidden">
         {profileImage?.thumbnailImage && (
           <Image

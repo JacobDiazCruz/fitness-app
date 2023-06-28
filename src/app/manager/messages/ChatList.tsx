@@ -49,7 +49,7 @@ export default function ChatList() {
   }
 
   return (
-    <div className={`${primaryBgColor} ${borderColor} w-[500px] border-r border-t border-t-solid border-r-solid`}>
+    <div className={`${primaryBgColor} ${borderColor} border-t border-t-solid border-r-solid`}>
       {!chats?.length && (
         <div className="text-center m-auto mt-[25vh]">
           <h4 className={`${primaryTextColor} font-semibold text-[18px]`}>

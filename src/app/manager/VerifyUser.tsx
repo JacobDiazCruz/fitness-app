@@ -1,3 +1,5 @@
+'use client';
+
 import { verifyUserToken } from "@/api/User";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

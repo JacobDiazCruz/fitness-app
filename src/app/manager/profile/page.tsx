@@ -21,13 +21,13 @@ export interface Form {
   firstName: string | null;
   lastName: string | null;
   contact: string | null;
-}
+};
 
 export interface Services {
   title: string | null;
   description: string | null;
   price: number | null;
-}
+};
 
 export default function Profile() {
   const userId = useLocalStorage('userId');

@@ -1,3 +1,5 @@
+'use client';
+
 import Button from "@/components/global/Button";
 import { CloseIcon, ConfettiIcon } from "@/components/global/Icons";
 import Modal from "@/components/global/Modal";
@@ -35,7 +37,7 @@ export default function WelcomePopup() {
               <ConfettiIcon className="w-6 h-6 ml-2" />
             </h2>
             <p className={`${secondaryTextColor} mt-2 font-light`}>
-              Let's start by updating your 
+              Let's start by updating your
               <span 
                 className={`${primaryTextColor} font-semibold mx-1 cursor-pointer`}
                 onClick={() => {

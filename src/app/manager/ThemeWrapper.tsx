@@ -1,3 +1,5 @@
+'use client';
+
 import { primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
 
 export default function ThemeWrapper({children}: any) {
