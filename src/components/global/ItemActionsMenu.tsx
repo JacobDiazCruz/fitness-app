@@ -5,15 +5,15 @@ import IconButton from "./IconButton";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  itemId: string;
-  handleDelete: any;
-  editPath: any;
+  itemId?: string;
+  handleDelete?: any;
+  handleEdit?: any;
 };
 
 export default function ItemActionsMenu({
   itemId,
   handleDelete,
-  editPath = "/error"
+  handleEdit
 }: Props) {
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref: any = useOutsideClick(() => setOpenUserDropdown(false));
@@ -37,7 +37,7 @@ export default function ItemActionsMenu({
           <ul className="py-2 text-sm text-gray-700 dark:text-neutral-50" aria-labelledby="dropdownDefaultButton">
             <li onClick={(e) => {
               e.stopPropagation();
-              router.push(editPath);
+              handleEdit()
             }}>
               <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
                 Edit

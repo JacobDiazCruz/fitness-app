@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, createContext, useReducer, useContext, useMemo, useEffect } from "react";
 
 const WorkoutContext = createContext();

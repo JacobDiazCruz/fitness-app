@@ -31,7 +31,7 @@ export default function Coach({
   const cardSize = 'xl:w-[415px] 2xl:w-[342px]';
 
   return (
-    <div className={`${cardSize} dark:bg-darkTheme-950 bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer`}>
+    <div className={`${cardSize} dark:bg-darkTheme-900 bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer`}>
       <div className="w-full h-[200px] relative overflow-hidden">
         {profileImage?.thumbnailImage && (
           <Image

@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useReducer, useContext, useMemo } from "react";
 import themeReducer, { initialState } from "./reducer";
 

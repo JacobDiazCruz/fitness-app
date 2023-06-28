@@ -5,17 +5,31 @@ import Header from "../../../Header";
 import { addWorkout, editWorkout, getWorkout } from "@/api/Workout";
 import { useMutation, useQuery } from "react-query";
 import useAlert from "@/contexts/Alert";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import useWorkout from "@/contexts/Workout";
 import WorkoutForm from "../../WorkoutForm";
+import useEditProgram from "@/hooks/useEditProgram";
 
 export default function EditWorkout() {
   const router = useRouter();
   const params = useParams();
-  const { 
+  const searchParams = useSearchParams();
+  const editProgram = searchParams.get("editProgram")
+
+  // hooks
+  const {
     selectedExercises,
     updateSelectedExercises 
   } = useWorkout();
+  const {
+    programWeeks,
+    programWeekIndex,
+    programDayIndex,
+    programWorkoutIndex,
+    programWorkoutSecondaryId,
+    handleMutateProgram
+  } = useEditProgram();
+  
   const [workoutName, setWorkoutName] = useState<string>("");
   const [workoutDescription, setWorkoutDescription] = useState<string>("");
   const { dispatchAlert } = useAlert();
@@ -54,6 +68,30 @@ export default function EditWorkout() {
     }
   }, [workoutData]);
 
+  const handleSubmit = () => {
+    if(!editProgram) {
+      editWorkoutMutation.mutateAsync({
+        id: params.id,
+        data: {
+          name: workoutName,
+          description: workoutDescription,
+          exercises: selectedExercises
+        }
+      });
+    } else {
+      const newProgramWeeks = [...programWeeks];
+      let currentEditedWorkout = newProgramWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex];
+      currentEditedWorkout = {
+        ...currentEditedWorkout,
+        name: workoutName,
+        description: workoutDescription,
+        exercises: selectedExercises
+      };
+      newProgramWeeks[programWeekIndex].days[programDayIndex].workouts[programWorkoutIndex] = currentEditedWorkout;
+      handleMutateProgram(newProgramWeeks);
+    }
+  };
+
   return (
     <>
       <Header 
@@ -61,14 +99,7 @@ export default function EditWorkout() {
         backIcon
         showActionButtons
         isLoading={editWorkoutMutation.isLoading}
-        handleSubmit={() => editWorkoutMutation.mutateAsync({
-          id: params.id,
-          data: {
-            name: workoutName,
-            description: workoutDescription,
-            exercises: selectedExercises
-          }
-        })}
+        handleSubmit={() => handleSubmit()}
       />
       <WorkoutForm
         workoutName={workoutName}

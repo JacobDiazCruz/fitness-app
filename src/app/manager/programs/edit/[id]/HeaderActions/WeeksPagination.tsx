@@ -40,7 +40,10 @@ export default function WeeksPagination({ weeks }: Props) {
   return (
     <div className="weeks-pagination flex gap-[25px] items-center justify-between max:w-[320px]">
       <h5 className="dark:text-neutral-50 text-darkTheme-950 font-medium text-[14px]">
-        Week {currentWeek} <span className="dark:text-neutral-500 text-neutral-700">of {weeks?.length}</span>
+        Week {currentWeek} 
+        <span className="dark:text-neutral-500 text-neutral-700">
+          of {weeks?.length}
+        </span>
       </h5>
       <div className="flex items-center gap-[10px]">
         <div

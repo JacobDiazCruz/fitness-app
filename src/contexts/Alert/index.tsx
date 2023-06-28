@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, createContext, useReducer, useContext, useMemo } from "react";
 import alertReducer, { initialState } from "./reducer";
 

@@ -176,15 +176,18 @@ export default function Messages() {
 
   return (
     <div key={remountKey} className="messages-page">
-      <div className="relative h-[90vh] grid grid-cols-12">
+      <div className="relative h-[90vh] flex">
         {/* ChatList */}
-        <div className="col-span-4 overflow-hidden">
+        <div className="w-[500px] overflow-hidden">
           <ChatList />
         </div>
 
         {/* Chat */}
-        <div className={`col-span-8 overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
-          <div ref={chatBoxRef} className="relative overflow-auto flex-grow">
+        <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
+          <div 
+            ref={chatBoxRef} 
+            className="relative overflow-auto flex-grow px-4"
+          >
             {isFetchingMessages && (
               <LoadingIcon className="w-4 h-4 m-auto" />
             )}

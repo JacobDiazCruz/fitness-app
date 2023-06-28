@@ -1,3 +1,5 @@
+'use client';
+
 import { AlertProvider } from "./Alert"
 import { ThemeProvider } from "./Theme";
 import { combineComponents } from "@/utils/combineComponents"

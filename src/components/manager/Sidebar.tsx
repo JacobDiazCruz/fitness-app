@@ -113,9 +113,9 @@ export default function Sidebar () {
       <li
         key={index}
         className={`
-          ${(isActive && darkMode) && 'bg-darkTheme-800'} 
+          ${(isActive && darkMode) && 'bg-darkTheme-700'} 
           ${(isActive && !darkMode) && 'bg-[#eeeeee]'}
-          ${darkMode ? 'hover:bg-darkTheme-900' : 'hover:bg-[#f2f2f2]'}
+          ${darkMode ? 'hover:bg-darkTheme-800' : 'hover:bg-[#f2f2f2]'}
           rounded-lg group relative cursor-pointer px-3 py-2
         `}
         onClick={() => router.push(path)}

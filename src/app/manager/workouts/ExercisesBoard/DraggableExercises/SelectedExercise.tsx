@@ -102,7 +102,7 @@ const SelectedExercise = ({
           <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
         </IconButton>
       </div>
-      <div className={`${primaryBgColor} px-6`}>
+      <div className={`dark:bg-darkTheme-800 bg-white px-6`}>
         {sets?.map((set: any, setIndex: number) => {
           const {setType, reps, rest} = set;
           return (

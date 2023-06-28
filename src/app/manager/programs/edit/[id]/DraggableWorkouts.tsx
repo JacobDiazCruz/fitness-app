@@ -4,23 +4,37 @@ import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { Exercise } from "@/utils/types";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
 import PermissionAccess from "@/components/global/PermissionAccess";
+import { Router } from "next/router";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 interface CurrentWorkoutDetails {
   name: string;
   description: string;
   exercises: Array<Exercise>;
+  weeks: Array<any>;
+  weekIndex: number | null;
+  programName?: string;
+  programDescription?: string;
 };
 
 export default function DraggableWorkouts ({ 
   workouts, 
   dayIndex,
   dayName,
+  weeks,
+  weekIndex,
   draggedWorkout,
+  programName,
+  programDescription,
   setDraggedWorkout,
   handleMutateProgram,
   programDays,
   setProgramDays
 }: any) {
+  const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
+
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
   const [currentWorkoutDetails, setCurrentWorkoutDetails] = useState<CurrentWorkoutDetails>({
     name: "",
@@ -58,7 +72,7 @@ export default function DraggableWorkouts ({
     });
 
     handleMutateProgram();
-  }
+  };
 
   const handleClickWorkout = (workout) => {
     const { name, description, exercises } = workout
@@ -68,7 +82,7 @@ export default function DraggableWorkouts ({
       exercises
     })
     setShowWorkoutDetailsModal(true);
-  }
+  };
 
   return (
     <>
@@ -124,7 +138,20 @@ export default function DraggableWorkouts ({
             </div>
             <PermissionAccess roleAccess="Coach">
               <ItemActionsMenu
-                editPath={`/manager/workouts/edit/${workout._id}`}
+                handleEdit={() => {
+                  router.push(`/manager/workouts/edit/${workout._id}?editProgram=true`);
+
+                  // set localStorage data to have access to current edited program workout
+                  localStorage?.setItem("programId", params.id);
+                  localStorage?.setItem("programName", programName);
+                  localStorage?.setItem("programDescription", programDescription);
+                  localStorage?.setItem("programWeeks", JSON.stringify(weeks));
+
+                  localStorage?.setItem("programWeekIndex", weekIndex);
+                  localStorage?.setItem("programDayIndex", dayIndex);
+                  localStorage?.setItem("programWorkoutIndex", index);
+                  localStorage?.setItem("programWorkoutSecondaryId", workout.secondaryId);
+                }}
                 handleDelete={() => handleDelete(workout)}
               />
             </PermissionAccess>

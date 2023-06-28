@@ -69,7 +69,7 @@ export default function UserMenu({
       >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-700" aria-labelledby="dropdownDefaultButton">
           <li 
-            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900 flex items-center gap-[10px]"
+            className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-700 flex items-center gap-[10px]"
             onClick={() => router.push('/manager/profile')}
           >
             <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
@@ -94,7 +94,7 @@ export default function UserMenu({
           <hr className="my-2 dark:border-neutral-800 border-neutral-200" />
           <Link href="/become-a-coach">
             <li className="dark:text-neutral-200 text-gray-900 cursor-pointer">
-              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
+              <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-700">
                 Become a coach
               </div>
             </li>
@@ -117,7 +117,7 @@ export default function UserMenu({
             }}
             className="dark:text-neutral-200 text-gray-900 cursor-pointer"
           >
-            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
+            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-700">
               Sign out
             </div>
           </li>

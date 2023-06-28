@@ -178,6 +178,10 @@ export default function EditProgram() {
                   setDraggedWorkout={(val) => {
                     setDraggedWorkout(val)
                   }}
+                  weekIndex={searchParams?.get('week') - 1}
+                  weeks={weeks}
+                  programName={programName}
+                  programDescription={programDescription}
                   programDays={programDays}
                   setProgramDays={(val) => setProgramDays(val)}
                   setShowWorkoutDetailsModal={(val) => setShowWorkoutDetailsModal(val)}
