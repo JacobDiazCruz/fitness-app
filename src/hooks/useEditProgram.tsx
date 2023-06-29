@@ -46,6 +46,7 @@ export default function useEditProgram() {
     programDayIndex,
     programWorkoutIndex,
     programWorkoutSecondaryId,
-    handleMutateProgram
+    handleMutateProgram,
+    isLoadingEditProgram: editProgramMutation.isLoading
   }
 }

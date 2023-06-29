@@ -9,6 +9,8 @@ import {
   primaryTextColor
 } from "@/utils/themeColors";
 import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function TableItem({
   itemId,
@@ -19,6 +21,7 @@ export default function TableItem({
   createdAt,
   coverImage
 }) {
+  const router = useRouter();
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
   const date = new Date(createdAt);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -63,7 +66,9 @@ export default function TableItem({
         <div className="col-5">
           <ItemActionsMenu 
             itemId={itemId}
-            editPath={`/manager/exercises/edit/${itemId}`}
+            handleEdit={() => {
+              router.push(`/manager/exercises/edit/${itemId}`)
+            }}
           />
         </div>
       </div>

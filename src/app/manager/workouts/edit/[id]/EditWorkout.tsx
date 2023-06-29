@@ -27,6 +27,7 @@ export default function EditWorkout() {
     programDayIndex,
     programWorkoutIndex,
     programWorkoutSecondaryId,
+    isLoadingEditProgram,
     handleMutateProgram
   } = useEditProgram();
   
@@ -116,7 +117,7 @@ export default function EditWorkout() {
         pageTitle="Edit Workout"
         backIcon
         showActionButtons
-        isLoading={editWorkoutMutation.isLoading}
+        isLoading={editWorkoutMutation.isLoading || isLoadingEditProgram}
         handleSubmit={() => handleSubmit()}
       />
       <WorkoutForm

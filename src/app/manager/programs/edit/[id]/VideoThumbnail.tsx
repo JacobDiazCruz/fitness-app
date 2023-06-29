@@ -1,30 +1,33 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const VideoThumbnail = ({ 
   videoUrl, 
   onClick 
 }) => {
   const getThumbnailUrl = (url) => {
-    let thumbnailUrl = '';
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-    const vimeoRegex = /^(https?:\/\/)?(www\.)?(vimeo\.com)\/.+$/;
-    console.log("url", url);
-    if (youtubeRegex.test(url)) {
-      const videoIdMatch = url.match(/[?&]v=([^&]+)/);
-      if (videoIdMatch && videoIdMatch[1]) {
-        const videoId = videoIdMatch[1];
-        thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    const youtubeWatchRegex = /^(https?:\/\/)?(www\.)?(youtube\.com)\/watch\/([^?/#&]+)/;
+    const youtubeShortsRegex = /^(https?:\/\/)?(www\.)?(youtube\.com)\/shorts\/([^?/#&]+)/;
+  
+    let videoId = null;
+  
+    if (youtubeWatchRegex.test(url)) {
+      const videoIdMatch = url.match(youtubeWatchRegex);
+      if (videoIdMatch && videoIdMatch[4]) {
+        videoId = videoIdMatch[4];
       }
-    } else if (vimeoRegex.test(url)) {
-      const videoIdMatch = url.match(/vimeo\.com\/(\d+)/);
-      if (videoIdMatch && videoIdMatch[1]) {
-        const videoId = videoIdMatch[1];
-        thumbnailUrl = `https://vumbnail.com/${videoId}.jpg`;
+    } else if (youtubeShortsRegex.test(url)) {
+      const videoIdMatch = url.match(youtubeShortsRegex);
+      if (videoIdMatch && videoIdMatch[4]) {
+        videoId = videoIdMatch[4];
       }
     }
-
-    return thumbnailUrl;
-  };
+  
+    if (videoId) {
+      return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    }
+  
+    return null;
+  };  
 
   const thumbnailUrl = getThumbnailUrl(videoUrl);
 

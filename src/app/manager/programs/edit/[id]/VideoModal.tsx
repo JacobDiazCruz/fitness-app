@@ -6,12 +6,12 @@ const VideoModal = ({
   handleClose
 }) => {
   const getEmbeddedLink = (url) => {
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch\/([^?/#&]+)/;
     if (youtubeRegex.test(url)) {
-      const videoIdMatch = url.match(/[?&]v=([^&]+)/);
-      if (videoIdMatch && videoIdMatch[1]) {
-        const videoId = videoIdMatch[1];
-        return `https://www.youtube.com/embed/${videoId}`;
+      const videoIdMatch = url.match(youtubeRegex);
+      if (videoIdMatch && videoIdMatch[4]) {
+        const videoId = videoIdMatch[4];
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
       }
     }
     return '';
@@ -25,7 +25,13 @@ const VideoModal = ({
       onClose={handleClose}
     >
       {embeddedLink && (
-        <iframe width="700" height="500" src={embeddedLink} title="YouTube Video" allowFullScreen></iframe>
+        <iframe 
+          width="700" 
+          height="500" 
+          src={embeddedLink} 
+          title="YouTube Video" 
+          allowFullScreen
+        ></iframe>
       )}
     </Modal>
   );

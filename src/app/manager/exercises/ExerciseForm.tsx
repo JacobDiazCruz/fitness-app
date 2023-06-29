@@ -19,6 +19,7 @@ import FieldName from "@/components/global/FieldName";
 import PaddedWrapper from "@/components/global/PaddedWrapper";
 import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
 import VideoModal from "../programs/edit/[id]/VideoModal";
+import useVideoLinkCoverter from "@/hooks/useVideoLinkConverter";
 
 const MemoizedUploader = memo(Uploader);
 
@@ -32,6 +33,7 @@ export default function ExerciseForm({
   categoryItems,
   setCategoryItems
 }) {
+  const { videoLinkConverter } = useVideoLinkCoverter();
   const [showVideoModal, setShowVideoModal] = useState(false);
 
   return (
@@ -99,12 +101,16 @@ export default function ExerciseForm({
               Video
             </FieldName>
             <TextField
-              placeholder="Paste a link from youtube or vimeo"
+              placeholder="Paste a link from YouTube"
               value={exerciseForm.videoLink}
-              onChange={(e) => setExerciseForm(prev => ({
-                ...prev,
-                videoLink: e.target.value
-              }))}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const updatedLink = videoLinkConverter(inputValue);
+                setExerciseForm(prev => ({
+                  ...prev,
+                  videoLink: updatedLink
+                }));
+              }}
             />
             <div className="flex items-center gap-[10px] mt-3">
               <p className={primaryTextColor}>or</p>
