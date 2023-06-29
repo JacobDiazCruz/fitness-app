@@ -12,7 +12,7 @@ import TableNoResults from "@/components/global/TableNoResults";
 
 const TableColumnHeaders = () => {
   return (
-    <div className={`${primaryTextColor} flex justify-between px-5 py-3 text-[14px]`}>
+    <div className={`${primaryTextColor} hidden md:flex justify-between px-5 py-3 text-[14px]`}>
       <div className="flex-1">
         <p>Exercises</p>
       </div>

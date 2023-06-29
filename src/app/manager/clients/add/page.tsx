@@ -53,8 +53,8 @@ export default function AddNewClient () {
         handleSubmit={() => addClientMutation.mutateAsync(clientForm)}
       />
       <Container>
-        <div className="flex gap-[20px] w-[700px]">
-          <div className="w-[50%]">
+        <div className="flex gap-[20px] w-full md:w-[700px] flex-col md:flex-row">
+          <div className="w-full md:w-[50%]">
             <FieldName>
               First name
             </FieldName>
@@ -68,7 +68,7 @@ export default function AddNewClient () {
               }))}
             />
           </div>
-          <div className="w-[50%]">
+          <div className="w-full md:w-[50%]">
             <FieldName>
               Last name
             </FieldName>
@@ -83,7 +83,7 @@ export default function AddNewClient () {
             />
           </div>
         </div>
-        <div className="w-[700px] mt-7">
+        <div className="w-full md:w-[700px] mt-7">
           <FieldName>
             Email address
           </FieldName>
@@ -97,7 +97,7 @@ export default function AddNewClient () {
             }))}
           />
         </div>
-        <div className="w-[700px] mt-7">
+        <div className="w-full md:w-[700px] mt-7">
           <FieldName>
             Contact number
           </FieldName>

@@ -1,5 +1,5 @@
 export default function useVideoLinkCoverter() {
-  const videoLinkConverter = (inputValue) => {
+  const videoLinkConverter = (inputValue: string) => {
     // Regular expression to match YouTube Shorts link
     const youtubeShortsRegex = /^(https?:\/\/)?(www\.)?(youtube\.com)\/shorts\/([^?/#&]+)/;
     if (youtubeShortsRegex.test(inputValue)) {

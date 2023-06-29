@@ -28,8 +28,8 @@ export default function TableItem({
   const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
-    <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
-      <div className="flex items-center w-full justify-between">
+    <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-6 md:py-4 md:px-5`}>
+      <div className="flex flex-col md:flex-row md:items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
           {videoLink && (
             <div className="w-[70px] h-[50px] relative overflow-hidden rounded-md cursor-pointer">
@@ -38,13 +38,11 @@ export default function TableItem({
               />
             </div>
           )}
-          <div>
-            <h5 className={`${primaryTextColor} font-medium text-[14px]`}>
-              {name || '--'}
-            </h5>
-          </div>
+          <h5 className={`${primaryTextColor} font-medium text-[14px]`}>
+            {name || '--'}
+          </h5>
         </div>
-        <div className="col-3 flex-1">
+        <div className="col-3 flex-1 md:ml-0 ml-[90px] md:mt-0">
           <div className={`
               ${handlePrimaryFocusColor(primaryFocus)} 
               w-[fit-content] py-1 px-3 rounded-lg font-medium text-[14px]
@@ -53,17 +51,17 @@ export default function TableItem({
             {primaryFocus || '--'}
           </div>
         </div>
-        <div className="col-4 flex-1">
+        <div className="col-4 flex-1 md:ml-0 ml-[90px] md:mt-0 mt-2">
           <p className={`${secondaryTextColor} text-[14px]`}>
             {category || '--'}
           </p>
         </div>
-        <div className="col-5 flex-1">
+        <div className="col-5 flex-1 md:ml-0 ml-[90px] md:mt-0 mt-2">
           <p className={`${secondaryTextColor} text-[14px]`}>
             {formattedDate || '--'}
           </p>
         </div>
-        <div className="col-5">
+        <div className="col-5 hidden md:block">
           <ItemActionsMenu 
             itemId={itemId}
             handleEdit={() => {

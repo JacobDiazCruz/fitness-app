@@ -28,13 +28,15 @@ export default function TableActions({
   };
 
   return (
-    <div className="flex justify-between">
-      <TextField 
-        startIcon={<SearchIcon className="text-gray-400 w-4 h-4" />}
-        placeholder="Search"
-        value={searchValue}
-        onChange={handleChange}
-      />
+    <div className="flex md:justify-between justify-end">
+      <div className="hidden md:block">
+        <TextField 
+          startIcon={<SearchIcon className="text-gray-400 w-4 h-4" />}
+          placeholder="Search"
+          value={searchValue}
+          onChange={handleChange}
+        />
+      </div>
       <Button
         variant="contained"
         startIcon={primaryBtnIcon}

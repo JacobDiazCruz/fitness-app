@@ -38,13 +38,13 @@ export default function ExerciseForm({
 
   return (
     <Container>
-      <div className="flex gap-[40px]">
-        <div className="w-[415px]">
+      <div className="flex gap-[40px] flex-col md:flex-row">
+        <div className="w-full md:w-[415px]">
           <div className="field-container">
             <FieldName required>
               Exercise name
             </FieldName>
-            <TextField 
+            <TextField
               placeholder="e.g. Incline dumbbell press"
               value={exerciseForm.name}
               onChange={(e) => setExerciseForm(prev => ({
@@ -95,7 +95,7 @@ export default function ExerciseForm({
             />
           </div>
         </div>
-        <div className="w-[415px]">
+        <div className="w-full md:w-[415px]">
           <div className="field-container w-full">
             <FieldName required>
               Video

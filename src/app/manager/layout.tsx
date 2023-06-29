@@ -11,7 +11,7 @@ import WelcomePopup from "./WelcomePopup";
 import MobileTopbar from "@/components/manager/MobileTopbar";
 import ThemeWrapper from "./ThemeWrapper";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import VerifyUser from "./VerifyUser";
 
 export default function ManagerLayout ({
@@ -24,14 +24,22 @@ export default function ManagerLayout ({
   backIcon: boolean;
   children: React.ReactNode
 }) {
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
   return (
     <Providers>
       <AppContextProvider>
         <VerifyUser />
-        <MobileTopbar />
+        <MobileTopbar 
+          handleOpenSidebar={() => setShowSidebar(!showSidebar)}
+        />
         <DarkThemeLoader />
         <div className="flex">
-          <Sidebar />
+          {showSidebar && (
+            <Sidebar 
+              handleCloseSidebar={() => setShowSidebar(false)}
+            />
+          )}
           <WelcomePopup />
           <Alert />
           <ThemeWrapper>

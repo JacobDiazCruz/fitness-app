@@ -6,7 +6,7 @@ export default function PaddedWrapper({
   children: ReactNode
 }) {
   return (
-    <div className="p-10">
+    <div className="p-5 md:p-10">
       {children}
     </div>
   )

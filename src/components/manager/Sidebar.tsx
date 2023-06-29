@@ -30,7 +30,11 @@ const ChatIconWrapper = () => {
   );
 }
 
-export default function Sidebar () {
+export default function Sidebar ({
+  handleCloseSidebar
+}: {
+  handleCloseSidebar?: boolean
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode } = useTheme();
@@ -89,7 +93,8 @@ export default function Sidebar () {
         className={`
           ${borderColor}
           ${primaryBgColor}
-          shadow-md rounded-full right-[-15px] w-[35px] h-[35px] flex border border-solid cursor-pointer z-[100] absolute
+          absolute
+          shadow-md rounded-full right-[-15px] w-[35px] h-[35px] flex border border-solid cursor-pointer z-[100]
         `}
       >
         {openNav ? (
@@ -144,68 +149,76 @@ export default function Sidebar () {
   }
 
   return (
-    <div className={`
-      sidebar
-      ${darkMode ? "bg-darkTheme-900" : "bg-[#f7f7f7]"} 
-      ${openNav ? 'w-[270px]' : 'w-[85px]'}
-      ${borderColor}
-      h-[100vh] border-r border-r-solid sticky top-0`
-      }
-    >
-      <div className="px-6 pt-8">
-        <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
-          <div className="m-auto text-white font-medium">L.</div>
+    <>
+      <div
+        className="fixed md:hidden lg:hidden inset-0 w-full h-full bg-darkTheme-950 opacity-70 z-[20]"
+        onClick={handleCloseSidebar}
+      ></div>
+      <div className={`
+        sidebar
+        dark:bg-darkTheme-900 bg-[#f7f7f7]
+        ${openNav ? 'w-[270px]' : 'w-[85px]'}
+        ${borderColor}
+        h-[100vh] border-r border-r-solid top-0
+        md:sticky absolute
+        z-[50]
+      `}
+      >
+        <div className="px-6 pt-8">
+          <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
+            <div className="m-auto text-white font-medium">L.</div>
+          </div>
         </div>
-      </div>
-      <hr className={`${borderColor} mt-6 absolute w-full`} />
-      <ToggleButton />
-      <ul className="pt-9 pb-3 px-3">
-        {navItems.map((item, index) => {
-          return (
-            <PermissionAccess roleAccess={item?.roleAccess}>
+        <hr className={`${borderColor} mt-6 absolute w-full`} />
+        <ToggleButton />
+        <ul className="pt-9 pb-3 px-3">
+          {navItems.map((item, index) => {
+            return (
+              <PermissionAccess roleAccess={item?.roleAccess}>
+                <List
+                  index={index}
+                  path={item.path}
+                  name={item.name}
+                  icon={item.icon}
+                />
+              </PermissionAccess>
+            );
+          })}
+        </ul>
+        <hr className={borderColor}/>
+        <ul className="pb-3 px-3 pt-6">
+          {openNav && (
+            <p className="text-[13px] text-[#898995] px-3 mb-1">
+              Fitness
+            </p>
+          )}
+          {fitnessNavItems.map((item, index) => {
+            return (
               <List
                 index={index}
                 path={item.path}
                 name={item.name}
                 icon={item.icon}
               />
-            </PermissionAccess>
-          );
-        })}
-      </ul>
-      <hr className={borderColor}/>
-      <ul className="pb-3 px-3 pt-6">
-        {openNav && (
-          <p className="text-[13px] text-[#898995] px-3 mb-1">
-            Fitness
-          </p>
-        )}
-        {fitnessNavItems.map((item, index) => {
-          return (
-            <List
-              index={index}
-              path={item.path}
-              name={item.name}
-              icon={item.icon}
-            />
-          )
-        })}
-      </ul>
+            )
+          })}
+        </ul>
 
-      {/* User Menu */}
-      <div className={`
-        dark:bg-darkTheme-900
-        bg-[#f7f7f7]
-        absolute bottom-0 w-full`}
-      >
-        <hr className={borderColor} />
-        <div className="pb-6 pt-4 px-5">
-          <UserMenu
-            openNav={openNav}
-            showTop={true}
-          />
+        {/* User Menu */}
+        <div className={`
+          dark:bg-darkTheme-900
+          bg-[#f7f7f7]
+          absolute bottom-0 w-full`}
+        >
+          <hr className={borderColor} />
+          <div className="pb-6 pt-4 px-5">
+            <UserMenu
+              openNav={openNav}
+              showTop={true}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
