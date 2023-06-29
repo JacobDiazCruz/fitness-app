@@ -19,7 +19,7 @@ export default function WorkoutForm ({
 }: Props) {
   return (
     <div className="flex gap-[40px]">
-      <div className="md:w-[40%] form dark:bg-darkTheme-950 dark:border-darkTheme-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
+      <div className="md:w-[40%] hidden md:block form dark:bg-darkTheme-950 dark:border-darkTheme-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
         <Container>
           <YourExercises />
         </Container>
@@ -27,7 +27,7 @@ export default function WorkoutForm ({
 
       <div className="form shadow-sm w-full rounded-lg mt-5">
         <Container>
-          <div className="field w-[50%]">
+          <div className="field w-full md:w-[50%]">
             <p className="dark:text-neutral-50 text-darkTheme-950 mb-3 text-[14px]">
               Workout name
             </p>
@@ -37,7 +37,7 @@ export default function WorkoutForm ({
               onChange={(e) => setWorkoutName(e.target.value)}
             />
           </div>
-          <div className="field w-[50%] mt-7">
+          <div className="field w-full md:w-[50%] mt-7">
             <p className="dark:text-neutral-50 text-darkTheme-950 mb-3 text-[14px]">
               Description
             </p>

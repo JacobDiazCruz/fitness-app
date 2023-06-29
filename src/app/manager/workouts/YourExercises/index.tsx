@@ -4,22 +4,39 @@ import { useEffect, useState } from "react";
 import TextField from "@/components/global/TextField";
 import Image from "next/image";
 import { Exercise } from "@/utils/types"
-import { AddIcon, DragIcon } from "@/components/global/Icons";
+import { AddIcon, CheckIcon, DragIcon } from "@/components/global/Icons";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import Button from "@/components/global/Button";
 import { useRouter } from "next/navigation";
-import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
-import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import VideoThumbnail from "@/components/global/VideoThumbnail";
 import { borderColor, fieldBgColor, tertiaryBgColor } from "@/utils/themeColors";
+import useWorkout from "@/contexts/Workout";
+import ExerciseItem from "./Exercise";
 
-export default function YourExercises({}) {
+export default function YourExercises({
+  setInitialSelectedExercises
+}: {
+  setInitialSelectedExercises?: any
+}) {
   const router = useRouter();
-  const { handlePrimaryFocusColor } = usePrimaryFocusColor();
-  const [searchExercise, setSearchExercise] = useState<string>("");
-  const [exercisesList, setExercisesList] = useState<Array[Exercise]>([]);
-  const { isLoading, isError, data: initialExercises, error, refetch } = useQuery('exercises', listExercises);
 
+  const [searchExercise, setSearchExercise] = useState<string>("");
+  const [exercisesList, setExercisesList] = useState<Exercise[]>([]);
+
+  // fetch exercises list
+  const { 
+    isLoading, 
+    isError, 
+    data: initialExercises,
+    error, 
+    refetch 
+  } = useQuery('exercises', listExercises);
+
+  /**
+   * @Purpose Set the data based on searched exercise
+   * @Note 
+   */
   useEffect(() => {
     const filteredExercise = initialExercises?.filter((exercise: Exercise) => {
       if(exercise.name.toLowerCase().includes(searchExercise.toLowerCase())) {
@@ -31,50 +48,36 @@ export default function YourExercises({}) {
 
   const onDragStart = (e, exercise) => {
     e.dataTransfer.setData("exercise", JSON.stringify(exercise))
-  }
+  };
 
-  const PrimaryFocus = ({ primaryFocus }: string) => {
-    return (
-      <div 
-        className={`${handlePrimaryFocusColor(primaryFocus)} font-medium rounded-md mt-1 text-center px-2 text-[11px] h-[18px]`}
-      >
-        {primaryFocus}
-      </div>
-    );
-  }
+  /**
+   * @Purpose To handle click exercise event and set new data for exercisesList
+   * @Note For mobile use only since desktop views should be a dnd
+   */
+  const clickExercise = (selectedExercise: Exercise) => {
+    if (window?.innerWidth < 640) {
+      setExercisesList(prevExercises => {
+        const updatedExercises = prevExercises.map(exercise => {
+          if (exercise._id === selectedExercise._id) {
+            return {
+              ...exercise,
+              isSelected: !exercise?.isSelected,
+              secondaryId: Math.random(),
+              sets: [{
+                setType: "",
+                reps: null,
+                rest: "00:00"
+              }]
+            };
+          }
+          return exercise;
+        });
 
-  const DraggableExerciseItem = ({ exercise }: Exercise) => {
-    const { files, primaryFocus, name, videoLink } = exercise;
-
-    return (
-      <div
-        onDragStart={(e) => onDragStart(e, exercise)}
-        draggable
-        className={`${fieldBgColor} ${borderColor} border cursor-grab p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]`}
-      >
-        <div className="dark:bg-darkTheme-950 bg-gray-600 rounded-sm flex items-center w-[35%] h-full overflow-hidden relative">
-          {videoLink && (
-            <div className="w-full relative overflow-hidden rounded-md cursor-pointer">
-              <VideoThumbnail
-                videoUrl={videoLink}
-              />
-            </div>
-          )}
-        </div>
-        <div className="pr-3 w-[60%]">
-          <p className="dark:text-neutral-50 text-darkTheme-950 text-[14px]">
-            {name}
-          </p>
-          <div className="flex">
-            <PrimaryFocus primaryFocus={primaryFocus} />
-          </div>
-        </div>
-        <div className="pr-2">
-          <DragIcon className="w-5 h-5 fill-[#c8c8c8]" />
-        </div>
-      </div>
-    );
-  }
+        setInitialSelectedExercises(updatedExercises);
+        return updatedExercises;
+      });
+    }
+  };
 
   return (
     <>
@@ -94,7 +97,15 @@ export default function YourExercises({}) {
       <div className="exercises-list overflow-auto overflow-x-hidden h-[61vh] mt-2 pt-6">
         {exercisesList?.length > 0 ? (
           exercisesList?.map((exercise: Exercise) => (
-            <DraggableExerciseItem exercise={exercise} />
+            <ExerciseItem
+              exercise={exercise}
+              handleClickExercise={() => {
+                clickExercise(exercise)
+              }}
+              handleDragStart={(e) => {
+                onDragStart(e, exercise)
+              }}
+            />
           ))
         ) : (
           <div className="flex items-center w-full mt-3">

@@ -19,7 +19,7 @@ export default function EditWorkout() {
   // hooks
   const {
     selectedExercises,
-    updateSelectedExercises 
+    setSelectedExercises 
   } = useWorkout();
   const {
     programWeeks,
@@ -65,7 +65,7 @@ export default function EditWorkout() {
       const { name, description, exercises } = workoutData;
       setWorkoutName(name);
       setWorkoutDescription(description);
-      updateSelectedExercises(exercises);
+      setSelectedExercises(exercises);
     }
   }, [workoutData]);
 
@@ -76,7 +76,7 @@ export default function EditWorkout() {
 
       setWorkoutName(name);
       setWorkoutDescription(description);
-      updateSelectedExercises(exercises);
+      setSelectedExercises(exercises);
     }
   }, [programWeekIndex]);
 

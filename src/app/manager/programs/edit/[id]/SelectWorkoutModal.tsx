@@ -102,9 +102,6 @@ export default function SelectWorkoutModal({
         <h2 className={`${primaryTextColor} font-semibold`}>
           Select a Workout
         </h2>
-        <button onClick={onClose}>
-          <CloseIcon className="w-5 h-5 dark:text-neutral-400 text-neutral-600" />
-        </button>
       </div>
       <div className="workouts-list mt-6">
         <TextField 

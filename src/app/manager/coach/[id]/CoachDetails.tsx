@@ -21,7 +21,7 @@ export default function CoachDetails() {
   const [coachData, setCoachData] = useState(null);
 
   // get exercise data
-  const { 
+  const {
     isLoading,
     isError,
     data: coach,

@@ -13,7 +13,7 @@ export default function AddNewWorkout() {
   const router = useRouter();
   const { 
     selectedExercises, 
-    updateSelectedExercises 
+    setSelectedExercises 
   } = useWorkout();
   const [workoutName, setWorkoutName] = useState<string>("");
   const [workoutDescription, setWorkoutDescription] = useState<string>("");

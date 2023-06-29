@@ -5,7 +5,7 @@ import useWorkout from "@/contexts/Workout";
 
 interface Props {
   selectedExercises: Array<any>;
-  updateSelectedExercises: any;
+  setSelectedExercises: any;
 }
 
 // few things to make sure this component works
@@ -20,7 +20,7 @@ interface Props {
 export default function DraggableExercises() {
   const { 
     selectedExercises,
-    updateSelectedExercises
+    setSelectedExercises
   } = useWorkout();
 
   const [draggedExercise, setDraggedExercise] = useState(null);
@@ -45,7 +45,7 @@ export default function DraggableExercises() {
       updatedArr.splice(targetIndex, 1);
       updatedArr.splice(index, 0, draggedExercise);
 
-      updateSelectedExercises(updatedArr);
+      setSelectedExercises(updatedArr);
     }
 
     setTargetExerciseId("");
@@ -71,7 +71,7 @@ export default function DraggableExercises() {
 
       // Move the source exercise into the target exercise's supersetExercises array
       targetExercise.supersetExercises.push(sourceExercise || dataDraggedExercise);
-      updateSelectedExercises(updatedExercises);
+      setSelectedExercises(updatedExercises);
     }
     
     setTargetExerciseId("");
@@ -80,7 +80,7 @@ export default function DraggableExercises() {
   };
 
   const handleRemoveExercise = (secondaryId) => {
-    updateSelectedExercises((prevExercises) => {
+    setSelectedExercises((prevExercises) => {
       return prevExercises.filter((prevExercise) => {
         if(prevExercise.secondaryId !== secondaryId) {
           return {
@@ -92,7 +92,7 @@ export default function DraggableExercises() {
   };
 
   const handleCheck = (exerciseId) => {
-    updateSelectedExercises((prevExercises) => {
+    setSelectedExercises((prevExercises) => {
       return prevExercises.map((prevExercise) => {
         if (exerciseId === prevExercise.secondaryId) {
           return {
@@ -136,14 +136,14 @@ export default function DraggableExercises() {
           >
             {exercise?.supersetExercises?.length ? (
               <div
-                className="border-[2px] relative cursor-grab border-solid border-indigo-950 rounded-lg overflow-hidden mt-5"
+                className="border-[2px] relative cursor-grab border-solid border-blue-900 rounded-lg overflow-hidden mt-5"
                 onDragOver={(e) => {
                   e.preventDefault();
                   setTargetExerciseId(exercise.secondaryId)
                 }}
                 onDrop={(e) => handleDrop(e, index)}
               >
-                <div className="bg-indigo-950 px-5 py-3 flex justify-between">
+                <div className="bg-blue-900 px-5 py-3 flex justify-between">
                   <div className="flex gap-[10px] items-center">
                     <input
                       checked
@@ -166,6 +166,7 @@ export default function DraggableExercises() {
                         secondaryId, 
                         name, 
                         checked, 
+                        videoLink,
                         files, 
                         primaryFocus,
                         sets
@@ -178,6 +179,7 @@ export default function DraggableExercises() {
                           name={name}
                           checked={checked}
                           imageSrc={files[0]}
+                          videoLink={videoLink}
                           exerciseId={secondaryId}
                           sets={sets}
                           exerciseIndex={index}

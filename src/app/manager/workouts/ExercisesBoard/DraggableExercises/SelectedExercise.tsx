@@ -8,7 +8,7 @@ import { AddIcon, TrashIcon } from "@/components/global/Icons";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import IconButton from "@/components/global/IconButton";
 import useWorkout from "@/contexts/Workout";
-import VideoThumbnail from "@/app/manager/programs/edit/[id]/VideoThumbnail";
+import VideoThumbnail from "@/components/global/VideoThumbnail";
 import { borderColor, primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
 
 const SelectedExercise = ({
@@ -35,7 +35,7 @@ const SelectedExercise = ({
   const [reps, setReps] = useState("");
   const [value, setValue] = useState("00:00");
 
-  const formatTime = (time) => {
+  const formatTime = (time: number | string | null) => {
     // Remove any non-digit characters
     const digitsOnly = time.replace(/\D/g, "");
 
@@ -65,8 +65,6 @@ const SelectedExercise = ({
     })
   };
 
-  // const formattedValue = formatTime(value);
-
   return (
     <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">
       <div className={`${borderColor} py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-[55px] flex justify-between items-center`}>
@@ -81,7 +79,7 @@ const SelectedExercise = ({
             />
           )}
           {videoLink && (
-            <div className="w-[42px] h-[33px] relative overflow-hidden rounded-md cursor-pointer">
+            <div className="w-[42px] relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
                 videoUrl={videoLink}
               />

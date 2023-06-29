@@ -33,6 +33,7 @@ body {
 body {
   /* color: rgb(var(--foreground-rgb)); */
   /* background: #F8F8F8; */
+  @apply dark:bg-darkTheme-950 bg-white
 }
 
 .btn {

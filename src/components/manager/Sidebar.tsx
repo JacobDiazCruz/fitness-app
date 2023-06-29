@@ -151,7 +151,7 @@ export default function Sidebar ({
   return (
     <>
       <div
-        className="fixed md:hidden lg:hidden inset-0 w-full h-full bg-darkTheme-950 opacity-70 z-[20]"
+        className="fixed md:hidden lg:hidden inset-0 w-full h-full bg-darkTheme-950 opacity-70 z-[600]"
         onClick={handleCloseSidebar}
       ></div>
       <div className={`
@@ -160,8 +160,9 @@ export default function Sidebar ({
         ${openNav ? 'w-[270px]' : 'w-[85px]'}
         ${borderColor}
         h-[100vh] border-r border-r-solid top-0
-        md:sticky absolute
-        z-[50]
+        md:sticky 
+        absolute
+        z-[600]
       `}
       >
         <div className="px-6 pt-8">

@@ -4,7 +4,7 @@ import { useState, createContext, useReducer, useContext, useMemo, useEffect } f
 
 const WorkoutContext = createContext();
 
-const initialSet = {
+export const initialSet = {
   setType: "",
   reps: null,
   rest: "00:00"
@@ -15,10 +15,6 @@ export const WorkoutProvider = ({ children }) => {
     selectedExercises,
     setSelectedExercises
   ] = useState<Array<any>>([]);
-
-  const updateSelectedExercises = (data) => {
-    setSelectedExercises(data)
-  };
 
   useEffect(() => {
     // Empty the selectedExercises state when component unmounts
@@ -43,7 +39,7 @@ export const WorkoutProvider = ({ children }) => {
         secondaryId: Math.random(),
         sets: [initialSet]
       }];
-      updateSelectedExercises(exercisesList);
+      setSelectedExercises(exercisesList);
     }
   };
 
@@ -141,16 +137,11 @@ export const WorkoutProvider = ({ children }) => {
       return updatedExercises;
     });
   };
-  
-
-  useEffect(() => {
-    console.log("selectedExercises", selectedExercises)
-  }, [selectedExercises])
 
   // value prop to return all necessary data
   const value = useMemo(() => {
     return {
-      updateSelectedExercises,
+      setSelectedExercises,
       onDropFromExercises,
       handleMergeSuperset,
       handleUnmergeSuperset,
@@ -159,7 +150,7 @@ export const WorkoutProvider = ({ children }) => {
       selectedExercises
     }
   }, [
-    updateSelectedExercises,
+    setSelectedExercises,
     onDropFromExercises,
     handleMergeSuperset,
     handleUnmergeSuperset,

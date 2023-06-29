@@ -24,7 +24,7 @@ export default function ManagerLayout ({
   backIcon: boolean;
   children: React.ReactNode
 }) {
-  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [showSidebar, setShowSidebar] = useState<boolean>(true);
 
   return (
     <Providers>

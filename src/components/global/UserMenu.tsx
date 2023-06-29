@@ -129,46 +129,42 @@ export default function UserMenu({
   return (
     <div ref={ref} className="user-menu">
       <div 
-        className="flex items-center cursor-pointer"
+        className="flex items-center justify-between cursor-pointer"
         onClick={() => setOpenUserDropdown(!openUserDropdown)}
       >
-        <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
-          {thumbnailImage && (
-            <Image
-              alt="Trainer Image"
-              src={thumbnailImage || "/"}
-              style={{ objectFit: "cover" }}
-              fill
-            />
-          )}
-          {/* <img 
-            src={thumbnailImage}
-            style={{ 
-              objectFit: "fill"
-            }}
-          /> */}
-        </div>
-        {openNav && (
-          <div>
-            <p 
-              className={`
-                dark:text-neutral-200 text-gray-900
-                ml-2 text-[14px] font-medium
-              `}
-            >
-              {firstName} {lastName}
-            </p>
-            <p
-              className={
-                `${darkMode ? 'text-gray-400' : 'text-gray-500'}
-                ml-2 text-[12px] font-light
-                truncate w-[100px]
-              `}
-            >
-              {email}
-            </p>
+        <div className="flex items-center gap-[5px]">
+          <div className="rounded-full w-[35px] h-[35px] relative overflow-hidden">
+            {thumbnailImage && (
+              <Image
+                alt="Trainer Image"
+                src={thumbnailImage || "/"}
+                style={{ objectFit: "cover" }}
+                fill
+              />
+            )}
           </div>
-        )}
+          {openNav && (
+            <div>
+              <p 
+                className={`
+                  dark:text-neutral-200 text-gray-900
+                  ml-2 text-[14px] font-medium
+                `}
+              >
+                {firstName} {lastName}
+              </p>
+              <p
+                className={
+                  `${darkMode ? 'text-gray-400' : 'text-gray-500'}
+                  ml-2 text-[12px] font-light
+                  truncate w-[100px]
+                `}
+              >
+                {email}
+              </p>
+            </div>
+          )}
+        </div>
         <ArrowUpDownIcon className={`${openNav ? 'relative ml-5' : 'absolute ml-9'} w-5 h-5 text-gray-400`} />
       </div>
       

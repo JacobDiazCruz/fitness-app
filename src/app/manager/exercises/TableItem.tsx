@@ -8,7 +8,7 @@ import {
   secondaryTextColor,
   primaryTextColor
 } from "@/utils/themeColors";
-import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import VideoThumbnail from "../../../components/global/VideoThumbnail";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 

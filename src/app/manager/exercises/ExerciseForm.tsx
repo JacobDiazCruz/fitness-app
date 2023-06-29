@@ -17,7 +17,7 @@ import {
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
 import PaddedWrapper from "@/components/global/PaddedWrapper";
-import VideoThumbnail from "../programs/edit/[id]/VideoThumbnail";
+import VideoThumbnail from "../../../components/global/VideoThumbnail";
 import VideoModal from "../programs/edit/[id]/VideoModal";
 import useVideoLinkCoverter from "@/hooks/useVideoLinkConverter";
 
