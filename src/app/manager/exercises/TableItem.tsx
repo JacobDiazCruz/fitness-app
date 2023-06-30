@@ -32,7 +32,7 @@ export default function TableItem({
       <div className="flex flex-col md:flex-row md:items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
           {videoLink && (
-            <div className="w-[70px] h-[50px] relative overflow-hidden rounded-md cursor-pointer">
+            <div className="w-[70px] relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
                 videoUrl={videoLink}
               />

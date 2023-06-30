@@ -80,21 +80,27 @@ export const WorkoutProvider = ({ children }) => {
    * @Purpose to unmerge exercises from a superset
    * @Note N/A
    */
-  const handleUnmergeSuperset = () => {
+  const handleUnmergeSuperset = (secondaryId) => {
     // 1. filter all the checked supersets
-    const checkedSupersets = selectedExercises.filter((exercise) => {
-      if(exercise.checked && exercise.supersetExercises.length > 0) {
+    const selectedSupersets = selectedExercises.filter((exercise) => {
+      if(secondaryId === exercise.secondaryId && exercise.supersetExercises.length > 0) {
         return exercise
       }
     });
 
     // 2. Unmerge all exercises from the current "checked" superset
-    const unmergedExercises = checkedSupersets.map(exercise => {
-      return exercise.supersetExercises;
+    const unmergedExercises = selectedExercises.map(exercise => {
+      if (exercise.supersetExercises) {
+        return exercise.supersetExercises;
+      } else {
+        return [];
+      }
     }).flat();
-    const filteredExercises = checkedSupersets.flatMap((checkedSuperset) =>
-      selectedExercises.filter((exercise) => exercise.secondaryId !== checkedSuperset.secondaryId)
+
+    const filteredExercises = selectedSupersets.flatMap((selectedSuperset) =>
+      selectedExercises.filter((exercise) => exercise.secondaryId !== selectedSuperset.secondaryId)
     );
+    
     // 3. setState
     setSelectedExercises([...filteredExercises, ...unmergedExercises]);
   };

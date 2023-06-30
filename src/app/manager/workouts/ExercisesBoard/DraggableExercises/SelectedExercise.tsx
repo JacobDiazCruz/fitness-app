@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, ReactNode, useEffect, useState } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
@@ -66,9 +66,37 @@ const SelectedExercise = ({
     })
   };
 
+  const SetCount = ({ count }: { count: number }) => {
+    return (
+      <div className="md:hidden w-full flex items-center">
+        <div className="w-[40%] text-white bg-blue-600 rounded-lg text-center">
+          Set {count}
+        </div>
+        <div className="bg-blue-600 w-full h-[1px]"></div>
+      </div>
+    );
+  };
+
+  const FieldLabel = ({ children } : { children: ReactNode }) => {
+    return (
+      <p className="dark:text-neutral-50 text-darkTheme-950 md:mb-2">
+        {children}
+      </p>
+    );
+  }
+
+  const Field = ({ children } : { children: ReactNode }) => {
+    return (
+      <div className="field w-full md:w-auto flex md:block items-center justify-between">
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">
-      <div className={`${borderColor} py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-[55px] flex justify-between items-center`}>
+      {/* Header */}
+      <div className={`${borderColor} py-5 md:py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-auto md:h-[55px] flex justify-between items-center`}>
         <div className="flex gap-[10px] items-center">
           {showCheckInput && (
             <input
@@ -80,19 +108,19 @@ const SelectedExercise = ({
             />
           )}
           {videoLink && (
-            <div className="w-[42px] relative overflow-hidden rounded-md cursor-pointer">
+            <div className="w-[30%] md:w-[42px] relative overflow-hidden rounded-md cursor-pointer">
               <VideoThumbnail
                 videoUrl={videoLink}
               />
             </div>
           )}
-          <div>
+          <div className="md:flex md:gap-[15px]">
             <p className="dark:text-neutral-50 text-darkTheme-950">
               {name}
             </p>
-          </div>
-          <div className={`${handlePrimaryFocusColor(primaryFocus)} rounded-md text-center px-2 text-[13px]`}>
-            {primaryFocus}
+            <div className={`${handlePrimaryFocusColor(primaryFocus)} w-fit mt-2 md:mt-0 rounded-md text-center px-2 text-[13px]`}>
+              {primaryFocus}
+            </div>
           </div>
         </div>
         <IconButton
@@ -101,79 +129,82 @@ const SelectedExercise = ({
           <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
         </IconButton>
       </div>
-      <div className={`dark:bg-darkTheme-800 bg-white px-6`}>
+      
+      {/* Body */}
+      <div className={`dark:bg-darkTheme-800 bg-white px-6 py-6`}>
         {sets?.map((set: any, setIndex: number) => {
           const {setType, reps, rest} = set;
           return (
-            <div key={setIndex} className="flex gap-[15px] py-6">
-              <div className="field">
-                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">Set</p>
-                <AutoComplete
-                  items={[
-                    {
-                      name: "Dropset"
-                    }
-                  ]}
-                  value={setType}
-                  onChange={(value) => {
-                    handleChangeSetField({
-                      value,
-                      field: "setType",
+            <>
+              <SetCount count={setIndex + 1} />
+              <div
+                key={setIndex}
+                className={`flex flex-wrap md:flex-nowrap w-full gap-[15px] pt-7 md:pt-4`}
+              >
+                <Field>
+                  <FieldLabel>Set</FieldLabel>
+                  <AutoComplete
+                    items={[
+                      {
+                        name: "Dropset"
+                      }
+                    ]}
+                    value={setType}
+                    onChange={(value) => {
+                      handleChangeSetField({
+                        value,
+                        field: "setType",
+                        supersetExerciseIndex: supersetIndex,
+                        exerciseIndex,
+                        setIndex
+                      })
+                    }}
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel>Reps</FieldLabel>
+                  <TextField
+                    value={reps}
+                    type="number"
+                    onChange={(e) => handleChangeSetField({
+                      value: e.target.value,
+                      field: "reps",
                       supersetExerciseIndex: supersetIndex,
                       exerciseIndex,
                       setIndex
-                    })
-                  }}
-                />
-              </div>
-              <div className="field">
-                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">
-                  Reps
-                </p>
-                <TextField
-                  value={reps}
-                  type="number"
-                  onChange={(e) => handleChangeSetField({
-                    value: e.target.value,
-                    field: "reps",
-                    supersetExerciseIndex: supersetIndex,
-                    exerciseIndex,
-                    setIndex
-                  })}
-                />
-              </div>
-              <div className="field">
-                <p className="dark:text-neutral-50 text-darkTheme-950 mb-2">
-                  Rest
-                </p>
-                <TextField
-                  onChange={(e) => handleTimeChange({
-                    value: e.target.value,
-                    field: "reps",
-                    exerciseIndex,
-                    setIndex
-                  })}
-                  value={rest}
-                />
-              </div>
-              <div>
-                <p className="invisible mb-2">Actions</p>
-                {setIndex == sets.length - 1 && (
-                  <Button
-                    startIcon={<AddIcon />}
-                    className="border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
-                    variant="outlined"
-                    onClick={() => handleAddExerciseSet(
-                      exerciseType, 
+                    })}
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel>Rest</FieldLabel>
+                  <TextField
+                    onChange={(e) => handleTimeChange({
+                      value: e.target.value,
+                      field: "reps",
                       exerciseIndex,
-                      supersetIndex
-                    )}
-                  >
-                    Add a set
-                  </Button>
-                )}
+                      setIndex
+                    })}
+                    value={rest}
+                  />
+                </Field>
+                <Field>
+                  {setIndex == sets.length - 1 && (
+                    <Button
+                      startIcon={<AddIcon />}
+                      className="w-full md:mt-8 md:w-auto border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
+                      variant="outlined"
+                      onClick={() => handleAddExerciseSet(
+                        exerciseType, 
+                        exerciseIndex,
+                        supersetIndex
+                      )}
+                    >
+                      Add a set
+                    </Button>
+                  )}
+                </Field>
               </div>
-            </div>
+            </>
           );
         })}
       </div>

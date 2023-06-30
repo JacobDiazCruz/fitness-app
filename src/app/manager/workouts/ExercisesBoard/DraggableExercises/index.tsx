@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import SelectedExercise from "./SelectedExercise";
 import { CubeTransparentIcon, DropdownIcon } from "@/components/global/Icons";
 import useWorkout from "@/contexts/Workout";
+import Button from "@/components/global/Button";
 
 interface Props {
   selectedExercises: Array<any>;
   setSelectedExercises: any;
-}
+};
 
 // few things to make sure this component works
 // 1. Make sure draggedExercise state always have value during drag events
@@ -20,6 +21,7 @@ interface Props {
 export default function DraggableExercises() {
   const { 
     selectedExercises,
+    handleUnmergeSuperset,
     setSelectedExercises
   } = useWorkout();
 
@@ -145,19 +147,22 @@ export default function DraggableExercises() {
               >
                 <div className="bg-blue-900 px-5 py-3 flex justify-between">
                   <div className="flex gap-[10px] items-center">
-                    <input
-                      checked
-                      id="checked-checkbox"
-                      type="checkbox"
-                      checked={exercise.checked}
-                      onChange={() => handleCheck(exercise.secondaryId)}
-                    />
                     <CubeTransparentIcon className="text-white w-4 h-4" />
                     <p className="text-white font-normal">Superset</p>
                   </div>
-                  <button onClick={() => setShowExerciseForm(!showExerciseForm)}>
-                    <DropdownIcon className="fill-white w-6 h-6" />
-                  </button>
+                  <div>
+                    <Button
+                      variant="outlined"
+                      className="mr-2"
+                      startIcon={<CubeTransparentIcon />}
+                      onClick={() => handleUnmergeSuperset(exercise.secondaryId)}
+                    >
+                      Unmerge Superset
+                    </Button>
+                    <button onClick={() => setShowExerciseForm(!showExerciseForm)}>
+                      <DropdownIcon className="fill-white w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 {showExerciseForm && (
                   <>

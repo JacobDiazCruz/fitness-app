@@ -32,7 +32,7 @@ export default function ExercisesBoard() {
       <p className="mb-3 text-[14px] dark:text-neutral-50 text-darkTheme-950">
         Exercises
       </p>
-      <div className={`${secondaryBgColor} dark:border-neutral-800 border-gray-200 btn-actions flex items-center sticky top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
+      <div className={`${secondaryBgColor} dark:border-neutral-800 border-gray-200 btn-actions flex items-center sticky top-[50px] md:-top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
         <Button
           variant="outlined"
           className="mr-2"
@@ -40,14 +40,6 @@ export default function ExercisesBoard() {
           onClick={() => handleMergeSuperset()}
         >
           Merge Superset
-        </Button>
-        <Button
-          variant="outlined"
-          className="mr-2"
-          startIcon={<CubeTransparentIcon />}
-          onClick={() => handleUnmergeSuperset()}
-        >
-          Unmerge Superset
         </Button>
         <Button
           variant="outlined"
@@ -80,7 +72,7 @@ export default function ExercisesBoard() {
 
       {/* @Mobile Your Exercises Modal */}
       {showYourExercises && (
-        <SelectExercisesModal 
+        <SelectExercisesModal
           onClose={() => setShowYourExercises(false)}
           setSelectedExercises={setSelectedExercises}
         />
