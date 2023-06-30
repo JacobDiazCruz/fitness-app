@@ -20,16 +20,17 @@ export default function HeaderActions({
   const [showAssignClientModal, setShowAssignClientModal] = useState<bolean>(false);
 
   return (
-    <div class="flex justify-between mb-7">
+    <div class="flex flex-col md:flex-row justify-between mb-7">
       <WeeksPagination weeks={weeks} />
 
-      <div className="flex gap-[15px]">
-        <Button variant="outlined" startIcon={<AddIcon />}>
+      <div className="flex gap-[15px] mt-7 md:mt-0">
+        <Button variant="outlined" className="w-full md:w-auto" startIcon={<AddIcon />}>
           Add Week
         </Button>
         <PermissionAccess roleAccess="Coach">
           <Button
             variant="contained"
+            className="w-full md:w-auto"
             startIcon={<ArrowRightIcon />}
             onClick={() => setShowAssignClientModal(true)}
           >

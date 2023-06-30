@@ -86,7 +86,6 @@ export default function AssignClientModal({ onClose }: any) {
             value={selectedClient}
             items={clientsList}
             onChange={(val) => {
-              console.log("val", val)
               setSelectedClient(val)
             }}
             removeSelectedItem={(val) => setSelectedClient(null)}

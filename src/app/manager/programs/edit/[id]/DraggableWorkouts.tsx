@@ -84,6 +84,35 @@ export default function DraggableWorkouts ({
     setShowWorkoutDetailsModal(true);
   };
 
+  /**
+   * @Purpose To set the initial editable data of a workout
+   * @Note This edited workout is not the same as its original "Workout" data.
+   * The program creates another copy of the original workout, and that copy is the one -
+   * to be edited in this function.
+   */
+  const handleEditWorkout = ({
+    workoutId,
+    workoutSecondaryId,
+    workoutIndex
+  }: {
+    workoutId: string;
+    workoutSecondaryId: string;
+    workoutIndex: number;
+  }) => {
+    // set localStorage data to have access to current edited program workout
+    localStorage?.setItem("programId", params.id);
+    localStorage?.setItem("programName", programName);
+    localStorage?.setItem("programDescription", programDescription);
+    localStorage?.setItem("programWeeks", JSON.stringify(weeks));
+
+    localStorage?.setItem("programWeekIndex", weekIndex);
+    localStorage?.setItem("programDayIndex", dayIndex);
+    localStorage?.setItem("programWorkoutIndex", workoutIndex);
+    localStorage?.setItem("programWorkoutSecondaryId", workoutSecondaryId);
+
+    router.push(`/manager/workouts/edit/${workoutId}?editProgram=true`);
+  }
+
   return (
     <>
       {workouts.map((workout, index) => (
@@ -139,18 +168,11 @@ export default function DraggableWorkouts ({
             <PermissionAccess roleAccess="Coach">
               <ItemActionsMenu
                 handleEdit={() => {
-                  router.push(`/manager/workouts/edit/${workout._id}?editProgram=true`);
-
-                  // set localStorage data to have access to current edited program workout
-                  localStorage?.setItem("programId", params.id);
-                  localStorage?.setItem("programName", programName);
-                  localStorage?.setItem("programDescription", programDescription);
-                  localStorage?.setItem("programWeeks", JSON.stringify(weeks));
-
-                  localStorage?.setItem("programWeekIndex", weekIndex);
-                  localStorage?.setItem("programDayIndex", dayIndex);
-                  localStorage?.setItem("programWorkoutIndex", index);
-                  localStorage?.setItem("programWorkoutSecondaryId", workout.secondaryId);
+                  handleEditWorkout({
+                    workoutId: workout._id,
+                    workoutSecondaryId: workout.secondaryId,
+                    workoutIndex: index
+                  })
                 }}
                 handleDelete={() => handleDelete(workout)}
               />
