@@ -31,7 +31,7 @@ export default function WorkoutDetailsModal({
 
   return (
     <Modal onClose={onClose} className="w-[720px] h-[90%]">
-      <div className="dark:bg-indigo-950 dark:border-b bg-[#10182a] p-7 dark:border-indigo-900">
+      <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
         <div className="flex justify-between">
           <div>
             <p className={`text-neutral-200 text-[13px]`}>

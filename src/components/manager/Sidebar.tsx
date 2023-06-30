@@ -151,7 +151,7 @@ export default function Sidebar ({
   return (
     <>
       <div
-        className="fixed md:hidden lg:hidden inset-0 w-full h-full bg-darkTheme-950 opacity-70 z-[600]"
+        className="fixed md:hidden lg:hidden inset-0 w-full h-full dark:dark:bg-neutral-600 bg-darkTheme-950 opacity-70 z-[600]"
         onClick={handleCloseSidebar}
       ></div>
       <div className={`

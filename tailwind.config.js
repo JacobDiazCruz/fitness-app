@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         darkTheme: {
+          600: '#161c22',
           700: '#161B22',
           800: '#181d24',
           900: '#0d1117',

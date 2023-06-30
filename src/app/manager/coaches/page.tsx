@@ -1,9 +1,13 @@
 'use client';
 
 import CoachList from '@/components/manager/coach/CoachList';
+import Header from '../Header';
 
 export default function CoachesPage() {
   return (
-    <CoachList />
+    <>
+      <Header pageTitle="Coaches" />
+      <CoachList />
+    </>
   );
 };

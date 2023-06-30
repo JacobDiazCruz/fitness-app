@@ -18,7 +18,7 @@ const SelectedExercise = ({
   imageSrc,
   videoLink,
   onCheck,
-  supersetIndex,
+  supersetIndex = 0,
   exerciseIndex,
   exerciseId,
   primaryFocus,
@@ -60,6 +60,7 @@ const SelectedExercise = ({
     handleChangeSetField({
       value: formattedTime,
       field: "rest",
+      supersetExerciseIndex: supersetIndex,
       exerciseIndex,
       setIndex
     })
@@ -118,6 +119,7 @@ const SelectedExercise = ({
                     handleChangeSetField({
                       value,
                       field: "setType",
+                      supersetExerciseIndex: supersetIndex,
                       exerciseIndex,
                       setIndex
                     })
@@ -134,6 +136,7 @@ const SelectedExercise = ({
                   onChange={(e) => handleChangeSetField({
                     value: e.target.value,
                     field: "reps",
+                    supersetExerciseIndex: supersetIndex,
                     exerciseIndex,
                     setIndex
                   })}

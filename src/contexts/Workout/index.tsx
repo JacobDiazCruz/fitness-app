@@ -119,24 +119,38 @@ export const WorkoutProvider = ({ children }) => {
    * @Purpose to update the "set" field's value
    * @Note N/A
    */
-  const handleChangeSetField = ({value, field, exerciseIndex, setIndex}) => {
+  const handleChangeSetField = ({
+    value,
+    field,
+    supersetExerciseIndex,
+    exerciseIndex,
+    setIndex
+  }) => {
     setSelectedExercises((prevExercises) => {
       const updatedExercises = [...prevExercises];
-      // create copies of the nested "set" object to ensure immutability
-      const updatedSets = [...updatedExercises[exerciseIndex].sets];
-      // update the field's value
-      updatedSets[setIndex] = {
-        ...updatedSets[setIndex],
-        [field]: value
-      };
-      // update the actual set field
-      updatedExercises[exerciseIndex] = {
-        ...updatedExercises[exerciseIndex],
-        sets: updatedSets
-      };
+      const exercise = updatedExercises[exerciseIndex];
+
+      if (exercise.supersetExercises && exercise.supersetExercises.length > 0) {
+        const supersetExercise = exercise.supersetExercises[supersetExerciseIndex];
+        const updatedSets = [...supersetExercise.sets];
+        updatedSets[setIndex] = {
+          ...updatedSets[setIndex],
+          [field]: value
+        };
+        supersetExercise.sets = updatedSets;
+      } else {
+        const updatedSets = [...exercise.sets];
+        updatedSets[setIndex] = {
+          ...updatedSets[setIndex],
+          [field]: value
+        };
+        exercise.sets = updatedSets;
+      }
+
       return updatedExercises;
     });
   };
+
 
   // value prop to return all necessary data
   const value = useMemo(() => {
