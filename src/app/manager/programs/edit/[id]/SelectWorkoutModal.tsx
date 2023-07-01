@@ -119,9 +119,8 @@ export default function SelectWorkoutModal({
         {workouts?.map((workout, index) => (
           <div
             className={`
-              ${borderColor}
-              rounded-lg cursor-pointer mb-3 border border-solid p-3 w-full 
-              ${workout.selected ? "dark:bg-neutral-800 bg-indigo-50 border-indigo-700" : ""
+              rounded-lg cursor-pointer mb-3 border border-solid p-3 w-full dark:bg-darkTheme-900
+              ${workout.selected ? "dark:border-blue-500 bg-indigo-50" : "dark:border-neutral-700"
             }`}
             key={workout.name}
             onClick={() => toggleWorkoutSelection(index)}

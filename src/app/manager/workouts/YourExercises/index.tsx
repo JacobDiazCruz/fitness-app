@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
 import { borderColor, fieldBgColor, tertiaryBgColor } from "@/utils/themeColors";
 import useWorkout from "@/contexts/Workout";
-import ExerciseItem from "./Exercise";
+import ExerciseItem from "./ExerciseItem";
 
 export default function YourExercises({
   setInitialSelectedExercises

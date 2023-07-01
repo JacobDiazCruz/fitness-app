@@ -1,6 +1,8 @@
+import Modal from "@/components/global/Modal";
 import useMessageSender from "@/hooks/messages/useMessageSender";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import FilesDisplay from "./FilesDisplay";
 
 interface Props {
@@ -8,12 +10,37 @@ interface Props {
   otherChatDetails: any;
 };
 
+const FileModal = ({ 
+  selectedFile, 
+  onClose 
+}: {
+  selectedFile: string;
+  onClose?: () => void;
+}) => {
+
+  return (
+    <Modal className="w-fit h-fit" onClose={onClose}>
+      {selectedFile && (
+        <img
+          alt="Other Chat Image"
+          className="w-auto h-auto"
+          src={selectedFile}
+          style={{ objectFit: "cover" }}
+          fill
+        />
+      )}
+    </Modal>
+  );
+}
+
 export default function MessagesList({
   messages,
   otherChatDetails
 }: Props) {
   const myUserId = useLocalStorage("userId");
   const { uploadFilesMutation } = useMessageSender();
+
+  const [selectedFile, setSelectedFile] = useState<string>("");
 
   return (
     <>
@@ -37,6 +64,7 @@ export default function MessagesList({
                   <FilesDisplay
                     files={message?.files}
                     isLoading={uploadFilesMutation?.isLoading}
+                    setSelectedFile={setSelectedFile}
                   />
                 ) : message?.message && (
                   <div 
@@ -55,6 +83,7 @@ export default function MessagesList({
                 <FilesDisplay
                   files={message?.files}
                   isLoading={uploadFilesMutation?.isLoading}
+                  setSelectedFile={setSelectedFile}
                 />
               ) : message?.message && (
                 <div
@@ -66,6 +95,12 @@ export default function MessagesList({
           );
         }
       })}
+      {selectedFile && (
+        <FileModal 
+          selectedFile={selectedFile}
+          onClose={() => setSelectedFile("")}
+        />
+      )}
     </>
   );
 }

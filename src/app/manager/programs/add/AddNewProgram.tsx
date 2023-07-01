@@ -12,6 +12,7 @@ import { addProgram } from "@/api/Program";
 import { useMutation } from "react-query";
 import useAlert from "@/contexts/Alert";
 import FieldName from "@/components/global/FieldName";
+import Container from "@/components/global/Container";
 
 export default function AddNewProgram() {
   const router = useRouter();
@@ -44,11 +45,7 @@ export default function AddNewProgram() {
     //     name: `Week 1`,
     //     days: [
     //       { name: "Day 1", workouts: [] },
-    //       { name: "Day 2", workouts: [] },
-    //       { name: "Day 3", workouts: [] },
-    //       { name: "Day 5", workouts: [] },
-    //       { name: "Day 6", workouts: [] },
-    //       { name: "Day 7", workouts: [] }
+    //        ...
     //     ]
     //   },
     // ]
@@ -92,8 +89,8 @@ export default function AddNewProgram() {
         disableSubmit={!isFormValid}
         showActionButtons
       />
-      <div className={`${secondaryBgColor} form shadow-md width-full p-8 rounded-lg mt-5`}>
-        <div className="w-[45%]">
+      <Container>
+        <div className="w-full md:w-[45%]">
           <div className="field-container">
             <FieldName required>
               Program name
@@ -125,7 +122,7 @@ export default function AddNewProgram() {
             />
           </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 }

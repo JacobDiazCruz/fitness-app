@@ -32,7 +32,7 @@ export default function ExercisesBoard() {
       <p className="mb-3 text-[14px] dark:text-neutral-50 text-darkTheme-950">
         Exercises
       </p>
-      <div className={`${secondaryBgColor} dark:border-neutral-800 border-gray-200 btn-actions flex items-center sticky top-[50px] md:-top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
+      <div className={`${secondaryBgColor} sticky top-[49px] dark:border-neutral-800 border-gray-200 btn-actions flex items-center md:-top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
         <Button
           variant="outlined"
           className="mr-2"

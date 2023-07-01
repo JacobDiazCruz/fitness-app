@@ -14,9 +14,14 @@ import GooglePopup from "@/components/global/LoginGoogle/GooglePopup";
 const Signin = () => {
   return (
     <div className="signin-page flex h-screen">
-      <div className="w-1/2 flex items-center justify-center">
-        <div className="px-5 text-center">
-          <h1 className="text-6xl">L.</h1>
+      <div className="w-1/2 bg-gray-100 p-[50px]">
+        <div className="bg-[#495dff] w-[40px] h-[40px] rounded-lg flex items-center shadow-md">
+          <div className="m-auto text-white font-medium">L.</div>
+        </div>
+        <div className="flex items-center justify-center h-[80vh]">
+          <h1 className="text-4xl font-medium">
+            Find the best coach that can help you <br/> on your fitness goals.
+          </h1>
         </div>
       </div>
       <div className="w-1/2 bg-white flex items-center justify-center">

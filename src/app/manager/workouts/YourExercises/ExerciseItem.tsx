@@ -1,7 +1,7 @@
 import { DragIcon } from "@/components/global/Icons";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
-import { borderColor, fieldBgColor } from "@/utils/themeColors";
+import { borderColor, fieldBgColor, primaryBgColor } from "@/utils/themeColors";
 
 interface Props {
   exercise: Exercise;
@@ -33,9 +33,8 @@ export default function ExerciseItem({
       onClick={handleClickExercise}
       draggable
       className={`
-        ${fieldBgColor}
-        ${borderColor}
-        ${exercise?.isSelected && 'dark:border-blue-500'}
+        ${primaryBgColor}
+        ${exercise?.isSelected ? 'border-blue-500' : 'dark:border-neutral-700'}
         border cursor-grab p-2 hover:bg-[#ebebeb] flex items-center rounded-lg mb-3 gap-[12px] h-[83px]
       `}
     >
@@ -60,12 +59,14 @@ export default function ExerciseItem({
         <DragIcon className="w-5 h-5 fill-[#c8c8c8] hidden md:block" />
 
         {/* Check button */}
-        <div className={`
-          ${borderColor} 
-          block md:hidden
-          w-5 h-5 border rounded-full
-          ${exercise?.isSelected && 'bg-blue-500'}
-        `}>
+        <div 
+          className={`
+            ${borderColor}
+            block md:hidden
+            w-5 h-5 border rounded-full
+            ${exercise?.isSelected && 'bg-blue-500'}
+          `}
+        >
         </div>
       </div>
     </div>
