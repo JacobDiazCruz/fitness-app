@@ -55,7 +55,7 @@ export default function TableItem({
           </p>
         </div>
         <div className="col-5">
-          <ItemActionsMenu 
+          <ItemActionsMenu
             itemId={itemId}
             handleEdit={() => router.push(`/manager/programs/edit/${itemId}?week=1`)}
           />

@@ -1,7 +1,7 @@
 import { uploadFiles } from "@/api/Exercise";
 import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
-import { CloseIcon, ImageIcon, SmileyIcon } from "@/components/global/Icons";
+import { CloseIcon, ImageIcon, PlayIcon, SmileyIcon } from "@/components/global/Icons";
 import useMessageSender from "@/hooks/messages/useMessageSender";
 import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryBgColor } from "@/utils/themeColors";
 import Image from "next/image";
@@ -116,6 +116,43 @@ export default function MessageInput({
     }
   };
 
+  const getFile = (file: string) => {
+    const isVideo = file.type.includes('video');
+    const isImage = file.type.includes('image');
+
+    if (isVideo) {
+      return "video";
+    } else if (isImage) {
+      return "image";
+    }
+  };
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    const clipboardData = event.clipboardData;
+    if (clipboardData) {
+      const items = Array.from(clipboardData.items);
+      const imageFiles = items
+        .filter(item => item.type.startsWith('image/'))
+        .map(item => item.getAsFile());
+  
+      if (imageFiles.length > 0) {
+        setInitialFilesList(prevFiles => [...prevFiles, ...imageFiles]);
+  
+        // Clear the content of the div after handling the pasted images
+        if (messageFieldRef.current) {
+          // Temporarily disable contentEditable
+          messageFieldRef.current.contentEditable = 'false';
+  
+          // Execute the 'delete' command to remove the pasted image
+          document.execCommand('delete');
+  
+          // Re-enable contentEditable
+          messageFieldRef.current.contentEditable = 'true';
+        }
+      }
+    }
+  };
+
   return (
     <div className={`${primaryBgColor} relative bottom-0 w-full`}>
       {/* Uploaded Images Container */}
@@ -131,21 +168,29 @@ export default function MessageInput({
               >
                 <CloseIcon className="w-4 h-4 m-auto text-darkTheme-950" />
               </button>
-              <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
-                <Image
-                  alt="Uploaded Image"
-                  src={URL.createObjectURL(file)}
-                  style={{ objectFit: "cover" }}
-                  fill
-                />
-              </div>
+              {getFile(file) === "image" ? (
+                <div className="h-[45px] w-[45px] bg-gray-200 rounded-md overflow-hidden">
+                  <Image
+                    alt="Uploaded Image"
+                    src={URL.createObjectURL(file)}
+                    style={{ objectFit: "cover" }}
+                    fill
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center h-[45px] w-[45px] bg-gray-500 rounded-md overflow-hidden">
+                  <div className="w-[20px] h-[20px] ml-3 border border-white flex items-center rounded-full">
+                    <PlayIcon className="w-3 h-3 text-white m-auto" />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
       ) : <></>}
 
       {/* Message input field */}
-      <div className="p-4">
+      <div className="p-3">
         <div 
           ref={messageFieldRef}
           className={`
@@ -157,6 +202,7 @@ export default function MessageInput({
           onKeyDown={invokeEnterKey}
           contentEditable
           data-text="Enter text here"
+          onPaste={handlePaste}
         ></div>
 
         {/* Action buttons */}
