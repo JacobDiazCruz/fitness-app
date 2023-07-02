@@ -69,7 +69,7 @@ export default function MessagesList({
                 ) : message?.message && (
                   <div 
                     dangerouslySetInnerHTML={{__html: message?.message}}
-                    className="dark:bg-darkTheme-900 dark:text-neutral-50 bg-neutral-800 text-gray-50 py-3 px-4 rounded-xl lg:max-w-[500px]"
+                    className="dark:bg-darkTheme-900 dark:text-neutral-50 bg-neutral-100 text-gray-900 py-3 px-4 rounded-xl lg:max-w-[500px]"
                   />
                 )}
               </div>

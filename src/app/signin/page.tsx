@@ -31,8 +31,8 @@ const Signin = () => {
             <GooglePopup />
           </div>
           <hr className="my-10 w-[70%]" />
-          <Link href="/" className="flex items-center gap-[6px] text-[18px]">
-            <ArrowLeftIcon />
+          <Link href="/" className="flex items-center gap-[6px] text-[14px]">
+            <ArrowLeftIcon className="w-3 h-3" />
             Back to home
           </Link>
         </div>

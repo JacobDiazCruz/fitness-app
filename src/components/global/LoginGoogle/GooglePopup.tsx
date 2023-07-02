@@ -79,7 +79,24 @@ const GooglePopup = ({ roleType }: { roleType?: string }) => {
   });
 
   useEffect(() => {
-    googleLogin();
+    const loadGoogleAuth = async () => {
+      const googleAuthScript = document.createElement("script");
+      googleAuthScript.src = "https://accounts.google.com/gsi/client";
+      googleAuthScript.async = true;
+      googleAuthScript.defer = true;
+      googleAuthScript.onload = () => {
+        // Initialize Google Auth
+        if (window?.google?.accounts?.id) {
+          window.google.accounts.id.initialize({
+            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+            callback: handleCredentialResponse
+          });
+        }
+      };
+      document.body.appendChild(googleAuthScript);
+    };
+
+    loadGoogleAuth();
   }, []);
 
   return (
