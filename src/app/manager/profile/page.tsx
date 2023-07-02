@@ -32,6 +32,7 @@ export interface Services {
 export default function Profile() {
   const userId = useLocalStorage('userId');
   const [enableAccountEdit, setEnableAccountEdit] = useState(false);
+  const [countryCode, setCountryCode] = useState<string>("+63");
   const [profileForm, setProfileForm] = useState<Form>({
     profileImage: null,
     firstName: null,
@@ -45,10 +46,12 @@ export default function Profile() {
       price: null
     }
   ]);
-  const [uploadedProfileImage, setUploadedProfileImage] = useState<any>("");
+  const [uploadedProfileImage, setUploadedProfileImage] = useState<any>(null);
+  const [galleryImages, setGalleryImages] = useState<Array<any>>([]);
+  const [portfolioImages, setPortfolioImages] = useState<Array<any>>([]);
 
   // get exercise data
-  const { 
+  const {
     isLoading,
     isError,
     data: profile,
@@ -111,18 +114,43 @@ export default function Profile() {
           setProfileForm={setProfileForm}
           uploadedProfileImage={uploadedProfileImage}
           handleFileChange={handleFileChange}
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
         />
         <MyServices
           servicesList={servicesList}
           setServicesList={setServicesList}
         />
-        <FormContainer
-          formTitle="Gallery"
-          formIcon={<svg t="1685420066688" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}
-          formDescription="The images that will be uploaded here will be displayed in a carousel at the top of your profile."
-        >
-          <Uploader />
-        </FormContainer>
+        <div className="flex gap-[30px]">
+          <div className="flex-1">
+            <FormContainer
+              formTitle="Gallery"
+              formIcon={<svg t="1685420066688" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}
+              formDescription="This will be displayed in a carousel at the top of your profile."
+            >
+              <Uploader 
+                id="gallery-uploader"
+                max={6}
+                initialFilesList={galleryImages}
+                setInitialFilesList={setGalleryImages}
+              />
+            </FormContainer>
+          </div>
+          <div className="flex-1">
+            <FormContainer
+              formTitle="Portfolio"
+              formIcon={<svg t="1685420066688" class="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}
+              formDescription="Upload images of your client's transformation"
+            >
+              <Uploader
+                id="portfolio-uploader"
+                max={8}
+                initialFilesList={portfolioImages}
+                setInitialFilesList={setPortfolioImages}
+              />
+            </FormContainer>
+          </div>
+        </div>
       </div>
     </div>
   );

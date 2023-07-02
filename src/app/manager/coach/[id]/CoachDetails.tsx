@@ -39,7 +39,7 @@ export default function CoachDetails() {
 
   return (
     <div className="coach-details">
-      <div className={`${primaryBgColor} z-[100] flex w-full py-5 mb-6 sticky top-0`}>
+      <div className={`${primaryBgColor} z-[100] flex w-full py-5 mb-6 sticky top-[48px] md:top-0`}>
         <button 
           className="mr-5"
           onClick={() => router.back()}
@@ -65,8 +65,8 @@ export default function CoachDetails() {
           </p>
         </div>
       </div>
-      <div className="flex w-full gap-[30px]">
-        <div className="w-[60%]">
+      <div className="flex flex-col md:flex-row w-full gap-[30px]">
+        <div className="w-full md:w-[60%]">
           <Carousel
             galleryImages={[
               {

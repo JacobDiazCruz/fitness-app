@@ -32,7 +32,7 @@ export default function FilesDisplay({
               onClick={() => {
                 setSelectedFile(file);
               }}
-              className="hover:opacity-[0.5] cursor-pointer w-[300px] h-[200px] rounded-md relative overflow-hidden"
+              className="hover:opacity-[0.5] cursor-pointer w-[200px] h-[200px] rounded-md relative overflow-hidden"
             >
               <Image
                 alt="Chat Image"

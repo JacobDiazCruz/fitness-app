@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAlert from "@/contexts/Alert";
 import FieldName from "@/components/global/FieldName";
+import PhoneInputField from "@/components/global/PhoneInputField";
 
 interface ClientForm {
   firstName: string;
@@ -22,6 +23,7 @@ interface ClientForm {
 export default function AddNewClient () {
   const router = useRouter();
   const { dispatchAlert } = useAlert();
+  const [countryCode, setCountryCode] = useState<string>("+63");
   const [clientForm, setClientForm] = useState<ClientForm>({
     firstName: "",
     lastName: "",
@@ -50,7 +52,10 @@ export default function AddNewClient () {
         backPath="/manager/clients"
         showActionButtons
         isLoading={addClientMutation.isLoading}
-        handleSubmit={() => addClientMutation.mutateAsync(clientForm)}
+        handleSubmit={() => addClientMutation.mutateAsync({
+          ...clientForm,
+          contact: `${countryCode} ${clientForm.contact}`
+        })}
       />
       <Container>
         <div className="flex gap-[20px] w-full md:w-[700px] flex-col md:flex-row">
@@ -97,14 +102,16 @@ export default function AddNewClient () {
             }))}
           />
         </div>
-        <div className="w-full md:w-[700px] mt-7">
+        <div className="w-full md:w-[350px] mt-7">
           <FieldName>
             Contact number
           </FieldName>
-          <TextField
+          <PhoneInputField 
             placeholder="xxxxxxxxx"
             className="h-[49px]"
             value={clientForm.contact}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
             onChange={(e) => setClientForm(prev => ({
               ...prev,
               contact: e.target.value

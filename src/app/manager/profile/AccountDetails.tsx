@@ -1,3 +1,4 @@
+import PhoneInputField from "@/components/global/PhoneInputField";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import { primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
@@ -11,12 +12,16 @@ interface Props {
   uploadedProfileImage: any;
   handleFileChange: void;
   setProfileForm: any;
+  countryCode: string;
+  setCountryCode: any;
 };
 
 export default function AccountDetails({
   profileForm,
   uploadedProfileImage,
   handleFileChange,
+  countryCode,
+  setCountryCode,
   setProfileForm
 }: Props) {
 
@@ -94,14 +99,16 @@ export default function AccountDetails({
             <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
               Contact number
             </p>
-            <TextField
+            <PhoneInputField 
+              placeholder="xxxxxxxxx"
+              className="h-[49px]"
               value={profileForm.contact}
-              onChange={(e) => {
-                setProfileForm(prev => ({
-                  ...prev,
-                  contact: e.target.value
-                }))
-              }}
+              countryCode={countryCode}
+              setCountryCode={setCountryCode}
+              onChange={(e) => setProfileForm(prev => ({
+                ...prev,
+                contact: e.target.value
+              }))}
             />
           </div>
           <div className="field w-full mt-4">
