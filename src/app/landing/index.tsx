@@ -12,7 +12,7 @@ const Landing: React.FC = () => {
   ]);
 
   return (
-    <div className="landing-page min-h-[100vh]">
+    <div className="landing-page min-h-[100vh] py-[100px]">
       <div>
         <h1 className="dark:text-neutral-50 text-darkTheme-950 text-[62px] font-bold">
           Train with better coaches
@@ -22,7 +22,7 @@ const Landing: React.FC = () => {
         </p>
       </div>
       <div className="flex flex-wrap items-center mt-20">
-        <CoachList />
+        <CoachList isAuth={false} />
       </div>
     </div>
   );

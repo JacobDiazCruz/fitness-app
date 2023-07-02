@@ -11,6 +11,7 @@ import LoginGoogle from "./LoginGoogle";
 import IconButton from "./IconButton";
 import { ChatIcon } from "./Icons";
 import { primaryTextColor } from "@/utils/themeColors";
+import GooglePopup from "./LoginGoogle/GooglePopup";
 
 export default function Navbar() {
   const router = useRouter();
@@ -22,7 +23,9 @@ export default function Navbar() {
       <div className="dark:bg-darkTheme-950 bg-[#F8F8F8]">
         <div className="w-full dark:bg-darkTheme-950 bg-[#F8F8F8] xl:w-[1300px] 2xl:w-[1450px] m-auto">
           <div className="py-6 flex items-center justify-between">
-            <h2>Logo</h2>
+            <Link href="/">
+              <h2 className={primaryTextColor}>Logo</h2>
+            </Link>
             {accessToken ? (
               <div className="flex items-center">
                 <Link href="/messages">
@@ -34,7 +37,7 @@ export default function Navbar() {
                 <UserMenu />
               </div>
             ) : (
-              <div>
+              <div className="flex gap-[10px] items-center">
                 <Link href="/signup/role" className={primaryTextColor}>
                   <Button>
                     Join now
@@ -45,6 +48,7 @@ export default function Navbar() {
                     Sign in
                   </Button>
                 </Link>
+                <GooglePopup />
               </div>
             )}
           </div>

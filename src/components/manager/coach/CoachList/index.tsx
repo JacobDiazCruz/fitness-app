@@ -5,7 +5,11 @@ import { listCoaches } from '@/api/Profile';
 import { useQuery } from 'react-query';
 import Coach from './Coach';
 
-export default function CoachList() {
+export default function CoachList({
+  isAuth = true
+}: {
+  isAuth: boolean;
+}) {
   const router = useRouter();
   const {
     isLoading, 
@@ -31,7 +35,13 @@ export default function CoachList() {
         return (
           <div
             key={index}
-            onClick={() => router.push(`/manager/coach/${_id}`)}
+            onClick={() => {
+              if(isAuth) {
+                router.push(`/manager/coach/${_id}`);
+              } else {
+                router.push(`/coach/${_id}`);
+              }
+            }}
             style={{
               paddingRight: '15px',
               paddingBottom: '15px'

@@ -16,10 +16,47 @@ export const listCoaches = async () => {
   return res.data.data;
 };
 
+export const editProfileDetails = async (data) => {
+  const payload = {
+    url: `/profile/details/edit`,
+    data
+  };
+  const res = await patchRequest(payload);
+  return res.data;
+};
+
 export const editProfileImage = async (data) => {
   let accessToken = localStorage.getItem("accessToken");
   const payload = {
     url: `/profile/upload-image`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    data
+  };
+  const res = await patchRequest(payload);
+  return res.data;
+};
+
+export const editPortfolioImages = async (data) => {
+  let accessToken = localStorage.getItem("accessToken");
+  const payload = {
+    url: `/profile/portfolio/edit`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    data
+  };
+  const res = await patchRequest(payload);
+  return res.data;
+};
+
+export const editGalleryImages = async (data) => {
+  let accessToken = localStorage.getItem("accessToken");
+  const payload = {
+    url: `/profile/gallery/edit`,
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${accessToken}`

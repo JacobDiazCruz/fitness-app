@@ -37,7 +37,7 @@ export default function useVerifyUser() {
       console.log("verifyUser", verifyUser)
       setUserAccess(verifyUser);
     }
-  }, [verifyUser])
+  }, [verifyUser]);
 
   return {
     userAccess,

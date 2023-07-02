@@ -1,39 +1,64 @@
+import IconButton from "@/components/global/IconButton";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/global/Icons";
+import { primaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
+import { useState } from "react";
+
 interface Props {
   galleryImages: Array<any>;
-};
+}
 
-export default function Carousel({
-  galleryImages
-}: Props) {
+export default function Carousel({ galleryImages = [] }: Props) {
+  const [coverImage, setCoverImage] = useState<string>("");
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+
+  const handleChangeCoverImage = (action: string) => {
+    let nextIndex;
+    if (action === "next") {
+      nextIndex = (currentImageIndex + 1) % galleryImages.length;
+    } else if (action === "back") {
+      nextIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    }
+    setCurrentImageIndex(nextIndex);
+  };
 
   return (
     <div className="carousel-container">
-      <div className="w-full h-[363px] overflow-hidden relative">
-        <div className="z-[50] relative flex h-full items-center cursor-pointer justify-between">
-          <div onClick={() => alert(1)}>
-            <ArrowLeftIcon />
-          </div>
-          <div onClick={() => alert(2)}>
-            <ArrowRightIcon />
-          </div>
-        </div>
-        <Image
-          alt="Cover Image"
-          fill
-          style={{ objectFit: "cover" }}
-          src="https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-        />
-      </div>
-      <div className="flex py-[14px] px-0">
-        {galleryImages.map(image => (
-          <div className="w-[150px] h-[104px] overflow-hidden relative mr-[14px]">
+      <div className="bg-black flex items-center px-[10px]">
+        <IconButton onClick={() => handleChangeCoverImage("back")}>
+          <ArrowLeftIcon className={`text-white w-7 h-7`} />
+        </IconButton>
+        <div className="w-full mx-2 h-[300px] h-[400px] overflow-hidden relative">
+          {galleryImages?.length && (
             <Image
-              alt={image.alt}
+              alt="Cover Image"
               fill
               style={{ objectFit: "cover" }}
-              src={image.src}
+              src={galleryImages[currentImageIndex]}
+            />
+          )}
+        </div>
+        <IconButton onClick={() => handleChangeCoverImage("next")}>
+          <ArrowRightIcon className={`text-white w-7 h-7`} />
+        </IconButton>
+      </div>
+      <div className="flex py-[14px] px-0">
+        {galleryImages?.map((image, index) => (
+          <div
+            key={index}
+            className={`
+              ${index === currentImageIndex && 'border-[2px] border-solid border-blue-500 opacity-40'} 
+              w-[180px] h-[120px] rounded-md overflow-hidden relative mr-[14px] cursor-pointer
+            `}
+            onClick={() => {
+              setCurrentImageIndex(index)
+            }}
+          >
+            <Image
+              alt="Gallery Image"
+              fill
+              style={{ objectFit: "cover" }}
+              src={image}
             />
           </div>
         ))}

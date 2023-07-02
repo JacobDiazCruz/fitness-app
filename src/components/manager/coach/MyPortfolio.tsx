@@ -22,17 +22,20 @@ export default function MyPortfolio({
         <Link
           href="/trainer/portfolio/123"
         >
-          <Button endIcon={<ArrowRightIcon />}>
+          <Button 
+            endIcon={<ArrowRightIcon />}
+            className={primaryTextColor}
+          >
             View all
           </Button>
         </Link>
       </div>
       <div className="flex mt-5 gap-[15px] overflow-hidden">
-        {portfolioImages.slice(0, 4).map(image => (
+        {portfolioImages?.slice(0, 4).map(image => (
           <div className="w-[220px] relative h-[200px]">
             <Image
-              alt={image?.name || "Portfolio Image"}
-              src={image.imagePath}
+              alt={"Portfolio Image"}
+              src={image}
               style={{ objectFit: "cover" }}
               fill
             />

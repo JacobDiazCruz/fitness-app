@@ -105,6 +105,7 @@ const GooglePopup = ({ roleType }: { roleType?: string }) => {
         id="g_id_onload"
         data-client_id="1092221046085-4i08852qeo7mc47vetdjt2sd3i7nclh4.apps.googleusercontent.com"
         data-callback="handleCredentialResponse"
+        data-cancel_on_tap_outside="false"
       >
       </div>
       <div className="g_id_signin" data-type="standard"></div>
