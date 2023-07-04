@@ -24,17 +24,18 @@ export default function Carousel({ galleryImages = [] }: Props) {
 
   return (
     <div className="carousel-container">
-      <div className="bg-black flex items-center px-[10px]">
+      <div className="bg-neutral-900 flex items-center px-[10px]">
         <IconButton onClick={() => handleChangeCoverImage("back")}>
           <ArrowLeftIcon className={`text-white w-7 h-7`} />
         </IconButton>
-        <div className="w-full mx-2 h-[300px] h-[400px] overflow-hidden relative">
+        <div className="w-full mx-2 h-fit h-[350px] max-h-[350px] overflow-hidden relative">
           {galleryImages?.length && (
-            <Image
-              alt="Cover Image"
-              fill
-              style={{ objectFit: "cover" }}
+            <img
+              alt="Cover Gallery Image"
+              className="w-auto h-auto m-auto"
               src={galleryImages[currentImageIndex]}
+              style={{ objectFit: "cover" }}
+              fill
             />
           )}
         </div>

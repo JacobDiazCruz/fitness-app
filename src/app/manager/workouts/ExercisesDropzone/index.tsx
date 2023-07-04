@@ -3,18 +3,20 @@
 import React, { useEffect, useState, useMemo } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
-import SelectedExercise from "./DraggableExercises/SelectedExercise";
-import YourExercises from "../YourExercises";
 import { Exercise } from "@/utils/types";
-import DraggableExercises from "./DraggableExercises";
-import { BarbellIcon, CubeTransparentIcon, DropdownIcon, ViewFinderIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout";
+import { BarbellIcon, CubeTransparentIcon, DropdownIcon, DumbbellIcon, ViewFinderIcon } from "@/components/global/Icons";
 import { secondaryBgColor } from "@/utils/themeColors";
-import SelectExercisesModal from "../SelectExercisesModal";
+import useWorkout from "@/contexts/Workout";
 
-export default function ExercisesBoard() { 
-  const { 
-    selectedExercises, 
+import SelectExercisesModal from "../SelectExercisesModal";
+import SelectedExercise from "./SelectedExercise";
+import Draggable from "./Draggable";
+
+Draggable.SelectedExercise = SelectedExercise;
+
+export default function ExercisesDropzone() { 
+  const {
+    selectedExercises,
     setSelectedExercises,
     handleMergeSuperset,
     handleUnmergeSuperset,
@@ -22,16 +24,9 @@ export default function ExercisesBoard() {
   } = useWorkout();
 
   const [showYourExercises, setShowYourExercises] = useState<boolean>(false);
-
-  return (
-    <div
-      className="exercises-section mt-5"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => onDropFromExercises(e)}
-    >
-      <p className="mb-3 text-[14px] dark:text-neutral-50 text-darkTheme-950">
-        Exercises
-      </p>
+  
+  const ActionButtons = () => {
+    return (
       <div className={`${secondaryBgColor} sticky top-[49px] dark:border-neutral-800 border-gray-200 btn-actions flex items-center md:-top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
         <Button
           variant="outlined"
@@ -48,10 +43,26 @@ export default function ExercisesBoard() {
           Make Circuit
         </Button>
       </div>
-      <DraggableExercises
-        selectedExercises={selectedExercises}
-        setSelectedExercises={setSelectedExercises}
-      />
+    );
+  };
+  
+  return (
+    <div
+      className="exercises-section mt-5"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => onDropFromExercises(e)}
+    >
+      <h2 className="mb-3 text-[14px] dark:text-neutral-50 text-darkTheme-950">
+        Exercises
+      </h2>
+
+      <ActionButtons />
+
+      <Draggable>
+        <Draggable.SelectedExercise />
+      </Draggable>
+
+      {/* Dropzone UI */}
       <div className="border-[2px] hidden md:flex rounded-lg border-dashed dark:border-neutral-800 border-gray-200 mt-5 h-[196px] items-center">
         <div className="m-auto">
           <div className="rounded-full w-[52px] h-[52px] dark:bg-darkTheme-900 bg-gray-100 flex m-auto items-center">
@@ -62,15 +73,17 @@ export default function ExercisesBoard() {
           </p>
         </div>
       </div>
+
+      {/* Show "Your Exercises" on mobile view */}
       <Button
-        variant="contained"
-        className="w-full mt-8 block md:hidden"
+        className="w-full mt-8 block md:hidden bg-blue-950 text-blue-500 font-semibold"
         onClick={() => setShowYourExercises(true)}
+        startIcon={<DumbbellIcon className="w-5 h-5 fill-[#3B82F6]" />}
       >
         Select Exercise
       </Button>
 
-      {/* @Mobile Your Exercises Modal */}
+      {/* @Note: For mobile view only */}
       {showYourExercises && (
         <SelectExercisesModal
           onClose={() => setShowYourExercises(false)}
@@ -79,4 +92,4 @@ export default function ExercisesBoard() {
       )}
     </div>
   );
-}
+};

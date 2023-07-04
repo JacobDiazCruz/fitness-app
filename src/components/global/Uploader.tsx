@@ -12,15 +12,19 @@ import { TrashIcon } from './Icons';
 interface Props {
   id?: string;
   max?: number;
+  existingFilesList?: Array<string>;
   initialFilesList?: Array<any>;
   setInitialFilesList?: any;
+  setExistingFilesList?: any;
 };
 
 export default function Uploader({
   id = "file",
   max = 6,
+  existingFilesList = [],
   initialFilesList = [],
-  setInitialFilesList
+  setInitialFilesList,
+  setExistingFilesList
 }: Props) {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target?.files;
@@ -44,6 +48,12 @@ export default function Uploader({
     setInitialFilesList(filteredFiles);
   }
 
+  const handleRemoveExistingFile = (index: number) => {
+    const filteredFiles = existingFilesList
+      .filter((file: any, fileIndex: number) => fileIndex !== index);
+    setExistingFilesList(filteredFiles);
+  }
+
   return (
     <div>
       <input 
@@ -61,12 +71,33 @@ export default function Uploader({
             <p className={`${secondaryTextColor} text-medium text-[18px]`}>
               Drag <span className="text-[#E13291]">files</span> to upload
             </p>
-            <p className="text-[14px] mt-1 text-gray-500">Maximum of 3 files</p>
+            <p className="text-[14px] mt-1 text-gray-500">Maximum of {max} files</p>
           </div>
         </div>
       </label>
 
       <div className="flex gap-[20px] mt-5">
+        {existingFilesList?.map((file: any, index: number) => (
+          <div className={`${borderColor} border border-solid h-[130px] rounded-lg`}>
+            <div className="p-2 flex justify-between">
+              <div></div>
+              <button onClick={() => {
+                handleRemoveExistingFile(index)
+              }}>
+                <TrashIcon className={`${primaryTextColor} w-5 h-5`} />
+              </button>
+            </div>
+            <div className="rounded-md relative overflow-hidden w-[100px] h-[80px]">
+              <Image
+                alt="Cover Image"
+                src={file}
+                style={{ objectFit: "cover" }}
+                fill
+              />
+            </div>
+          </div>
+        ))}
+
         {initialFilesList?.map((file: any, index: number) => (
           <div className={`${borderColor} border border-solid h-[130px] rounded-lg`}>
             <div className="p-2 flex justify-between">

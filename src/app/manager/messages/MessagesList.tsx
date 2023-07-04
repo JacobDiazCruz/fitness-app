@@ -1,3 +1,4 @@
+import FileModal from "@/components/global/FileModal";
 import Modal from "@/components/global/Modal";
 import useMessageSender from "@/hooks/messages/useMessageSender";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -9,29 +10,6 @@ interface Props {
   messages: Array<any>;
   otherChatDetails: any;
 };
-
-const FileModal = ({ 
-  selectedFile, 
-  onClose 
-}: {
-  selectedFile: string;
-  onClose?: () => void;
-}) => {
-
-  return (
-    <Modal className="w-fit h-fit" onClose={onClose}>
-      {selectedFile && (
-        <img
-          alt="Other Chat Image"
-          className="w-auto h-auto"
-          src={selectedFile}
-          style={{ objectFit: "cover" }}
-          fill
-        />
-      )}
-    </Modal>
-  );
-}
 
 export default function MessagesList({
   messages,
@@ -97,7 +75,7 @@ export default function MessagesList({
       })}
       {selectedFile && (
         <FileModal 
-          selectedFile={selectedFile}
+          file={selectedFile}
           onClose={() => setSelectedFile("")}
         />
       )}

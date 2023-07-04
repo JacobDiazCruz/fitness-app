@@ -49,7 +49,7 @@ export default function UserMenu({
       localStorage.removeItem("userRole");
       localStorage.removeItem("lastName");
       localStorage.removeItem("email");
-      router.push('/signin')
+      router.push('/');
     },
     onError: (err) => {
       console.log(err)
@@ -83,10 +83,10 @@ export default function UserMenu({
               )}
             </div>
             <div>
-              <p className="dark:text-neutral-200 text-gray-900 text-[14px] text-gray-800 font-medium">
-                {firstName} {lastName}
+              <p className="dark:text-neutral-200 w-[120px] truncate text-gray-900 text-[14px] text-gray-800 font-medium">
+                {firstName}
               </p>
-              <p className="truncate w-[150px] dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
+              <p className="truncate w-[170px] dark:text-neutral-200 text-gray-900 text-[12px] text-gray-500 font-light">
                 {email}
               </p>
             </div>
@@ -147,11 +147,15 @@ export default function UserMenu({
             <div>
               <p 
                 className={`
-                  dark:text-neutral-200 text-gray-900
-                  ml-2 text-[14px] font-medium
+                  dark:text-neutral-200 
+                  text-gray-900
+                  ml-2 text-[14px] 
+                  font-medium
+                  truncate
+                  w-[110px]
                 `}
               >
-                {firstName} {lastName}
+                {firstName}
               </p>
               <p
                 className={

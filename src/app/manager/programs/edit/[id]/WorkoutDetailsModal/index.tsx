@@ -30,7 +30,7 @@ export default function WorkoutDetailsModal({
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
 
   return (
-    <Modal onClose={onClose} className="w-[720px] h-[90%]">
+    <Modal onClose={onClose} className="w-[600px] h-[90%]">
       <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
         <div className="flex justify-between">
           <div>

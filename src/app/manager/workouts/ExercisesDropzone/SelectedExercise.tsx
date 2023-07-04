@@ -15,7 +15,6 @@ const SelectedExercise = ({
   exerciseType,
   name,
   sets,
-  imageSrc,
   videoLink,
   onCheck,
   supersetIndex = 0,
@@ -69,10 +68,10 @@ const SelectedExercise = ({
   const SetCount = ({ count }: { count: number }) => {
     return (
       <div className="md:hidden w-full flex items-center">
-        <div className="w-[40%] text-white bg-blue-600 rounded-lg text-center">
+        <div className="w-[40%] text-blue-500 bg-blue-950 rounded-lg text-center">
           Set {count}
         </div>
-        <div className="bg-blue-600 w-full h-[1px]"></div>
+        <div className="bg-blue-500 w-full h-[1px]"></div>
       </div>
     );
   };

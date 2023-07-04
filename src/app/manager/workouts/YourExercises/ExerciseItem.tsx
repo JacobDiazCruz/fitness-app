@@ -19,9 +19,7 @@ export default function ExerciseItem({
   
   const PrimaryFocus = () => {
     return (
-      <div 
-        className={`${handlePrimaryFocusColor(primaryFocus)} font-medium rounded-md mt-1 text-center px-2 text-[11px] h-[18px]`}
-      >
+      <div className={`${handlePrimaryFocusColor(primaryFocus)} font-medium rounded-md mt-1 text-center px-2 text-[11px] h-[18px]`}>
         {primaryFocus}
       </div>
     );

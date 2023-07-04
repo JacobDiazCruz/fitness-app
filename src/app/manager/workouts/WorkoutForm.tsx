@@ -1,7 +1,7 @@
 import YourExercises from "./YourExercises";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import ExercisesBoard from "./ExercisesBoard";
+import ExercisesDropzone from "./ExercisesDropzone";
 import Container from "@/components/global/Container";
 
 interface Props {
@@ -47,7 +47,7 @@ export default function WorkoutForm ({
               onChange={(e) => setWorkoutDescription(e.target.value)}
             />
           </div>
-          <ExercisesBoard />
+          <ExercisesDropzone />
         </Container>
       </div>
     </div>

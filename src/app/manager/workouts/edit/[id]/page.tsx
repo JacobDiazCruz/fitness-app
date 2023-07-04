@@ -1,6 +1,12 @@
 'use client';
+
+import { WorkoutProvider } from "@/contexts/Workout";
 import EditWorkout from "./EditWorkout";
 
 export default function EditWorkoutPage() {
-  return <EditWorkout />
-}
+  return (
+    <WorkoutProvider>
+      <EditWorkout />
+    </WorkoutProvider>
+  );
+};

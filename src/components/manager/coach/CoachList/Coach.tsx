@@ -60,7 +60,7 @@ export default function Coach({
               />
             )}
           </div>
-          <p className="dark:text-neutral-50 text-darkTheme-900">
+          <p className="dark:text-neutral-50 text-darkTheme-900 truncate w-[90%]">
             {firstName} {lastName}
           </p>
         </div>

@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function PermissionAccess({
-  roleAccess = "Client",
+  roleAccess = "Client", // "Coach", "Client", "All"
   children
 } : Props) {
   const userRole = useLocalStorage('userRole');

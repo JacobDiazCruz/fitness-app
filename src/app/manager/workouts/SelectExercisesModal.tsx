@@ -12,6 +12,7 @@ export default function SelectExercisesModal({
   onClose,
   setSelectedExercises
 }: Props) {
+
   const [initialSelectedExercises, setInitialSelectedExercises] = useState<any>([]);
 
   return (

@@ -13,7 +13,7 @@ import Container from "@/components/global/Container";
 import { primaryBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
-import { ArrowLeftIcon } from "@/components/global/Icons";
+import { ArrowLeftIcon, LoadingIcon } from "@/components/global/Icons";
 
 export default function CoachDetails() {
   const params = useParams();
@@ -37,10 +37,26 @@ export default function CoachDetails() {
     }
   }, [coach]);
 
+  const getFeaturedPrice = () => {
+    let featuredPrice = 0;
+    coach?.coachingDetails?.services?.forEach((service) => {
+      featuredPrice += parseInt(service.price)
+    });
+    return featuredPrice;
+  };
+
+  if(isLoading) {
+    return (
+      <div className="flex flex-wrap items-center">
+        <LoadingIcon />
+      </div>
+    );
+  };
+
   return (
     <div className="coach-details">
       <div className={`${primaryBgColor} z-[100] flex w-full py-5 mb-6 sticky top-[48px] md:top-0`}>
-        <button 
+        <button
           className="mr-5"
           onClick={() => router.back()}
         >
@@ -65,27 +81,10 @@ export default function CoachDetails() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row w-full gap-[70px]">
-        <div className="w-full md:w-[65%]">
+      <div className="flex flex-col md:flex-row w-full gap-[30px]">
+        <div className="w-full md:w-[60%]">
           <Carousel
-            galleryImages={[
-              {
-                alt: "Gallery 1",
-                src: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              },
-              {
-                alt: "Gallery 2",
-                src: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              },
-              {
-                alt: "Gallery 3",
-                src: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              },
-              {
-                alt: "Gallery 4",
-                src: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png"
-              }
-            ]}
+            galleryImages={coach?.coachingDetails?.galleryImages}
           />
           <Profile
             imagePath={coach?.profileImage?.thumbnailImage}
@@ -111,37 +110,12 @@ export default function CoachDetails() {
             ]}
           />
           <MyPortfolio 
-            portfolioImages={[
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              },
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              },
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              },
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              },
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              },
-              {
-                name: "Portfolio Image 1",
-                imagePath: "https://res.cloudinary.com/dqrtlfjc0/image/upload/v1676531024/Oneguru%20Projects/Identifying%20the%20primary%20actions%20and%20sections/Q3_ITEM_B_zcgwbk.png",
-              }
-            ]}
+            portfolioImages={coach?.coachingDetails?.portfolioImages}
           />
         </div>
         <PricingCard
           coachUserId={coach?.userId}
-          featuredPrice="$200"
+          featuredPrice={getFeaturedPrice()}
           featuredLength="month"
           services={coach?.coachingDetails?.services}
         />
