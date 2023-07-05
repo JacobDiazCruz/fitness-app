@@ -6,7 +6,7 @@ import { combineComponents } from "@/utils/combineComponents"
 
 const providers = [
   AlertProvider,
-  ThemeProvider
+  ThemeProvider,
 ];
 
 const AppContextProvider = combineComponents(...providers);

@@ -4,6 +4,7 @@ import useSelectedExercisesDnd from "@/hooks/workouts/useSelectedExercisesDnd";
 import { CubeTransparentIcon, DropdownIcon } from "@/components/global/Icons";
 import Button from "@/components/global/Button";
 import { Exercise } from "@/utils/types";
+import SupersetExercises from "./SupersetExercises";
 
 export default function Draggable({
   children
@@ -29,7 +30,7 @@ export default function Draggable({
   const [showExerciseForm, setShowExerciseForm] = useState<boolean>(true);
 
   /**
-   * @Purpose To return a superset or normal selected exercise component
+   * @Purpose To return a superset or normal "SelectedExercise" child component
    * @Note N/A
    */
   const selectedExerciseFactory = ({
@@ -46,67 +47,19 @@ export default function Draggable({
 
       if (exerciseType === "superset") {
         return (
-          <div
-            className="border-[2px] relative cursor-grab border-solid border-blue-900 rounded-lg overflow-hidden mt-5"
-            onDragOver={(e) => {
-              e.preventDefault();
-              setTargetExerciseId(exercise.secondaryId);
-            }}
-            onDrop={(e) => handleDrop(e, exerciseIndex)}
-          >
-            <div className="bg-blue-900 px-5 py-3 flex justify-between">
-              <div className="flex gap-[10px] items-center">
-                <CubeTransparentIcon className="text-white w-4 h-4" />
-                <p className="text-white font-normal">Superset</p>
-              </div>
-              <div>
-                <Button
-                  variant="outlined"
-                  className="mr-2"
-                  startIcon={<CubeTransparentIcon />}
-                  onClick={() => handleUnmergeSuperset(exercise.secondaryId)}
-                >
-                  Unmerge Superset
-                </Button>
-                <button onClick={() => setShowExerciseForm(!showExerciseForm)}>
-                  <DropdownIcon className="fill-white w-6 h-6" />
-                </button>
-              </div>
-            </div>
-      
-            {exercise?.supersetExercises.map((superExercise, supersetIndex) => {
-              const {
-                secondaryId,
-                name,
-                checked,
-                videoLink,
-                files,
-                primaryFocus,
-                sets
-              } = superExercise;
-      
-              return (
-                <div key={secondaryId}>
-                  {React.cloneElement(child, {
-                    exerciseType: "superset",
-                    name,
-                    checked,
-                    videoLink,
-                    exerciseId: secondaryId,
-                    sets,
-                    exerciseIndex,
-                    supersetIndex,
-                    primaryFocus,
-                    handleRemoveExercise: () => handleRemoveExercise(secondaryId),
-                    showCheckInput: false,
-                    onCheck: () => handleCheck(secondaryId)
-                  })}
-                </div>
-              );
-            })}
-          </div>
+          <SupersetExercises 
+            child={child}
+            exerciseSecondaryId={exercise.secondaryId}
+            setTargetExerciseId={setTargetExerciseId}
+            supersetExercises={exercise?.supersetExercises}
+            exerciseIndex={exerciseIndex}
+            handleCheck={handleCheck}
+            handleDrop={handleDrop}
+            handleRemoveExercise={handleRemoveExercise}
+            handleUnmergeSuperset={handleUnmergeSuperset}
+          />
         );
-      }      
+      }
 
       return React.cloneElement(child, {
         exerciseType: "normal",
@@ -126,9 +79,9 @@ export default function Draggable({
   
   return (
     <>
-      {selectedExercises?.map((exercise: Exercise, index: number) => (
+      {selectedExercises?.map((exercise: Exercise, exerciseIndex: number) => (
         <div
-          key={index}
+          key={exerciseIndex}
           className="draggable"
         >
           <div
@@ -141,14 +94,14 @@ export default function Draggable({
             draggable
             data-id={exercise.secondaryId}
             id={exercise.secondaryId}
-            data-index={index}
+            data-index={exerciseIndex}
             onDragStart={(e) => {
               e.dataTransfer.setData("text/plain", "");
             }}
             onDragOver={(e) => {
               e.preventDefault();
             }}
-            onDrop={(e) => handleDrop(e, index, exercise)}
+            onDrop={(e) => handleDrop(e, exerciseIndex, exercise)}
             onDrag={(e) => handleDrag(exercise)} // Update state during drag
             className="cursor-grab mt-4"
             style={{
@@ -161,7 +114,7 @@ export default function Draggable({
                 exercise.supersetExercises?.length
                   ? "superset"
                     : "normal",
-              exerciseIndex: index
+              exerciseIndex: exerciseIndex
             })}
           </div>
         </div>

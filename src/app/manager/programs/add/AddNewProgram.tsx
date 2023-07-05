@@ -13,16 +13,19 @@ import { useMutation } from "react-query";
 import useAlert from "@/contexts/Alert";
 import FieldName from "@/components/global/FieldName";
 import Container from "@/components/global/Container";
+import useProgram from "@/hooks/programs/useProgram";
 
 export default function AddNewProgram() {
   const router = useRouter();
-  const [programId, setProgramId] = useState<string>("");
   const { dispatchAlert } = useAlert();
-
-  // form state
-  const [programName, setProgramName] = useState<string>("");
-  const [programDescription, setProgramDescription] = useState<string>("");
-  const [programWeeks, setProgramWeeks] = useState<number | null>(null);
+  const {
+    programName,
+    programDescription,
+    programWeeks,
+    setProgramName,
+    setProgramDescription,
+    setProgramWeeks
+  } = useProgram();
 
   const addProgramMutation = useMutation(addProgram, {
     onSuccess: async (data) => {
@@ -39,7 +42,7 @@ export default function AddNewProgram() {
     const initialWeeks = [];
 
     // increment on weeks and add the objects
-    // data will look something like this
+    // data will look like this
     // [
     //   {
     //     name: `Week 1`,

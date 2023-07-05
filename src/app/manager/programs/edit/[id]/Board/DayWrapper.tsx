@@ -1,30 +1,36 @@
 import { ReactNode } from "react";
 import { AddIcon } from "@/components/global/Icons";
 import { primaryTextColor } from "@/utils/themeColors";
+import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 interface Props {
   dayName: string;
   handleDrop: any;
-  setShowAddWorkoutModal: any;
   setSelectedDayIndex: number;
+  handleEditProgramMutation: any;
   dayIndex: number;
   children: ReactNode;
 };
 
-export default function ProgramDay({
+export default function DayWrapper({
   dayName,
   handleDrop,
-  setShowAddWorkoutModal,
   setSelectedDayIndex,
+  handleEditProgramMutation,
   dayIndex,
   children
 }: Props) {
+
+  const {
+    setShowAddWorkoutModal
+  } = useProgramWorkouts();
+
   return (
     <div
       key={dayIndex}
       data-index={dayIndex}
       onDragOver={e => e.preventDefault()}
-      onDrop={e => handleDrop(e, dayIndex)}
+      onDrop={e => handleDrop(e, dayIndex, handleEditProgramMutation)}
       className="day-board md:h-[100vh] dark:border-neutral-800 dark:border dark:border-solid dark:bg-darkTheme-950 bg-[#f7f7f7] w-full p-2 shadow-sm rounded-md"
     >
       <div className="flex justify-between items-center">

@@ -7,9 +7,10 @@ import { Exercise } from "@/utils/types";
 import { borderColor, primaryBgColor, primaryTextColor, tertiaryBgColor, secondaryTextColor } from "@/utils/themeColors";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import VideoThumbnail from "../../../../../components/global/VideoThumbnail";
-import VideoModal from "../VideoModal";
 import IconButton from "@/components/global/IconButton";
 import SelectedExercise from "./SelectedExercise";
+import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import VideoModal from "../../../../../../../components/global/VideoModal";
 
 interface Props {
   workoutDay: number;
@@ -28,30 +29,38 @@ export default function WorkoutDetailsModal({
 }: Props) {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
+  
+  const {
+    currentWorkoutDetails,
+    setShowWorkoutDetailsModal
+  } = useProgramWorkouts();
 
   return (
-    <Modal onClose={onClose} className="w-[600px] h-[90%]">
+    <Modal 
+      onClose={() => setShowWorkoutDetailsModal(false)} 
+      className="w-[600px] h-[90%]"
+    >
       <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
         <div className="flex justify-between">
           <div>
             <p className={`text-neutral-200 text-[13px]`}>
-              {workoutDay}
+              {currentWorkoutDetails?.dayName}
             </p>
             <h2 className="font-semibold text-white mt-1">
-              {workoutName}
+              {currentWorkoutDetails?.name}
             </h2>
           </div>
         </div>
         <p className={`text-neutral-200 text-[13px] w-[80%] font-light mt-3`}>
-          {workoutDescription}
+          {currentWorkoutDetails.description}
         </p>
       </div>
 
       <div className="workout p-7">
         <p className={`${primaryTextColor} mb-5`}>
-          {exercises?.length} Exercises
+          {currentWorkoutDetails.exercises?.length} Exercises
         </p>
-        {exercises.map((exercise) => {
+        {currentWorkoutDetails.exercises.map((exercise) => {
           const { 
             name, 
             instruction, 
@@ -101,7 +110,7 @@ export default function WorkoutDetailsModal({
       </div>
       
       {showVideoModal && (
-        <VideoModal 
+        <VideoModal
           videoUrl={currentVideoLink}
           handleClose={() => setShowVideoModal(false)}
         />

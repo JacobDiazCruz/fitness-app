@@ -18,7 +18,7 @@ import EmptyExercises from "./EmptyExercises";
 export default function YourExercises({
   setInitialSelectedExercises
 }: {
-  setInitialSelectedExercises?: any
+  setInitialSelectedExercises?: Dispatch<SetStateAction<Exercise[]>>;
 }) {
   const router = useRouter();
 
@@ -30,7 +30,7 @@ export default function YourExercises({
     isLoading,
     isError, 
     data: initialExercises,
-    error, 
+    error,
     refetch 
   } = useQuery('exercises', listExercises);
 
@@ -103,9 +103,7 @@ export default function YourExercises({
               handleClickExercise={() => {
                 clickExercise(exercise)
               }}
-              handleDragStart={(e) => {
-                onDragStart(e, exercise)
-              }}
+              handleDragStart={(e) => onDragStart(e, exercise)}
             />
           ))
         ) : (

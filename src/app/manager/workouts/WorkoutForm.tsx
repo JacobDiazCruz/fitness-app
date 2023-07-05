@@ -3,6 +3,7 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import ExercisesDropzone from "./ExercisesDropzone";
 import Container from "@/components/global/Container";
+import FieldName from "@/components/global/FieldName";
 
 interface Props {
   workoutName: string;
@@ -28,9 +29,9 @@ export default function WorkoutForm ({
       <div className="form shadow-sm w-full rounded-lg mt-5">
         <Container>
           <div className="field w-full md:w-[50%]">
-            <p className="dark:text-neutral-50 text-darkTheme-950 mb-3 text-[14px]">
+            <FieldName>
               Workout name
-            </p>
+            </FieldName>
             <TextField
               placeholder="e.g. Chest workout"
               value={workoutName}
@@ -38,9 +39,9 @@ export default function WorkoutForm ({
             />
           </div>
           <div className="field w-full md:w-[50%] mt-7">
-            <p className="dark:text-neutral-50 text-darkTheme-950 mb-3 text-[14px]">
+            <FieldName>
               Description
-            </p>
+            </FieldName>
             <TextArea
               rows={2}
               value={workoutDescription}

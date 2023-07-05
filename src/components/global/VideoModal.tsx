@@ -25,12 +25,11 @@ const VideoModal = ({
       onClose={handleClose}
     >
       {embeddedLink && (
-        // <video id="doc-player" src="https://res.cloudinary.com/dqrtlfjc0/video/upload/v1688187122/Business/Screen_Recording_2023-07-01_at_12.45.08_PM_ccygmz.mov" controls muted class="cld-video-player cld-fluid"></video>
         <iframe 
           width="700" 
           height="500"
           src={embeddedLink} 
-          title="YouTube Video" 
+          title="YouTube Video"
           allowFullScreen
         ></iframe>
       )}

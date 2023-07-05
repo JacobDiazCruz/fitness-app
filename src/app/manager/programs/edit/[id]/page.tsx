@@ -1,9 +1,12 @@
+'use client';
+
+import ProgramContextProvider from "@/contexts/Program";
 import EditProgram from "./EditProgram";
 
-export const metadata = {
-  title: 'Edit Program',
-}
-
 export default function EditProgramPage() {
-  return <EditProgram />
+  return (
+    <ProgramContextProvider>
+      <EditProgram />
+    </ProgramContextProvider>
+  );
 }
