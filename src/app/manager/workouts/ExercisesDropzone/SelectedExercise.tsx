@@ -99,7 +99,6 @@ const SelectedExercise = ({
         <div className="flex gap-[10px] items-center">
           {showCheckInput && (
             <input
-              checked
               id="checked-checkbox"
               type="checkbox"
               checked={checked}

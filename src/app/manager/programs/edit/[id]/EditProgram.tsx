@@ -1,66 +1,41 @@
 'use client'
 
-import { useCallback, useState, useMemo, useEffect } from "react";
-import Header from "@/app/manager/Header";
+import { useEffect } from "react";
 import HeaderActions from "./HeaderActions";
-import Button from "@/components/global/Button";
-import { AddIcon, ArrowLeftIcon, PencilIcon, SettingsIcon, VertDotsIcon } from "@/components/global/Icons";
+import { ArrowLeftIcon, PencilIcon } from "@/components/global/Icons";
 import { useQuery } from "react-query";
 
 import {
-  primaryTextColor, 
-  secondaryTextColor
+  primaryTextColor
 } from "@/utils/themeColors";
-import { editProgram, getProgram } from "@/api/Program";
+import { getProgram } from "@/api/Program";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import IconButton from "@/components/global/IconButton";
 
 // context and hooks
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import useProgram from "@/contexts/Program/useProgram";
-import useDraggableWorkout from "@/contexts/Program/useDraggableWorkout";
+import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
 
 export default function EditProgram() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const currentWeek: any = searchParams?.get('week') || 0;
 
   const {
-    programName,
-    programDescription,
     setProgramName,
     setProgramDescription,
     weeks,
     setWeeks,
-    programDays,
     setProgramDays,
-    handleEditProgramMutation
-  } = useProgram();
-
-  const {
-    showAddWorkoutModal,
-    setShowAddWorkoutModal,
-    showWorkoutDetailsModal,
-    currentWorkoutDetails,
-    setShowWorkoutDetailsModal,
-    setCurrentWorkoutDetails
-  } = useProgramWorkouts();
-
-  const {
-    onDropWorkout
-  } = useDraggableWorkout();
-
-  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
-  const [selectedWorkouts, setSelectedWorkouts] = useState<Array<any>>([]);
+  }: UseProgramContext = useProgram()!;
 
   // Get program data
   const {
     isLoading,
     isError,
-    data: programData,
-    error,
-    refetch
+    data: programData
   } = useQuery('program', () => getProgram(params.id), {
     refetchOnMount: true
   });
@@ -68,16 +43,16 @@ export default function EditProgram() {
   // set weeks
   useEffect(() => {
     if(programData) {
-      setWeeks(programData?.weeks)
-      setProgramName(programData?.name)
-      setProgramDescription(programData?.description)
+      setWeeks?.(programData?.weeks);
+      setProgramName?.(programData?.name);
+      setProgramDescription?.(programData?.description);
     }
   }, [programData]);
 
   // set progamDays via week params
   useEffect(() => {
     if(programData && searchParams.get('week') ) {
-      setProgramDays(programData?.weeks[searchParams?.get('week') - 1]?.days)
+      setProgramDays?.(programData?.weeks[currentWeek - 1]?.days)
     }
   }, [searchParams.get('week'), programData]);
 

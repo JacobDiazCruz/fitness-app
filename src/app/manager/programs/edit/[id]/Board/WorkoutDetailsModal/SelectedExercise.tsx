@@ -1,6 +1,18 @@
 import VideoThumbnail from "@/components/global/VideoThumbnail";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
+import { ExerciseSet } from "@/utils/programTypes";
 import { borderColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
+import { Dispatch, SetStateAction } from "react";
+
+interface Props {
+  name: string;
+  instruction?: string;
+  videoLink?: string;
+  primaryFocus?: string;
+  sets?: ExerciseSet[];
+  setShowVideoModal: Dispatch<SetStateAction<boolean>>;
+  setCurrentVideoLink: Dispatch<SetStateAction<string>>;
+};
 
 export default function SelectedExercise ({
   name,
@@ -10,7 +22,7 @@ export default function SelectedExercise ({
   sets,
   setShowVideoModal,
   setCurrentVideoLink,
-}: any) {
+}: Props) {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
 
   return (
@@ -72,7 +84,7 @@ export default function SelectedExercise ({
           </div>
         </div>
         <div className="mt-4">
-          {sets?.map((set: any, index: number) => {
+          {sets?.map((set: ExerciseSet, index: number) => {
             const { setType, reps, rest } = set;
             return (
               <div className="flex gap-[15px] mt-2">

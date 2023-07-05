@@ -1,23 +1,18 @@
 'use client'
 
-import { useState } from "react";
 import Header from "@/app/manager/Header";
-import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import TextArea from "@/components/global/TextArea";
 import { useRouter } from "next/navigation";
-import { ArrowRightIcon } from "@/components/global/Icons";
-import { primaryTextColor, secondaryBgColor } from "@/utils/themeColors";
 import { addProgram } from "@/api/Program";
 import { useMutation } from "react-query";
-import useAlert from "@/contexts/Alert";
 import FieldName from "@/components/global/FieldName";
 import Container from "@/components/global/Container";
-import useProgram from "@/hooks/programs/useProgram";
+import useProgram from "@/contexts/Program/useProgram";
+import { UseProgramContext } from "@/utils/programTypes";
 
 export default function AddNewProgram() {
   const router = useRouter();
-  const { dispatchAlert } = useAlert();
   const {
     programName,
     programDescription,
@@ -25,7 +20,7 @@ export default function AddNewProgram() {
     setProgramName,
     setProgramDescription,
     setProgramWeeks
-  } = useProgram();
+  }: UseProgramContext = useProgram()!;
 
   const addProgramMutation = useMutation(addProgram, {
     onSuccess: async (data) => {
@@ -39,7 +34,7 @@ export default function AddNewProgram() {
   // submit form
   const handleSubmit = () => {
     // add weeks based on inputted number of weeks
-    const initialWeeks = [];
+    const initialWeeks: Array<any> = [];
 
     // increment on weeks and add the objects
     // data will look like this
@@ -52,7 +47,7 @@ export default function AddNewProgram() {
     //     ]
     //   },
     // ]
-    Array.from({ length: parseInt(programWeeks) }).forEach((_, index) => {
+    Array.from({ length: parseInt(String(programWeeks)) }).forEach((_, index) => {
       const weekNumber = index + 1;
       const days = Array.from({ length: 7 }, (_, dayIndex) => {
         const dayNumber = index * 7 + dayIndex + 1;
@@ -79,7 +74,7 @@ export default function AddNewProgram() {
   }
 
   // Validate form fields
-  const isFormValid = programName !== "" && programWeeks > 0;
+  const isFormValid = programName !== "" && (programWeeks ?? 0) > 0;
 
   return (
     <>
@@ -101,7 +96,9 @@ export default function AddNewProgram() {
             <TextField
               placeholder="e.g. Incline dumbbell press"
               value={programName}
-              onChange={(e) => setProgramName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setProgramName?.(e.target.value)
+              }}
             />
           </div>
           <div className="field-container mt-7">
@@ -109,9 +106,10 @@ export default function AddNewProgram() {
               Description
             </FieldName>
             <TextArea 
-              placeholder=""
               value={programDescription}
-              onChange={(e) => setProgramDescription(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setProgramDescription?.(e.target.value)
+              }}
             />
           </div>
           <div className="field-container mt-7 w-[100px]">
@@ -121,7 +119,9 @@ export default function AddNewProgram() {
             <TextField
               type="number"
               value={programWeeks}
-              onChange={(e) => setProgramWeeks(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setProgramWeeks?.(e.target.value)
+              }}
             />
           </div>
         </div>

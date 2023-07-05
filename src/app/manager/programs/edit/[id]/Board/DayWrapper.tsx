@@ -2,11 +2,12 @@ import { ReactNode } from "react";
 import { AddIcon } from "@/components/global/Icons";
 import { primaryTextColor } from "@/utils/themeColors";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import { UseProgramWorkoutsContext } from "@/utils/programTypes";
 
 interface Props {
   dayName: string;
   handleDrop: any;
-  setSelectedDayIndex: number;
+  setSelectedDayIndex: any;
   handleEditProgramMutation: any;
   dayIndex: number;
   children: ReactNode;
@@ -23,7 +24,7 @@ export default function DayWrapper({
 
   const {
     setShowAddWorkoutModal
-  } = useProgramWorkouts();
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   return (
     <div
@@ -36,11 +37,10 @@ export default function DayWrapper({
       <div className="flex justify-between items-center">
         <p className="uppercase text-[12px] text-gray-500 ml-1">{dayName}</p>
         <button
-          variant="outlined"
           className="group h-[32px] flex items-center dark:border-neutral-700 border-gray-200 border-solid border rounded-lg px-2"
           onClick={() => {
-            setShowAddWorkoutModal(true);
-            setSelectedDayIndex(dayIndex);
+            setShowAddWorkoutModal?.(true);
+            setSelectedDayIndex?.(dayIndex);
           }}
         >
           <AddIcon className={`${primaryTextColor} w-3 h-3`} />

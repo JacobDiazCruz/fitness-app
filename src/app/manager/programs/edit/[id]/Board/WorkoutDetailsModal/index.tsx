@@ -1,43 +1,23 @@
 import { useState } from "react";
-import { AddIcon, CloseIcon, SearchIcon } from "@/components/global/Icons";
 import Modal from "@/components/global/Modal";
-import Image from "next/image";
-import Button from "@/components/global/Button";
-import { Exercise } from "@/utils/types";
-import { borderColor, primaryBgColor, primaryTextColor, tertiaryBgColor, secondaryTextColor } from "@/utils/themeColors";
-import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
-import VideoThumbnail from "../../../../../components/global/VideoThumbnail";
-import IconButton from "@/components/global/IconButton";
+import { primaryTextColor } from "@/utils/themeColors";
 import SelectedExercise from "./SelectedExercise";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import VideoModal from "../../../../../../../components/global/VideoModal";
+import { ProgramExercise, ProgramSupersetExercise, UseProgramWorkoutsContext } from "@/utils/programTypes";
 
-interface Props {
-  workoutDay: number;
-  workoutName: string;
-  workoutDescription: string;
-  exercises: Array<Exercise>;
-  onClose: void;
-};
-
-export default function WorkoutDetailsModal({
-  workoutDay,
-  workoutName,
-  workoutDescription,
-  exercises,
-  onClose
-}: Props) {
+export default function WorkoutDetailsModal() {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
   
   const {
     currentWorkoutDetails,
     setShowWorkoutDetailsModal
-  } = useProgramWorkouts();
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   return (
     <Modal 
-      onClose={() => setShowWorkoutDetailsModal(false)} 
+      onClose={() => setShowWorkoutDetailsModal?.(false)} 
       className="w-[600px] h-[90%]"
     >
       <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
@@ -60,10 +40,10 @@ export default function WorkoutDetailsModal({
         <p className={`${primaryTextColor} mb-5`}>
           {currentWorkoutDetails.exercises?.length} Exercises
         </p>
-        {currentWorkoutDetails.exercises.map((exercise) => {
+        {currentWorkoutDetails.exercises.map((exercise: ProgramExercise) => {
           const { 
-            name, 
-            instruction, 
+            name,
+            instruction,
             primaryFocus,
             supersetExercises,
             sets,
@@ -78,7 +58,7 @@ export default function WorkoutDetailsModal({
                     Superset
                   </p>
                 </div>
-                {supersetExercises?.map((supersetExercise) => (
+                {supersetExercises?.map((supersetExercise: ProgramSupersetExercise) => (
                   <SelectedExercise
                     name={supersetExercise?.name}
                     primaryFocus={supersetExercise?.primaryFocus}

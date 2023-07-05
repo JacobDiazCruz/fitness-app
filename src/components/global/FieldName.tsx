@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
-  required: boolean;
+  required?: boolean;
 };
 
 export default function FieldName({

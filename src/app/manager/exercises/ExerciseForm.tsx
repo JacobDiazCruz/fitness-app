@@ -18,7 +18,7 @@ import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
 import PaddedWrapper from "@/components/global/PaddedWrapper";
 import VideoThumbnail from "../../../components/global/VideoThumbnail";
-import VideoModal from "../programs/edit/[id]/VideoModal";
+import VideoModal from "../../../components/global/VideoModal";
 import useVideoLinkCoverter from "@/hooks/useVideoLinkConverter";
 
 const MemoizedUploader = memo(Uploader);

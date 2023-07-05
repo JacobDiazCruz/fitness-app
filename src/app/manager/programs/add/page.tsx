@@ -1,3 +1,4 @@
+import ProgramContextProvider from "@/contexts/Program";
 import AddNewProgram from "./AddNewProgram";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 }
 
 export default function AddNewProgramPage() {
-  return <AddNewProgram />
-}
+  return (
+    <ProgramContextProvider>
+      <AddNewProgram />
+    </ProgramContextProvider>
+  );
+};

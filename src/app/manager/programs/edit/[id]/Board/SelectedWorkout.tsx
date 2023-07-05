@@ -1,32 +1,25 @@
-import { useContext, useState } from "react";
 import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import { Exercise } from "@/utils/types";
-import WorkoutDetailsModal from "../WorkoutDetailsModal";
 import PermissionAccess from "@/components/global/PermissionAccess";
-import { Router } from "next/router";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
-import useDraggableWorkout from "@/app/manager/programs/edit/[id]/Board/DraggableWorkout";
+import { UseProgramWorkoutsContext } from "@/utils/programTypes";
+
+interface Props {
+  workout: any;
+  workoutIndex: number;
+  dayIndex: number;
+};
 
 export default function SelectedWorkout ({
   workout,
   workoutIndex,
   dayIndex
-}: any) {
-  const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
-  
+}: Props) {
+
   const {
-    showWorkoutDetailsModal,
-    currentWorkoutDetails,
-    setShowWorkoutDetailsModal,
-    setCurrentWorkoutDetails,
     handleDeleteWorkout,
-    handleClickWorkout,
     handleEditWorkout
-  } = useProgramWorkouts();
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   return (
     <div className="flex justify-between">
@@ -41,15 +34,15 @@ export default function SelectedWorkout ({
       <PermissionAccess roleAccess="Coach">
         <ItemActionsMenu
           handleEdit={() => {
-            handleEditWorkout({
+            handleEditWorkout?.({
               workoutId: workout._id,
-              workoutSecondaryId: workout.secondaryId,
+              workoutSecondaryId: workout?.secondaryId,
               workoutIndex,
               dayIndex
             });
           }}
           handleDelete={() => {
-            handleDeleteWorkout(workout, dayIndex);
+            handleDeleteWorkout?.(workout, dayIndex);
           }}
         />
       </PermissionAccess>

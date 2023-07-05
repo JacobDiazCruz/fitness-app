@@ -17,7 +17,7 @@ export const DraggableWorkoutProvider = ({ children }) => {
   const [draggedWorkout, setDraggedWorkout] = useState<any>(null);
 
   // drag enter event
-  const onDragEnter = ((e, workout, index, dayIndex) => {
+  const onDragEnter = ((e, workoutIndex, dayIndex) => {
     e.preventDefault();
 
     const targetIndex = programDays[dayIndex]?.workouts.findIndex(
@@ -29,7 +29,7 @@ export const DraggableWorkoutProvider = ({ children }) => {
       const workoutsArr = [...updatedArr[dayIndex]?.workouts];
   
       workoutsArr.splice(targetIndex, 1);
-      workoutsArr.splice(index, 0, draggedWorkout);
+      workoutsArr.splice(workoutIndex, 0, draggedWorkout);
 
       updatedArr[dayIndex].workouts = workoutsArr;
       setProgramDays(updatedArr);

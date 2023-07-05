@@ -7,14 +7,14 @@ import {
   fieldBgColor
 } from "@/utils/themeColors";
 interface Props {
-  value?: string | number;
-  className: string;
-  type: string;
+  value?: string | number | null;
+  onChange: (e: any) => void;
+  className?: string;
+  type?: string;
   startIcon?: ReactElement | ReactNode | SVGAElement | null;
-  placeholder: string;
-  disabled: boolean;
-  onChange: () => void;
-  required: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  required?: boolean;
 };
 
 export default function TextField({

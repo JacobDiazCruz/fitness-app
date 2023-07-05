@@ -2,18 +2,18 @@
 
 import { editProgram } from "@/api/Program";
 import { useParams } from "next/navigation";
-import { useState, createContext, useReducer, useContext, useMemo, useEffect } from "react";
+import { useState, createContext, useReducer, useContext, useMemo, useEffect, ReactNode } from "react";
 import { useMutation } from "react-query";
-const ProgramContext = createContext();
+const ProgramContext = createContext(null);
 
 // USED FOR PROGRAM'S DIRECT ACCESS TO ITS STATES AND REQUESTS
-export const ProgramProvider = ({ children }) => {
+export const ProgramProvider = ({ children }: { children: ReactNode }) => {
   const params = useParams();
   
   // form field states
   const [programName, setProgramName] = useState<string>("");
   const [programDescription, setProgramDescription] = useState<string>("");
-  const [programWeeks, setProgramWeeks] = useState<number | null>(null);
+  const [programWeeks, setProgramWeeks] = useState<string | number | null>(null);
 
   // edit program states
   const [programDays, setProgramDays] = useState([

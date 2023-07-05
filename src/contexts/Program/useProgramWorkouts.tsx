@@ -44,11 +44,11 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     handleEditProgramMutation();
   };
   
-  const handleClickWorkout = (workout: any, dayName: string) => {
+  const handleClickWorkout = (workout: any, dayIndex: string) => {
     const { name, description, exercises } = workout
     setCurrentWorkoutDetails({
       name,
-      dayName,
+      dayName: `Day ${dayIndex + 1}`,
       description,
       exercises
     })

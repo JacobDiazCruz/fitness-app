@@ -1,70 +1,45 @@
 'use client'
 
-import { useCallback, useState, useMemo, useEffect } from "react";
-import Header from "@/app/manager/Header";
-import HeaderActions from "./HeaderActions";
-import Button from "@/components/global/Button";
-import { AddIcon, ArrowLeftIcon, PencilIcon, SettingsIcon, VertDotsIcon } from "@/components/global/Icons";
+import { useState } from "react";
 import SelectWorkoutModal from "./SelectWorkoutModal";
 import WorkoutDetailsModal from "./WorkoutDetailsModal";
-import { useMutation, useQuery } from "react-query";
-
-import {
-  primaryTextColor, 
-  secondaryTextColor
-} from "@/utils/themeColors";
-import { editProgram, getProgram } from "@/api/Program";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import IconButton from "@/components/global/IconButton";
-import SelectedWorkout from "./SelectedWorkout";
 
 // child components
 import DayWrapper from "./DayWrapper";
-import DraggableWorkout from "./DraggableWorkout";
+import Draggable from "./Draggable";
 
 // context and hooks
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import useProgram from "@/contexts/Program/useProgram";
 import useDraggableWorkout from "@/contexts/Program/useDraggableWorkout";
-
-DraggableWorkout.SelectedWorkout = SelectedWorkout;
+import { UseDraggableWorkoutContext, UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
 
 export default function Board() {
-  const params = useParams();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const {
     programName,
     programDescription,
-    setProgramName,
-    setProgramDescription,
     weeks,
-    setWeeks,
     programDays,
     setProgramDays,
     handleEditProgramMutation
-  } = useProgram();
+  }: UseProgramContext = useProgram()!;
 
   const {
     showAddWorkoutModal,
     setShowAddWorkoutModal,
     showWorkoutDetailsModal,
-    currentWorkoutDetails,
-    setShowWorkoutDetailsModal,
-    setCurrentWorkoutDetails
-  } = useProgramWorkouts();
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   const {
     onDropWorkout
-  } = useDraggableWorkout();
+  }: UseDraggableWorkoutContext = useDraggableWorkout()!;
 
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Array<any>>([]);
 
   return (
     <div className="program-board flex flex-col md:flex-row gap-[10px]">
-      {programDays?.map((day, dayIndex) => (
+      {programDays?.map((day: any, dayIndex: number) => (
         <DayWrapper
           dayName={day.name}
           dayIndex={dayIndex}
@@ -72,23 +47,30 @@ export default function Board() {
           setSelectedDayIndex={setSelectedDayIndex}
           handleEditProgramMutation={handleEditProgramMutation}
         >
-          {day.workouts.length > 0 && (
-            <DraggableWorkout
-              workouts={day.workouts}
+          {day.workouts.map((workout: any, workoutIndex: number) => (
+            <Draggable
+              key={workout.secondaryId}
+              workout={workout}
+              workoutIndex={workoutIndex}
               dayIndex={dayIndex}
-              dayName={day.name}
             >
-              <DraggableWorkout.SelectedWorkout />
-            </DraggableWorkout>
-          )}
+              <Draggable.Workout
+                workout={workout}
+                workoutIndex={workoutIndex}
+                dayIndex={dayIndex}
+              />
+            </Draggable>
+          ))}
         </DayWrapper>
       ))}
+
+      {/* Modals */}
       {showWorkoutDetailsModal && (
         <WorkoutDetailsModal />
       )}
       {showAddWorkoutModal && (
         <SelectWorkoutModal
-          onClose={() => setShowAddWorkoutModal(false)}
+          onClose={() => setShowAddWorkoutModal?.(false)}
           setSelectedWorkouts={setSelectedWorkouts}
           setProgramDays={setProgramDays}
           programName={programName}

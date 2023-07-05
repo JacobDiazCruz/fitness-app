@@ -12,7 +12,7 @@ interface Props {
   rows?: number;
   startIcon?: ReactElement | ReactNode | SVGAElement | null;
   placeholder: string;
-  onChange: () => void;
+  onChange: (e?: any) => void;
   required: boolean;
 };
 
