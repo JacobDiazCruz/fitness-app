@@ -1,53 +1,25 @@
 'use client';
 
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
-import Button from "@/components/global/Button";
-import { ImageIcon, LoadingIcon, SmileyIcon } from "@/components/global/Icons";
-import Header from "../../Header";
-import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
+import { useEffect, useState } from "react";
+import { LoadingIcon } from "@/components/global/Icons";
+import { borderColor } from "@/utils/themeColors";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
 import { listMessages } from "@/api/Message";
 import ChatList from "../ChatList";
-import { getChat } from "@/api/Chat";
-import IconButton from "@/components/global/IconButton";
 import MessageInput from "../MessageInput";
-import FilesDisplay from "../FilesDisplay";
 import { socket } from "@/utils/socket";
-import useChatNotif from "@/hooks/messages/useChatNotif";
-import useChat from "@/hooks/messages/useChat";
-import useMessageSender from "@/hooks/messages/useMessageSender";
+import useChat from "@/contexts/Message/useChat";
 import MessagesList from "../MessagesList";
 
 export default function Messages() {
-  const router = useRouter();
   const params = useParams();
-  const searchParams = useSearchParams();
-  
-  // your account's essentials
-  const accessToken = useLocalStorage("accessToken");
-  const myUserId = useLocalStorage("userId");
   
   // hooks
-  const { chatNotifData } = useChatNotif();
-  const { chatBoxRef } = useChat();
-  const { uploadFilesMutation } = useMessageSender();
-  
-  const [myChatDetails, setMyChatDetails] = useState({
-    userId: "",
-    firstName: "",
-    lastName: "",
-    thumbnailImage: ""
-  });
-  const [otherChatDetails, setOtherChatDetails] = useState({
-    userId: "",
-    firstName: "",
-    lastName: "",
-    thumbnailImage: ""
-  });
+  const { chatBoxRef }: any = useChat();
+
   const [messagesLimit, setMessagesLimit] = useState<number>(20);
 
   // state messages
@@ -116,18 +88,6 @@ export default function Messages() {
   }, [messagesData]);
 
   /**
-   * @Purpose GET request chat data via room id
-   */
-  const {
-    isLoading: isLoadingChatData,
-    isError: isErrorChatData,
-    data: chatData,
-    error: errorChatData
-  } = useQuery('chatData', () => getChat(params.id), {
-    refetchOnMount: true
-  });
-
-  /**
    * @Purpose To fetch the previous messages data upon scrolling to the -
    * upmost part of the parent messages container.
    * FIX THIS BUGGY
@@ -157,22 +117,6 @@ export default function Messages() {
       };
     }
   }, [messagesLimit, firstMount]);
-  
-  /**
-   * @Purpose To set chat details on the chatbox whenever chatData is available
-   * @Note This is used to display the thumbnailImage and get the profile link of the sender and receiver.
-   */
-  useEffect(() => {
-    if(chatData) {
-      chatData?.users?.forEach((user) => {
-        if(user.userId === myUserId) {
-          setMyChatDetails(user);
-        } else {
-          setOtherChatDetails(user);
-        }
-      })
-    }
-  }, [chatData]);
 
   return (
     <div key={remountKey} className="messages-page">
@@ -191,19 +135,15 @@ export default function Messages() {
             {isFetchingMessages && (
               <LoadingIcon className="w-4 h-4 m-auto" />
             )}
-            <MessagesList
-              messages={messages}
-              otherChatDetails={otherChatDetails}
-            />
+            <MessagesList messages={messages} />
           </div>
           <MessageInput
-            socket={socket}
-            roomId={params.id}
-            accessToken={accessToken}
-            receiverId={otherChatDetails?.userId}
+            uploads={<MessageInput.Uploads />}
+            field={<MessageInput.Field roomId={params.id} />}
+            actions={<MessageInput.Actions roomId={params.id} />}
           />
         </div>
       </div>
     </div>
   );
-}
+};

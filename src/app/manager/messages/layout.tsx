@@ -1,18 +1,22 @@
-import PaddedWrapper from "@/components/global/PaddedWrapper";
-import Header from "../Header";
 import { primaryTextColor } from "@/utils/themeColors";
+import MessageContextProvider from "@/contexts/Message";
+import { ReactNode } from "react";
 
 export default function MessagesLayout({
   children
+}: {
+  children: ReactNode
 }) {
   return (
-    <div>
-      <div className="h-[10vh] px-8 flex items-center">
-        <h5 className={`${primaryTextColor} text-[22px] text-medium`}>
-          Messages
-        </h5>
+    <MessageContextProvider>
+      <div>
+        <div className="h-[10vh] px-8 flex items-center">
+          <h5 className={`${primaryTextColor} text-[22px] text-medium`}>
+            Messages
+          </h5>
+        </div>
+        {children}
       </div>
-      {children}
-    </div>
+    </MessageContextProvider>
   );
-}
+};

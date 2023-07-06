@@ -13,13 +13,14 @@ import {
   secondaryTextColor,
   tertiaryBgColor
 } from "@/utils/themeColors";
-import useChatNotif from "@/hooks/messages/useChatNotif";
+import useChat from "@/contexts/Message/useChat";
 import Button from "../global/Button";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import PermissionAccess from "../global/PermissionAccess";
 
 const ChatIconWrapper = () => {
-  const { chatNotifData } = useChatNotif();
+  const { chatNotifData }: any = useChat();
+  
   return (
     <div className="relative">
       {chatNotifData?.receiverId && (

@@ -13,6 +13,7 @@ import ThemeWrapper from "./ThemeWrapper";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import { useEffect, useState } from "react";
 import VerifyUser from "./VerifyUser";
+import MessageContextProvider from "@/contexts/Message";
 
 export default function ManagerLayout ({
   pageTitle,
@@ -29,23 +30,25 @@ export default function ManagerLayout ({
   return (
     <Providers>
       <AppContextProvider>
-        <VerifyUser />
-        <MobileTopbar 
-          handleOpenSidebar={() => setShowSidebar(!showSidebar)}
-        />
-        <DarkThemeLoader />
-        <div className="flex">
-          {showSidebar && (
-            <Sidebar 
-              handleCloseSidebar={() => setShowSidebar(false)}
-            />
-          )}
-          <WelcomePopup />
-          <Alert />
-          <ThemeWrapper>
-            {children}
-          </ThemeWrapper>
-        </div>
+        <MessageContextProvider>
+          <VerifyUser />
+          <MobileTopbar 
+            handleOpenSidebar={() => setShowSidebar(!showSidebar)}
+          />
+          <DarkThemeLoader />
+          <div className="flex">
+            {showSidebar && (
+              <Sidebar 
+                handleCloseSidebar={() => setShowSidebar(false)}
+              />
+            )}
+            <WelcomePopup />
+            <Alert />
+            <ThemeWrapper>
+              {children}
+            </ThemeWrapper>
+          </div>
+        </MessageContextProvider>
       </AppContextProvider>
     </Providers>
   );

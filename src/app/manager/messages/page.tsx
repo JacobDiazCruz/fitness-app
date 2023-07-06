@@ -1,29 +1,11 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Button from "@/components/global/Button";
-import { ImageIcon } from "@/components/global/Icons";
-import Header from "../Header";
-import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryTextColor, tertiaryBgColor } from "@/utils/themeColors";
-import io from "socket.io-client";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import { Message } from "@/utils/types";
-import { useQuery } from "react-query";
+import { borderColor, primaryTextColor } from "@/utils/themeColors";
 import ChatList from "./ChatList";
-import useChat from "@/hooks/messages/useChat";
+import useChat from "@/contexts/Message/useChat";
 
 export default function Messages() {
-  const router = useRouter();
-  const params = useParams();
   const { chats } = useChat();
-
-  // get initial receiverId
-  const searchParams = useSearchParams();
-  const receiverId = searchParams.get("receiverId");
-  const accessToken = useLocalStorage("accessToken");
-  const myUserId = useLocalStorage("userId");
 
   return (
     <div className="messages-page">

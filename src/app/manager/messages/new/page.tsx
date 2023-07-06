@@ -14,7 +14,7 @@ import ChatList from "../ChatList";
 import { getCoachProfile, getProfile } from "@/api/Profile";
 import { useQuery } from "react-query";
 import MessageInput from "../MessageInput";
-import useMessageSender from "@/hooks/messages/useMessageSender";
+import useMessageSender from "@/contexts/Message/useMessageSender";
 
 const roomId = Math.random().toString();
 
@@ -24,10 +24,9 @@ export default function Messages() {
   // get essentials
   const searchParams = useSearchParams();
   const receiverId = searchParams.get("receiverId");
-  const accessToken = useLocalStorage("accessToken");
 
   // hooks
-  const { uploadFilesMutation } = useMessageSender();  
+  const { uploadFilesMutation }: any = useMessageSender()!; 
 
   // state messages
   const [messages, setMessages] = useState<Array<Message>>([]);
@@ -111,16 +110,24 @@ export default function Messages() {
             ))}
           </div>
           <MessageInput
-            socket={socket}
-            roomId={roomId}
-            type="NEW_CHAT"
-            accessToken={accessToken}
-            receiverId={receiverId}
-            uploadFilesMutation={uploadFilesMutation}
-            newReceiver={newReceiver}
+            uploads={<MessageInput.Uploads />}
+            field={
+              <MessageInput.Field 
+                type="NEW_CHAT"
+                roomId={roomId}
+                newReceiver={newReceiver}
+              />
+            }
+            actions={
+              <MessageInput.Actions 
+                type="NEW_CHAT"
+                roomId={roomId}
+                newReceiver={newReceiver}
+              />
+            }
           />
         </div>
       </div>
     </div>
   );
-}
+};
