@@ -10,7 +10,9 @@ import { primaryTextColor } from "@/utils/themeColors";
 import { listWorkouts } from "@/api/Workout";
 import TableNoResults from "@/components/global/TableNoResults";
 
-const TableColumnHeaders = ({ primaryTextColor }: string) => {
+const TableColumnHeaders = ({ primaryTextColor }: {
+  primaryTextColor: string
+}) => {
   return (
     <div className={`${primaryTextColor} flex justify-between px-5 py-3 text-[14px]`}>
       <div className="flex-1">
@@ -87,6 +89,7 @@ export default function Table() {
       />
       <div className="page-table mt-8">
         <TableColumnHeaders primaryTextColor={primaryTextColor} />
+
         {filteredWorkouts?.length <= 0 ? (
           <TableNoResults />
         ) : (

@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { CloseIcon, SearchIcon } from "@/components/global/Icons";
 import Modal, { ModalFooter } from "@/components/global/Modal";
-import TextField from "@/components/global/TextField";
 import Button from "@/components/global/Button";
-import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import AutoCompleteMultiple from "@/components/global/AutoCompleteMultiple";
+import { primaryTextColor } from "@/utils/themeColors";
 import { listClients } from "@/api/Client";
 import { useMutation, useQuery } from "react-query";
 import FieldName from "@/components/global/FieldName";
@@ -16,9 +13,9 @@ import useAlert from "@/contexts/Alert";
 
 export default function AssignClientModal({ onClose }: any) {
   const params = useParams();
-  const { dispatchAlert } = useAlert();
+  const { dispatchAlert }: any = useAlert()!;
 
-  const { 
+  const {
     isLoading, 
     isError,
     data: clients,
@@ -95,7 +92,7 @@ export default function AssignClientModal({ onClose }: any) {
           <FieldName>
             Starting date
           </FieldName>
-          <DatePickerField 
+          <DatePickerField
             value={startingDate}
             onChange={(val) => setStartingDate(val)}
           />
@@ -113,4 +110,4 @@ export default function AssignClientModal({ onClose }: any) {
       </ModalFooter>
     </Modal>
   );
-}
+};

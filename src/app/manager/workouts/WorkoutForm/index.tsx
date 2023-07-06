@@ -1,9 +1,10 @@
-import YourExercises from "./YourExercises";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import ExercisesDropzone from "./ExercisesDropzone";
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
+
+import YourExercises from "./YourExercises";
+import ExercisesDropzone from "./ExercisesDropzone";
 
 interface Props {
   workoutName: string;

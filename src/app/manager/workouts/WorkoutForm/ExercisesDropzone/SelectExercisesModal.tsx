@@ -1,7 +1,7 @@
 import Button from "@/components/global/Button";
 import Modal, { ModalFooter } from "@/components/global/Modal";
 import { useState } from "react";
-import YourExercises from "./YourExercises";
+import YourExercises from "../YourExercises";
 
 interface Props {
   onClose: () => void;

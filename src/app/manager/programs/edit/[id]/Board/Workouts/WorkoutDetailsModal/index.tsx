@@ -3,8 +3,8 @@ import Modal from "@/components/global/Modal";
 import { primaryTextColor } from "@/utils/themeColors";
 import SelectedExercise from "./SelectedExercise";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
-import VideoModal from "../../../../../../../components/global/VideoModal";
 import { ProgramExercise, ProgramSupersetExercise, UseProgramWorkoutsContext } from "@/utils/programTypes";
+import VideoModal from "@/components/global/VideoModal";
 
 export default function WorkoutDetailsModal() {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);

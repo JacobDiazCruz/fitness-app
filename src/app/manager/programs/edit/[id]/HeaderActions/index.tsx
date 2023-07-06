@@ -13,14 +13,10 @@ interface Props {
 export default function HeaderActions({
   weeks
 }: Props) {
-  const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const currentWeek = searchParams?.get('week');
-  const [showAssignClientModal, setShowAssignClientModal] = useState<bolean>(false);
+  const [showAssignClientModal, setShowAssignClientModal] = useState<boolean>(false);
 
   return (
-    <div class="flex flex-col md:flex-row justify-between mb-7">
+    <div className="flex flex-col md:flex-row justify-between mb-7">
       <WeeksPagination weeks={weeks} />
 
       <div className="flex gap-[15px] mt-7 md:mt-0">

@@ -29,6 +29,8 @@ export interface UseProgramWorkoutsContext {
   showAddWorkoutModal?: boolean;
   showWorkoutDetailsModal?: boolean;
   currentWorkoutDetails?: any;
+  selectedDayIndex?: number | null;
+  setSelectedDayIndex?: Dispatch<SetStateAction<number | null>>;
   setShowAddWorkoutModal?: Dispatch<SetStateAction<boolean>>;
   setShowWorkoutDetailsModal?: Dispatch<SetStateAction<boolean>>;
   setCurrentWorkoutDetails?: Dispatch<SetStateAction<any>>;

@@ -1,15 +1,13 @@
-import { memo, ReactNode, useEffect, useState } from "react";
+import { memo, ReactNode } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
-import Image from "next/image";
-import { Exercise } from "@/utils/types";
 import { AddIcon, TrashIcon } from "@/components/global/Icons";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import IconButton from "@/components/global/IconButton";
 import useWorkout from "@/contexts/Workout";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
-import { borderColor, primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
+import { borderColor } from "@/utils/themeColors";
 
 const SelectedExercise = ({
   exerciseType,
@@ -19,7 +17,6 @@ const SelectedExercise = ({
   onCheck,
   supersetIndex = 0,
   exerciseIndex,
-  exerciseId,
   primaryFocus,
   handleRemoveExercise,
   checked,
@@ -27,12 +24,10 @@ const SelectedExercise = ({
 }: any) => {
   const {
     handleAddExerciseSet,
-    handleChangeSetField,
+    handleChangeSetField
   } = useWorkout();
+
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
-  const [selectedSet, setSelectedSet] = useState("");
-  const [reps, setReps] = useState("");
-  const [value, setValue] = useState("00:00");
 
   const formatTime = (time: number | string | null) => {
     // Remove any non-digit characters
@@ -82,7 +77,7 @@ const SelectedExercise = ({
         {children}
       </p>
     );
-  }
+  };
 
   const Field = ({ children } : { children: ReactNode }) => {
     return (
@@ -90,7 +85,7 @@ const SelectedExercise = ({
         {children}
       </div>
     );
-  }
+  };
 
   return (
     <div className="dark:border-neutral-800 border-gray-200 border border-solid overflow-hidden">

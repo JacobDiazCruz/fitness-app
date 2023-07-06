@@ -21,6 +21,9 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     handleEditProgramMutation
   } = useProgram();
 
+  // update essentials
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
+
   // modal states
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
@@ -89,9 +92,11 @@ export const ProgramWorkoutsProvider = ({ children }) => {
   // value prop to return all necessary data
   const value = useMemo(() => {
     return {
+      selectedDayIndex,
       showAddWorkoutModal,
       showWorkoutDetailsModal,
       currentWorkoutDetails,
+      setSelectedDayIndex,
       setShowAddWorkoutModal,
       setShowWorkoutDetailsModal,
       setCurrentWorkoutDetails,
@@ -100,9 +105,11 @@ export const ProgramWorkoutsProvider = ({ children }) => {
       handleEditWorkout
     }
   }, [
+    selectedDayIndex,
     showAddWorkoutModal,
     showWorkoutDetailsModal,
     currentWorkoutDetails,
+    setSelectedDayIndex,
     setShowAddWorkoutModal,
     setShowWorkoutDetailsModal,
     setCurrentWorkoutDetails,

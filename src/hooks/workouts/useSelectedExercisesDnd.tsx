@@ -1,5 +1,5 @@
 import useWorkout from "@/contexts/Workout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useSelectedExercisesDnd() {
   const { 
@@ -16,11 +16,9 @@ export default function useSelectedExercisesDnd() {
     setDraggedExercise(exercise);
   };
 
-  const handleDrop = (e, index, exercise) => {
+  const handleDrop = (e, index) => {
     e.preventDefault();
     const targetIndex = selectedExercises.indexOf(draggedExercise);
-    const currentY = e.clientY;
- 
     if (index !== targetIndex && targetIndex !== -1) {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
@@ -96,6 +94,7 @@ export default function useSelectedExercisesDnd() {
     // states
     draggedExercise,
     targetExerciseId,
+    setDraggedExercise,
     setTargetExerciseId
   }
 };

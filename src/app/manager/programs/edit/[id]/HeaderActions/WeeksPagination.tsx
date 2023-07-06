@@ -1,7 +1,5 @@
-import Button from "@/components/global/Button";
 import { useState } from "react";
-import { AddIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/global/Icons";
-import AssignClientModal from "./AssignClientModal";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/global/Icons";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
@@ -29,13 +27,13 @@ export default function WeeksPagination({ weeks }: Props) {
     }
   };
 
-  const activeWeekStyle = (index) => {
+  const activeWeekStyle = (index: any) => {
     if(currentWeek == startIndex + index + 1) {
       return 'dark:border-green-500 border-green-300 dark:bg-green-950 bg-green-50 dark:text-green-500 text-green-500';
     } else {
       return 'dark:border-neutral-700 dark:text-neutral-400';
     }
-  }
+  };
 
   return (
     <div className="weeks-pagination flex gap-[25px] items-center justify-between max:w-[320px]">
@@ -75,4 +73,4 @@ export default function WeeksPagination({ weeks }: Props) {
       </div>
     </div>
   );
-}
+};

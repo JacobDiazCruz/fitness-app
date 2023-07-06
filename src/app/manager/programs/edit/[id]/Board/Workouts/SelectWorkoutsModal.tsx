@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CloseIcon, SearchIcon } from "@/components/global/Icons";
+import { SearchIcon } from "@/components/global/Icons";
 import Modal from "@/components/global/Modal";
 import TextField from "@/components/global/TextField";
 import Button from "@/components/global/Button";
@@ -8,32 +8,42 @@ import { listWorkouts } from "@/api/Workout";
 import {
   primaryTextColor, 
   secondaryTextColor,
-  borderColor,
   secondaryBgColor
 } from "@/utils/themeColors";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useMutation } from "react-query";
 import { editProgram } from "@/api/Program";
+import useProgram from "@/contexts/Program/useProgram";
+import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
+import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
-export default function SelectWorkoutModal({ 
-  programName,
-  programDescription,
+interface Props {
+  onClose: () => void;
+  setSelectedWorkouts: any;
+};
+
+export default function SelectWorkoutsModal({ 
   onClose,
-  setSelectedWorkouts,
-  setProgramDays,
-  weeks,
-  selectedDayIndex
-}: any) {
+  setSelectedWorkouts
+}: Props) {
   const [searchVal, setSearchVal] = useState<string>("");
-  const [workouts, setWorkouts] = useState([]);
-  const searchParams = useSearchParams();
+  const [workouts, setWorkouts] = useState<Array<any>>([]);
   const params = useParams();
 
+  const {
+    weeks,
+    programName,
+    programDescription,
+    setProgramDays
+  }: UseProgramContext = useProgram()!;
+
+  const {
+    selectedDayIndex
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
+
   const { 
-    isLoading, 
-    isError,
+    isLoading,
     data: initialWorkouts,
-    error
   } = useQuery('workouts', listWorkouts, {
     refetchOnMount: true
   });
@@ -48,16 +58,16 @@ export default function SelectWorkoutModal({
   });
 
   const toggleWorkoutSelection = (index: number) => {
-    const updatedWorkouts = [...workouts];
+    const updatedWorkouts: Array<any> = [...workouts];
     updatedWorkouts[index].selected = !updatedWorkouts[index].selected;
     setWorkouts(updatedWorkouts);
   };
 
   // search filter
   useEffect(() => {
-    const filteredWorkouts = initialWorkouts?.filter((workout) =>
+    const filteredWorkouts = initialWorkouts?.filter((workout: any) =>
       workout.name.toLowerCase().includes(searchVal.toLowerCase())
-    ).map((workout) => ({
+    ).map((workout: any) => ({
       ...workout
     }));
   
@@ -72,17 +82,14 @@ export default function SelectWorkoutModal({
     }));
     setSelectedWorkouts(selectedWorkouts);
 
-    setProgramDays(prevProgramDays => {
+    setProgramDays?.((prevProgramDays: any) => {
       const cloneProgramDays = [...prevProgramDays];
-      cloneProgramDays[selectedDayIndex].workouts = [
-        ...cloneProgramDays[selectedDayIndex].workouts,
+      cloneProgramDays[selectedDayIndex ?? 0].workouts = [
+        ...cloneProgramDays[selectedDayIndex ?? 0].workouts,
         ...selectedWorkouts
       ];
       return cloneProgramDays;
     });
-
-    const currentWeek = searchParams.get('week');
-    const day = weeks[currentWeek - 1].days[selectedDayIndex]
 
     editProgramMutation.mutateAsync({
       id: params.id,
@@ -145,4 +152,4 @@ export default function SelectWorkoutModal({
       </div>
     </Modal>
   );
-}
+};

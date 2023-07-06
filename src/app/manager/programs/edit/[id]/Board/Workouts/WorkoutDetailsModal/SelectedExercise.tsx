@@ -115,4 +115,4 @@ export default function SelectedExercise ({
       </div>
     </div>
   );
-}
+};

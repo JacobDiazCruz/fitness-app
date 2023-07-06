@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import useWorkout from "@/contexts/Workout";
 import useSelectedExercisesDnd from "@/hooks/workouts/useSelectedExercisesDnd";
-import { CubeTransparentIcon, DropdownIcon } from "@/components/global/Icons";
-import Button from "@/components/global/Button";
 import { Exercise } from "@/utils/types";
 import SupersetExercises from "./SupersetExercises";
+import SelectedExercise from "./SelectedExercise";
 
 export default function Draggable({
   children
@@ -122,3 +121,5 @@ export default function Draggable({
     </>
   );
 };
+
+Draggable.SelectedExercise = SelectedExercise;
