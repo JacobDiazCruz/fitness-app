@@ -3,16 +3,15 @@
 import { useEffect, useState } from "react";
 import { LoadingIcon } from "@/components/global/Icons";
 import { borderColor } from "@/utils/themeColors";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import { useParams } from "next/navigation";
 import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
 import { listMessages } from "@/api/Message";
-import ChatList from "../ChatList";
-import MessageInput from "../MessageInput";
+import ChatList from "../../../../components/manager/messages/ChatList";
 import { socket } from "@/utils/socket";
 import useChat from "@/contexts/Message/useChat";
-import MessagesList from "../MessagesList";
+import MessageInput from "@/components/manager/messages/MessageInput";
+import MessagesList from "@/components/manager/messages/MessagesList";
 
 export default function Messages() {
   const params = useParams();
@@ -121,10 +120,7 @@ export default function Messages() {
   return (
     <div key={remountKey} className="messages-page">
       <div className="relative h-[90vh] flex">
-        {/* ChatList */}
-        <div className="w-[500px] overflow-hidden">
-          <ChatList />
-        </div>
+        <ChatList />
 
         {/* Chat */}
         <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>

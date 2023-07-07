@@ -3,7 +3,7 @@ import Image from "next/image";
 interface Props {
   files: Array<any>;
   isLoading: boolean;
-  setSelectedFile: any;
+  setSelectedFile?: any;
 }
 
 export default function FilesDisplay({

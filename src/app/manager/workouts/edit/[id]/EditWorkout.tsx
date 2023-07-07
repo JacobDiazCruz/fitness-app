@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Header from "../../../Header";
-import { addWorkout, editWorkout, getWorkout } from "@/api/Workout";
+import { editWorkout, getWorkout } from "@/api/Workout";
 import { useMutation, useQuery } from "react-query";
 import useAlert from "@/contexts/Alert";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import useWorkout from "@/contexts/Workout";
-import WorkoutForm from "../../WorkoutForm";
+import WorkoutBuilder from "../../WorkoutBuilder";
 import useEditProgram from "@/hooks/useEditProgram";
 
 export default function EditWorkout() {
@@ -120,7 +120,7 @@ export default function EditWorkout() {
         isLoading={editWorkoutMutation.isLoading || isLoadingEditProgram}
         handleSubmit={() => handleSubmit()}
       />
-      <WorkoutForm
+      <WorkoutBuilder
         workoutName={workoutName}
         workoutDescription={workoutDescription}
         setWorkoutName={setWorkoutName}
@@ -128,4 +128,4 @@ export default function EditWorkout() {
       />
     </>
   );
-}
+};

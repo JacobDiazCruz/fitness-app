@@ -7,7 +7,7 @@ import { useMutation } from "react-query";
 import useAlert from "@/contexts/Alert";
 import { useRouter } from "next/navigation";
 import useWorkout from "@/contexts/Workout";
-import WorkoutForm from "../WorkoutForm";
+import WorkoutBuilder from "../WorkoutBuilder";
 
 export default function AddNewWorkout() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function AddNewWorkout() {
           exercises: selectedExercises
         })}
       />
-      <WorkoutForm
+      <WorkoutBuilder
         workoutName={workoutName}
         workoutDescription={workoutDescription}
         setWorkoutName={setWorkoutName}

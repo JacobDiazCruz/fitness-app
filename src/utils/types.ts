@@ -7,7 +7,10 @@ export interface Exercise {
   category: string;
   videoLink?: string;
   instruction: string;
+  sets?: any;
   files: Array<any>;
+  checked?: boolean;
+  supersetExercises?: Array<any>;
 }
 
 export interface Program {
@@ -24,7 +27,8 @@ export interface Program {
 export interface Message {
   _id?: string;
   roomId: string;
-  message: string;
+  message?: string;
   senderId: string;
+  files?: Array<string>;
   createdAt?: number;
 }

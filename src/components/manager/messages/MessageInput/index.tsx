@@ -1,14 +1,6 @@
-import { uploadFiles } from "@/api/Exercise";
-import Button from "@/components/global/Button";
-import IconButton from "@/components/global/IconButton";
-import { CloseIcon, ImageIcon, PlayIcon, SmileyIcon } from "@/components/global/Icons";
-import useChat from "@/contexts/Message/useChat";
+import { ReactNode, } from "react";
 import useMessageSender from "@/contexts/Message/useMessageSender";
-import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryBgColor } from "@/utils/themeColors";
-import Image from "next/image";
-import { ReactNode, useRef, useState } from "react";
-import { socket } from "@/utils/socket";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import { primaryBgColor } from "@/utils/themeColors";
 
 // child components
 import MessageInputUploads from "./MessageInputUploads";

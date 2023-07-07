@@ -1,7 +1,7 @@
 'use client';
 
 import { borderColor, primaryTextColor } from "@/utils/themeColors";
-import ChatList from "./ChatList";
+import ChatList from "@/components/manager/messages/ChatList";
 import useChat from "@/contexts/Message/useChat";
 
 export default function Messages() {
@@ -12,11 +12,8 @@ export default function Messages() {
       <div className="relative h-[90vh] flex">
         {chats?.length ? (
           <>
-            <div className="w-[500px] overflow-hidden">
-              <ChatList />
-            </div>
-            <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
-            </div>
+            <ChatList />
+            <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}></div>
           </>
         ) : (
           <div className={`col-span-8 overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
@@ -31,4 +28,4 @@ export default function Messages() {
       </div>
     </div>
   );
-}
+};

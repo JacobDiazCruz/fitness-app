@@ -4,21 +4,22 @@ import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
 
 import YourExercises from "./YourExercises";
-import ExercisesDropzone from "./ExercisesDropzone";
+import ExercisesBuilder from "./ExercisesBuilder";
+import { Dispatch, SetStateAction } from "react";
 
-interface Props {
+interface WorkoutBuilderProps {
   workoutName: string;
   workoutDescription: string;
-  setWorkoutName: any;
-  setWorkoutDescription: any;
+  setWorkoutName: Dispatch<SetStateAction<string>>;
+  setWorkoutDescription: Dispatch<SetStateAction<string>>;
 };
 
-export default function WorkoutForm ({
+export default function WorkoutBuilder ({
   workoutName,
   workoutDescription,
   setWorkoutName,
   setWorkoutDescription
-}: Props) {
+}: WorkoutBuilderProps) {
   return (
     <div className="flex gap-[40px]">
       <div className="md:w-[40%] hidden md:block form dark:bg-darkTheme-950 dark:border-darkTheme-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
@@ -49,9 +50,16 @@ export default function WorkoutForm ({
               onChange={(e) => setWorkoutDescription(e.target.value)}
             />
           </div>
-          <ExercisesDropzone />
+
+          {/* Composed Exercises Builder Component */}
+          <ExercisesBuilder>
+            <ExercisesBuilder.ActionButtons />
+            <ExercisesBuilder.SelectedExercises />
+            <ExercisesBuilder.Desktop />
+            <ExercisesBuilder.MobileSelection />
+          </ExercisesBuilder>
         </Container>
       </div>
     </div>
   );
-}
+};

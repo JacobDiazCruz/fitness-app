@@ -24,6 +24,10 @@ export const DraggableWorkoutProvider = ({ children }) => {
       workout => workout.secondaryId === draggedWorkout?.secondaryId
     );
 
+    console.log("draggedWorkout", draggedWorkout)
+    console.log("workoutIndex", workoutIndex);
+    console.log("targetIndex", targetIndex);
+
     if (targetIndex !== -1) {
       const updatedArr = [...programDays];
       const workoutsArr = [...updatedArr[dayIndex]?.workouts];

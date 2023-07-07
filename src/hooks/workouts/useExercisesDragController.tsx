@@ -1,36 +1,29 @@
 import useWorkout from "@/contexts/Workout";
-import { useEffect, useState } from "react";
+import { Exercise } from "@/utils/types";
+import { useState } from "react";
 
-export default function useSelectedExercisesDnd() {
+export default function useExercisesDragController() {
   const { 
     selectedExercises,
     setSelectedExercises
   } = useWorkout();
 
-  const [draggedExercise, setDraggedExercise] = useState(null);
   const [draggedExerciseId, setDraggedExerciseId] = useState(null);
   const [showDropContainer, setShowDropContainer] = useState(false);
   const [targetExerciseId, setTargetExerciseId] = useState("");
 
-  const handleDrag = (exercise: any) => {
-    setDraggedExercise(exercise);
-  };
-
-  const handleDrop = (e, index) => {
+  const handleDragEnter = (e: any, exerciseIndex: number, draggedExercise: Exercise | null) => {    
     e.preventDefault();
+    
     const targetIndex = selectedExercises.indexOf(draggedExercise);
-    if (index !== targetIndex && targetIndex !== -1) {
+
+    if (targetIndex !== -1) {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
-      updatedArr.splice(index, 0, draggedExercise);
-
+      updatedArr.splice(exerciseIndex, 0, draggedExercise);
       setSelectedExercises(updatedArr);
     }
-
-    setTargetExerciseId("");
-    setDraggedExercise(null);
-    setShowDropContainer(false);
-  }
+  };
 
   const handleDropSuperset = (e, exercise) => {
     e.stopPropagation();
@@ -54,7 +47,7 @@ export default function useSelectedExercisesDnd() {
     }
     
     setTargetExerciseId("");
-    setDraggedExercise(null);
+    // setDraggedExercise(null);
     setShowDropContainer(false);  
   };
 
@@ -86,15 +79,12 @@ export default function useSelectedExercisesDnd() {
 
   return {
     // functions
-    handleDrag,
-    handleDrop,
     handleDropSuperset,
     handleRemoveExercise,
     handleCheck,
+    handleDragEnter,
     // states
-    draggedExercise,
     targetExerciseId,
-    setDraggedExercise,
     setTargetExerciseId
   }
 };

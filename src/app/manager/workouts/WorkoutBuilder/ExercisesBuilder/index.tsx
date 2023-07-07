@@ -1,17 +1,23 @@
 'use client';
 
-import React from "react";
+import React, { ReactNode } from "react";
 import useWorkout from "@/contexts/Workout";
 
-import Draggable from "./Draggable";
+import SelectedExercises from "./SelectedExercises";
 import ExercisesMobileSelection from "./ExercisesMobileSelection";
 import ExercisesDekstopDropzone from "./ExercisesDesktopDropzone";
 import ExercisesActionButtons from "./ExercisesActionButtons";
 
-export default function ExercisesDropzone() {
+interface ExercisesBuilderProps {
+  children: ReactNode;
+};
+
+export default function ExercisesBuilder({
+  children
+}: ExercisesBuilderProps) {
   const {
     onDropFromExercises
-  } = useWorkout();
+  }: any = useWorkout();
   
   return (
     <div
@@ -23,14 +29,12 @@ export default function ExercisesDropzone() {
         Exercises
       </h2>
 
-      <ExercisesActionButtons />
-
-      <Draggable>
-        <Draggable.SelectedExercise />
-      </Draggable>
-
-      <ExercisesDekstopDropzone />
-      <ExercisesMobileSelection />
+      {children}
     </div>
   );
 };
+
+ExercisesBuilder.ActionButtons = ExercisesActionButtons;
+ExercisesBuilder.SelectedExercises = SelectedExercises;
+ExercisesBuilder.Desktop = ExercisesDekstopDropzone;
+ExercisesBuilder.MobileSelection = ExercisesMobileSelection;
