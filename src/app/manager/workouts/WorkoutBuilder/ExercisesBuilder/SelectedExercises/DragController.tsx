@@ -7,6 +7,7 @@ interface DragControllerProps {
   exerciseIndex: number;
   children: React.ReactNode;
   draggedExercise: Exercise | null;
+  exerciseType?: 'superset' | 'normal';
   setDraggedExercise: Dispatch<SetStateAction<Exercise | null>>;
 }
 
@@ -14,23 +15,41 @@ export default function DragController({
   exercise,
   exerciseIndex,
   children,
+  exerciseType,
   draggedExercise,
   setDraggedExercise
 }: DragControllerProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const placeholderRef = useRef<HTMLDivElement>(null);
 
   const {
+    handleSupersetDragEnter,
     handleDragEnter
   }: any = useExercisesDragController();
 
-  return (
-    <div className="draggable relative">
+  useEffect(() => {
+    if (containerRef.current && placeholderRef.current) {
+      placeholderRef.current.style.height = `${containerRef.current.scrollHeight}px`;
+    }
+  }, [children]);
+
+  const DropPlaceholder = () => {
+    return (
       <div
-        className="dragging-placeholder w-full dark:bg-darkTheme-950 bg-neutral-200 w-full h-[180px] absolute rounded-lg"
+        className="drop-placeholder w-full dark:bg-darkTheme-950 bg-neutral-200 w-full absolute rounded-lg"
         style={{
           display: draggedExercise === exercise ? "block" : "none"
         }}
+        ref={placeholderRef}
       ></div>
+    );
+  };
+
+  return (
+    <div className="draggable relative">
+      <DropPlaceholder />
       <div
+        ref={containerRef}
         draggable
         onDragStart={() => {
           setDraggedExercise(exercise);
@@ -51,18 +70,20 @@ export default function DragController({
           opacity: draggedExercise === exercise ? 0.01 : 1
         }}
       >
-        <div 
+        <div
           className="droppable absolute z-[40] w-full bg-transparent w-full h-[180px] rounded-lg"
           style={{
-            visibility: draggedExercise ? "visible" : "hidden" 
+            visibility: draggedExercise ? "visible" : "hidden"
           }}
           onDragEnter={(e) => {
-            handleDragEnter(e, exerciseIndex, draggedExercise)
+            if(exerciseType === "superset") {
+              handleSupersetDragEnter(e, exerciseIndex, draggedExercise);
+            } else {
+              handleDragEnter(e, exerciseIndex, draggedExercise);
+            }
           }}
         ></div>
-        <div className="z-[30]">
-          {children}
-        </div>
+        <div className="z-[30]">{children}</div>
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import useWorkout from "@/contexts/Workout";
 import { Exercise } from "@/utils/types";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
-import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
 
 interface selectedExerciseFactoryParams {
   exercise: Exercise;
@@ -17,7 +16,6 @@ export default function SelectedExercises() {
     selectedExercises
   }: any = useWorkout();
 
-  // const draggedExerciseRef = useRef<Exercise | null>(null);
   const [draggedExercise, setDraggedExercise] = useState<Exercise | null>(null);
 
   /**
@@ -29,20 +27,18 @@ export default function SelectedExercises() {
     exerciseType,
     exerciseIndex
   }: selectedExerciseFactoryParams) => {
+
     if (exerciseType === "superset") {
       return (
-        <Superset
-          exerciseSecondaryId={exercise?.secondaryId}
-          exerciseIndex={exerciseIndex}
-        >
-          {exercise.supersetExercises?.map(
-            (supersetExercise: Exercise, supersetIndex: number) => (
+        <Superset>
+          <Superset.Header exerciseSecondaryId={exercise?.secondaryId} />
+          {exercise.supersetExercises?.map((supersetExercise: Exercise, supersetIndex: number) => (
             <SelectedExercise>
               <SelectedExercise.Header
                 exercise={supersetExercise}
                 showCheckInput={false}
               />
-              <SelectedExercise.Form 
+              <SelectedExercise.Form
                 exercise={supersetExercise}
                 exerciseType={exerciseType}
                 exerciseIndex={exerciseIndex}
@@ -72,7 +68,7 @@ export default function SelectedExercises() {
         return (
           <DragController 
             key={exercise.secondaryId}
-            exercise={exercise} 
+            exercise={exercise}
             exerciseIndex={exerciseIndex}
             draggedExercise={draggedExercise}
             setDraggedExercise={setDraggedExercise}

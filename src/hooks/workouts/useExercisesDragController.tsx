@@ -8,13 +8,14 @@ export default function useExercisesDragController() {
     setSelectedExercises
   } = useWorkout();
 
-  const [draggedExerciseId, setDraggedExerciseId] = useState(null);
-  const [showDropContainer, setShowDropContainer] = useState(false);
   const [targetExerciseId, setTargetExerciseId] = useState("");
 
-  const handleDragEnter = (e: any, exerciseIndex: number, draggedExercise: Exercise | null) => {    
+  const handleDragEnter = (
+    e: any, 
+    exerciseIndex: number, 
+    draggedExercise: Exercise | null
+  ) => {
     e.preventDefault();
-    
     const targetIndex = selectedExercises.indexOf(draggedExercise);
 
     if (targetIndex !== -1) {
@@ -24,6 +25,23 @@ export default function useExercisesDragController() {
       setSelectedExercises(updatedArr);
     }
   };
+
+  const handleSupersetDragEnter = (
+    e: any, 
+    exerciseIndex: number, 
+    draggedExercise: Exercise | null
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const targetIndex = selectedExercises.indexOf(draggedExercise);
+
+    if (targetIndex !== -1) {
+      const updatedArr = [...selectedExercises];
+      updatedArr.splice(targetIndex, 1);
+      updatedArr.splice(exerciseIndex, 0, draggedExercise);
+      setSelectedExercises(updatedArr);
+    }
+  }
 
   const handleDropSuperset = (e, exercise) => {
     e.stopPropagation();
@@ -80,6 +98,7 @@ export default function useExercisesDragController() {
   return {
     // functions
     handleDropSuperset,
+    handleSupersetDragEnter,
     handleRemoveExercise,
     handleCheck,
     handleDragEnter,

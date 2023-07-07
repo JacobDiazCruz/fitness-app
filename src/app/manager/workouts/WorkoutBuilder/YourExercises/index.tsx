@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@/components/global/TextField";
 import Image from "next/image";
 import { Exercise } from "@/utils/types"
