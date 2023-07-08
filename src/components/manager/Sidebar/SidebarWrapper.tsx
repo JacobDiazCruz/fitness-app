@@ -3,7 +3,11 @@ import {
   borderColor,
 } from "@/utils/themeColors";
 import { useSidebar } from "@/contexts/Sidebar/useSidebar";
-
+import SidebarToggleButton from "./SidebarToggleButton";
+import SidebarBasicNavItems from "./SidebarBasicNavItems";
+import SidebarFitnessNavItems from "./SidebarFitnessNavItems";
+import SidebarUserMenu from "./SidebarUserMenu";
+import SidebarLogoWrapper from "./SidebarLogoWrapper";
 interface SidebarWrapperProps {
   children: ReactNode;
 };
@@ -31,7 +35,7 @@ export default function SidebarWrapper ({
             ${openNav ? 'w-[270px]' : 'w-[85px]'}
             ${borderColor}
             h-[100vh] border-r border-r-solid top-0
-            md:sticky 
+            md:sticky
             absolute
             z-[600]
           `}
@@ -42,4 +46,10 @@ export default function SidebarWrapper ({
     );
   }
   return <></>;
-}
+};
+
+SidebarWrapper.ToggleButton = SidebarToggleButton;
+SidebarWrapper.BasicNavItems = SidebarBasicNavItems;
+SidebarWrapper.FitnessNavItems = SidebarFitnessNavItems;
+SidebarWrapper.UserMenu = SidebarUserMenu;
+SidebarWrapper.LogoWrapper = SidebarLogoWrapper;

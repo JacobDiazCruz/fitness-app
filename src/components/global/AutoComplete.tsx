@@ -8,7 +8,6 @@
     items={[{name: "John Doe"}]}
   />
 **/
-
 import { ReactElement, memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { 
@@ -81,7 +80,7 @@ function AutoComplete({
   };
 
   const DropdownList = () => {
-    const handleClickDropdownItem = (item) => {
+    const handleClickDropdownItem = (item: any) => {
       onChange(item);
       setInputValue(item?.name);
       setOpenDropdown(false);
@@ -89,7 +88,7 @@ function AutoComplete({
 
     return (
       <ul 
-        ref={ref} 
+        ref={ref}
         className="z-[100] dark:bg-darkTheme-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
         aria-labelledby="headlessui-combobox-button-:R4q:" 
         role="listbox" 

@@ -16,6 +16,7 @@ import IconButton from "@/components/global/IconButton";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
+import { useSidebar } from "@/contexts/Sidebar/useSidebar";
 
 export default function EditProgram() {
   const params = useParams();
@@ -37,8 +38,15 @@ export default function EditProgram() {
     isError,
     data: programData
   } = useQuery('program', () => getProgram(params.id), {
+    refetchOnWindowFocus: false,
     refetchOnMount: true
   });
+  
+  const { setOpenNav }: any = useSidebar();
+
+  useEffect(() => {
+    setOpenNav(false);
+  }, []);
 
   // set weeks
   useEffect(() => {

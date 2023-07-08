@@ -1,12 +1,10 @@
 'use client';
 
-import { CheckCircleIcon, CheckIcon, CloseIcon } from "./Icons";
-import useAlert from "@/contexts/Alert";
-import { useEffect } from "react";
-import { primaryTextColor } from "@/utils/themeColors";
+import { CheckIcon, CloseIcon } from "./Icons";
+import useAlert from "@/contexts/Alert";;
 
 export default function Alert() {
-  const { showAlert, message, dispatchAlert } = useAlert();
+  const { showAlert, message, dispatchAlert }: any = useAlert();
 
   const handleClose = () => {
     dispatchAlert({
@@ -36,4 +34,5 @@ export default function Alert() {
       </div>
     );
   }
+  return <></>;
 }

@@ -14,11 +14,10 @@ import MessageInput from "@/components/manager/messages/MessageInput";
 import MessagesList from "@/components/manager/messages/MessagesList";
 
 export default function Messages() {
-  const params = useParams();
-  
   // hooks
+  const params = useParams();
   const { chatBoxRef }: any = useChat();
-
+  
   const [messagesLimit, setMessagesLimit] = useState<number>(20);
 
   // state messages

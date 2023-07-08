@@ -15,4 +15,4 @@ export default function SidebarUserMenu() {
       </div>
     </div>
   );
-}
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import { primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
+import { primaryBgColor } from "@/utils/themeColors";
 
 export default function ThemeWrapper({children}: any) {
   return (
@@ -8,4 +8,4 @@ export default function ThemeWrapper({children}: any) {
       {children}
     </div>
   );
-}
+};

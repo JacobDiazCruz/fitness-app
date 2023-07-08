@@ -67,7 +67,7 @@ export default function DragController({
         }}
         className="cursor-grab mt-4"
         style={{
-          opacity: draggedExercise === exercise ? 0.01 : 1
+          opacity: draggedExercise === exercise ? 0.001 : 1
         }}
       >
         <div
