@@ -1,12 +1,13 @@
 import Button from "@/components/global/Button";
 import { CubeTransparentIcon, ViewFinderIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
 import { secondaryBgColor } from "@/utils/themeColors";
+import { UseWorkout } from "@/utils/workoutTypes";
 
 export default function ExercisesActionButtons() {
   const {
     handleMergeSuperset
-  } = useWorkout();
+  }: UseWorkout = useWorkout()!;
 
   return (
     <div className={`${secondaryBgColor} sticky top-[49px] dark:border-neutral-800 border-gray-200 btn-actions flex items-center md:-top-[0] h-[70px] z-[100] border-b border-b-solid shadow-sm`}>
@@ -14,7 +15,7 @@ export default function ExercisesActionButtons() {
         variant="outlined"
         className="mr-2"
         startIcon={<CubeTransparentIcon />}
-        onClick={() => handleMergeSuperset()}
+        onClick={handleMergeSuperset}
       >
         Merge Superset
       </Button>

@@ -6,21 +6,21 @@ import { addWorkout } from "@/api/Workout";
 import { useMutation } from "react-query";
 import useAlert from "@/contexts/Alert";
 import { useRouter } from "next/navigation";
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
 import WorkoutBuilder from "../WorkoutBuilder";
+import { UseWorkout } from "@/utils/workoutTypes";
 
 export default function AddNewWorkout() {
   const router = useRouter();
   const { 
-    selectedExercises, 
-    setSelectedExercises
-  } = useWorkout();
+    selectedExercises
+  }: UseWorkout = useWorkout()!;
   const [workoutName, setWorkoutName] = useState<string>("");
   const [workoutDescription, setWorkoutDescription] = useState<string>("");
-  const { dispatchAlert } = useAlert();
+  const { dispatchAlert }: any = useAlert();
 
   const addWorkoutMutation = useMutation(addWorkout, {
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       dispatchAlert({
         type: "SUCCESS",
         message: "Workout created successfully"

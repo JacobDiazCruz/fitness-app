@@ -12,31 +12,25 @@
 import { ReactElement, memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { 
-  borderColor,
   fieldBgColor, 
   primaryTextColor, 
-  secondaryTextColor 
 } from "@/utils/themeColors";
 
 interface Props {
   value: string | number;
-  addClass: string;
-  type: string;
+  type?: string;
   startIcon?: ReactElement | SVGAElement;
   items: Array<any>;
-  placeholder: string;
-  multiple: boolean;
-  onChange: () => void;
-  required: boolean;
+  placeholder?: string;
+  onChange: (value: any) => void;
+  required?: boolean;
 };
 
 function AutoComplete({
   value,
-  addClass = "",
   type = "text",
   items,
   startIcon,
-  multiple = false,
   placeholder = "",
   onChange,
   required = false

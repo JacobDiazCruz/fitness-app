@@ -1,4 +1,4 @@
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
 import { Exercise } from "@/utils/types";
 import { useState } from "react";
 

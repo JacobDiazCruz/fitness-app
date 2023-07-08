@@ -2,26 +2,19 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@/components/global/TextField";
-import Image from "next/image";
 import { Exercise } from "@/utils/types"
-import { AddIcon, CheckIcon, DragIcon } from "@/components/global/Icons";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
-import Button from "@/components/global/Button";
 import { useRouter } from "next/navigation";
-import VideoThumbnail from "@/components/global/VideoThumbnail";
-import { borderColor, fieldBgColor, tertiaryBgColor } from "@/utils/themeColors";
-import useWorkout from "@/contexts/Workout";
 import ExerciseItem from "./ExerciseItem";
 import EmptyExercises from "./EmptyExercises";
+import { SearchIcon } from "@/components/global/Icons";
 
 export default function YourExercises({
   setInitialSelectedExercises
 }: {
   setInitialSelectedExercises?: Dispatch<SetStateAction<Exercise[]>>;
 }) {
-  const router = useRouter();
-
   const [searchExercise, setSearchExercise] = useState<string>("");
   const [exercisesList, setExercisesList] = useState<Exercise[]>([]);
 
@@ -47,7 +40,10 @@ export default function YourExercises({
     setExercisesList(filteredExercise);
   }, [searchExercise, initialExercises]);
 
-  const onDragStart = (e, exercise) => {
+  const onDragStart = (
+    e: React.DragEvent<HTMLDivElement>, 
+    exercise: Exercise
+  ) => {
     e.dataTransfer.setData("exercise", JSON.stringify(exercise))
   };
 
@@ -58,8 +54,8 @@ export default function YourExercises({
   const clickExercise = (selectedExercise: Exercise) => {
     if (window?.innerWidth > 640) return;
     
-    setExercisesList(prevExercises => {
-      const updatedExercises = prevExercises.map(exercise => {
+    setExercisesList((prevExercises: any) => {
+      const updatedExercises = prevExercises.map((exercise: Exercise) => {
         if (exercise._id === selectedExercise._id) {
           return {
             ...exercise,
@@ -75,7 +71,7 @@ export default function YourExercises({
         return exercise;
       });
 
-      setInitialSelectedExercises(updatedExercises);
+      setInitialSelectedExercises?.(updatedExercises);
       return updatedExercises;
     });
   };
@@ -88,7 +84,7 @@ export default function YourExercises({
         </h2>
         <div className="mt-5">
           <TextField
-            startIcon={<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>}
+            startIcon={<SearchIcon />}
             placeholder="Search exercise"
             value={searchExercise}
             onChange={(e) => setSearchExercise(e.target.value)}
@@ -103,7 +99,9 @@ export default function YourExercises({
               handleClickExercise={() => {
                 clickExercise(exercise)
               }}
-              handleDragStart={(e) => onDragStart(e, exercise)}
+              handleDragStart={(e: React.DragEvent<HTMLDivElement>) => {
+                onDragStart(e, exercise)
+              }}
             />
           ))
         ) : (

@@ -14,40 +14,30 @@ import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import { useEffect, useState } from "react";
 import VerifyUser from "./VerifyUser";
 import MessageContextProvider from "@/contexts/Message";
+import SidebarProvider from "@/contexts/Sidebar/useSidebar";
 
 export default function ManagerLayout ({
-  pageTitle,
-  backIcon,
-  backPath,
   children
 }: {
-  pageTitle: string;
-  backIcon: boolean;
   children: React.ReactNode
 }) {
-  const [showSidebar, setShowSidebar] = useState<boolean>(true);
-
   return (
     <Providers>
       <AppContextProvider>
         <MessageContextProvider>
-          <VerifyUser />
-          <MobileTopbar 
-            handleOpenSidebar={() => setShowSidebar(!showSidebar)}
-          />
-          <DarkThemeLoader />
-          <div className="flex">
-            {showSidebar && (
-              <Sidebar 
-                handleCloseSidebar={() => setShowSidebar(false)}
-              />
-            )}
-            <WelcomePopup />
-            <Alert />
-            <ThemeWrapper>
-              {children}
-            </ThemeWrapper>
-          </div>
+          <SidebarProvider>
+            <VerifyUser />
+            <MobileTopbar />
+            <DarkThemeLoader />
+            <div className="flex">
+              <Sidebar />
+              <WelcomePopup />
+              <Alert />
+              <ThemeWrapper>
+                {children}
+              </ThemeWrapper>
+            </div>
+          </SidebarProvider>
         </MessageContextProvider>
       </AppContextProvider>
     </Providers>

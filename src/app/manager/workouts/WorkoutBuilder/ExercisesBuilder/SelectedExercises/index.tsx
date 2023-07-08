@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
 import { Exercise } from "@/utils/types";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
+import { UseWorkout } from "@/utils/workoutTypes";
 
 interface selectedExerciseFactoryParams {
   exercise: Exercise;
@@ -14,7 +15,7 @@ interface selectedExerciseFactoryParams {
 export default function SelectedExercises() {
   const {
     selectedExercises
-  }: any = useWorkout();
+  }: UseWorkout = useWorkout()!;
 
   const [draggedExercise, setDraggedExercise] = useState<Exercise | null>(null);
 
@@ -30,8 +31,10 @@ export default function SelectedExercises() {
 
     if (exerciseType === "superset") {
       return (
-        <Superset>
-          <Superset.Header exerciseSecondaryId={exercise?.secondaryId} />
+        <Superset
+          exerciseSecondaryId={exercise?.secondaryId}
+          exerciseIndex={exerciseIndex}
+        >
           {exercise.supersetExercises?.map((supersetExercise: Exercise, supersetIndex: number) => (
             <SelectedExercise>
               <SelectedExercise.Header

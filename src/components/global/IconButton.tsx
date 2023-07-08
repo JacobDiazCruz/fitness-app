@@ -1,9 +1,18 @@
+import React, { ReactNode } from "react";
+
+interface IconButtonProps {
+  className?: string;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  noPadding?: boolean;
+  children: ReactNode;
+};
+
 export default function IconButton({
   className,
   onClick,
   noPadding,
   children
-}: any) {
+}: IconButtonProps) {
   return (
     <button 
       onClick={onClick}

@@ -3,14 +3,22 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import { AddIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
 import { Exercise } from "@/utils/types";
+import { UseWorkout } from "@/utils/workoutTypes";
 
 interface SelectedExerciseFormProps {
   exercise: Exercise;
   exerciseType: 'superset' | 'normal';
   supersetIndex?: number;
   exerciseIndex: number;
+};
+
+interface HandleTimeChangeParams {
+  value: any;
+  exerciseIndex: number;
+  field: string;
+  setIndex: number;
 };
 
 const SelectedExerciseForm = ({
@@ -23,9 +31,9 @@ const SelectedExerciseForm = ({
   const {
     handleAddExerciseSet,
     handleChangeSetField
-  }: any = useWorkout();
+  }: UseWorkout = useWorkout()!;
 
-  const formatTime = (time: number | string | null) => {
+  const formatTime = (time: string) => {
     // Remove any non-digit characters
     const digitsOnly = time.replace(/\D/g, "");
 
@@ -40,18 +48,19 @@ const SelectedExerciseForm = ({
   const handleTimeChange = ({
     value,
     exerciseIndex,
+    field,
     setIndex
-  }: any) => {
+  }: HandleTimeChangeParams) => {
     const inputTime = value;
     const formattedTime = formatTime(inputTime);
 
-    handleChangeSetField({
+    handleChangeSetField?.({
       value: formattedTime,
-      field: "rest",
+      field,
       supersetExerciseIndex: supersetIndex,
       exerciseIndex,
       setIndex
-    })
+    });
   };
 
   const SetCount = ({ count }: { count: number }) => {
@@ -98,11 +107,14 @@ const SelectedExerciseForm = ({
                   items={[
                     {
                       name: "Dropset"
+                    },
+                    {
+                      name: "Time-Under Tension"
                     }
                   ]}
                   value={setType}
-                  onChange={(value) => {
-                    handleChangeSetField({
+                  onChange={(value: any) => {
+                    handleChangeSetField?.({
                       value,
                       field: "setType",
                       supersetExerciseIndex: supersetIndex,
@@ -117,7 +129,7 @@ const SelectedExerciseForm = ({
                 <TextField
                   value={reps}
                   type="number"
-                  onChange={(e) => handleChangeSetField({
+                  onChange={(e) => handleChangeSetField?.({
                     value: e.target.value,
                     field: "reps",
                     supersetExerciseIndex: supersetIndex,
@@ -129,9 +141,9 @@ const SelectedExerciseForm = ({
               <Field>
                 <FieldLabel>Rest</FieldLabel>
                 <TextField
-                  onChange={(e) => handleTimeChange({
+                  onChange={(e) => handleTimeChange?.({
                     value: e.target.value,
-                    field: "reps",
+                    field: "rest",
                     exerciseIndex,
                     setIndex
                   })}
@@ -144,7 +156,7 @@ const SelectedExerciseForm = ({
                     startIcon={<AddIcon />}
                     className="w-full md:mt-8 md:w-auto border border-style border-[#EBEDFF] bg-[#EBEDFF] text-[#000E8D]"
                     variant="outlined"
-                    onClick={() => handleAddExerciseSet(
+                    onClick={() => handleAddExerciseSet?.(
                       exerciseType, 
                       exerciseIndex,
                       supersetIndex

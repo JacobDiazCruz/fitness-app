@@ -1,13 +1,14 @@
 import Button from "@/components/global/Button";
 import { DumbbellIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout";
+import useWorkout from "@/contexts/Workout/useWorkout";
+import { UseWorkout } from "@/utils/workoutTypes";
 import { useState } from "react";
 import SelectExercisesModal from "./SelectExercisesModal";
 
 export default function ExercisesMobileSelection() {
   const {
     setSelectedExercises
-  } = useWorkout();
+  }: UseWorkout = useWorkout()!;
 
   const [showYourExercises, setShowYourExercises] = useState<boolean>(false);
 

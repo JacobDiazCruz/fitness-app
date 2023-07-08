@@ -10,6 +10,7 @@ export interface Exercise {
   sets?: any;
   files: Array<any>;
   checked?: boolean;
+  isSelected?: boolean;
   supersetExercises?: Array<any>;
 }
 
