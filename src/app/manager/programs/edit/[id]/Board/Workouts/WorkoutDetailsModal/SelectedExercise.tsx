@@ -32,7 +32,7 @@ export default function SelectedExercise ({
         <div className="flex gap-[15px]">
           {videoLink && (
             <div
-              className="w-[100px] relative overflow-hidden rounded-md"
+              className="w-[100px] relative overflow-hidden rounded-md bg-neutral-800 items-center flex"
             >
               <VideoThumbnail
                 videoUrl={videoLink}
@@ -43,11 +43,11 @@ export default function SelectedExercise ({
               />
             </div>
           )}
-          <div className="w-[50%]">
+          <div className="w-[70%]">
             <p className={`${primaryTextColor} text-[14px] font-semibold`}>
               {name}
             </p>
-            <p className={`${secondaryTextColor} text-[12px] font-light mt-2`}>
+            <p className={`${secondaryTextColor} text-[12px] line-clamp-2 font-light mt-2`}>
               {instruction}
             </p>
           </div>

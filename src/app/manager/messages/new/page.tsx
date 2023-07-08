@@ -44,11 +44,7 @@ export default function Messages() {
 
   // get exercise data
   const { 
-    isLoading,
-    isError,
-    data: receiverProfile,
-    error,
-    refetch
+    data: receiverProfile
   } = useQuery('getReceiverProfile', () => getProfile({ userId: receiverId }), {
     refetchOnMount: true
   });

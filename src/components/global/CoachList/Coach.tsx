@@ -5,7 +5,7 @@ import CoachRating from '../CoachRating';
 import Image from 'next/image';
 import { borderColor } from '@/utils/themeColors';
 
-interface Props {
+interface CoachProps {
   firstName: string;
   lastName: string;
   profileImage: any;
@@ -18,16 +18,7 @@ export default function Coach({
   firstName,
   lastName,
   profileImage,
-  userId,
-  reviews,
-  about
-}: Props) {
-  const [trainerData, setTrainerData] = useState<any>({
-    name: "John Doe",
-    description: "I will be your online personal trainer and nutritionist",
-    displayedPrice: 200,
-    status: "Top Coach"
-  });
+}: CoachProps) {
 
   const cardSize = 'xl:w-[415px] 2xl:w-[342px]';
 

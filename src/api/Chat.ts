@@ -8,7 +8,7 @@ export const listChats = async () => {
   return res.data?.data;
 };
 
-export const getChat = async (roomId) => {
+export const getChat = async (roomId: string) => {
   const payload = {
     url: `/chat/${roomId}`
   };
@@ -19,7 +19,7 @@ export const getChat = async (roomId) => {
     } else {
       throw new Error(res);
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error);
   }
 };

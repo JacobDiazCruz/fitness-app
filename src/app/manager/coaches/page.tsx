@@ -1,6 +1,6 @@
 'use client';
 
-import CoachList from '@/components/manager/coach/CoachList';
+import CoachList from '@/components/global/CoachList';
 import Header from '../Header';
 
 export default function CoachesPage() {

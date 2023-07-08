@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import CoachList from '@/components/manager/coach/CoachList';
+import CoachList from '@/components/global/CoachList';
 
 const Landing: React.FC = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const Landing: React.FC = () => {
         </p>
       </div>
       <div className="flex flex-wrap items-center mt-20">
-        <CoachList isAuth={false} />
+        <CoachList />
       </div>
     </div>
   );

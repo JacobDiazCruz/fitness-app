@@ -14,28 +14,29 @@ export default function ChatList() {
   // get initial receiverId
   const myUserId = useLocalStorage("userId");
 
-  const getTimeDifference = (updatedAt) => {
-    const currentTime = new Date();
-    const updatedTime = new Date(updatedAt);
-  
-    const timeDiff = Math.abs(currentTime - updatedTime);
+  const getTimeDifference = (updatedAt: string) => {
+    const currentTime: Date = new Date();
+    const updatedTime: Date = new Date(updatedAt);
+
+    const timeDiff: number = Math.abs(currentTime.getTime() - updatedTime.getTime());
     
     // calculate & construct minutes display
     const minutes = Math.floor(timeDiff / (1000 * 60));
     if (minutes < 60) {
-      // ${minutes !== 1 ? "" : ""} 
       return `${minutes}m ago`;
     }
     
     // calculate & construct hours display
     const hours = Math.floor(minutes / 60);
     if (hours < 24) {
-      // ${hours !== 1 ? "s" : ""}
       return `${hours}h ago`;
     }
     
     // calculate & construct days and months
-    const options = { month: "long", day: "numeric" };
+    const options: Intl.DateTimeFormatOptions = {
+      month: "long", 
+      day: "numeric" 
+    };
     return updatedTime.toLocaleDateString(undefined, options);
   }
 

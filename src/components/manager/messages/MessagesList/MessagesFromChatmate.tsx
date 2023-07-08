@@ -2,7 +2,7 @@ import useChat from "@/contexts/Message/useChat";
 import Image from "next/image";
 import FilesDisplay from "../FilesDisplay";
 
-export default function MessagesFromReceiver({
+export default function MessagesFromChatmate({
   message
 }: {
   message: any;

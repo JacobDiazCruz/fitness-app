@@ -5,7 +5,7 @@ import ChatList from "@/components/manager/messages/ChatList";
 import useChat from "@/contexts/Message/useChat";
 
 export default function Messages() {
-  const { chats } = useChat();
+  const { chats }: any = useChat();
 
   return (
     <div className="messages-page">

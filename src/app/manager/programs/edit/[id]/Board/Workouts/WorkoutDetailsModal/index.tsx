@@ -52,8 +52,8 @@ export default function WorkoutDetailsModal() {
 
           if(supersetExercises?.length) {
             return (
-              <div className="border-2 border-blue-900 rounded-lg overflow-hidden mb-5">
-                <div className="bg-blue-900 p-2">
+              <div className="border-[2px] relative cursor-grab border-solid dark:border-blue-900 border-blue-500 rounded-lg overflow-hidden mb-5">
+                <div className="bg-blue-100 dark:bg-blue-950 p-2">
                   <p className="text-white">
                     Superset
                   </p>

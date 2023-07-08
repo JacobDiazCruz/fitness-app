@@ -1,20 +1,15 @@
 'use client'
 
-import { useState, useEffect } from "react";
-import Head from "next/head";
+import { useState } from "react";
 import Button from "@/components/global/Button";
-import Link from "next/link";
-import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, ClientRoleIcon, CoachRoleIcon, FacebookIcon, GoogleIcon } from "@/components/global/Icons";
-import { useMutation } from "react-query";
+import { ArrowRightIcon, CheckIcon, ClientRoleIcon, CoachRoleIcon } from "@/components/global/Icons";
 import { useRouter } from "next/navigation";
-import jwt_decode from "jwt-decode";
-import { loginGoogle } from "@/api/User";
-import { getProfile } from "@/api/Profile";
 import { borderColor } from "@/utils/themeColors";
 
 export default function Signup() {
+  const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [roles, setRoles] = useState([
+  const [roles, _] = useState([
     {
       title: "I'm a coach",
       icon: <CoachRoleIcon />,
@@ -28,8 +23,6 @@ export default function Signup() {
       type: "Client"
     }
   ]);
-
-  const router = useRouter();
 
   const handleClickRole = (type: string) => {
     setSelectedRole(type);

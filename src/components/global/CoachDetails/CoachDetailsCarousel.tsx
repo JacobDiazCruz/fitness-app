@@ -1,19 +1,20 @@
+import { useState } from "react";
+import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/global/Icons";
-import { primaryTextColor } from "@/utils/themeColors";
-import Image from "next/image";
-import { useState } from "react";
 
-interface Props {
+interface CoachDetailsCarouselProps {
   galleryImages: Array<any>;
 }
 
-export default function Carousel({ galleryImages = [] }: Props) {
-  const [coverImage, setCoverImage] = useState<string>("");
+export default function CoachDetailsCarousel({ 
+  galleryImages = [] 
+}: CoachDetailsCarouselProps) {
+
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const handleChangeCoverImage = (action: string) => {
-    let nextIndex;
+    let nextIndex: number = 0;
     if (action === "next") {
       nextIndex = (currentImageIndex + 1) % galleryImages.length;
     } else if (action === "back") {
@@ -35,7 +36,6 @@ export default function Carousel({ galleryImages = [] }: Props) {
               className="w-auto h-auto m-auto"
               src={galleryImages[currentImageIndex]}
               style={{ objectFit: "cover" }}
-              fill
             />
           )}
         </div>
@@ -66,4 +66,4 @@ export default function Carousel({ galleryImages = [] }: Props) {
       </div>
     </div>
   );
-}
+};

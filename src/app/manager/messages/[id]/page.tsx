@@ -121,7 +121,6 @@ export default function Messages() {
       <div className="relative h-[90vh] flex">
         <ChatList />
 
-        {/* Chat */}
         <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
           <div
             ref={chatBoxRef} 

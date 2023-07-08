@@ -1,3 +1,4 @@
+import Button from "@/components/global/Button";
 import { useState } from "react";
 
 interface Props {
@@ -41,6 +42,12 @@ export default function CheckoutContainer({
             </li>
           </ul>
         </div>
+        <Button 
+          variant="contained" 
+          className="w-full mt-5"
+        >
+          Next
+        </Button>
       </div>
     </>
   );

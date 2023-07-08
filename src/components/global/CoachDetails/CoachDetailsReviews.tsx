@@ -1,7 +1,7 @@
-import CoachRating from "./CoachRating";
+import CoachRating from "../CoachRating";
 import Image from "next/image";
 import Container from "@/components/global/Container";
-import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   reviewsList: Array<Review>;
@@ -15,7 +15,7 @@ interface Review {
   feedback: string;
 }
 
-export default function Reviews({
+export default function CoachDetailsReviews({
   reviewsList
 }: Props) {
   

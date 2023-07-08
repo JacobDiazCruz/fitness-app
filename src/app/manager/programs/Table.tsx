@@ -5,13 +5,11 @@ import { AddIcon } from "@/components/global/Icons";
 import TableActions from "@/components/global/TableActions";
 import TableItem from "./TableItem";
 import { useQuery } from "react-query";
-import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
 import { listPrograms } from "@/api/Program";
 import { Program } from "@/utils/types";
 import TableNoResults from "@/components/global/TableNoResults";
-import useLocalStorage from "@/hooks/useLocalStorage";
 
 const TableColumnHeaders = () => {
   return (
@@ -71,11 +69,6 @@ export default function Table() {
         </div>
       </>
     );
-  }
-
-  // Return error state
-  if (isError) {
-    return <div>Error: {error.message}</div>;
   }
 
   // Return table if data is available

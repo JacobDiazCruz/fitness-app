@@ -2,8 +2,9 @@ import FileModal from "@/components/global/FileModal";
 import useChat from "@/contexts/Message/useChat";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
+
 import MessagesFromMe from "./MessagesFromMe";
-import MessagesFromReceiver from "./MessagesFromReceiver";
+import MessagesFromChatmate from "./MessagesFromChatmate";
 
 interface Props {
   messages: Array<any>;
@@ -22,7 +23,7 @@ export default function MessagesList({
     <>
       {messages?.map((message: Message, index: number) => {
         if(message.senderId !== myUserId) {
-          return <MessagesFromReceiver key={index} message={message} />;
+          return <MessagesFromChatmate key={index} message={message} />;
         } else {
           return <MessagesFromMe key={index} message={message} />;
         }

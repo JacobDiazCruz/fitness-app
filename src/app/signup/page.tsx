@@ -1,45 +1,14 @@
 'use client'
 
-import { useState, useEffect } from "react";
-import Head from "next/head";
-import Button from "@/components/global/Button";
-import Link from "next/link";
-import { ArrowLeftIcon, CheckIcon, ClientRoleIcon, CoachRoleIcon, FacebookIcon, GoogleIcon } from "@/components/global/Icons";
-import { useMutation } from "react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import jwt_decode from "jwt-decode";
-import { loginGoogle } from "@/api/User";
-import { getProfile } from "@/api/Profile";
-import { borderColor } from "@/utils/themeColors";
 import GooglePopup from "@/components/global/LoginGoogle/GooglePopup";
 import Script from "next/script";
 
 export default function Signup() {
+
   const searchParams = useSearchParams();
-  const roleType = searchParams.get("roleType");
-
-  const [selectedRole, setSelectedRole] = useState<string>("");
-  const [roles, setRoles] = useState([
-    {
-      title: "I'm a coach",
-      icon: <CoachRoleIcon />,
-      description: "I'm here to teach and earn income.",
-      type: "Coach"
-    },
-    {
-      title: "I'm a client",
-      icon: <ClientRoleIcon />,
-      description: "I'm looking for the best coach.",
-      type: "Client"
-    }
-  ]);
-
+  const roleType = searchParams.get("roleType") ?? "";
   const router = useRouter();
-
-  const handleClickRole = (type: string) => {
-    setSelectedRole(type);
-    router.push('/signup')
-  };
 
   return (
     <>

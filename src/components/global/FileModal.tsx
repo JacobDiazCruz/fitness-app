@@ -16,7 +16,6 @@ export default function FileModal ({
           className="w-auto h-auto"
           src={file}
           style={{ objectFit: "cover" }}
-          fill
         />
       )}
     </Modal>

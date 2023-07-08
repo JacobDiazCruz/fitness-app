@@ -3,13 +3,13 @@ import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 
 interface Props {
-  imagePath: string;
+  thumbnailImage: string;
   name: string;
   about: string;
 };
 
-export default function Profile({
-  imagePath,
+export default function CoachDetailsProfile({
+  thumbnailImage,
   name,
   about
 }: Props) {
@@ -19,7 +19,7 @@ export default function Profile({
         <div className="rounded-full relative overflow-hidden w-16 h-16">
           <Image 
             alt="Trainer Image"
-            src={imagePath}
+            src={thumbnailImage}
             style={{ objectFit: "cover" }}
             fill
           />

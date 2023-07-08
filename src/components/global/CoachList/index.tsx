@@ -1,24 +1,30 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { listCoaches } from '@/api/Profile';
 import { useQuery } from 'react-query';
 import Coach from './Coach';
+import { tertiaryBgColor } from '@/utils/themeColors';
 
-export default function CoachList({
-  isAuth = true
-}: {
-  isAuth: boolean;
-}) {
+export default function CoachList() {
   const router = useRouter();
+  const params = useParams();
+
   const {
     isLoading, 
-    isError,
-    data: coaches,
-    error
+    data: coaches
   } = useQuery('listCoaches', listCoaches, {
     refetchOnMount: true
   });
+
+  if(isLoading) {
+    return (
+      <div className="flex flex-wrap items-center">
+        <div className={`${tertiaryBgColor} w-[350px] h-[350px] rounded-lg mr-5`} />
+        <div className={`${tertiaryBgColor} w-[350px] h-[350px] rounded-lg`} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap items-center">
@@ -32,11 +38,12 @@ export default function CoachList({
           reviews,
           about
         } = coach;
+
         return (
           <div
             key={index}
             onClick={() => {
-              if(isAuth) {
+              if(window?.location.href.includes('manager')) {
                 router.push(`/manager/coach/${_id}`);
               } else {
                 router.push(`/coach/${_id}`);
