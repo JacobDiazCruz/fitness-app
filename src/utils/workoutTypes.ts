@@ -9,7 +9,7 @@ export interface HandleChangeSetFieldParams {
   setIndex?: number;
 };
 
-export interface UseWorkout {
+export interface WorkoutContext {
   setSelectedExercises?: Dispatch<SetStateAction<any>>;
   onDropFromExercises?: (e: React.DragEvent<HTMLDivElement>) => void;
   handleMergeSuperset?: void;

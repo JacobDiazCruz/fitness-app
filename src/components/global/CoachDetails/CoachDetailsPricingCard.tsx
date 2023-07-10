@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Container from "@/components/global/Container";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import Button from "@/components/global/Button";
@@ -15,7 +15,7 @@ export default function CoachDetailsPricingCard({
   featuredLength,
   services = []
 }: Props) {
-  
+  const params = useParams();
   const router = useRouter();
   const { triggerVerification } = useVerifyUser();
 
@@ -54,6 +54,7 @@ export default function CoachDetailsPricingCard({
           className="w-full"
           onClick={() => {
             triggerVerification();
+            router.push(`/checkout/select-options/${params.id}`);
           }}
         >
           Get now

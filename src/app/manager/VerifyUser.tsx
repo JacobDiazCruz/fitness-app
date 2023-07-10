@@ -26,5 +26,11 @@ export default function VerifyUser() {
     }
   }, [isError]);
 
+  useEffect(() => {
+    if(verifyUser) {
+      localStorage.setItem("profileId", verifyUser.profileId);
+    }
+  }, [verifyUser]);
+
   return <></>;
 }

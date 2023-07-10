@@ -1,34 +1,21 @@
 'use client';
 
-import { useState, memo } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "react-query";
-import AutoComplete from "@/components/global/AutoComplete";
-import Button from "@/components/global/Button";
-import TextArea from "@/components/global/TextArea";
-import TextField from "@/components/global/TextField";
-import Uploader from "@/components/global/Uploader";
 import Header from "@/app/manager/Header";
 import { addExercise, uploadFiles } from "@/api/Exercise";
-import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../ExerciseForm";
-import useExercise from "../../../../hooks/useExercise";
 import useAlert from "@/contexts/Alert";
-import PaddedWrapper from "@/components/global/PaddedWrapper";
+import { useExercise } from "@/contexts/Exercise/useExercise";
+import { ExerciseContext } from "@/utils/exerciseTypes";
 
 export default function AddNewExercise() {
   const router = useRouter();
-  const { dispatchAlert } = useAlert();
+  const { dispatchAlert }: any = useAlert();
   const {
     initialFilesList,
-    setInitialFilesList,
-    exerciseForm,
-    setExerciseForm,
-    primayFocusItems,
-    setPrimaryFocusItems,
-    categoryItems,
-    setCategoryItems
-  } = useExercise();
+    exerciseForm
+  }: ExerciseContext = useExercise()!;
   
   // add exercise request
   const addExerciseMutation = useMutation(addExercise, {
@@ -53,7 +40,7 @@ export default function AddNewExercise() {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      initialFilesList.forEach((file) => {
+      initialFilesList.forEach((file: string) => {
         formData.append('files', file)
       });
 
@@ -90,16 +77,7 @@ export default function AddNewExercise() {
         isLoading={uploadFilesMutation.isLoading || addExerciseMutation.isLoading}
         handleSubmit={() => handleSubmit()}
       />
-      <ExerciseForm
-        initialFilesList={initialFilesList}
-        setInitialFilesList={setInitialFilesList}
-        exerciseForm={exerciseForm}
-        setExerciseForm={setExerciseForm}
-        primayFocusItems={primayFocusItems}
-        setPrimaryFocusItems={setPrimaryFocusItems}
-        categoryItems={categoryItems}
-        setCategoryItems={setCategoryItems}
-      />
+      <ExerciseForm />
     </>
   );
 }

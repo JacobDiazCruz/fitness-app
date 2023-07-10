@@ -1,7 +1,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import IconButton from "@/components/global/IconButton";
-import { ArrowLeftIcon, ArrowRightIcon } from "@/components/global/Icons";
+import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@/components/global/Icons";
+import { primaryTextColor } from "@/utils/themeColors";
+import Button from "../Button";
+import { useParams, useRouter } from "next/navigation";
 
 interface CoachDetailsCarouselProps {
   galleryImages: Array<any>;
@@ -10,7 +13,8 @@ interface CoachDetailsCarouselProps {
 export default function CoachDetailsCarousel({ 
   galleryImages = [] 
 }: CoachDetailsCarouselProps) {
-
+  const params = useParams();
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const handleChangeCoverImage = (action: string) => {
@@ -30,13 +34,26 @@ export default function CoachDetailsCarousel({
           <ArrowLeftIcon className={`text-white w-7 h-7`} />
         </IconButton>
         <div className="w-full mx-2 h-fit h-[350px] max-h-[350px] overflow-hidden relative">
-          {galleryImages?.length && (
+          {galleryImages?.length ? (
             <img
               alt="Cover Gallery Image"
               className="w-auto h-auto m-auto"
               src={galleryImages[currentImageIndex]}
               style={{ objectFit: "cover" }}
             />
+          ) : (
+            <div className="w-auto m-auto h-[300px] flex items-center bg-black">
+              <div className="m-auto text-center">
+                <p className={`${primaryTextColor} mb-3`}>No gallery images yet.</p>
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="outlined"
+                  onClick={() => router.push(`/manager/profile/${params.id}`)}
+                >
+                  Add gallery images
+                </Button>
+              </div>
+            </div>
           )}
         </div>
         <IconButton onClick={() => handleChangeCoverImage("next")}>

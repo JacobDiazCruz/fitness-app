@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import UserMenu from "./UserMenu";
 import Button from "./Button";
 import Link from "next/link";
 import Providers from "@/utils/provider";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import LoginGoogle from "./LoginGoogle";
 import IconButton from "./IconButton";
 import { ChatIcon } from "./Icons";
 import { primaryTextColor } from "@/utils/themeColors";

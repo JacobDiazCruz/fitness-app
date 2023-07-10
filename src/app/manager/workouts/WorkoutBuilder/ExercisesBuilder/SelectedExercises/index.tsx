@@ -4,7 +4,7 @@ import { Exercise } from "@/utils/types";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
-import { UseWorkout } from "@/utils/workoutTypes";
+import { WorkoutContext } from "@/utils/workoutTypes";
 
 interface selectedExerciseFactoryParams {
   exercise: Exercise;
@@ -15,7 +15,7 @@ interface selectedExerciseFactoryParams {
 export default function SelectedExercises() {
   const {
     selectedExercises
-  }: UseWorkout = useWorkout()!;
+  }: WorkoutContext = useWorkout()!;
 
   const [draggedExercise, setDraggedExercise] = useState<Exercise | null>(null);
 

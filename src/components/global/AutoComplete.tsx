@@ -16,7 +16,7 @@ import {
 } from "@/utils/themeColors";
 
 interface Props {
-  value: string | number;
+  value: string | number | { name: string };
   type?: string;
   startIcon?: ReactElement | SVGAElement;
   items: Array<any>;

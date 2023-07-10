@@ -3,7 +3,7 @@ import Button from "@/components/global/Button";
 import { CubeTransparentIcon, HookIcon } from "@/components/global/Icons";
 import useWorkout from "@/contexts/Workout/useWorkout";
 import IconButton from "@/components/global/IconButton";
-import { UseWorkout } from "@/utils/workoutTypes";
+import { WorkoutContext } from "@/utils/workoutTypes";
 import Tooltip from "@/components/global/Tooltip";
 
 export default function Superset({
@@ -20,7 +20,7 @@ export default function Superset({
     selectedExercises,
     hookNewExerciseToSuperset,
     handleUnmergeSuperset
-  }: UseWorkout = useWorkout()!;
+  }: WorkoutContext = useWorkout()!;
 
   const HookButton = ({ hookType }: { hookType: 'next' | 'prev' }) => {
     return (

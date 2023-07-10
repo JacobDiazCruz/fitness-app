@@ -1,44 +1,31 @@
 'use client';
 
-import { useState, memo, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useMutation } from "react-query";
-import AutoComplete from "@/components/global/AutoComplete";
-import Button from "@/components/global/Button";
-import TextArea from "@/components/global/TextArea";
-import TextField from "@/components/global/TextField";
-import Uploader from "@/components/global/Uploader";
 import Header from "@/app/manager/Header";
-import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
-import { UploadIcon } from "@/components/global/Icons";
 import ExerciseForm from "../../ExerciseForm";
-import useExercise from "../../../../../hooks/useExercise";
 import { useQuery } from "react-query";
 import useAlert from "@/contexts/Alert";
+import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
+import { useExercise } from "@/contexts/Exercise/useExercise";
 
 export default function EditExercise() {
   const router = useRouter();
   const params = useParams();
-  const { dispatchAlert } = useAlert();
+  const { dispatchAlert }: any = useAlert();
 
   const {
     initialFilesList,
-    setInitialFilesList,
     exerciseForm,
     setExerciseForm,
-    primayFocusItems,
-    setPrimaryFocusItems,
-    categoryItems,
-    setCategoryItems
-  } = useExercise();
+  }: any = useExercise();
 
   // get exercise data
-  const { 
+  const {
     isLoading,
     isError,
     data: exerciseData,
-    error,
-    refetch
   } = useQuery('exercise', () => getExercise(params.id), {
     refetchOnMount: true
   });
@@ -89,7 +76,7 @@ export default function EditExercise() {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      initialFilesList.forEach((file) => {
+      initialFilesList.forEach((file: string) => {
         formData.append('files', file);
       });
 
@@ -129,16 +116,7 @@ export default function EditExercise() {
         isLoading={uploadFilesMutation.isLoading || editExerciseMutation.isLoading}
         handleSubmit={() => handleSubmit()}
       />
-      <ExerciseForm
-        initialFilesList={initialFilesList}
-        setInitialFilesList={setInitialFilesList}
-        exerciseForm={exerciseForm}
-        setExerciseForm={setExerciseForm}
-        primayFocusItems={primayFocusItems}
-        setPrimaryFocusItems={setPrimaryFocusItems}
-        categoryItems={categoryItems}
-        setCategoryItems={setCategoryItems}
-      />
+      <ExerciseForm />
     </>
   );
 }

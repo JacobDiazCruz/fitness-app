@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 import { CalendarIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "@/components/global/Icons";
 import SidebarChatWrapper from "@/components/manager/Sidebar/SidebarChatWrapper";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface NavItem {
   icon: React.JSX.Element; 
@@ -25,6 +26,8 @@ export default function SidebarProvider ({
 
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
   const [openNav, setOpenNav] = useState(true);
+  const profileId = localStorage.getItem("profileId");
+  
   const [basicNavItems] = useState([
     {
       icon: <DoubleUserIcon className="w-6 h-6 text-gray-400" />,
@@ -47,7 +50,7 @@ export default function SidebarProvider ({
     {
       icon: <SettingsIcon className="w-6 h-6 text-gray-400" />,
       name: "Account Settings",
-      path: "/manager/profile",
+      path: `/manager/profile/${profileId}`,
       roleAccess: "All"
     }
   ]);

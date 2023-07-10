@@ -1,10 +1,15 @@
 import React from 'react';
 
+interface VideoThumbnailProps {
+  videoUrl: string;
+  onClick?: () => void;
+};
+
 const VideoThumbnail = ({ 
   videoUrl, 
-  onClick 
-}) => {
-  const getThumbnailUrl = (url) => {
+  onClick
+}: VideoThumbnailProps) => {
+  const getThumbnailUrl = (url: string) => {
     const youtubeWatchRegex = /^(https?:\/\/)?(www\.)?(youtube\.com)\/watch\/([^?/#&]+)/;
     const youtubeShortsRegex = /^(https?:\/\/)?(www\.)?(youtube\.com)\/shorts\/([^?/#&]+)/;
   

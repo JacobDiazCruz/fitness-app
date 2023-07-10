@@ -5,7 +5,7 @@ import TextField from "@/components/global/TextField";
 import { AddIcon } from "@/components/global/Icons";
 import useWorkout from "@/contexts/Workout/useWorkout";
 import { Exercise } from "@/utils/types";
-import { UseWorkout } from "@/utils/workoutTypes";
+import { WorkoutContext } from "@/utils/workoutTypes";
 
 interface SelectedExerciseFormProps {
   exercise: Exercise;
@@ -31,7 +31,7 @@ const SelectedExerciseForm = ({
   const {
     handleAddExerciseSet,
     handleChangeSetField
-  }: UseWorkout = useWorkout()!;
+  }: WorkoutContext = useWorkout()!;
 
   const formatTime = (time: string) => {
     // Remove any non-digit characters

@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, memo } from "react";
-import { useRouter } from "next/navigation";
-import { useMutation } from "react-query";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextArea from "@/components/global/TextArea";
@@ -11,30 +9,30 @@ import Uploader from "@/components/global/Uploader";
 import { UploadIcon } from "@/components/global/Icons";
 
 import { 
-  secondaryBgColor, 
   primaryTextColor 
 } from "@/utils/themeColors";
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
-import PaddedWrapper from "@/components/global/PaddedWrapper";
 import VideoThumbnail from "../../../components/global/VideoThumbnail";
 import VideoModal from "../../../components/global/VideoModal";
 import useVideoLinkCoverter from "@/hooks/useVideoLinkConverter";
+import { useExercise } from "@/contexts/Exercise/useExercise";
+import { ExerciseContext } from "@/utils/exerciseTypes";
 
 const MemoizedUploader = memo(Uploader);
 
-export default function ExerciseForm({
-  initialFilesList,
-  setInitialFilesList,
-  exerciseForm,
-  setExerciseForm,
-  primayFocusItems,
-  setPrimaryFocusItems,
-  categoryItems,
-  setCategoryItems
-}) {
+export default function ExerciseForm() {
   const { videoLinkConverter } = useVideoLinkCoverter();
   const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const {
+    initialFilesList,
+    setInitialFilesList,
+    exerciseForm,
+    setExerciseForm,
+    primayFocusItems,
+    categoryItems
+  }: ExerciseContext = useExercise()!;
 
   return (
     <Container>
@@ -106,7 +104,7 @@ export default function ExerciseForm({
               onChange={(e) => {
                 const inputValue = e.target.value;
                 const updatedLink = videoLinkConverter(inputValue);
-                setExerciseForm(prev => ({
+                setExerciseForm((prev: any) => ({
                   ...prev,
                   videoLink: updatedLink
                 }));

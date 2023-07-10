@@ -16,7 +16,7 @@ export default function Steps() {
           2
         </span>
         <span>
-          <h3 className="font-medium leading-tight">Payment and Billing</h3>
+          <h3 className="font-medium leading-tight">Payment and Review</h3>
         </span>
       </li>
       <li className="flex items-center text-gray-500 dark:text-gray-400 space-x-2.5">

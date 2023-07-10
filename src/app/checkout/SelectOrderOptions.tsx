@@ -1,40 +1,21 @@
 'use client';
 
-import { useState } from "react";
-interface OrderOption {
+export interface OrderOption {
   price: number;
   title: string;
   isSelected: boolean;
   description: string;
 };
 
-export default function SelectOrderOptions() {
-  const [orderOptions, setOrderOptions] = useState<OrderOption>([
-    {
-      price: 2000,
-      title: 'Fitness Plan',
-      isSelected: false,
-      description: 'I will be your online personal trainer for a month 24 7 on line'
-    },
-    {
-      price: 3000,
-      title: 'Nutrition Plan',
-      isSelected: false,
-      description: 'I will be your online personal trainer for a month 24 7 on line'
-    },
-    {
-      price: 1000,
-      title: 'Healthy Plan',
-      isSelected: false,
-      description: 'I will be your online personal trainer for a month 24 7 on line'
-    }
-  ]);
-
+export default function SelectOrderOptions({
+  orderOptions = [],
+  setOrderOptions
+}: any) {
   return (
     <>
       <div className="bg-white p-6 w-[682px]">
         <h5>Select Order Options</h5>
-        {orderOptions.map((orderOption: OrderOption, key: number) => (
+        {orderOptions?.map((orderOption: OrderOption, key: number) => (
           <div 
             onClick={() => {
               const newOrderOptions = [...orderOptions];
@@ -44,9 +25,15 @@ export default function SelectOrderOptions() {
             className={`flex p-4 mt-4 rounded-lg border border-solid cursor-pointer justify-between ${orderOption.isSelected ? 'border-[#24282C]' : 'border-[#D9D9D9]'}`}
           >
             <div>
-              <p className="text-[18px] text-[#636363]">{orderOption.price}</p>
-              <p className="font-bold">{orderOption.title}</p>
-              <p className="mt-1 text-[#7C7C7C]">{orderOption.description}</p>
+              <p className="text-[18px] text-[#636363]">
+                {orderOption.price}
+              </p>
+              <p className="font-bold">
+                {orderOption.title}
+              </p>
+              <p className="mt-1 text-[#7C7C7C]">
+                {orderOption.description}
+              </p>
             </div>
 
             <div className={`w-[30px] h-[30px] border border-solid rounded-full flex items-center ${orderOption.isSelected ? 'border-[#24282C]' : 'border-[##D9D9D9]'}`}>

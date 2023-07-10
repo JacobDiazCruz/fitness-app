@@ -1,10 +1,10 @@
 'use client';
 
 import { Exercise } from "@/utils/types";
-import { HandleChangeSetFieldParams } from "@/utils/workoutTypes";
+import { HandleChangeSetFieldParams, WorkoutContext } from "@/utils/workoutTypes";
 import { useState, createContext, useContext, useMemo, useEffect, ReactNode } from "react";
 
-const WorkoutContext = createContext(null);
+const WorkoutContext = createContext<WorkoutContext | null>(null);
 
 export const initialSet = {
   setType: "",

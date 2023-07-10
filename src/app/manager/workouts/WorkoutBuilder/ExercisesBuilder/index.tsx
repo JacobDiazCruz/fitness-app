@@ -7,7 +7,7 @@ import SelectedExercises from "./SelectedExercises";
 import ExercisesMobileSelection from "./ExercisesMobileSelection";
 import ExercisesDekstopDropzone from "./ExercisesDesktopDropzone";
 import ExercisesActionButtons from "./ExercisesActionButtons";
-import { UseWorkout } from "@/utils/workoutTypes";
+import { WorkoutContext } from "@/utils/workoutTypes";
 
 interface ExercisesBuilderProps {
   children: ReactNode;
@@ -18,7 +18,7 @@ export default function ExercisesBuilder({
 }: ExercisesBuilderProps) {
   const {
     onDropFromExercises
-  }: UseWorkout = useWorkout()!;
+  }: WorkoutContext = useWorkout()!;
   
   return (
     <div

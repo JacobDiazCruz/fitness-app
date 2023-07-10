@@ -1,10 +1,17 @@
 'use state';
 
-import { useState } from "react";
+import { ExerciseContext, ExerciseForm } from "@/utils/exerciseTypes";
+import { createContext, ReactNode, useContext, useState } from "react";
 
-export default function useExercise() {
+const ExerciseContext = createContext<ExerciseContext | null>(null);
+
+export default function ExerciseProvider({
+  children
+}: {
+  children: ReactNode;
+}) {
   const [initialFilesList, setInitialFilesList] = useState([]);
-  const [exerciseForm, setExerciseForm] = useState({
+  const [exerciseForm, setExerciseForm] = useState<ExerciseForm>({
     name: "",
     primaryFocus: "",
     category: "",
@@ -48,7 +55,7 @@ export default function useExercise() {
     }
   ]);
 
-  return {
+  const value = {
     initialFilesList,
     setInitialFilesList,
     exerciseForm,
@@ -57,5 +64,19 @@ export default function useExercise() {
     setPrimaryFocusItems,
     categoryItems,
     setCategoryItems
+  };
+
+  return (
+    <ExerciseContext.Provider value={value}>
+      {children}
+    </ExerciseContext.Provider>
+  );
+};
+
+export const useExercise = () => {
+  const context = useContext(ExerciseContext)
+  if (context === undefined) {
+    throw new Error("useExercise must be used within exercise context")
   }
-}
+  return context;
+};

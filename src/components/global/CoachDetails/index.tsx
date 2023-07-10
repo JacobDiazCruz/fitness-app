@@ -5,6 +5,7 @@ import { getCoachProfile } from "@/api/Profile";
 import { useParams } from "next/navigation";
 import { LoadingIcon } from "@/components/global/Icons";
 import CoachDetailsWrapper from "./CoachDetailsWrapper";
+import { getCoachingServices } from "@/api/CoachingService";
 
 export default function CoachDetails() {
   const params = useParams();
@@ -14,6 +15,14 @@ export default function CoachDetails() {
     isLoading,
     data: coach
   } = useQuery('coach', () => getCoachProfile(params.id), {
+    refetchOnMount: true
+  });
+
+  // fetch coach services
+  const {
+    isLoading: isLoadingCoachingServices,
+    data: coachingServices
+  } = useQuery('coachingServices', () => getCoachingServices(params.id), {
     refetchOnMount: true
   });
 
@@ -57,7 +66,7 @@ export default function CoachDetails() {
         <CoachDetailsWrapper.PricingCard
           coachUserId={userId}
           featuredLength="month"
-          services={coachingDetails.services}
+          services={coachingServices}
         />
       }
     />

@@ -1,54 +1,93 @@
+import { calculateTotalPrice, mayaCheckout } from "@/api/Checkout";
 import Button from "@/components/global/Button";
-import { useState } from "react";
-
+import { CheckIcon } from "@/components/global/Icons";
+import useCheckout from "@/hooks/checkout/useCheckout";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import Big from "big.js";
+import { useRouter } from "next/navigation";
+import { useMutation, useQuery } from "react-query";
 interface Props {
-  featuredPrice?: number;
-  featuredLength?: string;
-  packageList?: Array<string>;
-};
+  orderOptions: any;
+}
 
 export default function CheckoutContainer({
-  featuredPrice,
-  featuredLength,
-  packageList
+  orderOptions = []
 }: Props) {
 
-  const list = packageList?.map((item) => (
-    <li className="flex items-center py-2">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#21C79F" className="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-      </svg>
-      <p className="ml-2">{item}</p>
-    </li>
-  ));
+  const router = useRouter();
+
+  const {
+    isLoadingCheckout,
+    submitCheckout
+  } = useCheckout();
+
+  /**
+   * @purpose To calculate total price and display it in the client
+   * @returns total price
+   * @note This is only for displaying purposes.
+   */
+  const getClientTotalPrice = () => {
+    let totalPrice = new Big(0);
+    
+    orderOptions.map((service: any) => {
+      if(service.isSelected) {
+        const price = new Big(service.price);
+        totalPrice = totalPrice.plus(price);
+      }
+    });
+    return totalPrice.toString();
+  };
+
+  const OrderItem = ({ title, price } : { title: string; price: any }) => {
+    return (
+      <li className="flex justify-between py-2">
+        <div className="flex items-center">
+          <CheckIcon className="w-6 h-6 fill-green-500" />
+          <p className="ml-2">{title}</p>
+        </div>
+        <p>PHP {price}</p>
+      </li>
+    );
+  };
 
   return (
     <>
-      <div className="bg-white rounded-lg p-6 w-[500px] h-[467px] sticky top-[5em]">
+      <div className="bg-white border rounded-lg p-6 w-[500px] h-fit sticky top-[5em]">
         <h5 className="font-bold">Checkout</h5>
         <div className="mt-2">
           <ul className="max-w-md space-y-1 list-inside mt-7">
-            {list}
+            {orderOptions?.map((orderOption: any) => (
+              <>
+                {orderOption.isSelected && (
+                  <OrderItem 
+                    title={orderOption.title} 
+                    price={orderOption.price}
+                  />
+                )}
+              </>
+            ))}
           </ul>
           <hr className="my-2" />
           <ul className="max-w-md space-y-1 list-inside mt-7">
             <li className="flex items-center justify-between py-2">
               <p>Service charge</p>
-              <p>PHP 300</p>
+              <p>300</p>
             </li>
             <li className="flex items-center justify-between py-2">
               <p className="font-bold">Total</p>
-              <p className="font-bold">PHP 3,300</p>
+              <p className="font-bold">PHP {getClientTotalPrice()}</p>
             </li>
           </ul>
         </div>
         <Button 
           variant="contained" 
           className="w-full mt-5"
+          onClick={() => submitCheckout(orderOptions)}
+          loading={isLoadingCheckout}
         >
           Next
         </Button>
       </div>
     </>
   );
-}
+};

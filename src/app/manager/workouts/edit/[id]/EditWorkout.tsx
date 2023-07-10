@@ -9,7 +9,7 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 import useWorkout from "@/contexts/Workout/useWorkout";
 import WorkoutBuilder from "../../WorkoutBuilder";
 import useEditProgram from "@/hooks/useEditProgram";
-import { UseWorkout } from "@/utils/workoutTypes";
+import { WorkoutContext } from "@/utils/workoutTypes";
 
 export default function EditWorkout() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function EditWorkout() {
   const {
     selectedExercises,
     setSelectedExercises 
-  }: UseWorkout = useWorkout()!;
+  }: WorkoutContext = useWorkout()!;
   const {
     programWeeks,
     programWeekIndex,
