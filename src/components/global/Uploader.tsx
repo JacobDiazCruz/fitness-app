@@ -31,7 +31,7 @@ export default function Uploader({
     if (fileList) {
       const newFiles = Array.from(fileList);
       setInitialFilesList((prevFiles: Array<File>) => [...prevFiles, ...newFiles]);
-  
+
       newFiles.forEach((file) => {
         const reader = new FileReader();
         reader.onload = (event: ProgressEvent<FileReader>) => {
@@ -43,9 +43,9 @@ export default function Uploader({
   };
 
   const handleRemoveFile = (index: number) => {
-    const filteredFiles = initialFilesList
+    const filteredInitialFiles = initialFilesList
       .filter((file: any, fileIndex: number) => fileIndex !== index);
-    setInitialFilesList(filteredFiles);
+    setInitialFilesList(filteredInitialFiles);
   }
 
   const handleRemoveExistingFile = (index: number) => {

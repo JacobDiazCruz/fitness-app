@@ -1,21 +1,22 @@
 'use client';
 
-export interface OrderOption {
-  price: number;
-  title: string;
-  isSelected: boolean;
-  description: string;
+import { CoachingService } from "@/utils/cooachTypes";
+import { Dispatch, SetStateAction } from "react";
+
+export interface SelectOrderOptionsProps {
+  orderOptions: CoachingService[];
+  setOrderOptions: Dispatch<SetStateAction<any>>;
 };
 
 export default function SelectOrderOptions({
   orderOptions = [],
   setOrderOptions
-}: any) {
+}: SelectOrderOptionsProps) {
   return (
     <>
       <div className="bg-white p-6 w-[682px]">
         <h5>Select Order Options</h5>
-        {orderOptions?.map((orderOption: OrderOption, key: number) => (
+        {orderOptions?.map((orderOption: CoachingService, key: number) => (
           <div 
             onClick={() => {
               const newOrderOptions = [...orderOptions];
@@ -26,7 +27,7 @@ export default function SelectOrderOptions({
           >
             <div>
               <p className="text-[18px] text-[#636363]">
-                {orderOption.price}
+              {orderOption.price.currency} {orderOption.price.value}
               </p>
               <p className="font-bold">
                 {orderOption.title}

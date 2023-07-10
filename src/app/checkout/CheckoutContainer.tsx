@@ -1,11 +1,7 @@
-import { calculateTotalPrice, mayaCheckout } from "@/api/Checkout";
 import Button from "@/components/global/Button";
 import { CheckIcon } from "@/components/global/Icons";
 import useCheckout from "@/hooks/checkout/useCheckout";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import Big from "big.js";
-import { useRouter } from "next/navigation";
-import { useMutation, useQuery } from "react-query";
 interface Props {
   orderOptions: any;
 }
@@ -13,8 +9,6 @@ interface Props {
 export default function CheckoutContainer({
   orderOptions = []
 }: Props) {
-
-  const router = useRouter();
 
   const {
     isLoadingCheckout,
@@ -31,7 +25,7 @@ export default function CheckoutContainer({
     
     orderOptions.map((service: any) => {
       if(service.isSelected) {
-        const price = new Big(service.price);
+        const price = new Big(service.price.value);
         totalPrice = totalPrice.plus(price);
       }
     });
@@ -45,7 +39,7 @@ export default function CheckoutContainer({
           <CheckIcon className="w-6 h-6 fill-green-500" />
           <p className="ml-2">{title}</p>
         </div>
-        <p>PHP {price}</p>
+        <p>{price.currency} {price.value}</p>
       </li>
     );
   };
@@ -85,7 +79,7 @@ export default function CheckoutContainer({
           onClick={() => submitCheckout(orderOptions)}
           loading={isLoadingCheckout}
         >
-          Next
+          Checkout
         </Button>
       </div>
     </>

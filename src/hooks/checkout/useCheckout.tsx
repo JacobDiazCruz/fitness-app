@@ -41,15 +41,15 @@ const useCheckout = () => {
         .filter((option: any) => option.isSelected)
         .map((option: any) => ({
           amount: {
-            value: option.price,
+            value: option.price.value,
             details: {
-              subtotal: option.price
+              subtotal: option.price.value
             }
           },
           name: option.title,
           quantity: 1,
           totalAmount: {
-            value: option.price
+            value: option.price.value
           }
         }));
 

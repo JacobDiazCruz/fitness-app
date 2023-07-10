@@ -4,41 +4,48 @@ import { AddIcon } from "@/components/global/Icons";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import TextField from "@/components/global/TextField";
 import useAlert from "@/contexts/Alert";
+import { CoachingService } from "@/utils/coachTypes";
 import { useParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { Services } from "./page";
 
 interface Props {
   initialServicesList: any;
   onClose: Dispatch<SetStateAction<boolean>>;
+  refetchProfile: any;
 };
 
 export default function EditServicesModal({
   initialServicesList,
+  refetchProfile,
   onClose
 }: Props) {
 
   const params = useParams();
   const { dispatchAlert }: any = useAlert();
-  const [servicesList, setServicesList] = useState<Services[]>([
+  const [servicesList, setServicesList] = useState<CoachingService[]>([
     {
       title: "",
       description: "",
-      price: null
+      price: {
+        currency: "PHP",
+        value: null
+      }
     }
   ]);
 
   useEffect(() => {
-    setServicesList(initialServicesList);
+    if(initialServicesList.length) {
+      setServicesList(initialServicesList);
+    }
   }, [initialServicesList]);
 
   const addCoachingServiceMutation = useMutation(addCoachingService);
   const editCoachingServiceMutation = useMutation(editCoachingService);
 
   const saveForm = async () => {
-    const existingServicesList: Services[] = [];
-    const newServicesList: Services[] = [];
+    const existingServicesList: CoachingService[] = [];
+    const newServicesList: CoachingService[] = [];
     servicesList.map((service) => {
       if(service?._id) {
         existingServicesList.push(service)
@@ -64,6 +71,7 @@ export default function EditServicesModal({
         type: "SUCCESS",
         message: "Coaching services edited successfully."
       });
+      refetchProfile();
       onClose();
     } catch(err) {
       console.log(err);
@@ -119,11 +127,11 @@ export default function EditServicesModal({
                 Price
               </p>
               <TextField
-                value={service.price}
+                value={service.price.value}
                 onChange={(e) => {
                   setServicesList(prev => {
                     const copy = [...prev];
-                    copy[index].price = e.target.value;
+                    copy[index].price.value = e.target.value;
                     return copy;
                   })
                 }}
@@ -140,7 +148,10 @@ export default function EditServicesModal({
                       { 
                         title: "", 
                         description: "", 
-                        price: null
+                        price: {
+                          currency: "PHP",
+                          value: null
+                        }
                       }
                     ])
                   }}

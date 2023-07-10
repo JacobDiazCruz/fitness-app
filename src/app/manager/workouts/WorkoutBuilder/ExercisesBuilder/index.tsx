@@ -16,6 +16,7 @@ interface ExercisesBuilderProps {
 export default function ExercisesBuilder({
   children
 }: ExercisesBuilderProps) {
+  
   const {
     onDropFromExercises
   }: WorkoutContext = useWorkout()!;

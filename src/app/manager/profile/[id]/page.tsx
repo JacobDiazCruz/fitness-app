@@ -1,18 +1,21 @@
 'use client';
 
 import { ChangeEvent, useEffect, useState } from "react";
-import Uploader from "@/components/global/Uploader";
-import FormContainer from "./FormContainer";
 import Header from "@/app/manager/Header";
-import { editGalleryImages, editPortfolioImages, editProfileDetails, editProfileImage, getProfile } from "@/api/Profile";
+import { editProfileDetails, editProfileImage, getProfile } from "@/api/Profile";
 import { useMutation, useQuery } from "react-query";
 import AccountDetails from "./AccountDetails";
-import MyServices from "./MyServices";
 import useAlert from "@/contexts/Alert";
 import PermissionAccess from "@/components/global/PermissionAccess";
 import EditServicesModal from "./EditServicesModal";
 import { getCoachingServices } from "@/api/CoachingService";
 import { useParams } from "next/navigation";
+import { CoachingService } from "@/utils/coachTypes";
+import UploaderModal from "./UploaderModal";
+import EditAccountDetailsModal from "./EditAccountDetailsModal";
+import ProfileGallery from "./ProfileGallery";
+import ProfilePortfolio from "./ProfilePortfolio";
+import ProfileCoachingServices from "./ProfileCoachingServices";
 
 export interface Form {
   profileImage: string | null;
@@ -21,17 +24,17 @@ export interface Form {
   contact: string | null;
 };
 
-export interface Services {
-  _id?: string;
-  title: string | null;
-  description: string | null;
-  price: number | null;
-};
-
 export default function Profile() {
   const params = useParams();
   const { dispatchAlert }: any = useAlert();
 
+  // uploader states
+  const [showUploaderModal, setShowUploaderModal] = useState<boolean>(false);
+  const [selectedHeaderTitle, setSelectedHeaderTitle] = useState<string>("");
+  const [uploadType, setUploadType] = useState<'PORTFOLIO_UPLOAD' | 'GALLERY_UPLOAD'>("GALLERY_UPLOAD");
+
+  // account details
+  const [showEditAccountDetailsModal, setShowEditAccountDetailsModal] = useState<boolean>(false);
   const [countryCode, setCountryCode] = useState<string>("+63");
   const [profileForm, setProfileForm] = useState<Form>({
     profileImage: null,
@@ -39,21 +42,11 @@ export default function Profile() {
     lastName: null,
     contact: null
   });
-  const [servicesList, setServicesList] = useState<Services[]>([
-    {
-      title: "",
-      description: "",
-      price: null
-    }
-  ]);
+  const [servicesList, setServicesList] = useState<CoachingService[]>([]);
   const [uploadedProfileImage, setUploadedProfileImage] = useState<any>(null);
   const [galleryImages, setGalleryImages] = useState<Array<any>>([]);
   const [portfolioImages, setPortfolioImages] = useState<Array<any>>([]);
   const [isLoadingForm, setIsLoadingForm] = useState<boolean>(false);
-
-  // existing images
-  const [existingGalleryImages, setExistingGalleryImages] = useState<Array<string>>([]);
-  const [existingPortfolioImages, setExistingPortfolioImages] = useState<Array<string>>([]);
 
   // edit modal states
   const [showEditServicesModal, setShowEditServicesModal] = useState<boolean>(false);
@@ -64,7 +57,7 @@ export default function Profile() {
     isError,
     data: profile,
     error,
-    refetch
+    refetch: refetchProfile
   } = useQuery('profile', () => getProfile({ userId: localStorage?.getItem("userId") }), {
     refetchOnWindowFocus: false,
     refetchOnMount: true
@@ -98,38 +91,6 @@ export default function Profile() {
 
   const editProfileImageMutation = useMutation(editProfileImage);
   const editProfileDetailsMutation = useMutation(editProfileDetails);
-  const editPortfolioImagesMutation = useMutation(editPortfolioImages);
-  const editGalleryImagesMutation = useMutation(editGalleryImages);
-
-  const submitPortfolioImages = async () => {
-    try {
-      const formData = new FormData();
-      portfolioImages.forEach((file) => {
-        formData.append('files', file);
-      });
-      existingPortfolioImages.forEach((file) => {
-        formData.append('existingFiles', file);
-      });
-      const res = await editPortfolioImagesMutation.mutateAsync(formData);
-    } catch(err) {
-      console.log(err);
-    }
-  };
-
-  const submitGalleryImages = async () => {
-    try {
-      const formData = new FormData();
-      galleryImages.forEach((file) => {
-        formData.append('files', file);
-      });
-      existingGalleryImages.forEach((file) => {
-        formData.append('existingFiles', file);
-      });
-      const res = await editGalleryImagesMutation.mutateAsync(formData);
-    } catch(err) {
-      console.log(err);
-    }
-  };
 
   const submitProfileDetails = async () => {
     try {
@@ -140,7 +101,15 @@ export default function Profile() {
           number: profileForm?.contact
         },
         services: servicesList
-      })
+      });
+      setShowEditAccountDetailsModal(false);
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Profile details edited successfully."
+      });
+      if(res) {
+        refetchProfile();
+      }
     } catch(err) {
       console.log(err);
     }
@@ -150,20 +119,32 @@ export default function Profile() {
     setIsLoadingForm(true);
     try {
       await submitProfileDetails();
-      await submitGalleryImages();
-      await submitPortfolioImages();
     } catch(err) {
       console.log(err);
     } finally {
       setIsLoadingForm(false);
       setGalleryImages([]);
       setPortfolioImages([]);
-      refetch();
+      refetchProfile();
       dispatchAlert({
         type: "SUCCESS",
         message: "Profile edited successfully"
       });
     }
+  };
+
+  interface HandleShowUploaderModal {
+    headerTitle: string;
+    uploadType: 'PORTFOLIO_UPLOAD' | 'GALLERY_UPLOAD';
+  };
+
+  const handleShowUploaderModal = ({ 
+    headerTitle,
+    uploadType
+  } : HandleShowUploaderModal) => {
+    setSelectedHeaderTitle(headerTitle);
+    setShowUploaderModal(true);
+    setUploadType(uploadType);
   };
 
   useEffect(() => {
@@ -179,8 +160,6 @@ export default function Profile() {
         portfolioImages,
         galleryImages
       }));
-      setExistingGalleryImages(profile?.coachingDetails?.galleryImages);
-      setExistingPortfolioImages(profile?.coachingDetails?.portfolioImages);
     }
   }, [profile]);
 
@@ -200,61 +179,63 @@ export default function Profile() {
       />
       <div className="profile">
         <AccountDetails
-          profileForm={profileForm}
+          profileForm={profile}
           setProfileForm={setProfileForm}
           uploadedProfileImage={uploadedProfileImage}
           handleFileChange={handleFileChange}
+          setShowEditAccountDetailsModal={setShowEditAccountDetailsModal}
           countryCode={countryCode}
           setCountryCode={setCountryCode}
         />
         <PermissionAccess roleAccess="Coach">
-          <MyServices
+          <ProfileCoachingServices
             servicesList={servicesList}
             setServicesList={setServicesList}
             handleEdit={() => setShowEditServicesModal(true)}
           />
           <div className="flex gap-[30px]">
-            <div className="flex-1">
-              <FormContainer
-                formTitle="Gallery"
-                formIcon={<svg className="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}
-                formDescription="This will be displayed in a carousel at the top of your profile."
-              >
-                <Uploader 
-                  id="gallery-uploader"
-                  max={5}
-                  initialFilesList={galleryImages}
-                  existingFilesList={existingGalleryImages}
-                  setExistingFilesList={setExistingGalleryImages}
-                  setInitialFilesList={setGalleryImages}
-                />
-              </FormContainer>
-            </div>
-            <div className="flex-1">
-              <FormContainer
-                formTitle="Portfolio"
-                formIcon={<svg className="m-auto icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2413" width="30" height="30"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32z m-40 632H136v-39.9l138.5-164.3 150.1 178L658.1 489 888 761.6V792z m0-129.8L664.2 396.8c-3.2-3.8-9-3.8-12.2 0L424.6 666.4l-144-170.7c-3.2-3.8-9-3.8-12.2 0L136 652.7V232h752v430.2z" p-id="2414" fill="#ffffff"></path><path d="M304 456c48.6 0 88-39.4 88-88s-39.4-88-88-88-88 39.4-88 88 39.4 88 88 88z m0-116c15.5 0 28 12.5 28 28s-12.5 28-28 28-28-12.5-28-28 12.5-28 28-28z" p-id="2415" fill="#ffffff"></path></svg>}
-                formDescription="Upload images of your client's transformation"
-              >
-                <Uploader
-                  id="portfolio-uploader"
-                  max={6}
-                  initialFilesList={portfolioImages}
-                  setInitialFilesList={setPortfolioImages}
-                  existingFilesList={existingPortfolioImages}
-                  setExistingFilesList={setExistingPortfolioImages}
-                />
-              </FormContainer>
-            </div>
+            <ProfileGallery 
+              galleryImages={profile?.coachingDetails?.galleryImages}
+              handleShowUploaderModal={handleShowUploaderModal}
+            />
+            <ProfilePortfolio
+              portfolioImages={profile?.coachingDetails?.portfolioImages}
+              handleShowUploaderModal={handleShowUploaderModal}
+            />
           </div>
         </PermissionAccess>
         {showEditServicesModal && (
           <EditServicesModal
             initialServicesList={servicesList}
             onClose={() => setShowEditServicesModal(false)}
+            refetchProfile={refetchProfile}
+          />
+        )}
+        {showUploaderModal && (
+          <UploaderModal
+            headerTitle={selectedHeaderTitle}
+            onClose={() => setShowUploaderModal(false)}
+            uploadType={uploadType}
+            existingServerFiles={
+              uploadType === "PORTFOLIO_UPLOAD"
+                ? profile?.coachingDetails?.portfolioImages
+                : uploadType === "GALLERY_UPLOAD"
+                ? profile?.coachingDetails?.galleryImages
+                : null
+            }
+          />
+        )}
+        {showEditAccountDetailsModal && (
+          <EditAccountDetailsModal 
+            onClose={() => setShowEditAccountDetailsModal(false)}
+            profileForm={profileForm}
+            setProfileForm={setProfileForm}
+            countryCode={countryCode}
+            setCountryCode={setCountryCode}
+            handleSubmit={submitProfileDetails}
           />
         )}
       </div>
     </div>
   );
-}
+};

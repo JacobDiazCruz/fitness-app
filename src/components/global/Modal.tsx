@@ -3,19 +3,21 @@ import {
   borderColor, primaryTextColor
 } from "@/utils/themeColors";
 import { CloseIcon } from "./Icons";
-interface Props {
-  onClose: any;
+interface ModalProps {
+  onClose: () => void;
   className: string;
+  children: React.ReactNode;
+};
+
+interface ChildProps {
   children: React.ReactNode;
 };
 
 export const ModalFooter = ({
   children
-}: {
-  children: React.ReactNode
-}) => {
+}: ChildProps) => {
   return (
-    <div className="py-5 px-3 w-full bottom-0 absolute z-[100] border-t border-neutral-700 dark:bg-darkTheme-600 bg-white">
+    <div className="py-5 px-3 w-full bottom-0 sticky z-[100] border-t border-neutral-700 dark:bg-darkTheme-600 bg-white">
       {children}
     </div>
   );
@@ -23,11 +25,9 @@ export const ModalFooter = ({
 
 export const ModalContent = ({
   children
-}: {
-  children: React.ReactNode
-}) => {
+}: ChildProps) => {
   return (
-    <div className={`content overflow-y-auto max-h-full relative p-7`}>
+    <div className={`content overflow-y-auto relative p-7 h-full`}>
       {children}
     </div>
   );
@@ -35,9 +35,7 @@ export const ModalContent = ({
 
 export const ModalHeader = ({
   children
-}: {
-  children: React.ReactNode
-}) => {
+}: ChildProps) => {
   return (
     <div className="py-5 px-7 w-full top-0 sticky z-[100] border-b border-neutral-700 dark:bg-darkTheme-600 bg-white">
       {children}
@@ -47,9 +45,7 @@ export const ModalHeader = ({
 
 export const ModalTitle = ({
   children
-}: {
-  children: React.ReactNode
-}) => {
+}: ChildProps) => {
   return (
     <h2 className={`${primaryTextColor} font-normal`}>
       {children}
@@ -61,7 +57,7 @@ export default function Modal({
   onClose,
   className,
   children
-}: Props) {
+}: ModalProps) {
   return (
     <>
       <div

@@ -8,7 +8,6 @@ import { ThemeProvider } from "@/contexts/Theme";
 import { useQuery } from "react-query";
 import { getCoachingServices } from "@/api/CoachingService";
 import { useParams } from "next/navigation";
-import { calculateTotalPrice } from "@/api/Checkout";
 
 export default function Checkout() {
   const params = useParams();

@@ -8,7 +8,7 @@ import {
 } from "@/utils/themeColors";
 interface Props {
   value?: string | number | null;
-  onChange: (e: any) => void;
+  onChange?: (e: any) => void;
   className?: string;
   type?: string;
   startIcon?: ReactElement | ReactNode | SVGAElement | null;

@@ -22,7 +22,7 @@ export default function CoachDetailsPricingCard({
   const getFeaturedPrice = () => {
     let featuredPrice = 0;
     services?.forEach((service: any) => {
-      featuredPrice += parseInt(service.price)
+      featuredPrice += parseInt(service.price.value)
     });
     return featuredPrice;
   };
