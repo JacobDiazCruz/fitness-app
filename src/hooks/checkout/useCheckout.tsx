@@ -60,9 +60,9 @@ const useCheckout = () => {
         },
         items,
         redirectUrl: {
-          cancel: "https://developer-demos.maya.ph/checkout-demo/purchase/canceled?id=2409a31b-8817-411b-9b86-a52813142004",
-          failure: "https://developer-demos.maya.ph/checkout-demo/purchase/failed?id=2409a31b-8817-411b-9b86-a52813142004",
-          success: "https://developer-demos.maya.ph/checkout-demo/purchase/success?id=2409a31b-8817-411b-9b86-a52813142004"
+          cancel: "http://localhost:3000/checkout/payment/canceled?id=2409a31b-8817-411b-9b86-a52813142004",
+          failure: "http://localhost:3000/checkout/payment/failed?id=2409a31b-8817-411b-9b86-a52813142004",
+          success: "http://localhost:3000/checkout/payment/success?id=2409a31b-8817-411b-9b86-a52813142004"
         },
         requestReferenceNumber: "2409a31b-8817-411b-9b86-a52813142004",
         totalAmount: {
@@ -73,6 +73,7 @@ const useCheckout = () => {
 
       // mutate checkout
       const res = await mayaCheckoutMutation.mutateAsync(payload);
+      console.log("res", res)
       router.push(res.redirectUrl);
     } catch(err) {
       console.log(err);

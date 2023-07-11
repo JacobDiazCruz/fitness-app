@@ -1,30 +1,72 @@
+import { editProfileDetails } from "@/api/Profile";
 import Button from "@/components/global/Button";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import PhoneInputField from "@/components/global/PhoneInputField";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import { Dispatch, SetStateAction } from "react";
+import useAlert from "@/contexts/Alert";
+import { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import { Form } from "./page";
 
 interface EditAccountDetailsModalProps {
-  profileForm: Form;
-  uploadedProfileImage: any;
-  handleFileChange: void;
-  setProfileForm: Dispatch<SetStateAction<any>>;
-  countryCode: string;
-  setCountryCode: any;
+  profile: any;
   onClose: () => void;
-  handleSubmit: () => void;
+  refetchProfile: any;
 };
 
 export default function EditAccountDetailsModal({
-  profileForm,
-  setProfileForm,
-  countryCode,
-  setCountryCode,
-  handleSubmit,
+  profile,
+  refetchProfile,
   onClose
 }: EditAccountDetailsModalProps) {
+  const { dispatchAlert }: any = useAlert();
+  const [countryCode, setCountryCode] = useState<string>("+63");
+
+  const [profileForm, setProfileForm] = useState<Form>({
+    profileImage: null,
+    firstName: null,
+    lastName: null,
+    contact: null
+  });
+
+  useEffect(() => {
+    if(profile) {
+      setProfileForm(prev => ({
+        ...prev,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        email: profile.email,
+        contact: profile?.contact?.number,
+        about: profile?.coachingDetails?.about,
+        profileImage: profile?.profileImage?.thumbnailImage
+      }));
+    }
+  }, [profile]);
+
+  const editProfileDetailsMutation = useMutation(editProfileDetails);
+
+  const submitForm = async () => {
+    try {
+      const res = await editProfileDetailsMutation.mutateAsync({
+        ...profileForm,
+        contact: {
+          countryCode,
+          number: profileForm?.contact
+        }
+      });
+      onClose();
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Profile details edited successfully."
+      });
+      if(res) {
+        refetchProfile();
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Modal onClose={onClose} className="w-[700px] h-fit">
@@ -112,7 +154,7 @@ export default function EditAccountDetailsModal({
           <div></div>
           <Button
             variant="contained"
-            onClick={handleSubmit}
+            onClick={submitForm}
           >
             Submit
           </Button>

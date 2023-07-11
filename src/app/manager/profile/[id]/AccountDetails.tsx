@@ -1,30 +1,41 @@
-import PhoneInputField from "@/components/global/PhoneInputField";
-import TextArea from "@/components/global/TextArea";
-import TextField from "@/components/global/TextField";
+import { editProfileImage } from "@/api/Profile";
 import { secondaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
+import { ChangeEvent, useState } from "react";
+import { useMutation } from "react-query";
 import FormContainer from "./FormContainer";
-import { Form } from "./page";
 
 interface Props {
-  profileForm: Form;
-  uploadedProfileImage: any;
-  handleFileChange: void;
-  setProfileForm: any;
-  countryCode: string;
+  profile: any,
   setShowEditAccountDetailsModal: any;
-  setCountryCode: any;
 };
 
 export default function AccountDetails({
-  profileForm,
-  uploadedProfileImage,
-  handleFileChange,
-  countryCode,
-  setCountryCode,
-  setShowEditAccountDetailsModal,
-  setProfileForm
+  profile,
+  setShowEditAccountDetailsModal
 }: Props) {
+  const [uploadedProfileImage, setUploadedProfileImage] = useState<any>(null);
+
+  const editProfileImageMutation = useMutation(editProfileImage);
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target?.files || []);
+    const formData = new FormData();
+  
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+    setUploadedProfileImage(files[0]);
+
+    try {
+      const res = await editProfileImageMutation.mutateAsync(formData);
+      if(res?.data) {
+        localStorage.setItem("thumbnailImage", res.data);
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
   return (
     <FormContainer
@@ -44,10 +55,10 @@ export default function AccountDetails({
             multiple={false} 
           />
           <div className="rounded-full bg-gray-300 w-[130px] h-[130px] overflow-hidden relative flex items-center z-10">
-            {(uploadedProfileImage || profileForm?.profileImage?.thumbnailImage) && (
+            {(uploadedProfileImage || profile?.profileImage?.thumbnailImage) && (
               <Image
                 alt="Trainer Image"
-                src={uploadedProfileImage ? URL.createObjectURL(uploadedProfileImage) : profileForm?.profileImage?.thumbnailImage}
+                src={uploadedProfileImage ? URL.createObjectURL(uploadedProfileImage) : profile?.profileImage?.thumbnailImage}
                 style={{ objectFit: "cover" }}
                 fill
               />
@@ -62,22 +73,22 @@ export default function AccountDetails({
         <div className="flex flex-wrap w-[650px] gap-[15px]">
           <div className="field w-half">
             <p className="dark:text-neutral-50 text-darkTheme-900 text-[18px]">
-              {profileForm?.firstName} {profileForm?.lastName}
+              {profile?.firstName} {profile?.lastName}
             </p>
           </div>
           <div className="field w-full">
             <p className={`${secondaryTextColor} text-[14px]`}>
-              {profileForm?.email}
+              {profile?.email}
             </p>
           </div>
           <div className="field w-full">
             <p className={`${secondaryTextColor} text-[14px]`}>
-              {profileForm?.contact?.number}
+              {profile?.contact?.number}
             </p>
           </div>
           <div className="field w-full">
             <p className={`${secondaryTextColor} mb-2 text-[14px]`}>
-              {profileForm?.coachingDetails?.about}
+              {profile?.coachingDetails?.about}
             </p>
           </div>
         </div>

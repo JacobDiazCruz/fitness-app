@@ -1,9 +1,21 @@
-import useTheme from "@/contexts/Theme";
+import { ReactNode } from "react";
 import { LoadingIcon } from "./Icons";
+
+interface ButtonProps {
+  id?: string;
+  variant?: 'contained' | 'outlined' | 'special';
+  className?: string;
+  startIcon?: any;
+  endIcon?: any;
+  onClick?: any;
+  loading?: boolean,
+  disabled?: boolean,
+  children: ReactNode;
+};
 
 export default function Button({
   id,
-  variant = "",
+  variant = "contained",
   className = "h-[45px]",
   startIcon,
   endIcon,
@@ -11,8 +23,7 @@ export default function Button({
   loading = false,
   disabled = false,
   children
-}: any) {
-  const { darkMode } = useTheme();
+}: ButtonProps) {
   
   const variantsCollection = {
     contained: 'dark:bg-blue-600 dark:text-white bg-[#24282C] border-[#24282C] text-white border border-solid',

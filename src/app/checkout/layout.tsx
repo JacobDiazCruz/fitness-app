@@ -1,4 +1,5 @@
 import AppContextProvider from "@/contexts";
+import { ThemeProvider } from "@/contexts/Theme";
 import Providers from "@/utils/provider";
 import { ReactNode } from "react";
 
@@ -10,7 +11,9 @@ export default function CheckoutLayout({
   return (
     <Providers>
       <AppContextProvider>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </AppContextProvider>
     </Providers>
   );

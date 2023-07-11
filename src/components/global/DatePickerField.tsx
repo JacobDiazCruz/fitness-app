@@ -1,8 +1,7 @@
 // @ts-ignore
 import DatePicker from 'react-datepicker';
-import { CalendarContainer } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { borderColor, fieldBgColor, primaryBgColor, primaryTextColor, secondaryBgColor } from '@/utils/themeColors';
+import { borderColor, fieldBgColor, primaryTextColor } from '@/utils/themeColors';
 import { CalendarIcon } from './Icons';
 
 const DatePickerField = ({
@@ -17,7 +16,7 @@ const DatePickerField = ({
         onChange={onChange}
         dateFormat="dd/MM/yyyy"
         className={`
-          ${fieldBgColor} 
+          ${fieldBgColor}
           ${borderColor}
           ${primaryTextColor}
           appearance-none text-[14px] h-[45px] pl-9 border rounded-md py-2 px-4 leading-tight focus:outline-none focus:border-blue-500

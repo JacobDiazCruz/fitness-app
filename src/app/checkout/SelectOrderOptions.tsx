@@ -1,7 +1,9 @@
 'use client';
 
-import { CoachingService } from "@/utils/cooachTypes";
-import { Dispatch, SetStateAction } from "react";
+import DatePickerField from "@/components/global/DatePickerField";
+import FieldName from "@/components/global/FieldName";
+import { CoachingService } from "@/utils/coachTypes";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export interface SelectOrderOptionsProps {
   orderOptions: CoachingService[];
@@ -12,6 +14,9 @@ export default function SelectOrderOptions({
   orderOptions = [],
   setOrderOptions
 }: SelectOrderOptionsProps) {
+
+  const [startingDate, setStartingDate] = useState(null);
+
   return (
     <>
       <div className="bg-white p-6 w-[682px]">
@@ -46,6 +51,17 @@ export default function SelectOrderOptions({
             </div>
           </div>
         ))}
+
+        <div className="mt-7">
+          <FieldName>
+            Preferred starting date
+          </FieldName>
+          <DatePickerField
+            className="w-full"
+            value={startingDate}
+            onChange={(val: any) => setStartingDate(val)}
+          />
+        </div>
       </div>
     </>
   );
