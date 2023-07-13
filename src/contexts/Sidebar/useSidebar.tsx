@@ -1,8 +1,9 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
-import { CalendarIcon, DoubleUserIcon, DumbbellIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "@/components/global/Icons";
+import { DoubleUserIcon, RectangleGroupIcon, SettingsIcon, ShoppingBagIcon } from "@/components/global/Icons";
 import SidebarChatWrapper from "@/components/manager/Sidebar/SidebarChatWrapper";
-import useLocalStorage from "@/hooks/useLocalStorage";
-
+import { BsCalendarWeek } from "react-icons/bs";
+import { AiOutlineSchedule } from "react-icons/ai";
+import { LuDumbbell } from "react-icons/lu";
 interface NavItem {
   icon: React.JSX.Element; 
   name: string; 
@@ -52,12 +53,18 @@ export default function SidebarProvider ({
       name: "Account Settings",
       path: `/manager/profile/${profileId}`,
       roleAccess: "All"
+    },
+    {
+      icon: <BsCalendarWeek className="w-6 h-5 text-gray-400" />,
+      name: "Calendar",
+      path: `/manager/calendar`,
+      roleAccess: "All"
     }
   ]);
 
   const [fitnessNavItems] = useState([
     {
-      icon: <DumbbellIcon className="w-6 h-6 fill-[#90959A]" />,
+      icon: <LuDumbbell className="w-6 h-6 text-gray-400" />,
       name: "Exercises",
       path: "/manager/exercises",
       roleAccess: "All"
@@ -69,7 +76,7 @@ export default function SidebarProvider ({
       roleAccess: "All"
     },
     {
-      icon: <CalendarIcon className="w-6 h-6 text-gray-400" />,
+      icon: <AiOutlineSchedule className="w-6 h-6 text-gray-400" />,
       name: "Programs",
       path: "/manager/programs",
       roleAccess: "All"

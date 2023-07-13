@@ -12,7 +12,8 @@ import { ReactElement, memo, useEffect, useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { 
   fieldBgColor, 
-  primaryTextColor, 
+  primaryTextColor,
+  secondaryTextColor, 
 } from "@/utils/themeColors";
 
 interface Props {
@@ -110,7 +111,7 @@ function AutoComplete({
             ))}
           </>
         ) : (
-          <li className="py-3 pl-4">
+          <li className={`${secondaryTextColor} py-3 pl-4`}>
             <span>No result.</span>
           </li>
         )}
@@ -134,14 +135,14 @@ function AutoComplete({
             ${startIcon && 'pl-8'}
             ${fieldBgColor}
             ${primaryTextColor}
-            border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 placeholder-gray-400`} 
+            border h-[45px] z-[0] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5 placeholder-gray-400`} 
           role="combobox"
           type="text"
           aria-expanded="false"
         />
         {(!inputValue) ? (
-          <button className="absolute inset-y-0 right-0 flex items-center pr-2 z-[15]">
-            <svg t="1685348688578" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="17" height="17"><path d="M192.161209 399.798489c1.289673 9.027708 5.15869 16.765743 11.607053 23.214105l282.438287 282.438288c16.765743 16.765743 42.559194 16.765743 59.324937 0l282.438287-282.438288c6.448363-6.448363 10.31738-14.186398 11.607053-23.214105H192.161209z" fill="#B0B9BE" p-id="6197"></path></svg>
+          <button className="absolute inset-y-0 right-0 flex items-center pr-2 z-[1]">
+            <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="17" height="17"><path d="M192.161209 399.798489c1.289673 9.027708 5.15869 16.765743 11.607053 23.214105l282.438287 282.438288c16.765743 16.765743 42.559194 16.765743 59.324937 0l282.438287-282.438288c6.448363-6.448363 10.31738-14.186398 11.607053-23.214105H192.161209z" fill="#B0B9BE" p-id="6197"></path></svg>
           </button>
         ) : (
           <button

@@ -17,7 +17,7 @@ export const ModalFooter = ({
   children
 }: ChildProps) => {
   return (
-    <div className="py-5 px-3 w-full bottom-0 sticky z-[100] border-t border-neutral-700 dark:bg-darkTheme-600 bg-white">
+    <div className={`${borderColor} py-5 px-3 w-full bottom-0 sticky z-[100] border-t dark:bg-darkTheme-600 bg-white`}>
       {children}
     </div>
   );
@@ -37,7 +37,7 @@ export const ModalHeader = ({
   children
 }: ChildProps) => {
   return (
-    <div className="py-5 px-7 w-full top-0 sticky z-[100] border-b border-neutral-700 dark:bg-darkTheme-600 bg-white">
+    <div className={`${borderColor} py-5 px-7 w-full top-0 sticky z-[100] border-b dark:bg-darkTheme-600 bg-white`}>
       {children}
     </div>
   );

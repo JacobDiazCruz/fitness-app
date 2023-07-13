@@ -1,7 +1,7 @@
 // @ts-ignore
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { borderColor, fieldBgColor, primaryTextColor } from '@/utils/themeColors';
+import { borderColor, fieldBgColor, primaryTextColor, secondaryTextColor } from '@/utils/themeColors';
 import { CalendarIcon } from './Icons';
 
 const DatePickerField = ({
@@ -23,7 +23,7 @@ const DatePickerField = ({
         `}
         placeholderText="Select a date"
       />
-      <CalendarIcon className="h-5 w-5 text-gray-500 ml-2 absolute" />
+      <CalendarIcon className={`${secondaryTextColor} h-5 w-5 ml-2 absolute`} />
     </div>
   );
 };
