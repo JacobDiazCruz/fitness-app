@@ -6,7 +6,6 @@ import {
 } from "@/utils/themeColors";
 import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 interface Props {
   itemId: string;
   name: string;

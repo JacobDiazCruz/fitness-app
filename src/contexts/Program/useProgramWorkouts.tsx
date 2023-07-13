@@ -1,7 +1,16 @@
-'use client';
+"use client";
 
+import { editProgramWorkout, listProgramWorkouts } from "@/api/Program";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useState, createContext, useReducer, useContext, useMemo, useEffect } from "react";
+import {
+  useState,
+  createContext,
+  useReducer,
+  useContext,
+  useMemo,
+  useEffect,
+} from "react";
+import { useMutation, useQuery } from "react-query";
 import useProgram from "./useProgram";
 
 const ProgramWorkoutsContext = createContext();
@@ -10,35 +19,101 @@ export const ProgramWorkoutsProvider = ({ children }) => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
-  const weekIndex = searchParams.get('week') - 1;
-  
+  const weekId: string = searchParams.get("week") ?? "";
+  const weekIndex = searchParams.get("week") - 1;
+
   const {
     weeks,
     programName,
     programDescription,
     programDays,
     setProgramDays,
-    handleEditProgramMutation
+    handleEditProgramMutation,
   } = useProgram();
 
   // update essentials
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
-
+  
   // modal states
-  const [showAddWorkoutModal, setShowAddWorkoutModal] = useState<boolean>(false);
-  const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
-  const [currentWorkoutDetails, setCurrentWorkoutDetails] = useState<CurrentWorkoutDetails>({
-    name: "",
-    dayName: "",
-    description: "",
-    exercises: []
+  const [showAddWorkoutModal, setShowAddWorkoutModal] =
+    useState<boolean>(false);
+  const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] =
+    useState<boolean>(false);
+  const [currentWorkoutDetails, setCurrentWorkoutDetails] =
+    useState<CurrentWorkoutDetails>({
+      name: "",
+      dayName: "",
+      description: "",
+      exercises: [],
+    });
+  
+  const [programWorkouts, setProgramWorkouts] = useState<any>([]);
+    
+  /**
+   * @purpose to list program workouts
+   * @params programId
+   * @params weekId
+   */
+  const {
+    isLoading: isLoadingProgramWorkouts,
+    data: programWorkoutsData,
+    refetch: refetchProgramWorkouts,
+  } = useQuery(
+    "programWorkouts",
+    () =>
+      listProgramWorkouts({
+        programId: params.id,
+        weekId,
+      }),
+    {
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  // Mutate edit program's workout
+  const editProgramWorkoutMutation = useMutation(editProgramWorkout, {
+    onSuccess: async (data) => {
+      return data;
+    },
+    onError: (err) => {
+      console.log(err);
+    }
   });
 
+  useEffect(() => {
+    if(programWorkoutsData) {
+      setProgramWorkouts(programWorkoutsData)
+    }
+  }, [programWorkoutsData])
+
+  useEffect(() => {
+    if (programWorkouts.length) {
+      const newProgramDays = programDays?.map((day, dayIndex) => {
+        const workouts = programWorkouts?.filter(
+          (workout) => workout.programDetails.dayIndex === dayIndex
+        );
+        if(workouts.length) {
+          return {
+            ...day,
+            workouts
+          };
+        } else {
+          return {
+            ...day,
+            workouts: []
+          };
+        }
+      });
+      setProgramDays(newProgramDays);
+    }
+  }, [programWorkouts]);
+
   const handleDeleteWorkout = (workout: any, dayIndex: number) => {
-    setProgramDays(prevProgramDays => {
+    setProgramDays((prevProgramDays) => {
       const cloneProgramDays = [...prevProgramDays];
       const prevWorkoutIndex = programDays[dayIndex]?.workouts.findIndex(
-        wk => wk.secondaryId === workout?.secondaryId
+        (wk) => wk.secondaryId === workout?.secondaryId
       );
       cloneProgramDays[dayIndex].workouts.splice(prevWorkoutIndex, 1);
       return cloneProgramDays;
@@ -46,15 +121,15 @@ export const ProgramWorkoutsProvider = ({ children }) => {
 
     handleEditProgramMutation();
   };
-  
+
   const handleClickWorkout = (workout: any, dayIndex: string) => {
-    const { name, description, exercises } = workout
+    const { name, description, exercises } = workout;
     setCurrentWorkoutDetails({
       name,
       dayName: `Day ${dayIndex + 1}`,
       description,
-      exercises
-    })
+      exercises,
+    });
     setShowWorkoutDetailsModal(true);
   };
 
@@ -64,11 +139,11 @@ export const ProgramWorkoutsProvider = ({ children }) => {
    * The program creates another copy of the original workout, and that copy is the one -
    * to be edited in this function.
    */
-   const handleEditWorkout = ({
+  const handleEditWorkout = ({
     workoutId,
     workoutSecondaryId,
     workoutIndex,
-    dayIndex
+    dayIndex,
   }: {
     workoutId: string;
     workoutSecondaryId: string;
@@ -88,10 +163,15 @@ export const ProgramWorkoutsProvider = ({ children }) => {
 
     router.push(`/manager/workouts/edit/${workoutId}?editProgram=true`);
   };
-  
+
   // value prop to return all necessary data
   const value = useMemo(() => {
     return {
+      programWorkouts,
+      setProgramWorkouts,
+      refetchProgramWorkouts,
+      editProgramWorkoutMutation,
+      isLoadingProgramWorkouts,
       selectedDayIndex,
       showAddWorkoutModal,
       showWorkoutDetailsModal,
@@ -102,9 +182,14 @@ export const ProgramWorkoutsProvider = ({ children }) => {
       setCurrentWorkoutDetails,
       handleDeleteWorkout,
       handleClickWorkout,
-      handleEditWorkout
-    }
+      handleEditWorkout,
+    };
   }, [
+    programWorkouts,
+    setProgramWorkouts,
+    refetchProgramWorkouts,
+    editProgramWorkoutMutation,
+    isLoadingProgramWorkouts,
     selectedDayIndex,
     showAddWorkoutModal,
     showWorkoutDetailsModal,
@@ -115,8 +200,8 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     setCurrentWorkoutDetails,
     handleDeleteWorkout,
     handleClickWorkout,
-    handleEditWorkout
-  ])
+    handleEditWorkout,
+  ]);
 
   return (
     <ProgramWorkoutsContext.Provider value={value}>
@@ -126,11 +211,11 @@ export const ProgramWorkoutsProvider = ({ children }) => {
 };
 
 const useProgramWorkouts = () => {
-  const context = useContext(ProgramWorkoutsContext)
+  const context = useContext(ProgramWorkoutsContext);
   if (context === undefined) {
-    throw new Error("useProgramWorkouts must be used within workout context")
+    throw new Error("useProgramWorkouts must be used within workout context");
   }
   return context;
-}
+};
 
 export default useProgramWorkouts;

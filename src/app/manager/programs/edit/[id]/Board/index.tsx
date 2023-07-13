@@ -3,6 +3,7 @@
 // modals
 import SelectWorkoutsModal from "./Workouts/SelectWorkoutsModal";
 import WorkoutDetailsModal from "./Workouts/WorkoutDetailsModal";
+import SelectWorkoutsModalv2 from "./Workouts/SelectWorkoutsModalv2";
 
 // child components
 import DayContainer from "./Day/DayContainer";
@@ -22,7 +23,8 @@ export default function Board() {
   const {
     showAddWorkoutModal,
     setShowAddWorkoutModal,
-    showWorkoutDetailsModal
+    showWorkoutDetailsModal,
+    programWorkouts
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   const [_, setSelectedWorkouts] = useState<Array<any>>([]);
@@ -35,9 +37,9 @@ export default function Board() {
             dayName={day.name}
             dayIndex={dayIndex}
           />
-          {day.workouts.map((workout: any, workoutIndex: number) => (
+          {day?.workouts.map((workout, workoutIndex) => (
             <Draggable
-              key={workout.secondaryId}
+              key={workoutIndex}
               workout={workout}
               workoutIndex={workoutIndex}
               dayIndex={dayIndex}
@@ -49,6 +51,24 @@ export default function Board() {
               />
             </Draggable>
           ))}
+          {/* {programWorkouts?.map((workout: any, workoutIndex: number) => (
+            <>
+              {workout.programDetails.dayIndex === dayIndex && (
+                <Draggable
+                  key={workout.secondaryId}
+                  workout={workout}
+                  workoutIndex={workoutIndex}
+                  dayIndex={dayIndex}
+                >
+                  <Draggable.Workout
+                    workout={workout}
+                    workoutIndex={workoutIndex}
+                    dayIndex={dayIndex}
+                  />
+                </Draggable>
+              )}
+            </>
+          ))} */}
         </DayContainer>
       ))}
 
@@ -57,7 +77,7 @@ export default function Board() {
         <WorkoutDetailsModal />
       )}
       {showAddWorkoutModal && (
-        <SelectWorkoutsModal
+        <SelectWorkoutsModalv2
           onClose={() => setShowAddWorkoutModal?.(false)}
           setSelectedWorkouts={setSelectedWorkouts}
         />

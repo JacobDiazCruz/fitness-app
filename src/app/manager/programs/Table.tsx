@@ -44,10 +44,12 @@ export default function Table() {
 
   // Search filter logic
   useEffect(() => {
-    const filteredPrograms = programs?.filter((program: Program) =>
-      program.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setFilteredPrograms(filteredPrograms);
+    if(programs?.length) {
+      const filteredPrograms = programs?.filter((program: Program) =>
+        program.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilteredPrograms(filteredPrograms);
+    }
   }, [searchValue, programs]);
 
   // Return loading state if data is still loading

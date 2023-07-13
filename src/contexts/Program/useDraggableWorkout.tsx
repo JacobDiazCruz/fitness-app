@@ -1,7 +1,9 @@
 'use client';
 
+import { UseProgramWorkoutsContext } from "@/utils/programTypes";
 import { useState, createContext, useReducer, useContext, useMemo, useEffect, useCallback } from "react";
 import useProgram from "./useProgram";
+import useProgramWorkouts from "./useProgramWorkouts";
 
 const DraggableWorkoutContext = createContext();
 
@@ -13,6 +15,12 @@ export const DraggableWorkoutProvider = ({ children }) => {
     handleEditProgramMutation
   } = useProgram();
 
+  const { 
+    programWorkouts,
+    setProgramWorkouts,
+    editProgramWorkoutMutation
+  }: UseProgramWorkoutsContext = useProgramWorkouts()!;
+
   // draggable state
   const [draggedWorkout, setDraggedWorkout] = useState<any>(null);
 
@@ -20,20 +28,27 @@ export const DraggableWorkoutProvider = ({ children }) => {
   const onDragEnter = ((e, workoutIndex, dayIndex) => {
     e.preventDefault();
 
-    const targetIndex = programDays[dayIndex]?.workouts.findIndex(
-      workout => workout.secondaryId === draggedWorkout?.secondaryId
+    const targetIndex = programDays[dayIndex].workouts.findIndex(
+      workout => workout._id === draggedWorkout?._id
     );
-
-    console.log("draggedWorkout", draggedWorkout)
-    console.log("workoutIndex", workoutIndex);
-    console.log("targetIndex", targetIndex);
 
     if (targetIndex !== -1) {
       const updatedArr = [...programDays];
       const workoutsArr = [...updatedArr[dayIndex]?.workouts];
-  
+
       workoutsArr.splice(targetIndex, 1);
       workoutsArr.splice(workoutIndex, 0, draggedWorkout);
+
+      editProgramWorkoutMutation.mutateAsync({
+        id: draggedWorkout._id,
+        data: {
+          ...draggedWorkout,
+          programDetails: {
+            ...draggedWorkout.programDetails,
+            positionIndex: targetIndex
+          }
+        }
+      });
 
       updatedArr[dayIndex].workouts = workoutsArr;
       setProgramDays(updatedArr);
@@ -59,7 +74,8 @@ export const DraggableWorkoutProvider = ({ children }) => {
   const removeDraggedWorkout = useCallback((prevDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
       const cloneProgramDays = [...prevProgramDays];
-      const filteredWorkouts = cloneProgramDays[prevDayIndex].workouts.filter((wk) => wk.secondaryId !== workout.secondaryId)
+      const filteredWorkouts = cloneProgramDays[prevDayIndex].workouts.filter((wk) => wk._id !== workout._id);
+
       cloneProgramDays[prevDayIndex].workouts = filteredWorkouts;
       return cloneProgramDays;
     });
@@ -68,6 +84,7 @@ export const DraggableWorkoutProvider = ({ children }) => {
   // Add dragged workout to the designated day
   const addDroppedWorkout = useCallback((currentDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
+      console.log("prevProgramDays", prevProgramDays)
       const cloneProgramDays = [...prevProgramDays];
       cloneProgramDays[currentDayIndex].workouts.push(workout);
       return cloneProgramDays;

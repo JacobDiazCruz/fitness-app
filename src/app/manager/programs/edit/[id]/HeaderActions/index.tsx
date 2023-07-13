@@ -1,11 +1,11 @@
 import Button from "@/components/global/Button";
 import { useState } from "react";
-import { AddIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/global/Icons";
-import AssignClientModal from "../AssignClientModal";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { AddIcon, ArrowRightIcon } from "@/components/global/Icons";
+import AssignClientModal from "./AssignClientModal";
 import WeeksPagination from "./WeeksPagination";
 import PermissionAccess from "@/components/global/PermissionAccess";
-
+import { LiaSyncAltSolid } from "react-icons/lia";
+import SyncToCalendarModal from "./SyncToCalendarModal";
 interface Props {
   weeks: Array<any>;
 };
@@ -13,15 +13,29 @@ interface Props {
 export default function HeaderActions({
   weeks
 }: Props) {
+
   const [showAssignClientModal, setShowAssignClientModal] = useState<boolean>(false);
+  const [showSyncToClientModal, setShowSyncToClientModal] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col md:flex-row justify-between mb-7">
       <WeeksPagination weeks={weeks} />
 
       <div className="flex gap-[15px] mt-7 md:mt-0">
-        <Button variant="outlined" className="w-full md:w-auto" startIcon={<AddIcon />}>
+        <Button 
+          variant="outlined" 
+          className="w-full md:w-auto" 
+          startIcon={<AddIcon />}
+        >
           Add Week
+        </Button>
+        <Button 
+          variant="outlined" 
+          className="w-full md:w-auto" 
+          startIcon={<LiaSyncAltSolid />}
+          onClick={() => setShowSyncToClientModal(true)}
+        >
+          Sync to Calendar
         </Button>
         <PermissionAccess roleAccess="Coach">
           <Button
@@ -38,6 +52,12 @@ export default function HeaderActions({
       {showAssignClientModal && (
         <AssignClientModal
           onClose={() => setShowAssignClientModal(false)}
+        />
+      )}
+
+      {showSyncToClientModal && (
+        <SyncToCalendarModal
+          onClose={() => setShowSyncToClientModal(false)}
         />
       )}
     </div>

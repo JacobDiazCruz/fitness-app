@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Modal, { ModalFooter } from "@/components/global/Modal";
+import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import Button from "@/components/global/Button";
 import { primaryTextColor } from "@/utils/themeColors";
 import { listClients } from "@/api/Client";
@@ -16,7 +16,7 @@ export default function AssignClientModal({ onClose }: any) {
   const { dispatchAlert }: any = useAlert()!;
 
   const {
-    isLoading, 
+    isLoading,
     isError,
     data: clients,
     error
@@ -70,10 +70,12 @@ export default function AssignClientModal({ onClose }: any) {
   
   return (
     <Modal onClose={onClose} className="w-[500px] h-[500px]">
-      <div className="p-7">
-        <div className="flex justify-between">
-          <h2 className={`${primaryTextColor} font-semibold`}>Assign to Client</h2>
-        </div>
+      <ModalHeader>
+        <ModalTitle>
+          Assign to Client
+        </ModalTitle>
+      </ModalHeader>
+      <ModalContent>
         <div className="field mt-7">
           <FieldName>
             Assign to
@@ -97,7 +99,7 @@ export default function AssignClientModal({ onClose }: any) {
             onChange={(val) => setStartingDate(val)}
           />
         </div>
-      </div>
+      </ModalContent>
       <ModalFooter>
         <Button 
           className="w-full text-center"

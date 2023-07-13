@@ -26,6 +26,11 @@ export interface UseProgramContext {
 };
 
 export interface UseProgramWorkoutsContext {
+  programWorkouts?: any;
+  setProgramWorkouts?: Dispatch<SetStateAction<any>>;
+  refetchProgramWorkouts?: any;
+  editProgramWorkoutMutation?: any;
+  isLoadingProgramWorkouts?: boolean;
   showAddWorkoutModal?: boolean;
   showWorkoutDetailsModal?: boolean;
   currentWorkoutDetails?: any;

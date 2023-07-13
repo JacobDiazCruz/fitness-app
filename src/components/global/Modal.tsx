@@ -5,7 +5,7 @@ import {
 import { CloseIcon } from "./Icons";
 interface ModalProps {
   onClose: () => void;
-  className: string;
+  className?: string;
   children: React.ReactNode;
 };
 

@@ -7,8 +7,8 @@ import { ProgramProvider } from "./useProgram";
 
 const providers = [
   ProgramProvider,
-  DraggableWorkoutProvider,
   ProgramWorkoutsProvider,
+  DraggableWorkoutProvider
 ];
 
 const ProgramContextProvider = combineComponents(...providers);

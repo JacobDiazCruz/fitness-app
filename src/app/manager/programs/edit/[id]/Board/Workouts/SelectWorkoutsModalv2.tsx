@@ -7,12 +7,11 @@ import { useQuery } from "react-query";
 import { listWorkouts } from "@/api/Workout";
 import {
   primaryTextColor, 
-  secondaryTextColor,
-  secondaryBgColor
+  secondaryTextColor
 } from "@/utils/themeColors";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
-import { editProgram } from "@/api/Program";
+import { addProgramWorkout, addProgramWorkouts, editProgram } from "@/api/Program";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
@@ -22,13 +21,16 @@ interface Props {
   setSelectedWorkouts: any;
 };
 
-export default function SelectWorkoutsModal({ 
+export default function SelectWorkoutsModalv2({ 
   onClose,
   setSelectedWorkouts
 }: Props) {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const weekId = searchParams.get("week");
+
   const [searchVal, setSearchVal] = useState<string>("");
   const [workouts, setWorkouts] = useState<Array<any>>([]);
-  const params = useParams();
 
   const {
     weeks,
@@ -38,7 +40,8 @@ export default function SelectWorkoutsModal({
   }: UseProgramContext = useProgram()!;
 
   const {
-    selectedDayIndex
+    selectedDayIndex,
+    refetchProgramWorkouts
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   const { 
@@ -51,6 +54,17 @@ export default function SelectWorkoutsModal({
   const editProgramMutation = useMutation(editProgram, {
     onSuccess: async (data) => {
       return data;
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  const addProgramWorkoutsMutation = useMutation(addProgramWorkouts, {
+    onSuccess: async (data) => {
+      if(data) {
+        refetchProgramWorkouts();
+      }
     },
     onError: (err) => {
       console.log(err);
@@ -75,30 +89,40 @@ export default function SelectWorkoutsModal({
   }, [searchVal, initialWorkouts]);
   
   // triggered on click of "Select" button
-  const handleSelectWorkouts = () => {
-    const selectedWorkouts = workouts?.filter((workout) => workout.selected).map((workout) => ({
+  const handleSubmit = () => {
+    const selectedWorkouts = workouts?.filter((workout) => workout.selected).map((workout, index) => ({
       ...workout,
-      secondaryId: Math.random()
-    }));
-    setSelectedWorkouts(selectedWorkouts);
-
-    setProgramDays?.((prevProgramDays: any) => {
-      const cloneProgramDays = [...prevProgramDays];
-      cloneProgramDays[selectedDayIndex ?? 0].workouts = [
-        ...cloneProgramDays[selectedDayIndex ?? 0].workouts,
-        ...selectedWorkouts
-      ];
-      return cloneProgramDays;
-    });
-
-    editProgramMutation.mutateAsync({
-      id: params.id,
-      data: {
-        name: programName,
-        description: programDescription,
-        weeks
+      programDetails: {
+        programId: params.id,
+        weekId,
+        dayIndex: selectedDayIndex,
+        positionIndex: index
       }
+    }));
+
+    addProgramWorkoutsMutation.mutateAsync({
+      workouts: selectedWorkouts
     });
+    
+    // setSelectedWorkouts(selectedWorkouts);
+
+    // setProgramDays?.((prevProgramDays: any) => {
+    //   const cloneProgramDays = [...prevProgramDays];
+    //   cloneProgramDays[selectedDayIndex ?? 0].workouts = [
+    //     ...cloneProgramDays[selectedDayIndex ?? 0].workouts,
+    //     ...selectedWorkouts
+    //   ];
+    //   return cloneProgramDays;
+    // });
+
+    // editProgramMutation.mutateAsync({
+    //   id: params.id,
+    //   data: {
+    //     name: programName,
+    //     description: programDescription,
+    //     weeks
+    //   }
+    // });
 
     onClose();
   };
@@ -145,7 +169,7 @@ export default function SelectWorkoutsModal({
         <Button 
           className="w-full text-center" 
           variant="contained"
-          onClick={() => handleSelectWorkouts()}
+          onClick={() => handleSubmit()}
         >
           Select
         </Button>

@@ -14,6 +14,44 @@ export const addProgram = async (data) => {
   return res.data;
 };
 
+export const addProgramWorkouts = async (data) => {
+  const payload = {
+    url: `/program/workouts/add`,
+    data
+  };
+  const res = await postRequest(payload);
+  return res.data;
+};
+
+export const listProgramWorkouts = async ({
+  programId,
+  weekId
+}: {
+  programId: string,
+  weekId: string
+}) => {
+  const payload = {
+    url: `/program/workouts/list?programId=${programId}&weekId=${weekId}`
+  };
+  const res = await getRequest(payload);
+  return res.data?.data;
+};
+
+export const editProgramWorkout = async ({
+  id,
+  data
+}: {
+  id?: string;
+  data?: any;
+}) => {
+  const payload = {
+    url: `/program/workouts/edit/${id}`,
+    data
+  };
+  const res = await putRequest(payload);
+  return res.data;
+};
+
 export const assignProgramToClient = async ({ id, client }) => {
   const payload = {
     url: `/program/assign/${id}`,

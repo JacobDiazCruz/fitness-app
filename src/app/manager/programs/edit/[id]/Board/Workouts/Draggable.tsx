@@ -77,7 +77,7 @@ export default function Draggable({
         }}
         onDragEnd={(e) => {
           e.preventDefault();
-          setDraggedWorkout?.(null)
+          setDraggedWorkout?.(null);
         }}
         className="w-full bg-white dark:bg-darkTheme-800 rounded-lg mt-2 p-3 cursor-pointer shadow-md"
         style={{
@@ -90,7 +90,6 @@ export default function Draggable({
             visibility: draggedWorkout ? "visible" : "hidden"
           }}
           onDragEnter={e => {
-            console.log("workoutIndex", workoutIndex)
             onDragEnter(e, workoutIndex, dayIndex)
           }}
         ></div>
