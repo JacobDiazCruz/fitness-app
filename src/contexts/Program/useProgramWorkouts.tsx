@@ -85,29 +85,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     if(programWorkoutsData) {
       setProgramWorkouts(programWorkoutsData)
     }
-  }, [programWorkoutsData])
-
-  useEffect(() => {
-    if (programWorkouts.length) {
-      const newProgramDays = programDays?.map((day, dayIndex) => {
-        const workouts = programWorkouts?.filter(
-          (workout) => workout.programDetails.dayIndex === dayIndex
-        );
-        if(workouts.length) {
-          return {
-            ...day,
-            workouts
-          };
-        } else {
-          return {
-            ...day,
-            workouts: []
-          };
-        }
-      });
-      setProgramDays(newProgramDays);
-    }
-  }, [programWorkouts]);
+  }, [programWorkoutsData]);
 
   const handleDeleteWorkout = (workout: any, dayIndex: number) => {
     setProgramDays((prevProgramDays) => {
@@ -168,6 +146,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
   const value = useMemo(() => {
     return {
       programWorkouts,
+      programWorkoutsData,
       setProgramWorkouts,
       refetchProgramWorkouts,
       editProgramWorkoutMutation,
@@ -186,6 +165,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     };
   }, [
     programWorkouts,
+    programWorkoutsData,
     setProgramWorkouts,
     refetchProgramWorkouts,
     editProgramWorkoutMutation,

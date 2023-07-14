@@ -20,6 +20,7 @@ export default function Draggable({
   const {
     draggedWorkout,
     setDraggedWorkout,
+    handleDropWorkoutReposition,
     onDragEnter
   }: UseDraggableWorkoutContext = useDraggableWorkout()!;
 
@@ -70,6 +71,7 @@ export default function Draggable({
         }}
         onDrop={e => {
           e.preventDefault();
+          handleDropWorkoutReposition();
           setDraggedWorkout?.(null);
         }}
         onDragOver={(e) => {

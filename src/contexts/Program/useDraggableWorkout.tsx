@@ -1,6 +1,7 @@
 'use client';
 
 import { UseProgramWorkoutsContext } from "@/utils/programTypes";
+import { useSearchParams } from "next/navigation";
 import { useState, createContext, useReducer, useContext, useMemo, useEffect, useCallback } from "react";
 import useProgram from "./useProgram";
 import useProgramWorkouts from "./useProgramWorkouts";
@@ -8,8 +9,12 @@ import useProgramWorkouts from "./useProgramWorkouts";
 const DraggableWorkoutContext = createContext();
 
 export const DraggableWorkoutProvider = ({ children }) => {
+  const searchParams = useSearchParams();
+  const weekId: any = searchParams.get("week") ?? "";
+
   // program hook
   const {
+    weeks,
     programDays,
     setProgramDays,
     handleEditProgramMutation
@@ -39,18 +44,8 @@ export const DraggableWorkoutProvider = ({ children }) => {
       workoutsArr.splice(targetIndex, 1);
       workoutsArr.splice(workoutIndex, 0, draggedWorkout);
 
-      editProgramWorkoutMutation.mutateAsync({
-        id: draggedWorkout._id,
-        data: {
-          ...draggedWorkout,
-          programDetails: {
-            ...draggedWorkout.programDetails,
-            positionIndex: targetIndex
-          }
-        }
-      });
-
       updatedArr[dayIndex].workouts = workoutsArr;
+      console.log("updatedArr", updatedArr)
       setProgramDays(updatedArr);
     }
   });
@@ -65,9 +60,13 @@ export const DraggableWorkoutProvider = ({ children }) => {
       if(prevDayIndex !== dayIndex) {
         await removeDraggedWorkout(prevDayIndex, workout);
         await addDroppedWorkout(dayIndex, workout);
-        await handleEditProgramMutation();
+        await handleEditProgramMutation(weeks);
       }
     }
+  };
+
+  const handleDropWorkoutReposition = async () => {
+    await handleEditProgramMutation(weeks);
   };
 
   // Remove dragged workout from its previous day and index
@@ -84,7 +83,6 @@ export const DraggableWorkoutProvider = ({ children }) => {
   // Add dragged workout to the designated day
   const addDroppedWorkout = useCallback((currentDayIndex, workout) => {
     setProgramDays(prevProgramDays => {
-      console.log("prevProgramDays", prevProgramDays)
       const cloneProgramDays = [...prevProgramDays];
       cloneProgramDays[currentDayIndex].workouts.push(workout);
       return cloneProgramDays;
@@ -95,12 +93,14 @@ export const DraggableWorkoutProvider = ({ children }) => {
   const value = useMemo(() => {
     return {
       draggedWorkout,
+      handleDropWorkoutReposition,
       setDraggedWorkout,
       onDropWorkout,
       onDragEnter
     }
   }, [
     draggedWorkout,
+    handleDropWorkoutReposition,
     setDraggedWorkout,
     onDropWorkout,
     onDragEnter

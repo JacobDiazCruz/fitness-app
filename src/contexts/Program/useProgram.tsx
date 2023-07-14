@@ -1,7 +1,7 @@
 'use client';
 
 import { editProgram } from "@/api/Program";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useState, createContext, useReducer, useContext, useMemo, useEffect, ReactNode } from "react";
 import { useMutation } from "react-query";
 const ProgramContext = createContext(null);
@@ -9,6 +9,8 @@ const ProgramContext = createContext(null);
 // USED FOR PROGRAM'S DIRECT ACCESS TO ITS STATES AND REQUESTS
 export const ProgramProvider = ({ children }: { children: ReactNode }) => {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const weekId = searchParams.get("week") ?? "";
   
   // form field states
   const [programName, setProgramName] = useState<string>("");
@@ -36,14 +38,29 @@ export const ProgramProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
-  // Handler for edit mutation
-  const handleEditProgramMutation = () => {
-    editProgramMutation.mutateAsync({
+  /**
+   * @purpose To edit program with the new set of weeks
+   * @note Always perform a deep copy first when changing the weeks and days values
+   * @note Always transform workout array data to ids before mutating
+   * @param updatedWeeks
+   * @returns 
+   */
+  const handleEditProgramMutation = async (updatedWeeks) => {
+    if(!updatedWeeks) return;
+
+    const newWeeks = JSON.parse(JSON.stringify(updatedWeeks));
+    const newProgramDays = JSON.parse(JSON.stringify(programDays));
+    newProgramDays.map((day: any, dayIndex: number) => {
+      const workoutIds = day.workouts.map((workout) => workout._id);
+      newWeeks[weekId - 1].days[dayIndex].workouts.splice(0, newWeeks[weekId - 1].days[dayIndex].workouts.length, ...workoutIds);
+    });
+
+    await editProgramMutation.mutateAsync({
       id: params.id,
       data: {
         name: programName,
         description: programDescription,
-        weeks
+        weeks: newWeeks
       }
     });
   };

@@ -3,7 +3,6 @@
 // modals
 import SelectWorkoutsModal from "./Workouts/SelectWorkoutsModal";
 import WorkoutDetailsModal from "./Workouts/WorkoutDetailsModal";
-import SelectWorkoutsModalv2 from "./Workouts/SelectWorkoutsModalv2";
 
 // child components
 import DayContainer from "./Day/DayContainer";
@@ -13,7 +12,6 @@ import Draggable from "./Workouts/Draggable";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
-import { useState } from "react";
 
 export default function Board() {
   const {
@@ -23,11 +21,8 @@ export default function Board() {
   const {
     showAddWorkoutModal,
     setShowAddWorkoutModal,
-    showWorkoutDetailsModal,
-    programWorkouts
+    showWorkoutDetailsModal
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
-
-  const [_, setSelectedWorkouts] = useState<Array<any>>([]);
 
   return (
     <div className="program-board flex flex-col md:flex-row gap-[10px]">
@@ -37,7 +32,7 @@ export default function Board() {
             dayName={day.name}
             dayIndex={dayIndex}
           />
-          {day?.workouts.map((workout, workoutIndex) => (
+          {day?.workouts.map((workout: any, workoutIndex: number) => (
             <Draggable
               key={workoutIndex}
               workout={workout}
@@ -51,24 +46,6 @@ export default function Board() {
               />
             </Draggable>
           ))}
-          {/* {programWorkouts?.map((workout: any, workoutIndex: number) => (
-            <>
-              {workout.programDetails.dayIndex === dayIndex && (
-                <Draggable
-                  key={workout.secondaryId}
-                  workout={workout}
-                  workoutIndex={workoutIndex}
-                  dayIndex={dayIndex}
-                >
-                  <Draggable.Workout
-                    workout={workout}
-                    workoutIndex={workoutIndex}
-                    dayIndex={dayIndex}
-                  />
-                </Draggable>
-              )}
-            </>
-          ))} */}
         </DayContainer>
       ))}
 
@@ -77,9 +54,8 @@ export default function Board() {
         <WorkoutDetailsModal />
       )}
       {showAddWorkoutModal && (
-        <SelectWorkoutsModalv2
+        <SelectWorkoutsModal
           onClose={() => setShowAddWorkoutModal?.(false)}
-          setSelectedWorkouts={setSelectedWorkouts}
         />
       )}
     </div>

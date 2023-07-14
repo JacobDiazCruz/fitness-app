@@ -7,33 +7,34 @@ import { useQuery } from "react-query";
 import { listWorkouts } from "@/api/Workout";
 import {
   primaryTextColor, 
-  secondaryTextColor,
-  secondaryBgColor
+  secondaryTextColor
 } from "@/utils/themeColors";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
-import { editProgram } from "@/api/Program";
+import { addProgramWorkouts } from "@/api/Program";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 interface Props {
   onClose: () => void;
-  setSelectedWorkouts: any;
+  // setSelectedWorkouts: any;
 };
 
 export default function SelectWorkoutsModal({ 
   onClose,
-  setSelectedWorkouts
+  // setSelectedWorkouts
 }: Props) {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const weekId = searchParams.get("week");
+
   const [searchVal, setSearchVal] = useState<string>("");
   const [workouts, setWorkouts] = useState<Array<any>>([]);
-  const params = useParams();
 
   const {
     weeks,
-    programName,
-    programDescription,
+    handleEditProgramMutation,
     setProgramDays
   }: UseProgramContext = useProgram()!;
 
@@ -42,15 +43,16 @@ export default function SelectWorkoutsModal({
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   const { 
-    isLoading,
     data: initialWorkouts,
   } = useQuery('workouts', listWorkouts, {
     refetchOnMount: true
   });
 
-  const editProgramMutation = useMutation(editProgram, {
+  const addProgramWorkoutsMutation = useMutation(addProgramWorkouts, {
     onSuccess: async (data) => {
-      return data;
+      if(data) {
+        return data;
+      }
     },
     onError: (err) => {
       console.log(err);
@@ -75,31 +77,31 @@ export default function SelectWorkoutsModal({
   }, [searchVal, initialWorkouts]);
   
   // triggered on click of "Select" button
-  const handleSelectWorkouts = () => {
-    const selectedWorkouts = workouts?.filter((workout) => workout.selected).map((workout) => ({
+  const handleSubmit = async () => {
+    const selectedWorkouts = workouts?.filter((workout) => workout.selected).map((workout, index) => ({
       ...workout,
-      secondaryId: Math.random()
+      programDetails: {
+        programId: params.id,
+        weekId,
+        dayIndex: selectedDayIndex,
+        positionIndex: index
+      }
     }));
-    setSelectedWorkouts(selectedWorkouts);
+
+    const addResult = await addProgramWorkoutsMutation.mutateAsync({
+      workouts: selectedWorkouts
+    });
 
     setProgramDays?.((prevProgramDays: any) => {
       const cloneProgramDays = [...prevProgramDays];
       cloneProgramDays[selectedDayIndex ?? 0].workouts = [
         ...cloneProgramDays[selectedDayIndex ?? 0].workouts,
-        ...selectedWorkouts
+        ...addResult.data.data
       ];
       return cloneProgramDays;
     });
 
-    editProgramMutation.mutateAsync({
-      id: params.id,
-      data: {
-        name: programName,
-        description: programDescription,
-        weeks
-      }
-    });
-
+    handleEditProgramMutation?.(weeks);
     onClose();
   };
 
@@ -145,7 +147,7 @@ export default function SelectWorkoutsModal({
         <Button 
           className="w-full text-center" 
           variant="contained"
-          onClick={() => handleSelectWorkouts()}
+          onClick={() => handleSubmit()}
         >
           Select
         </Button>

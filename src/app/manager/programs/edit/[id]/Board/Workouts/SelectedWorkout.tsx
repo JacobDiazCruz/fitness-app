@@ -25,10 +25,10 @@ export default function SelectedWorkout ({
     <div className="flex justify-between">
       <div>
         <h5 className={`${primaryTextColor} text-[14px] font-medium`}>
-          {workout.name}
+          {workout?.name}
         </h5>
         <p className={`${secondaryTextColor} text-[12px] mt-1 text-normal`}>
-          {workout.exercises.length} exercises
+          {workout?.exercises?.length} exercises
         </p>
       </div>
       <PermissionAccess roleAccess="Coach">

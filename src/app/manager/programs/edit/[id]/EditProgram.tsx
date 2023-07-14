@@ -17,6 +17,7 @@ import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
 import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 export default function EditProgram() {
   const params = useParams();
@@ -31,6 +32,10 @@ export default function EditProgram() {
     setWeeks,
     setProgramDays,
   }: UseProgramContext = useProgram()!;
+
+  const {
+    programWorkouts
+  } = useProgramWorkouts();
 
   // Get program data
   const {
@@ -54,6 +59,20 @@ export default function EditProgram() {
       setWeeks?.(programData?.weeks);
       setProgramName?.(programData?.name);
       setProgramDescription?.(programData?.description);
+      
+      // programData?.weeks.map((week, weekIndex) => {
+      //   week.days.map((day) => {
+      //     if (day.workouts.length) {
+      //       const convertedWorkouts = day.workouts.map((workoutId) => {
+      //         // Assuming workoutData is an array containing all workout objects
+      //         const workout = programWorkouts.find((workout) => workout._id === workoutId);
+      //         console.log("workout", workout)
+      //         return workout;
+      //       });
+      //       console.log("day.workouts", convertedWorkouts);
+      //     }
+      //   });
+      // });  
     }
   }, [programData]);
 
