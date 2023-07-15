@@ -6,20 +6,21 @@ import { ModalContent, ModalFooter } from "@/components/global/Modal";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import { DayTime } from "@/utils/calendarTypes";
 import { Program } from "@/utils/programTypes";
-import { fieldBgColor, secondaryTextColor } from "@/utils/themeColors";
+import { fieldBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
 export default function ProgramSchedule() {
-  const { submitForm } = useCalendarScheduleBuilder();
+  const { submitForm }: any = useCalendarScheduleBuilder();
 
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [selectAllWeeks, setSelectAllWeeks] = useState<boolean>(true);
 
   const [date, setDate] = useState<string>("");
   const [startTime, setStartTime] = useState<DayTime | null>(null);
-
+  const [endTime, setEndTime] = useState<DayTime | null>(null);
+  
   const {
     isLoading, 
     isError,
@@ -29,6 +30,23 @@ export default function ProgramSchedule() {
     const userRole = localStorage?.getItem("userRole");
     return listPrograms(userRole == "Client" ? "Client" : "");
   });
+
+  const submitProgram = () => {
+    const workouts = selectedProgram?.weeks.flatMap((week) =>
+      week.days.flatMap((day) => day.workouts)
+    );
+
+    submitForm({
+      programDetails: {
+        _id: selectedProgram?._id,
+        name: selectedProgram?.name,
+        workouts
+      },
+      taggedDate: date,
+      startTime,
+      endTime
+    });
+  };
 
   return (
     <>
@@ -69,22 +87,34 @@ export default function ProgramSchedule() {
               onChange={(value: any) => setDate(value)}
               placeholder="Starting date"
             />
-            <AutoComplete 
-              items={timesList}
-              value={startTime}
-              placeholder="Starting time"
-              onChange={(value: any) => setStartTime(value)}
-            />
+            <div className="flex gap-[10px] items-center">
+              <div className="w-[100px]">
+                <AutoComplete 
+                  items={timesList}
+                  value={startTime}
+                  placeholder="Start time"
+                  onChange={(value: any) => setStartTime(value)}
+                />
+              </div>
+              <div className={primaryTextColor}>-</div>
+              <div className="w-[100px]">
+                <AutoComplete 
+                  items={timesList}
+                  value={endTime}
+                  placeholder="End time"
+                  onChange={(value: any) => setEndTime(value)}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </ModalContent>
       <ModalFooter>
         <div className="flex">
-          <Button onClick={() => submitForm({
-            programId: selectedProgram?._id,
-            taggedDate: date,
-            startTime
-          })} className="ml-auto">
+          <Button 
+            onClick={() => submitProgram()} 
+            className="ml-auto"
+          >
             Submit
           </Button>
         </div>

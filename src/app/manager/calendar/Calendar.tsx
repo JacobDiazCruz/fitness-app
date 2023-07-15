@@ -21,19 +21,13 @@ export default function Calendar() {
 
   const {
     dates,
-    setDates,
+    startDate,
+    setStartDate,
     calendarSchedules
   } = useCalendar();
 
-  const [startDate, setStartDate] = useState(new Date()); // State to store the start date of the week
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
   const [weeklyCalendarSchedules, setWeeklyCalendarSchedules] = useState([]);
-
-  const handlePreviousWeek = () => {
-    const previousWeek = new Date(startDate);
-    previousWeek.setDate(previousWeek.getDate() - 7); // Subtract 7 days to go to the previous week
-    setStartDate(previousWeek);
-  };
 
   /**
    * @purpose To set weekly calendar items
@@ -72,6 +66,12 @@ export default function Calendar() {
     setStartDate(nextWeek);
   };
 
+  const handlePreviousWeek = () => {
+    const previousWeek = new Date(startDate);
+    previousWeek.setDate(previousWeek.getDate() - 7); // Subtract 7 days to go to the previous week
+    setStartDate(previousWeek);
+  };
+
   const handleDateClick = (date) => {
     setSelectedDate(date);
   };
@@ -81,16 +81,6 @@ export default function Calendar() {
     const options = { day: 'numeric', weekday: 'short' };
     return date.toLocaleDateString('en-US', options);
   };
-
-  useEffect(() => {
-    const newDates = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
-      newDates.push(date.toLocaleDateString());
-    }
-    setDates(newDates);
-  }, [startDate]);
 
   const activeDate = (date) => {
     if(selectedDate === date) {
@@ -146,11 +136,10 @@ export default function Calendar() {
           <CalendarTimesList />
 
           {weeklyCalendarSchedules?.map((week, key) => (
-            <div 
+            <div
               key={key} 
               className={`${borderColor} grid-cell border-r flex-1 z-[50] relative w-[200px] overflow-hidden`}
             >
-              
               {week?.calendarSchedules?.map((calendarSchedule, index: number) => (
                 <CalendarSchedule
                   key={index}

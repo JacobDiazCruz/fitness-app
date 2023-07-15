@@ -1,4 +1,4 @@
-import { primaryTextColor } from "@/utils/themeColors";
+import { primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 
 interface CalendarDateProps { 
   handleClick: () => void;
@@ -19,7 +19,7 @@ export default function CalendarDate({
       <div 
         className={`${activeDate} w-fit m-auto px-2 py-1 cursor-pointer`}
       >
-        <p className={`${primaryTextColor} text-center text-[16px]`}>
+        <p className={`${tertiaryTextColor} text-center text-[16px]`}>
           {formattedDate}
         </p>
       </div>

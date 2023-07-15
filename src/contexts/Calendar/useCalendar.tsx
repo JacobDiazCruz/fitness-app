@@ -1,6 +1,6 @@
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
-import { primaryTextColor } from "@/utils/themeColors";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const CalendarContext = createContext(null);
@@ -10,15 +10,32 @@ export const CalendarProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [dates, setDates] = useState([]);
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [dates, setDates] = useState<string[]>([]);
 
-  const {
-    data: calendarSchedules,
-    refetch: refetchCalendarSchedules
-  } = useQuery('calendarSchedules', () => listWeeklyCalendarSchedules(JSON.stringify(dates)), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true
-  });
+  useEffect(() => {
+    if (startDate) {
+      const newDates: string[] = [];
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        newDates.push(date.toLocaleDateString());
+      }
+      setDates(newDates);
+    }
+  }, [startDate]);
+
+  const { data: calendarSchedules, refetch: refetchCalendarSchedules } = useQuery(
+    'calendarSchedules',
+    () => {
+      return listWeeklyCalendarSchedules(JSON.stringify(dates));
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      enabled: dates.length > 0 // Enable the query when dates have values
+    }
+  );
 
   const generateTimeList = () => {
     const times = [];
@@ -30,7 +47,7 @@ export const CalendarProvider = ({
     }
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
     return times.map((time) => (
-      <li key={time} className={`${primaryTextColor} h-[100px] relative text-[14px]`}>
+      <li key={time} className={`${tertiaryTextColor} h-[100px] relative text-[14px]`}>
         {time.toLocaleTimeString('en-US', options)}
       </li>
     ));
@@ -39,6 +56,8 @@ export const CalendarProvider = ({
   const value = {
     dates,
     setDates,
+    startDate,
+    setStartDate,    
     refetchCalendarSchedules,
     calendarSchedules,
     generateTimeList
@@ -54,7 +73,7 @@ export const CalendarProvider = ({
 const useCalendar = () => {
   const context = useContext(CalendarContext)
   if (context === undefined) {
-    throw new Error("useCalendar must be used within useCalendar context")
+    throw new Error("useCalendar must be used within the CalendarProvider context")
   }
   return context;
 };
