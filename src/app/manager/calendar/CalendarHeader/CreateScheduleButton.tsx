@@ -1,18 +1,24 @@
+import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import React, { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { MdAdd, MdArrowDropDown } from "react-icons/md";
 
 interface Props {
-  setShowCreateCalendarItemModal: Dispatch<SetStateAction<boolean>>;
+  handleShowScheduleModal: () => Dispatch<SetStateAction<boolean>>;
 };
 
-const CreateItemDropdownButton = ({
-  setShowCreateCalendarItemModal
-}: Props) => {
+export default function CreateScheduleButton ({
+  handleShowScheduleModal
+}: Props) {
+  const {
+    setShowCreateScheduleModal, 
+    setActiveTab 
+  } = useCalendarScheduleBuilder();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const [createItemsList] = useState([
+  const [createScheduleList] = useState([
     {
       type: "CREATE_EVENT",
       title: "Event"
@@ -45,9 +51,10 @@ const CreateItemDropdownButton = ({
     }
   };
 
-  const handleClickItem = (type: string) => {
+  const handleClickItem = (title: string) => {
     setIsDropdownOpen(false);
-    setShowCreateCalendarItemModal(true);
+    setShowCreateScheduleModal(true);
+    setActiveTab(title);
   };
 
   useEffect(() => {
@@ -81,10 +88,10 @@ const CreateItemDropdownButton = ({
             className="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownDefaultButton"
           >
-            {createItemsList.map((item: any) => (
+            {createScheduleList.map((item: any) => (
               <li
                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                onClick={() => handleClickItem(item.type)}
+                onClick={() => handleClickItem(item.title)}
               >
                 {item.title}
               </li>
@@ -95,5 +102,3 @@ const CreateItemDropdownButton = ({
     </div>
   );
 };
-
-export default CreateItemDropdownButton;

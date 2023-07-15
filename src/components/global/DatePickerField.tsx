@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 
 const DatePickerField = ({
   value,
-  onChange
+  onChange,
+  placeholder = "Select a date"
 }) => {
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const DatePickerField = ({
           ${primaryTextColor}
           appearance-none text-[14px] h-[45px] pl-9 border rounded-md py-2 px-4 leading-tight focus:outline-none focus:border-blue-500
         `}
-        placeholderText="Select a date"
+        placeholderText={placeholder}
       />
       <CalendarIcon className={`${secondaryTextColor} h-5 w-5 ml-2 absolute`} />
     </div>

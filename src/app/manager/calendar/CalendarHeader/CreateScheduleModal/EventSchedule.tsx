@@ -1,30 +1,18 @@
 import AutoComplete from "@/components/global/AutoComplete";
-import DatePickerField from "@/components/global/DatePickerField";
-import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
-import { Dispatch, SetStateAction, useState } from "react";
-import { timesList } from "@/utils/timesList";
 import Button from "@/components/global/Button";
-import { useMutation } from "react-query";
-import { createCalendarItem } from "@/api/Calendar";
-import useAlert from "@/contexts/Alert";
+import DatePickerField from "@/components/global/DatePickerField";
+import { ModalContent, ModalFooter } from "@/components/global/Modal";
 import TextArea from "@/components/global/TextArea";
-import FieldName from "@/components/global/FieldName";
-import { CalendarItem, DayTime } from "@/utils/calendarTypes";
 import TextField from "@/components/global/TextField";
+import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import useClients from "@/hooks/clients/useClients";
+import { DayTime } from "@/utils/calendarTypes";
 import { primaryTextColor } from "@/utils/themeColors";
+import { timesList } from "@/utils/timesList";
+import { useState } from "react";
 
-interface Props {
-  onClose: () => Dispatch<SetStateAction<boolean>>;
-  refetchCalendarItems: any;
-};
-
-export default function CreateCalendarItemModal({
-  onClose,
-  refetchCalendarItems
-}: Props) {
-  const { dispatchAlert }: any = useAlert();
-  const { clientsList } = useClients();
+export default function EventSchedule() {
+  const { submitForm } = useCalendarScheduleBuilder();
 
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -32,54 +20,12 @@ export default function CreateCalendarItemModal({
   const [endTime, setEndTime] = useState<DayTime | null>(null);
   const [description, setDescription] = useState<string>("");
   const [selectedGuests, setSelectedGuests] = useState([]);
-
-  const createCalendarItemMutation = useMutation(createCalendarItem);
-
-  /**
-   * @purpose To add/create a new calendar item
-   * @action createCalendarItemMutation
-   */
-  const submitForm = async () => {
-    try {
-      const data: CalendarItem = {
-        title,
-        taggedDate: new Date(date).toLocaleDateString(),
-        startTime,
-        endTime,
-        type: "event",
-        description: "",
-        guests: []
-      };
-
-      const res = await createCalendarItemMutation.mutateAsync(data);
-      
-      if(!res.success) throw Error(res.message);
-
-      dispatchAlert({
-        type: "SUCCESS",
-        message: res.message
-      });
-      refetchCalendarItems();
-      onClose();
-    } catch(err) {
-      console.log(err)
-      dispatchAlert({
-        type: "ERROR",
-        message: "There's something wrong in creating a calendar item. Please try again."
-      });
-    }
-  };
+  const { clientsList } = useClients();
 
   return (
-    <Modal onClose={onClose} className="w-[550px] h-[600px]">
-      <ModalHeader>
-        <ModalTitle>
-          Create
-        </ModalTitle>
-      </ModalHeader>
+    <>
       <ModalContent>
         <div>
-          <FieldName>Add title</FieldName>
           <TextField 
             value={title}
             onChange={(e: any) => setTitle(e.target.value)}
@@ -132,11 +78,21 @@ export default function CreateCalendarItemModal({
       </ModalContent>
       <ModalFooter>
         <div className="flex">
-          <Button onClick={submitForm} className="ml-auto">
+          <Button 
+            onClick={() => submitForm({
+              title,
+              taggedDate: date,
+              description,
+              startTime,
+              endTime,
+              guests: selectedGuests
+            })} 
+            className="ml-auto"
+          >
             Submit
           </Button>
         </div>
       </ModalFooter>
-    </Modal>
+    </>
   );
-}
+};

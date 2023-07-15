@@ -1,4 +1,4 @@
-export interface CalendarItem {
+export interface CalendarSchedule {
   _id?: string;
   title: string;
   taggedDate: string;
@@ -14,3 +14,5 @@ export interface DayTime {
   hour: string,
   meridiem: "AM" | "PM"
 }
+
+export type CalendarScheduleType = 'Event' | 'Task' | 'Workout' | 'Program';

@@ -1,14 +1,14 @@
-import useCalendarItemBuilder from "@/contexts/Calendar/useCalendarItemBuilder";
+import usecalendarScheduleDisplay from "@/contexts/Calendar/useCalendarScheduleDisplay";
 
 interface CalendarItemProps {
-  calendarItem: any;
+  calendarSchedule: any;
 };
 
-export default function CalendarItem({
-  calendarItem
+export default function CalendarSchedule({
+  calendarSchedule
 }: CalendarItemProps) {
-  const { topOffset, height, startTime, endTime } = useCalendarItemBuilder(
-    calendarItem
+  const { topOffset, height, startTime, endTime } = usecalendarScheduleDisplay(
+    calendarSchedule
   );
 
   return (
@@ -17,7 +17,7 @@ export default function CalendarItem({
       style={{ marginTop: topOffset, height }}
     >
       <div className="font-semibold text-[14px]">
-        {calendarItem.title}
+        {calendarSchedule.title}
       </div>
       <div className="font-light mt-1 text-[12px]">
         {startTime} - {endTime}

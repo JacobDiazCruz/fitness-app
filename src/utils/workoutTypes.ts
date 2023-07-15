@@ -1,6 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import { Exercise } from "./types";
 
+export interface Workout {
+  _id?: string;
+  userId?: string;
+  name: string;
+  exercises: Exercise[];
+  description?: string;
+  createdAt?: string;
+}
 export interface HandleChangeSetFieldParams {
   value?: any;
   field?: any;

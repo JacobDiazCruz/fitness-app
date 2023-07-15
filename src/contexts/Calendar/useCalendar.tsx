@@ -1,7 +1,25 @@
+import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import { primaryTextColor } from "@/utils/themeColors";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { useQuery } from "react-query";
 
-export default function useCalendar() {
-  
+const CalendarContext = createContext(null);
+
+export const CalendarProvider = ({
+  children
+}: {
+  children: ReactNode;
+}) => {
+  const [dates, setDates] = useState([]);
+
+  const {
+    data: calendarSchedules,
+    refetch: refetchCalendarSchedules
+  } = useQuery('calendarSchedules', () => listWeeklyCalendarSchedules(JSON.stringify(dates)), {
+    refetchOnWindowFocus: false,
+    refetchOnMount: true
+  });
+
   const generateTimeList = () => {
     const times = [];
     for (let hour = 0; hour < 24; hour++) {
@@ -18,7 +36,27 @@ export default function useCalendar() {
     ));
   };
 
-  return {
+  const value = {
+    dates,
+    setDates,
+    refetchCalendarSchedules,
+    calendarSchedules,
     generateTimeList
   };
+
+  return (
+    <CalendarContext.Provider value={value}>
+      {children}
+    </CalendarContext.Provider>
+  );
 };
+
+const useCalendar = () => {
+  const context = useContext(CalendarContext)
+  if (context === undefined) {
+    throw new Error("useCalendar must be used within useCalendar context")
+  }
+  return context;
+};
+
+export default useCalendar;

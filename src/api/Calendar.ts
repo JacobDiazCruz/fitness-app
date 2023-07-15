@@ -1,16 +1,21 @@
-import { CalendarItem } from "@/utils/calendarTypes";
+import { CalendarSchedule } from "@/utils/calendarTypes";
 import { getRequest, postRequest } from ".";
     
-export const createCalendarItem = async (data: CalendarItem) => {
+interface CreateScheduleParams { 
+  data: CalendarSchedule;
+  type: string;
+};
+
+export const createCalendarSchedule = async ({ data, type }: CreateScheduleParams) => {
   const payload = {
-    url: `/calendar/items/add`,
+    url: `/calendar/items/add?type=${type}`,
     data
   };
   const res = await postRequest(payload);
   return res.data;
 };
 
-export const listWeeklyCalendarItems = async (dates: string) => {
+export const listWeeklyCalendarSchedules = async (dates: string) => {
   const payload = {
     url: `/calendar/items/list?dates=${dates}`
   };

@@ -1,23 +1,23 @@
 import useCalendar from "./useCalendar";
 
-export default function useCalendarItemBuilder (calendarItem) {
+export default function useCalendarScheduleDisplay(calendarSchedule: any) {
   const {
     generateTimeList
   } = useCalendar();
 
-  const startHour = parseInt(calendarItem.startTime.hour.split(":")[0], 10);
-  const endHour = parseInt(calendarItem.endTime.hour.split(":")[0], 10);
+  const startHour = parseInt(calendarSchedule.startTime.hour.split(":")[0], 10);
+  const endHour = parseInt(calendarSchedule.endTime.hour.split(":")[0], 10);
 
   const initialStartTime = new Date().setHours(startHour, 0);
   const initialEndTime = new Date().setHours(endHour, 0);
 
   const startTime = new Date(initialStartTime).toLocaleTimeString([], {
     hour: "numeric",
-    minute: "2-digit",
+    minute: "2-digit"
   });
   const endTime = new Date(initialEndTime).toLocaleTimeString([], {
     hour: "numeric",
-    minute: "2-digit",
+    minute: "2-digit"
   });
 
   const timeList = generateTimeList();
