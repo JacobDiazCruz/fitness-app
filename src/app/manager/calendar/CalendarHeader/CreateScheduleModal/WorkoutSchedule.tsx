@@ -5,7 +5,7 @@ import DatePickerField from "@/components/global/DatePickerField";
 import { ModalContent, ModalFooter } from "@/components/global/Modal";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import { DayTime } from "@/utils/calendarTypes";
-import { fieldBgColor, primaryTextColor } from "@/utils/themeColors";
+import { fieldBgColor, primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
 import { Workout } from "@/utils/workoutTypes";
 import { useState } from "react";
@@ -69,16 +69,16 @@ export default function WorkoutSchedule() {
                 <AutoComplete 
                   items={timesList}
                   value={startTime}
-                  placeholder="Start time"
+                  placeholder="00:00"
                   onChange={(value: any) => setStartTime(value)}
                 />
               </div>
-              <div className={primaryTextColor}>-</div>
+              <div className={tertiaryTextColor}>-</div>
               <div className="w-[100px]">
                 <AutoComplete 
                   items={timesList}
                   value={endTime}
-                  placeholder="End time"
+                  placeholder="00:00"
                   onChange={(value: any) => setEndTime(value)}
                 />
               </div>

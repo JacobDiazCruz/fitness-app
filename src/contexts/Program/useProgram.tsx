@@ -2,7 +2,7 @@
 
 import { editProgram } from "@/api/Program";
 import { useParams, useSearchParams } from "next/navigation";
-import { useState, createContext, useReducer, useContext, useMemo, useEffect, ReactNode } from "react";
+import { useState, createContext, useContext, ReactNode } from "react";
 import { useMutation } from "react-query";
 const ProgramContext = createContext(null);
 
@@ -64,23 +64,9 @@ export const ProgramProvider = ({ children }: { children: ReactNode }) => {
       }
     });
   };
-  
+
   // value prop to return all necessary data
-  const value = useMemo(() => {
-    return {
-      programName,
-      programDescription,
-      programWeeks,
-      programDays,
-      weeks,
-      setProgramName,
-      setProgramDescription,
-      setProgramWeeks,
-      setProgramDays,
-      setWeeks,
-      handleEditProgramMutation
-    }
-  }, [
+  const value = {
     programName,
     programDescription,
     programWeeks,
@@ -92,7 +78,7 @@ export const ProgramProvider = ({ children }: { children: ReactNode }) => {
     setProgramDays,
     setWeeks,
     handleEditProgramMutation
-  ])
+  };
 
   return (
     <ProgramContext.Provider value={value}>

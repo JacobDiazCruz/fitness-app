@@ -1,18 +1,20 @@
 import PaddedWrapper from "@/components/global/PaddedWrapper";
 import { ReactNode } from "react";
+import CreateScheduleButton from "./CreateScheduleButton";
+import CreateScheduleModal from "./CreateScheduleModal";
 
 interface CalendarHeaderProps {
   month: ReactNode;
   createButton: ReactNode;
-  prevWeekButton: ReactNode;
-  nextWeekButton: ReactNode;
+  weeksNavigation: ReactNode;
+  createScheduleModal: ReactNode;
 };
 
 export default function CalendarHeader({
   month,
   createButton,
-  prevWeekButton,
-  nextWeekButton
+  weeksNavigation,
+  createScheduleModal
 }: CalendarHeaderProps) {
   
   return (
@@ -25,10 +27,13 @@ export default function CalendarHeader({
           </div>
         </div>
         <div>
-          {prevWeekButton}
-          {nextWeekButton}
+          {weeksNavigation}
         </div>
       </div>
+      {createScheduleModal}
     </PaddedWrapper>
   );
 };
+
+CalendarHeader.CreateScheduleModal = CreateScheduleModal;
+CalendarHeader.CreateScheduleButton = CreateScheduleButton;

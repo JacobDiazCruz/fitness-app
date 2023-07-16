@@ -143,27 +143,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
   };
 
   // value prop to return all necessary data
-  const value = useMemo(() => {
-    return {
-      programWorkouts,
-      programWorkoutsData,
-      setProgramWorkouts,
-      refetchProgramWorkouts,
-      editProgramWorkoutMutation,
-      isLoadingProgramWorkouts,
-      selectedDayIndex,
-      showAddWorkoutModal,
-      showWorkoutDetailsModal,
-      currentWorkoutDetails,
-      setSelectedDayIndex,
-      setShowAddWorkoutModal,
-      setShowWorkoutDetailsModal,
-      setCurrentWorkoutDetails,
-      handleDeleteWorkout,
-      handleClickWorkout,
-      handleEditWorkout,
-    };
-  }, [
+  const value = {
     programWorkouts,
     programWorkoutsData,
     setProgramWorkouts,
@@ -181,7 +161,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     handleDeleteWorkout,
     handleClickWorkout,
     handleEditWorkout,
-  ]);
+  };
 
   return (
     <ProgramWorkoutsContext.Provider value={value}>

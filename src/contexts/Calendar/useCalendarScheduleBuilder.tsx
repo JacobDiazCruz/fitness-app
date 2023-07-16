@@ -18,7 +18,7 @@ export const CalendarScheduleBuilderProvider = ({
 
   const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<CalendarScheduleType>('Event');
-
+  
   /**
    * @purpose To add/create a new calendar item
    * @action createCalendarScheduleMutation

@@ -11,7 +11,6 @@ import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import VerifyUser from "./VerifyUser";
 import MessageContextProvider from "@/contexts/Message";
 import SidebarProvider from "@/contexts/Sidebar/useSidebar";
-import { useEffect } from "react";
 
 export default function ManagerLayout ({
   children

@@ -5,7 +5,6 @@ import ProgramSchedule from "./ProgramSchedule";
 import WorkoutSchedule from "./WorkoutSchedule";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import TaskSchedule from "./TaskSchedule";
-import useCalendar from "@/contexts/Calendar/useCalendar";
 
 type CreateScheduleItem = {
   type: string;

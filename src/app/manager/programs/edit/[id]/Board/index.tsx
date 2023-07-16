@@ -2,7 +2,6 @@
 
 // modals
 import SelectWorkoutsModal from "./Workouts/SelectWorkoutsModal";
-import WorkoutDetailsModal from "./Workouts/WorkoutDetailsModal";
 
 // child components
 import DayContainer from "./Day/DayContainer";
@@ -12,6 +11,8 @@ import Draggable from "./Workouts/Draggable";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
+import { useEffect } from "react";
+import WorkoutDetailsModal from "@/components/global/WorkoutDetailsModal";
 
 export default function Board() {
   const {
@@ -23,6 +24,10 @@ export default function Board() {
     setShowAddWorkoutModal,
     showWorkoutDetailsModal
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
+  
+  useEffect(() => {
+    console.log("programDays", programDays)
+  }, [programDays]);
 
   return (
     <div className="program-board flex flex-col md:flex-row gap-[10px]">

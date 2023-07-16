@@ -27,7 +27,6 @@ export default function EditWorkout() {
     programWeekIndex,
     programDayIndex,
     programWorkoutIndex,
-    programWorkoutSecondaryId,
     isLoadingEditProgram,
     handleMutateProgram
   }: any = useEditProgram();

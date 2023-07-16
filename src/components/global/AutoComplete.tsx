@@ -35,10 +35,11 @@ function AutoComplete({
   onChange,
   required = false
 }: Props) {
+
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [filteredItems, setFilteredItems] = useState<Array<any>>([]);
-  const [inputValue, setInputValue] = useState<string | Array<any>>(value);
-  const [key, setKey] = useState<number>(0); // Add key state
+  const [inputValue, setInputValue] = useState<any>(value);
+  const [key, setKey] = useState<number>(0);
 
   const ref = useOutsideClick(() => {
     setOpenDropdown(false);
@@ -52,15 +53,18 @@ function AutoComplete({
 
   useEffect(() => {
     // filter dropdown items based on input value
+    const lowercaseInputValue = inputValue ? inputValue?.toLowerCase() : '';
     const newItems = items.filter((item) => {
-      return item.name
-      // if(item.name.includes(inputValue)) {
-      //   return item.name
-      // }
+      const lowercaseItemName = item.name.toLowerCase();
+      if (!lowercaseInputValue || lowercaseItemName.includes(lowercaseInputValue)) {
+        return item.name;
+      }
+      return null;
     });
+  
     setFilteredItems(newItems);
     setInputValue(inputValue);
-  }, [inputValue]);
+  }, [inputValue, items]);  
 
   useEffect(() => {
     setInputValue(value);
@@ -90,7 +94,7 @@ function AutoComplete({
     return (
       <ul 
         ref={ref}
-        className="z-[100] dark:bg-darkTheme-950 bg-white dark:border-neutral-800 border border-solid absolute mt-1 max-h-[200px] w-[400px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
+        className="fixed z-[100] dark:bg-darkTheme-950 bg-white dark:border-neutral-800 border border-solid mt-1 max-h-[190px] w-[350px] overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" 
         aria-labelledby="headlessui-combobox-button-:R4q:" 
         role="listbox" 
         id="headlessui-combobox-options-:rl:" 

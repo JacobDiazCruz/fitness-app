@@ -1,22 +1,17 @@
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
-import React, { useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import React, { useState, useRef, useEffect, MutableRefObject } from "react";
 import { MdAdd, MdArrowDropDown } from "react-icons/md";
 
-interface Props {
-  handleShowScheduleModal: () => Dispatch<SetStateAction<boolean>>;
-};
-
-export default function CreateScheduleButton ({
-  handleShowScheduleModal
-}: Props) {
+export default function CreateScheduleButton () {
   const {
-    setShowCreateScheduleModal, 
-    setActiveTab 
-  } = useCalendarScheduleBuilder();
+    setShowCreateScheduleModal,
+    setActiveTab
+  }: any = useCalendarScheduleBuilder();
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  
+  const dropdownRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const buttonRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
   const [createScheduleList] = useState([
     {
@@ -41,7 +36,7 @@ export default function CreateScheduleButton ({
     setIsDropdownOpen((prevIsDropdownOpen) => !prevIsDropdownOpen);
   };
 
-  const handleOutsideClick = (event) => {
+  const handleOutsideClick = (event: React.MouseEvent<Document>) => {
     if (
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target) &&

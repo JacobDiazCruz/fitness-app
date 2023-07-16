@@ -12,7 +12,7 @@ export default function CalendarDate({
   formattedDate
 }: CalendarDateProps) {
   return (
-    <li 
+    <li
       onClick={handleClick}
       className="flex-1"
     >

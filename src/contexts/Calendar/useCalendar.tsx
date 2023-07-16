@@ -24,7 +24,7 @@ export const CalendarProvider = ({
       setDates(newDates);
     }
   }, [startDate]);
-
+  
   const { data: calendarSchedules, refetch: refetchCalendarSchedules } = useQuery(
     'calendarSchedules',
     () => {
@@ -33,9 +33,15 @@ export const CalendarProvider = ({
     {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
-      enabled: dates.length > 0 // Enable the query when dates have values
+      enabled: false // Disable the query initially
     }
   );
+  
+  useEffect(() => {
+    if (dates.length > 0) {
+      refetchCalendarSchedules();
+    }
+  }, [dates, refetchCalendarSchedules]);
 
   const generateTimeList = () => {
     const times = [];

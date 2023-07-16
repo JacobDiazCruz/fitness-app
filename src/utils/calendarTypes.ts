@@ -1,11 +1,12 @@
-export interface CalendarSchedule {
+export interface CalendarScheduleType {
   _id?: string;
-  title: string;
+  title?: string;
   taggedDate: string;
-  startTime: DayTime | null;
-  endTime: DayTime | null;
-  type: 'event' | 'task';
-  description: string;
+  startTime?: DayTime | null;
+  endTime?: DayTime | null;
+  type: CalendarScheduleTypeFieldValues;
+  description?: string;
+  workoutDetails?: any;
   guests?: any;
 };
 
@@ -15,4 +16,4 @@ export interface DayTime {
   meridiem: "AM" | "PM"
 }
 
-export type CalendarScheduleType = 'Event' | 'Task' | 'Workout' | 'Program';
+export type CalendarScheduleTypeFieldValues = 'Event' | 'Task' | 'Workout' | 'Program';

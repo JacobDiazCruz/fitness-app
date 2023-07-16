@@ -65,7 +65,7 @@ export default function EventSchedule() {
           />
         </div>
         <div className="mt-7">
-          <AutoComplete
+          {/* <AutoComplete
             placeholder="Select guests"
             value={selectedGuests}
             items={clientsList}
@@ -73,7 +73,7 @@ export default function EventSchedule() {
               setSelectedGuests(val)
             }}
             removeSelectedItem={(val) => setSelectedGuests(null)}
-          />
+          /> */}
         </div>
       </ModalContent>
       <ModalFooter>

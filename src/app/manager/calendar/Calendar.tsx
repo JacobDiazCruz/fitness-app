@@ -1,33 +1,36 @@
 'use client'
 
-import IconButton from '@/components/global/IconButton';
 import React, { useEffect, useState } from 'react';
+import IconButton from '@/components/global/IconButton';
 import { SlArrowRight, SlArrowLeft } from 'react-icons/sl';
-import CreateScheduleModal from './CalendarHeader/CreateScheduleModal';
 import { borderColor, primaryTextColor } from '@/utils/themeColors';
-import CreateScheduleButton from './CalendarHeader/CreateScheduleButton';
-import CalendarHeader from './CalendarHeader/CalendarHeader';
-import CalendarSchedule from './CalendarScheduleBoard/CalendarSchedule';
-import CalendarDate from './CalendarScheduleBoard/CalendarDate';
-import CalendarScheduleBoard from './CalendarScheduleBoard/CalendarScheduleBoard';
-import CalendarTimesList from './CalendarScheduleBoard/CalendarTimesList';
+import CalendarHeader from './CalendarHeader';
+import CalendarDate from './CalendarBoard/CalendarDate';
+import CalendarBoard from './CalendarBoard';
 import useCalendarScheduleBuilder from '@/contexts/Calendar/useCalendarScheduleBuilder';
 import useCalendar from '@/contexts/Calendar/useCalendar';
+import CalendarWorkoutDetailsModal from '@/components/global/CalendarWorkoutDetailsModal';
+import { CalendarScheduleType } from '@/utils/calendarTypes';
 
 export default function Calendar() {
   const {
     showCreateScheduleModal
-  } = useCalendarScheduleBuilder();
+  }: any = useCalendarScheduleBuilder();
 
   const {
     dates,
     startDate,
     setStartDate,
     calendarSchedules
-  } = useCalendar();
+  }: any = useCalendar();
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
   const [weeklyCalendarSchedules, setWeeklyCalendarSchedules] = useState([]);
+  
+  // workout details
+  const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
+  const [selectedWorkoutId, setSelectedWorkoutId] = useState<string>("");
+  const [selectedCalendarType, setSelectedCalendarType] = useState<string>("");
 
   /**
    * @purpose To set weekly calendar items
@@ -72,27 +75,33 @@ export default function Calendar() {
     setStartDate(previousWeek);
   };
 
-  const handleDateClick = (date) => {
+  const handleDateClick = (date: string) => {
     setSelectedDate(date);
   };
   
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const options = { day: 'numeric', weekday: 'short' };
+    const options: object = { day: 'numeric', weekday: 'short' };
     return date.toLocaleDateString('en-US', options);
   };
 
-  const activeDate = (date) => {
+  const activeDate = (date: string) => {
     if(selectedDate === date) {
       return "bg-black text-white rounded-lg";
     }
     return "";
   };
 
-  const formatMonthTitle = (dateString) => {
+  const formatMonthTitle = (dateString: string) => {
     const date = new Date(dateString);
-    const options = { month: 'long', year: 'numeric' };
+    const options: object = { month: 'long', year: 'numeric' };
     return date.toLocaleDateString('en-US', options);
+  };
+
+  const handleClickWorkout = (type: string, workoutDetails: any) => {
+    setSelectedWorkoutId(workoutDetails._id);
+    setSelectedCalendarType(type);
+    setShowWorkoutDetailsModal(true);
   };
 
   return (
@@ -103,25 +112,30 @@ export default function Calendar() {
             {formatMonthTitle(startDate)}
           </h3>
         }
-        createButton={
-          <CreateScheduleButton />
+        createButton={<CalendarHeader.CreateScheduleButton />}
+        weeksNavigation={
+          <>
+            <IconButton onClick={handlePreviousWeek}>
+              <SlArrowLeft className={primaryTextColor} />
+            </IconButton>
+            <IconButton onClick={handleNextWeek}>
+              <SlArrowRight className={primaryTextColor} />
+            </IconButton>
+          </>
         }
-        prevWeekButton={
-          <IconButton onClick={handlePreviousWeek}>
-            <SlArrowLeft />
-          </IconButton>
-        }
-        nextWeekButton={
-          <IconButton onClick={handleNextWeek}>
-            <SlArrowRight />
-          </IconButton>
+        createScheduleModal={
+          <>
+            {showCreateScheduleModal && (
+              <CalendarHeader.CreateScheduleModal />
+            )}
+          </>
         }
       />
 
-      <div className="overflow-hidden">
-        <div className="pr-9 pl-[100px]">
-          <ul className="flex w-full">
-            {dates.map((date, index: number) => (
+      <CalendarBoard
+        calendarDate={
+          <>
+            {dates.map((date: string, index: number) => (
               <CalendarDate
                 key={index}
                 handleClick={() => handleDateClick(date)}
@@ -129,31 +143,40 @@ export default function Calendar() {
                 formattedDate={formatDate(date)}
               />
             ))}
-          </ul>
-        </div>
-        
-        <CalendarScheduleBoard>
-          <CalendarTimesList />
+          </>
+        }
+      >
+        <CalendarBoard.TimesList />
 
-          {weeklyCalendarSchedules?.map((week, key) => (
-            <div
-              key={key} 
-              className={`${borderColor} grid-cell border-r flex-1 z-[50] relative w-[200px] overflow-hidden`}
-            >
-              {week?.calendarSchedules?.map((calendarSchedule, index: number) => (
-                <CalendarSchedule
-                  key={index}
-                  calendarSchedule={calendarSchedule}
-                />
-              ))}
-            </div>
-          ))}
-        </CalendarScheduleBoard>
-      </div>
+        {weeklyCalendarSchedules?.map((week: any, key) => (
+          <div
+            key={key}
+            className={`${borderColor} grid-cell border-r flex-1 z-[50] relative w-[200px] overflow-hidden`}
+          >
+            {week?.calendarSchedules?.map((calendarSchedule: CalendarScheduleType, index: number) => (
+              <CalendarBoard.Schedule
+                key={index}
+                calendarSchedule={calendarSchedule}
+                handleClick={() => {
+                  if(calendarSchedule.type === "Workout" || calendarSchedule.type === "Program") {
+                    handleClickWorkout(
+                      calendarSchedule.type,
+                      calendarSchedule.workoutDetails,
+                    )
+                  }
+                }}
+              />
+            ))}
+          </div>
+        ))}
+      </CalendarBoard>
 
-      {/* Modals */}
-      {showCreateScheduleModal && (
-        <CreateScheduleModal />
+      {showWorkoutDetailsModal && (
+        <CalendarWorkoutDetailsModal 
+          workoutId={selectedWorkoutId}
+          setShowWorkoutDetailsModal={setShowWorkoutDetailsModal}
+          selectedCalendarType={selectedCalendarType}
+        />
       )}
     </div>
   );

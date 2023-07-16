@@ -85,3 +85,11 @@ export const getProgram = async (id) => {
   const res = await getRequest(payload);
   return res.data?.data;
 };
+
+export const getProgramWorkout = async (id: string) => {
+  const payload = {
+    url: `/program/workout/${id}`
+  };
+  const res = await getRequest(payload);
+  return res.data?.data;
+};
