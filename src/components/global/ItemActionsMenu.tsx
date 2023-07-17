@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import { VertDotsIcon } from "./Icons";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import IconButton from "./IconButton";
-import { useRouter } from "next/navigation";
 
 interface Props {
-  itemId?: string;
   handleDelete?: any;
   handleEdit?: any;
+  handleDuplicate?: any;
 };
 
 export default function ItemActionsMenu({
-  itemId,
   handleDelete,
+  handleDuplicate,
   handleEdit
 }: Props) {
   const [openUserDropdown, setOpenUserDropdown] = useState<boolean>(false);
   const ref: any = useOutsideClick(() => setOpenUserDropdown(false));
-  const router = useRouter();
 
   return (
     <div
@@ -25,7 +23,7 @@ export default function ItemActionsMenu({
       ref={ref}
     >
       <IconButton 
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+        onClick={(e: any) => {
           e.stopPropagation()
           setOpenUserDropdown(!openUserDropdown)
         }}
@@ -43,7 +41,12 @@ export default function ItemActionsMenu({
                 Edit
               </div>
             </li>
-            <li>
+            <li
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDuplicate();
+              }}
+            >
               <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
                 Duplicate
               </div>

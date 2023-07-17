@@ -101,4 +101,4 @@ export default function Draggable({
   );
 };
 
-Draggable.Workout = SelectedWorkout;
+Draggable.SelectedWorkout = SelectedWorkout;

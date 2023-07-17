@@ -31,7 +31,7 @@ export const CalendarProvider = ({
       return listWeeklyCalendarSchedules(JSON.stringify(dates));
     },
     {
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       refetchOnMount: true,
       enabled: false // Disable the query initially
     }
@@ -56,7 +56,7 @@ export const CalendarProvider = ({
       minute: 'numeric', 
       hour12: true 
     };
-    
+
     return times.map((time) => (
       <li key={time} className={`${tertiaryTextColor} h-[100px] relative text-[14px]`}>
         {time.toLocaleTimeString('en-US', options)}

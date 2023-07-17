@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import ExerciseItem from "./ExerciseItem";
 import EmptyExercises from "./EmptyExercises";
 import { SearchIcon } from "@/components/global/Icons";
+import { BsSearch } from "react-icons/bs";
+import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 
 export default function YourExercises({
   setInitialSelectedExercises
@@ -84,7 +86,7 @@ export default function YourExercises({
         </h2>
         <div className="mt-5">
           <TextField
-            startIcon={<SearchIcon />}
+            startIcon={<BsSearch className={`${tertiaryTextColor} w-3 h-3`}/>}
             placeholder="Search exercise"
             value={searchExercise}
             onChange={(e) => setSearchExercise(e.target.value)}

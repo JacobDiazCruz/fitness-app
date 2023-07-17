@@ -45,7 +45,6 @@ export const DraggableWorkoutProvider = ({ children }) => {
       workoutsArr.splice(workoutIndex, 0, draggedWorkout);
 
       updatedArr[dayIndex].workouts = workoutsArr;
-      console.log("updatedArr", updatedArr)
       setProgramDays(updatedArr);
     }
   });

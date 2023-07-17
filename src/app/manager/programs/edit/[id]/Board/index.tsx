@@ -40,10 +40,11 @@ export default function Board() {
               workoutIndex={workoutIndex}
               dayIndex={dayIndex}
             >
-              <Draggable.Workout
+              <Draggable.SelectedWorkout
                 workout={workout}
                 workoutIndex={workoutIndex}
                 dayIndex={dayIndex}
+                workoutsCount={day?.workouts?.length}
               />
             </Draggable>
           ))}

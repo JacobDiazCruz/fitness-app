@@ -32,8 +32,13 @@ export default function ProgramSchedule() {
   });
 
   const submitProgram = () => {
-    const workouts = selectedProgram?.weeks.flatMap((week) =>
-      week.days.flatMap((day) => day.workouts)
+    const workouts = selectedProgram?.weeks.flatMap((week: any) =>
+      week.days.flatMap((day: any) => day.workouts.map((workout: any) => {
+        return {
+          dayCount: day.dayCount,
+          workoutId: workout
+        }
+      }))
     );
 
     submitForm({

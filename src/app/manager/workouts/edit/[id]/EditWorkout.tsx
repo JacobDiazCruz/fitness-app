@@ -10,12 +10,13 @@ import useWorkout from "@/contexts/Workout/useWorkout";
 import WorkoutBuilder from "../../WorkoutBuilder";
 import useEditProgram from "@/hooks/useEditProgram";
 import { WorkoutContext } from "@/utils/workoutTypes";
+import { editProgramWorkout, getProgramWorkout } from "@/api/Program";
 
 export default function EditWorkout() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
-  const editProgram = searchParams.get("editProgram")
+  const editProgram = searchParams.get("editProgram");
 
   // hooks
   const {
@@ -31,18 +32,31 @@ export default function EditWorkout() {
     handleMutateProgram
   }: any = useEditProgram();
   
-  const [workoutName, setWorkoutName] = useState<string>("");
-  const [workoutDescription, setWorkoutDescription] = useState<string>("");
   const { dispatchAlert }: any = useAlert();
 
-  // upload files to cloudinary request
+  const [workoutName, setWorkoutName] = useState<string>("");
+  const [workoutDescription, setWorkoutDescription] = useState<string>("");
+
   const editWorkoutMutation = useMutation(editWorkout, {
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       dispatchAlert({
         type: "SUCCESS",
         message: "Workout edited successfully"
       });
       router.push('/manager/workouts');
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  const editProgramWorkoutMutation = useMutation(editProgramWorkout, {
+    onSuccess: async () => {
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Program's workout edited successfully"
+      });
+      router.back();
     },
     onError: (err) => {
       console.log(err);
@@ -55,7 +69,13 @@ export default function EditWorkout() {
     isError: isErrorFetching,
     data: workoutData,
     refetch
-  } = useQuery('workout', () => getWorkout(params.id), {
+  } = useQuery('workout', () => {
+    if(editProgram) {
+      return getProgramWorkout(params.id)
+    } else {
+      return getWorkout(params.id)
+    }
+  }, {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
     retry: 2
@@ -100,19 +120,17 @@ export default function EditWorkout() {
         }
       });
     } else {
-      const newProgramWeeks = [...programWeeks];
-      const currentEditedWorkout = newProgramWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex];
+      const { _id, ...existingWorkoutData } = workoutData;
 
-      if (currentEditedWorkout) {
-        const updatedWorkout = {
-          ...currentEditedWorkout,
+      editProgramWorkoutMutation.mutateAsync({
+        id: params.id,
+        data: {
+          ...existingWorkoutData,
           name: workoutName,
           description: workoutDescription,
           exercises: selectedExercises
-        };
-        newProgramWeeks[programWeekIndex].days[programDayIndex].workouts[programWorkoutIndex] = updatedWorkout;
-      }
-      handleMutateProgram(newProgramWeeks);
+        }
+      });
     }
   };
 
@@ -127,7 +145,7 @@ export default function EditWorkout() {
         backIcon
         showActionButtons
         isLoading={editWorkoutMutation.isLoading || isLoadingEditProgram}
-        handleSubmit={() => handleSubmit()}
+        handleSubmit={handleSubmit}
       />
       <WorkoutBuilder
         workoutName={workoutName}

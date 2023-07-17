@@ -43,7 +43,7 @@ export default function Header ({
           </Button>
           <Button
             variant="contained"
-            onClick={handleSubmit}
+            onClick={() => handleSubmit()}
             loading={isLoading}
             disabled={disableSubmit}
           >
