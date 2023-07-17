@@ -51,7 +51,12 @@ export const CalendarProvider = ({
       time.setMinutes(0);
       times.push(time);
     }
-    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+    const options: object = { 
+      hour: 'numeric', 
+      minute: 'numeric', 
+      hour12: true 
+    };
+    
     return times.map((time) => (
       <li key={time} className={`${tertiaryTextColor} h-[100px] relative text-[14px]`}>
         {time.toLocaleTimeString('en-US', options)}

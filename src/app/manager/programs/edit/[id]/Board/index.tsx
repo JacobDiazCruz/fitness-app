@@ -24,10 +24,6 @@ export default function Board() {
     setShowAddWorkoutModal,
     showWorkoutDetailsModal
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
-  
-  useEffect(() => {
-    console.log("programDays", programDays)
-  }, [programDays]);
 
   return (
     <div className="program-board flex flex-col md:flex-row gap-[10px]">

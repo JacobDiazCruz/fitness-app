@@ -1,7 +1,8 @@
 'use client';
 
 import { CheckIcon, CloseIcon } from "./Icons";
-import useAlert from "@/contexts/Alert";;
+import useAlert from "@/contexts/Alert";import { useEffect } from "react";
+;
 
 export default function Alert() {
   const { showAlert, message, dispatchAlert }: any = useAlert();
@@ -11,6 +12,16 @@ export default function Alert() {
       type: "REMOVE"
     })
   };
+
+  useEffect(() => {
+    let timeoutId: any;
+    if (showAlert) {
+      timeoutId = setTimeout(() => {
+        handleClose();
+      }, 4000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [showAlert]);
 
   if(showAlert) {
     return (

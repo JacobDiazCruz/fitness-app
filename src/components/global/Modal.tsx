@@ -2,7 +2,7 @@
 import {
   borderColor, primaryTextColor
 } from "@/utils/themeColors";
-import { CloseIcon } from "./Icons";
+import { MdClose } from "react-icons/md";
 interface ModalProps {
   onClose: () => void;
   className?: string;
@@ -47,7 +47,7 @@ export const ModalTitle = ({
   children
 }: ChildProps) => {
   return (
-    <h2 className={`${primaryTextColor} font-normal`}>
+    <h2 className={`${primaryTextColor} font-semibold dark:font-normal`}>
       {children}
     </h2>
   );
@@ -77,14 +77,14 @@ export default function Modal({
       >
         <div
           onClick={onClose}
-          className="dark:bg-white cursor-pointer shadow-xl border border-solid bg-white fixed items-center rounded-full w-[20px] h-[20px] absolute right-[-10px] top-[-10px] z-[999]"
+          className="dark:bg-white flex items-center bg-neutral-700 cursor-pointer shadow-xl dark:border border-solid fixed items-center rounded-full w-[23px] h-[23px] absolute right-[-10px] top-[-10px] z-[999]"
         >
-          <CloseIcon className="w-4 h-4 m-auto"/>
+          <MdClose className={`dark:fill-neutral-800 fill-white w-4 h-4 m-auto`}/>
         </div>
-        <div className="relative h-full overflow-y-hidden">
+        <div className="relative h-full overflow-y-hidden rounded-lg">
           {children}
         </div>
       </div>
     </>
   );
-}
+};

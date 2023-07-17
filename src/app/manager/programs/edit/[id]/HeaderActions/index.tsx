@@ -6,6 +6,7 @@ import WeeksPagination from "./WeeksPagination";
 import PermissionAccess from "@/components/global/PermissionAccess";
 import { LiaSyncAltSolid } from "react-icons/lia";
 import SyncToCalendarModal from "./SyncToCalendarModal";
+import { CalendarScheduleBuilderProvider } from "@/contexts/Calendar/useCalendarScheduleBuilder";
 interface Props {
   weeks: Array<any>;
 };
@@ -62,4 +63,4 @@ export default function HeaderActions({
       )}
     </div>
   );
-}
+};

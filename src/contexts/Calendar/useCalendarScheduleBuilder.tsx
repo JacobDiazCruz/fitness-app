@@ -14,7 +14,7 @@ export const CalendarScheduleBuilderProvider = ({
 }) => {
   const { dispatchAlert }: any = useAlert();
   const createCalendarScheduleMutation = useMutation(createCalendarSchedule);
-  const { refetchCalendarSchedules } = useCalendar();
+  const { refetchCalendarSchedules }: any = useCalendar();
 
   const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<CalendarScheduleType>('Event');

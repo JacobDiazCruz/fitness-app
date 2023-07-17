@@ -20,9 +20,9 @@ export default function ProgramSchedule() {
   const [date, setDate] = useState<string>("");
   const [startTime, setStartTime] = useState<DayTime | null>(null);
   const [endTime, setEndTime] = useState<DayTime | null>(null);
-  
+
   const {
-    isLoading, 
+    isLoading,
     isError,
     data: programs,
     error

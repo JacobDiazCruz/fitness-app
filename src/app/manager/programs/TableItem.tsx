@@ -11,6 +11,7 @@ interface Props {
   name: string;
   weeks: Array<any>;
   description: string;
+  createdAt?: any;
 };
 
 export default function TableItem({
@@ -24,7 +25,7 @@ export default function TableItem({
 
   // date format
   const date = new Date(createdAt);
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const options: object = { month: 'short', day: 'numeric', year: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
