@@ -53,6 +53,7 @@ export default function AddNewProgram() {
         const dayNumber = index * 7 + dayIndex + 1;
         return {
           name: `Day ${dayNumber}`,
+          dayCount: dayNumber,
           workouts: []
         };
       });
@@ -70,7 +71,7 @@ export default function AddNewProgram() {
       description: programDescription,
       weeks: initialWeeks,
       users: []
-    })
+    });
   }
 
   // Validate form fields

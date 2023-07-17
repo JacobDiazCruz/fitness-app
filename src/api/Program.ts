@@ -70,7 +70,7 @@ export const editProgram = async ({ id, data }) => {
   return res.data;
 };
 
-export const listPrograms = async (type) => {
+export const listPrograms = async (type: string) => {
   const payload = {
     url: type ? `/program/list?type=${type}` : `/program/list/`
   };
@@ -78,12 +78,18 @@ export const listPrograms = async (type) => {
   return res.data?.data;
 };
 
-export const getProgram = async (id) => {
+export const getProgram = async (id: string) => {
   const payload = {
     url: `/program/${id}`
   };
-  const res = await getRequest(payload);
-  return res.data?.data;
+  try {
+    const res = await getRequest(payload);
+    if(!res.data) throw new Error(res);
+
+    return res.data?.data;
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
 
 export const getProgramWorkout = async (id: string) => {

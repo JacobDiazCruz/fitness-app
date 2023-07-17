@@ -33,7 +33,8 @@ export const ProgramWorkoutsProvider = ({ children }) => {
 
   // update essentials
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
-  
+  const [selectedDayCount, setSelectedDayCount] = useState<number | null>(null);
+
   // modal states
   const [showAddWorkoutModal, setShowAddWorkoutModal] =
     useState<boolean>(false);
@@ -147,6 +148,8 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     programWorkouts,
     programWorkoutsData,
     setProgramWorkouts,
+    selectedDayCount,
+    setSelectedDayCount,
     refetchProgramWorkouts,
     editProgramWorkoutMutation,
     isLoadingProgramWorkouts,

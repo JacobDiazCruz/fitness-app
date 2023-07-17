@@ -29,7 +29,6 @@ export default function CalendarWorkoutDetailsModal({
   });
 
   useEffect(() => {
-    console.log("calendarSchedule", calendarSchedule)
     refetch();
   }, []);
 

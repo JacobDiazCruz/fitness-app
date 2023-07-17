@@ -17,7 +17,6 @@ import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
 import { useSidebar } from "@/contexts/Sidebar/useSidebar";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 export default function EditProgram() {
   const params = useParams();
@@ -33,18 +32,16 @@ export default function EditProgram() {
     setProgramDays,
   }: UseProgramContext = useProgram()!;
 
-  const {
-    refetchProgramWorkouts
-  }: any = useProgramWorkouts();
-
   // Get program data
   const {
+    isError: isErrorFetchingProgram,
     isLoading: isLoadingProgram,
     data: programData,
     refetch: refetchProgram
   } = useQuery('program', () => getProgram(params.id), {
-    refetchOnWindowFocus: true,
-    refetchOnMount: true
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    retry: false
   });
   
   const { setOpenNav }: any = useSidebar();
@@ -58,6 +55,10 @@ export default function EditProgram() {
     }
   }, []);
 
+  if(isErrorFetchingProgram) {
+    router.push('/manager/programs');
+  }
+
   // set weeks
   useEffect(() => {
     if(programData) {
@@ -65,12 +66,14 @@ export default function EditProgram() {
       setProgramName?.(programData?.name);
       setProgramDescription?.(programData?.description);
     }
-  }, [programData, params.id]);
+  }, [programData, params.id, currentWeek]);
 
   // update programDays when the week changes on the route
   useEffect(() => {
-    setProgramDays?.(programData?.weeks[currentWeek - 1]?.days);
-  }, [currentWeek]);
+    if(programData) {
+      setProgramDays?.(programData?.weeks[currentWeek - 1]?.days);
+    }
+  }, [programData, currentWeek]);
 
   return (
     <div className="edit-program">

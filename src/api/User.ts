@@ -24,12 +24,10 @@ export const verifyUserToken = async () => {
   };
   try {
     const res = await getRequest(payload);
-    if(res.data) {
-      return res.data.data;
-    } else {
-      throw new Error("Failed to verify user token.");
-    }
-  } catch (error) {
-    throw new Error(error);
+    if(!res.data) throw new Error("Failed to verify user token.");
+    
+    return res.data.data;
+  } catch (err: any) {
+    throw new Error(err);
   }
 };

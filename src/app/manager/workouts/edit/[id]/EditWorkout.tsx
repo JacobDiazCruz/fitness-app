@@ -52,12 +52,18 @@ export default function EditWorkout() {
   // get exercise data
   const {
     isLoading,
-    isError,
-    data: workoutData
+    isError: isErrorFetching,
+    data: workoutData,
+    refetch
   } = useQuery('workout', () => getWorkout(params.id), {
     refetchOnMount: true,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    retry: 2
   });
+
+  useEffect(() => {
+    refetch();
+  }, [params.id]);
 
   useEffect(() => {
     if (workoutData && !editProgram) {
@@ -110,11 +116,8 @@ export default function EditWorkout() {
     }
   };
 
-  if(isError) {
-    dispatchAlert({
-      type: "ERROR",
-      message: "Error in fetching workout data. Please try again."
-    })
+  if(isErrorFetching) {
+    router.push('/manager/workouts');
   }
 
   return (

@@ -18,12 +18,10 @@ import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 interface Props {
   onClose: () => void;
-  // setSelectedWorkouts: any;
 };
 
 export default function SelectWorkoutsModal({ 
-  onClose,
-  // setSelectedWorkouts
+  onClose
 }: Props) {
   const params = useParams();
   const searchParams = useSearchParams();
@@ -39,7 +37,8 @@ export default function SelectWorkoutsModal({
   }: UseProgramContext = useProgram()!;
 
   const {
-    selectedDayIndex
+    selectedDayIndex,
+    selectedDayCount
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   const { 
@@ -84,6 +83,7 @@ export default function SelectWorkoutsModal({
         programId: params.id,
         weekId,
         dayIndex: selectedDayIndex,
+        dayCount: selectedDayCount,
         positionIndex: index
       }
     }));

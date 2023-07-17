@@ -4,7 +4,7 @@ import {
   putRequest 
 } from ".";
 
-export const addWorkout = async (data) => {
+export const addWorkout = async (data: any) => {
   const payload = {
     url: `/workout/add`,
     data
@@ -30,10 +30,16 @@ export const listWorkouts = async () => {
   return res.data?.data;
 };
 
-export const getWorkout = async (id) => {
+export const getWorkout = async (id: string) => {
   const payload = {
     url: `/workout/${id}`
   };
-  const res = await getRequest(payload);
-  return res.data?.data;
+  try {
+    const res = await getRequest(payload);
+    if(!res.data) throw new Error(res);
+
+    return res.data?.data;
+  } catch(err: any) {
+    throw new Error(err);
+  }
 };

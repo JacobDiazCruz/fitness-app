@@ -46,21 +46,21 @@ export const ProgramProvider = ({ children }: { children: ReactNode }) => {
    * @returns 
    */
   const handleEditProgramMutation = async (updatedWeeks) => {
-    if(!updatedWeeks) return;
-
-    const newWeeks = JSON.parse(JSON.stringify(updatedWeeks));
     const newProgramDays = JSON.parse(JSON.stringify(programDays));
-    newProgramDays.map((day: any, dayIndex: number) => {
-      const workoutIds = day.workouts.map((workout) => workout._id);
-      newWeeks[weekId - 1].days[dayIndex].workouts.splice(0, newWeeks[weekId - 1].days[dayIndex].workouts.length, ...workoutIds);
+
+    const newProgramDaysWithWorkoutIds = newProgramDays.map((day: any, dayIndex: number) => {
+      const workoutIds = day.workouts.map((workout: any) => {
+        return workout._id;
+      });
+
+      return { ...day, workouts: workoutIds };
     });
 
     await editProgramMutation.mutateAsync({
       id: params.id,
       data: {
-        name: programName,
-        description: programDescription,
-        weeks: newWeeks
+        weekIndex: parseInt(weekId) - 1,
+        days: newProgramDaysWithWorkoutIds
       }
     });
   };

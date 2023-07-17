@@ -31,6 +31,7 @@ export default function Board() {
           <DayContainer.Header
             dayName={day.name}
             dayIndex={dayIndex}
+            dayCount={day.dayCount}
           />
           {day?.workouts.map((workout: any, workoutIndex: number) => (
             <Draggable

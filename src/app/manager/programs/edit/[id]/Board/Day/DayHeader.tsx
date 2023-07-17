@@ -6,15 +6,18 @@ import { primaryTextColor } from "@/utils/themeColors";
 interface Props {
   dayName: string;
   dayIndex: number;
+  dayCount: number;
 };
 
 export default function DayHeader({
   dayName,
-  dayIndex
+  dayIndex,
+  dayCount
 }: Props) {
   const {
     setShowAddWorkoutModal,
-    setSelectedDayIndex
+    setSelectedDayIndex,
+    setSelectedDayCount
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   return (
@@ -27,6 +30,7 @@ export default function DayHeader({
         onClick={() => {
           setShowAddWorkoutModal?.(true);
           setSelectedDayIndex?.(dayIndex);
+          setSelectedDayCount?.(dayCount);
         }}
       >
         <AddIcon className={`${primaryTextColor} w-3 h-3`} />
