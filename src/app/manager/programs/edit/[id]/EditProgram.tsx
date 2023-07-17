@@ -17,6 +17,7 @@ import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
 import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 
 export default function EditProgram() {
   const params = useParams();
@@ -31,6 +32,10 @@ export default function EditProgram() {
     setWeeks,
     setProgramDays,
   }: UseProgramContext = useProgram()!;
+
+  const {
+    refetchProgramWorkouts
+  }: any = useProgramWorkouts();
 
   // Get program data
   const {
@@ -59,9 +64,13 @@ export default function EditProgram() {
       setWeeks?.(programData?.weeks);
       setProgramName?.(programData?.name);
       setProgramDescription?.(programData?.description);
-      setProgramDays?.(programData?.weeks[currentWeek - 1]?.days)
     }
   }, [programData, params.id]);
+
+  // update programDays when the week changes on the route
+  useEffect(() => {
+    setProgramDays?.(programData?.weeks[currentWeek - 1]?.days);
+  }, [currentWeek]);
 
   return (
     <div className="edit-program">

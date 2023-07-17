@@ -11,14 +11,14 @@ import { getProgramWorkout } from "@/api/Program";
 export default function CalendarWorkoutDetailsModal({
   workoutId,
   setShowWorkoutDetailsModal,
-  selectedCalendarType
+  calendarSchedule
 }) {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
 
   // get exercise data
   const { isLoading, data: workoutData, refetch } = useQuery('workout', () => {
-    if (selectedCalendarType === "Program") {
+    if (calendarSchedule.type === "Program") {
       return getProgramWorkout(workoutId);
     } else {
       return getWorkout(workoutId);
@@ -29,20 +29,36 @@ export default function CalendarWorkoutDetailsModal({
   });
 
   useEffect(() => {
+    console.log("calendarSchedule", calendarSchedule)
     refetch();
   }, []);
 
+  const formatTaggedDate = (dateString: string) => {
+    const options: object = { weekday: 'long', month: 'long', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  const calculateDay = (programDetails: any) => {
+    return programDetails.dayIndex * parseInt(programDetails.weekId) + 1;
+  }
+
   return (
-    <Modal 
+    <Modal
       onClose={() => setShowWorkoutDetailsModal?.(false)} 
       className="w-[600px] h-[90%]"
     >
       <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
         <div className="flex justify-between">
           <div>
-            <p className={`text-neutral-200 text-[13px]`}>
-              {workoutData?.dayName}
-            </p>
+            {calendarSchedule.type === "Program" && (
+              <div className={`text-neutral-200 text-[13px]`}>
+                Program Day {calculateDay(calendarSchedule?.workoutDetails?.programDetails)} - 
+                <span className="ml-2">
+                  {formatTaggedDate(calendarSchedule?.taggedDate)}
+                </span>
+              </div>  
+            )}
             <h2 className="font-semibold text-white mt-1">
               {workoutData?.name}
             </h2>

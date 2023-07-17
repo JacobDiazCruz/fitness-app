@@ -28,7 +28,7 @@ export const ProgramWorkoutsProvider = ({ children }) => {
     programDescription,
     programDays,
     setProgramDays,
-    handleEditProgramMutation,
+    handleEditProgramMutation
   } = useProgram();
 
   // update essentials

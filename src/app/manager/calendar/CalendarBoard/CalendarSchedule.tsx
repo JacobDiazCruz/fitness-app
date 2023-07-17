@@ -22,7 +22,7 @@ export default function CalendarSchedule({
 
   return (
     <div
-      className={`${calendarScheduleColors[calendarSchedule.type]} text cursor-pointer rounded-lg p-2 w-full absolute overflow-hidden`}
+      className={`${calendarScheduleColors[calendarSchedule.type]} cursor-pointer rounded-lg p-2 w-full absolute overflow-hidden`}
       style={{ marginTop: topOffset, height }}
       onClick={handleClick}
     >

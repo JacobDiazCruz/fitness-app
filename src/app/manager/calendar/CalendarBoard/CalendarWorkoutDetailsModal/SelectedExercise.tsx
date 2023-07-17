@@ -21,7 +21,7 @@ export default function SelectedExercise ({
   primaryFocus,
   sets,
   setShowVideoModal,
-  setCurrentVideoLink,
+  setCurrentVideoLink
 }: Props) {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
 

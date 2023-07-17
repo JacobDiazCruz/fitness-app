@@ -9,8 +9,8 @@ import CalendarDate from './CalendarBoard/CalendarDate';
 import CalendarBoard from './CalendarBoard';
 import useCalendarScheduleBuilder from '@/contexts/Calendar/useCalendarScheduleBuilder';
 import useCalendar from '@/contexts/Calendar/useCalendar';
-import CalendarWorkoutDetailsModal from '@/components/global/CalendarWorkoutDetailsModal';
 import { CalendarScheduleType } from '@/utils/calendarTypes';
+import CalendarWorkoutDetailsModal from './CalendarBoard/CalendarWorkoutDetailsModal';
 
 export default function Calendar() {
   const {
@@ -30,7 +30,7 @@ export default function Calendar() {
   // workout details
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState<string>("");
-  const [selectedCalendarType, setSelectedCalendarType] = useState<string>("");
+  const [selectedCalendarSchedule, setSelectedCalendarSchedule] = useState<any>(null);
 
   /**
    * @purpose To set weekly calendar items
@@ -98,9 +98,9 @@ export default function Calendar() {
     return date.toLocaleDateString('en-US', options);
   };
 
-  const handleClickWorkout = (type: string, workoutDetails: any) => {
+  const handleClickWorkout = (calendarSchedule: any, workoutDetails: any) => {
     setSelectedWorkoutId(workoutDetails._id);
-    setSelectedCalendarType(type);
+    setSelectedCalendarSchedule(calendarSchedule);
     setShowWorkoutDetailsModal(true);
   };
 
@@ -160,8 +160,8 @@ export default function Calendar() {
                 handleClick={() => {
                   if(calendarSchedule.type === "Workout" || calendarSchedule.type === "Program") {
                     handleClickWorkout(
-                      calendarSchedule.type,
-                      calendarSchedule.workoutDetails,
+                      calendarSchedule,
+                      calendarSchedule.workoutDetails
                     )
                   }
                 }}
@@ -175,7 +175,7 @@ export default function Calendar() {
         <CalendarWorkoutDetailsModal 
           workoutId={selectedWorkoutId}
           setShowWorkoutDetailsModal={setShowWorkoutDetailsModal}
-          selectedCalendarType={selectedCalendarType}
+          calendarSchedule={selectedCalendarSchedule}
         />
       )}
     </div>

@@ -11,7 +11,6 @@ import Draggable from "./Workouts/Draggable";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
 import useProgram from "@/contexts/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
-import { useEffect } from "react";
 import WorkoutDetailsModal from "@/components/global/WorkoutDetailsModal";
 
 export default function Board() {
