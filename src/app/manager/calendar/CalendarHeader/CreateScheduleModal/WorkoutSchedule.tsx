@@ -91,12 +91,7 @@ export default function WorkoutSchedule() {
           <Button 
             disabled={disableSubmit()}
             onClick={() => submitForm({
-              workoutDetails: {
-                _id: selectedWorkout?._id,
-                name: selectedWorkout?.name,
-                description: selectedWorkout?.description,
-                exercisesCount: selectedWorkout?.exercises?.length || 0
-              },
+              workoutId: selectedWorkout?._id,
               taggedDate: date,
               startTime,
               endTime,

@@ -44,7 +44,7 @@ export default function CalendarWorkoutDetailsModal({
 
   return (
     <Modal
-      onClose={() => setShowWorkoutDetailsModal?.(false)} 
+      onClose={() => setShowWorkoutDetailsModal?.(false)}
       className="w-[600px] h-[90%]"
     >
       <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
