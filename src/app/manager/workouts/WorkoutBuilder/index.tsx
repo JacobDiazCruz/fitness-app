@@ -51,7 +51,6 @@ export default function WorkoutBuilder ({
             />
           </div>
 
-          {/* Composed ExercisesBuilder Component */}
           <ExercisesBuilder>
             <ExercisesBuilder.ActionButtons />
             <ExercisesBuilder.SelectedExercises />

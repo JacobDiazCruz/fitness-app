@@ -1,11 +1,16 @@
+import { ReactNode } from "react";
 import CalendarDate from "./CalendarDate";
 import CalendarSchedule from "./CalendarSchedule";
 import CalendarTimesList from "./CalendarTimesList";
 
+interface Props {
+  calendarDate: ReactNode;
+  children: ReactNode;
+};
 export default function CalendarBoard({
   calendarDate,
   children
-}) {
+}: Props) {
   return (
     <div className="overflow-hidden">
       <div className="pr-9 pl-[100px]">

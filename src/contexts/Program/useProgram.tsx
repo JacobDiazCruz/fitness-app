@@ -42,10 +42,9 @@ export const ProgramProvider = ({ children }: { children: ReactNode }) => {
    * @purpose To edit program with the new set of weeks
    * @note Always perform a deep copy first when changing the weeks and days values
    * @note Always transform workout array data to ids before mutating
-   * @param updatedWeeks
    * @returns 
    */
-  const handleEditProgramMutation = async (updatedWeeks) => {
+  const handleEditProgramMutation = async () => {
     const newProgramDays = JSON.parse(JSON.stringify(programDays));
 
     const newProgramDaysWithWorkoutIds = newProgramDays.map((day: any, dayIndex: number) => {

@@ -9,12 +9,20 @@ import { useRouter } from "next/navigation";
 import useWorkout from "@/contexts/Workout/useWorkout";
 import WorkoutBuilder from "../WorkoutBuilder";
 import { WorkoutContext } from "@/utils/workoutTypes";
+import useAddProgramWorkout from "@/contexts/Workout/useAddProgramWorkout";
 
 export default function AddNewWorkout() {
   const router = useRouter();
-  const { 
+
+  const {
     selectedExercises
   }: WorkoutContext = useWorkout()!;
+
+  const {
+    programId,
+    buildProgramWorkout
+  } = useAddProgramWorkout();
+
   const [workoutName, setWorkoutName] = useState<string>("");
   const [workoutDescription, setWorkoutDescription] = useState<string>("");
   const { dispatchAlert }: any = useAlert();
@@ -31,6 +39,22 @@ export default function AddNewWorkout() {
       console.log(err);
     }
   });
+  
+  const submitForm = async () => {
+    if(programId) {
+      buildProgramWorkout(
+        workoutName,
+        workoutDescription,
+        selectedExercises
+      );
+    } else {
+      addWorkoutMutation.mutateAsync({
+        name: workoutName,
+        description: workoutDescription,
+        exercises: selectedExercises
+      });
+    }
+  };
 
   return (
     <>
@@ -40,11 +64,7 @@ export default function AddNewWorkout() {
         backPath="/manager/workouts"
         showActionButtons
         isLoading={addWorkoutMutation.isLoading}
-        handleSubmit={() => addWorkoutMutation.mutateAsync({
-          name: workoutName,
-          description: workoutDescription,
-          exercises: selectedExercises
-        })}
+        handleSubmit={() => submitForm()}
       />
       <WorkoutBuilder
         workoutName={workoutName}

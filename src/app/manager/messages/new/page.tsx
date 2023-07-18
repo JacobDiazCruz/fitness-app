@@ -6,14 +6,13 @@ import { borderColor, primaryBgColor, primaryTextColor, secondaryTextColor, tert
 import { socket } from "@/utils/socket";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Message } from "@/utils/types";
-import ChatList from "../../../../components/manager/messages/ChatList";
 import { getProfile } from "@/api/Profile";
 import { useQuery } from "react-query";
 import useMessageSender from "@/contexts/Message/useMessageSender";
-import MessageInput from "@/components/manager/messages/MessageInput";
-import FilesDisplay from "@/components/manager/messages/FilesDisplay";
-import MessagesList from "@/components/manager/messages/MessagesList";
-import RecepientHeader from "@/components/manager/messages/RecepientHeader";
+import MessageInput from "../MessageInput";
+import MessagesList from "../MessagesList";
+import RecepientHeader from "../RecepientHeader";
+import ChatList from "../ChatList";
 
 const roomId = Math.random().toString();
 
@@ -60,7 +59,7 @@ export default function Messages() {
     <div className="new-message-page">
       <div className="relative h-[90vh] flex">
         <ChatList />
-        
+
         {/* Chat */}
         <div className={`w-full overflow-hidden ${borderColor} border-l relative px-6 py-3 border-t border-solid flex flex-col`}>
           <RecepientHeader receiverProfile={receiverProfile} />

@@ -22,10 +22,7 @@ export default function ProgramSchedule() {
   const [endTime, setEndTime] = useState<DayTime | null>(null);
 
   const {
-    isLoading,
-    isError,
-    data: programs,
-    error
+    data: programs
   } = useQuery('programs', () => {
     const userRole = localStorage?.getItem("userRole");
     return listPrograms(userRole == "Client" ? "Client" : "");

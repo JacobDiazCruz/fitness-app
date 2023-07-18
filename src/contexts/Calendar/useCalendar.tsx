@@ -25,7 +25,10 @@ export const CalendarProvider = ({
     }
   }, [startDate]);
   
-  const { data: calendarSchedules, refetch: refetchCalendarSchedules } = useQuery(
+  const { 
+    data: calendarSchedules, 
+    refetch: refetchCalendarSchedules 
+  } = useQuery(
     'calendarSchedules',
     () => {
       return listWeeklyCalendarSchedules(JSON.stringify(dates));

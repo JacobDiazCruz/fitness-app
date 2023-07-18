@@ -1,10 +1,8 @@
 'use client';
 
-import Button from "@/components/global/Button";
 import Container from "@/components/global/Container";
 import TextField from "@/components/global/TextField";
 import Header from "@/app/manager/Header";
-import { primaryTextColor } from "@/utils/themeColors";
 import { useMutation } from "react-query";
 import { addClient } from "@/api/Client";
 import { useState } from "react";

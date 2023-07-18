@@ -6,7 +6,7 @@ export interface Program {
   users: Array<any>;
   name: string;
   description: string;
-  weeks: number;
+  weeks?: any;
   workouts: Array<any>;
   createdAt?: number;
 };
@@ -29,6 +29,8 @@ export interface UseProgramWorkoutsContext {
   programWorkouts?: any;
   setProgramWorkouts?: Dispatch<SetStateAction<any>>;
   refetchProgramWorkouts?: any;
+  setSelectedDayCount?: any;
+  selectedDayCount?: number;
   editProgramWorkoutMutation?: any;
   isLoadingProgramWorkouts?: boolean;
   showAddWorkoutModal?: boolean;

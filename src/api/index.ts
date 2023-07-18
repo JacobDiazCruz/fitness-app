@@ -86,4 +86,24 @@ export const patchRequest = async (payload: Payload) => {
   } catch (err) {
     return err
   }
-}
+};
+
+export const deleteRequest = async (payload: Payload) => {
+  let accessToken = localStorage.getItem("accessToken")
+  const config = {
+    headers: {
+    'Authorization': `Bearer ${accessToken}`
+    },
+  }
+  try {
+    const res = await axios({
+      method: 'DELETE',
+      url: `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`,
+      data: payload.data,
+      headers: config.headers
+    })
+    return res
+  } catch (err) {
+    return err
+  }
+};

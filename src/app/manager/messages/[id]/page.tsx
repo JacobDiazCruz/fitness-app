@@ -7,11 +7,11 @@ import { useParams } from "next/navigation";
 import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
 import { listMessages } from "@/api/Message";
-import ChatList from "../../../../components/manager/messages/ChatList";
 import { socket } from "@/utils/socket";
 import useChat from "@/contexts/Message/useChat";
-import MessageInput from "@/components/manager/messages/MessageInput";
-import MessagesList from "@/components/manager/messages/MessagesList";
+import ChatList from "../ChatList";
+import MessageInput from "../MessageInput";
+import MessagesList from "../MessagesList";
 
 export default function Messages() {
   // hooks
@@ -88,7 +88,7 @@ export default function Messages() {
   /**
    * @Purpose To fetch the previous messages data upon scrolling to the -
    * upmost part of the parent messages container.
-   * FIX THIS BUGGY
+   * FIX THIS BUGGY FUNCTION
    */
    useEffect(() => {
     if(!firstMount) {

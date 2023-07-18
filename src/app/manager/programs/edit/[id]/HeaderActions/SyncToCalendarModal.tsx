@@ -38,7 +38,12 @@ export default function SyncToCalendarModal({
 
   const submitSyncToCalendar = () => {
     const workouts = programData?.weeks.flatMap((week: any) =>
-      week.days.flatMap((day: any) => day.workouts.map((workout: any) => workout._id))
+      week.days.flatMap((day: any) => day.workouts.map((workout: any) => {
+        return {
+          dayCount: day.dayCount,
+          workoutId: workout._id
+        }
+      }))
     );
 
     submitForm({

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Modal from "@/components/global/Modal";
 import { primaryTextColor } from "@/utils/themeColors";
 import SelectedExercise from "./SelectedExercise";
@@ -7,17 +7,32 @@ import VideoModal from "@/components/global/VideoModal";
 import { useQuery } from "react-query";
 import { getWorkout } from "@/api/Workout";
 import { getProgramWorkout } from "@/api/Program";
+import EditMenu from "./EditMenu";
+import EditScheduleModal from "./EditScheduleModal";
+import DeleteCalendarSchedule from "./DeleteCalendarSchedule";
+
+interface Props {
+  workoutId: string;
+  setShowWorkoutDetailsModal: any;
+  calendarSchedule: any;
+};
 
 export default function CalendarWorkoutDetailsModal({
   workoutId,
   setShowWorkoutDetailsModal,
   calendarSchedule
-}) {
+}: Props) {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
 
+  const [showEditScheduleModal, setShowEditScheduleModal] = useState<boolean>(false);
+
   // get exercise data
-  const { isLoading, data: workoutData, refetch } = useQuery('workout', () => {
+  const { 
+    isLoading, 
+    data: workoutData, 
+    refetch
+  } = useQuery('workout', () => {
     if (calendarSchedule.type === "Program") {
       return getProgramWorkout(workoutId);
     } else {
@@ -47,25 +62,46 @@ export default function CalendarWorkoutDetailsModal({
       onClose={() => setShowWorkoutDetailsModal?.(false)}
       className="w-[600px] h-[90%]"
     >
-      <div className="dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
-        <div className="flex justify-between">
-          <div>
-            {calendarSchedule.type === "Program" && (
-              <div className={`text-neutral-200 text-[13px]`}>
-                Program Day {calculateDay(calendarSchedule?.workoutDetails?.programDetails)} - 
-                <span className="ml-2">
-                  {formatTaggedDate(calendarSchedule?.taggedDate)}
-                </span>
-              </div>  
-            )}
-            <h2 className="font-semibold text-white mt-1">
-              {workoutData?.name}
-            </h2>
+      <div className="flex justify-between dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
+        <div>
+          <div className="flex justify-between">
+            <div>
+              {calendarSchedule.type === "Program" && (
+                <div className={`text-neutral-200 text-[13px]`}>
+                  Program Day {calculateDay(calendarSchedule?.workoutDetails?.programDetails)} - 
+                  <span className="ml-2">
+                    {formatTaggedDate(calendarSchedule?.taggedDate)}
+                  </span>
+                </div>
+              )}
+              <h2 className="font-semibold text-white mt-1">
+                {workoutData?.name}
+              </h2>
+            </div>
           </div>
+          <p className={`text-neutral-200 text-[13px] w-[80%] font-light mt-3`}>
+            {workoutData?.description}
+          </p>
         </div>
-        <p className={`text-neutral-200 text-[13px] w-[80%] font-light mt-3`}>
-          {workoutData?.description}
-        </p>
+        <div>
+          <EditMenu
+            handleClick={() => setShowEditScheduleModal(true)}
+            calendarSchedule={calendarSchedule}
+          />
+          {showEditScheduleModal && (
+            <EditScheduleModal
+              calendarScheduleId={calendarSchedule._id}
+              taggedDate={calendarSchedule.taggedDate}
+              startTime={calendarSchedule.startTime}
+              endTime={calendarSchedule.endTime}
+              onClose={() => setShowEditScheduleModal(false)}
+            />
+          )}
+          <DeleteCalendarSchedule 
+            calendarScheduleId={calendarSchedule._id}
+            onClose={() => setShowWorkoutDetailsModal?.(false)}
+          />
+        </div>
       </div>
 
       <div className="workout p-7">
@@ -79,7 +115,7 @@ export default function CalendarWorkoutDetailsModal({
             primaryFocus,
             supersetExercises,
             sets,
-            videoLink 
+            videoLink
           } = exercise || {};
 
           if(supersetExercises?.length) {

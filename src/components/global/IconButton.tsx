@@ -5,17 +5,20 @@ interface IconButtonProps {
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   noPadding?: boolean;
   children: ReactNode;
+  iconBtnRef?: any;
 };
 
 export default function IconButton({
   className,
   onClick,
   noPadding,
+  iconBtnRef,
   children
 }: IconButtonProps) {
   return (
     <button 
       onClick={onClick}
+      ref={iconBtnRef}
       className={`
         ${className}
         ${!noPadding && 'p-2'}

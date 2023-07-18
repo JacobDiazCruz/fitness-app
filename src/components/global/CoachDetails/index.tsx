@@ -42,6 +42,10 @@ export default function CoachDetails() {
     coachingDetails
   }  = coach;
 
+  if(isLoadingCoachingServices) {
+    return <></>;
+  }
+
   return (
     <CoachDetailsWrapper
       header={

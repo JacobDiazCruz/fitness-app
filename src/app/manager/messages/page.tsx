@@ -1,9 +1,9 @@
 'use client';
 
 import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import ChatList from "@/components/manager/messages/ChatList";
 import useChat from "@/contexts/Message/useChat";
 import { LuMessagesSquare } from "react-icons/lu";
+import ChatList from "./ChatList";
 
 export default function Messages() {
   const { chats }: any = useChat();

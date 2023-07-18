@@ -23,13 +23,13 @@ export default function EditWorkout() {
     selectedExercises,
     setSelectedExercises 
   }: WorkoutContext = useWorkout()!;
+  
   const {
     programWeeks,
     programWeekIndex,
     programDayIndex,
     programWorkoutIndex,
-    isLoadingEditProgram,
-    handleMutateProgram
+    isLoadingEditProgram
   }: any = useEditProgram();
   
   const { dispatchAlert }: any = useAlert();
@@ -86,7 +86,7 @@ export default function EditWorkout() {
   }, [params.id]);
 
   useEffect(() => {
-    if (workoutData && !editProgram) {
+    if (workoutData) {
       const { name, description, exercises } = workoutData;
       setWorkoutName(name);
       setWorkoutDescription(description);
@@ -94,16 +94,17 @@ export default function EditWorkout() {
     }
   }, [workoutData]);
 
-  useEffect(() => {
-    if (programWeekIndex && editProgram) {
-      const programWorkout = programWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex]
-      const { name, description, exercises } = programWorkout;
-
-      setWorkoutName(name);
-      setWorkoutDescription(description);
-      setSelectedExercises?.(exercises);
-    }
-  }, [programWeekIndex]);
+  // useEffect(() => {
+  //   if (programWeekIndex && editProgram) {
+  //     const programWorkout = programWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex]
+  //     const { name, description, exercises } = programWorkout;
+      
+  //     console.log("programWorkoutgg", programWorkout)
+  //     setWorkoutName(name);
+  //     setWorkoutDescription(description);
+  //     setSelectedExercises?.(exercises);
+  //   }
+  // }, [workoutData, programWeekIndex, params.id]);
 
   /**
    * @Purpose This function handles edit workout from workouts page, and edit workout from programs

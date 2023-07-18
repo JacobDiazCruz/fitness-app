@@ -38,6 +38,7 @@ export default function Table() {
     data: workouts,
     error
   } = useQuery('workouts', listWorkouts, {
+    refetchOnReconnect: true,
     refetchOnMount: true
   });
 
