@@ -1,6 +1,6 @@
 import useCalendar from "@/contexts/Calendar/useCalendar";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
-import { shadowColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, shadowColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
 
 interface CalendarDateProps { 
@@ -54,12 +54,7 @@ export default function CalendarDate({
                 setShowCreateScheduleModal(true);
               }}
             >
-              <div className={`h-[50px] text-white opacity-[0]`}>
-                {time.name}
-              </div>
-              <div
-                className={`${shadowColor} shadow-[inset_0_-1px_1px] absolute top-0 left-0 h-full w-full`}
-              />
+              <div className={`${time.hour.endsWith("00") && 'border-t'} ${borderColor} h-[50px] text-white`}></div>
             </div>
           ))}
         </div>
