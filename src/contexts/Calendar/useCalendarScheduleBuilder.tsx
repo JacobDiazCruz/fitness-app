@@ -1,5 +1,6 @@
 import { createCalendarSchedule } from "@/api/Calendar";
 import { CalendarScheduleType } from "@/utils/calendarTypes";
+import { TimeItem } from "@/utils/timesList";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import useAlert from "../Alert";
@@ -18,7 +19,11 @@ export const CalendarScheduleBuilderProvider = ({
 
   const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<CalendarScheduleType>('Event');
-  
+
+  const [currentSelectedStartTime, setCurrentSelectedStartTime] = useState<TimeItem | null>(null);
+  const [currentSelectedEndTime, setCurrentSelectedEndTime] = useState<TimeItem | null>(null);
+  const [currentSelectedDate, setCurrentSelectedDate] = useState<string>("");
+
   /**
    * @purpose To add/create a new calendar item
    * @action createCalendarScheduleMutation
@@ -57,6 +62,12 @@ export const CalendarScheduleBuilderProvider = ({
   const value = {
     showCreateScheduleModal,
     setShowCreateScheduleModal,
+    currentSelectedEndTime,
+    setCurrentSelectedEndTime,
+    currentSelectedStartTime,
+    setCurrentSelectedStartTime,
+    currentSelectedDate,
+    setCurrentSelectedDate,
     activeTab,
     setActiveTab,
     submitForm

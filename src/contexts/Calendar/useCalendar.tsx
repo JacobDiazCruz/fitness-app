@@ -12,6 +12,7 @@ export const CalendarProvider = ({
 }) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [dates, setDates] = useState<string[]>([]);
+  const [dayTimes, setDayTimes] = useState<any>([]);
 
   useEffect(() => {
     if (startDate) {
@@ -46,32 +47,61 @@ export const CalendarProvider = ({
     }
   }, [dates, refetchCalendarSchedules]);
 
+  useEffect(() => {
+    const times = [];
+    const options = {
+      hour: 'numeric', 
+      minute: 'numeric', 
+      hour12: true
+    };
+
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const time = new Date();
+        time.setHours(hour);
+        time.setMinutes(minute);
+
+        // Format the time using Intl.DateTimeFormat
+        const formattedTime = time.toLocaleTimeString('en-US', options);
+        times.push(formattedTime);
+      }
+    }
+
+    setDayTimes(times);
+  }, []);
+
   const generateTimeList = () => {
     const times = [];
+    const options = {
+      hour: 'numeric', 
+      minute: 'numeric', 
+      hour12: true
+    };
+
     for (let hour = 0; hour < 24; hour++) {
       const time = new Date();
       time.setHours(hour);
       time.setMinutes(0);
-      times.push(time);
-    }
-    const options: object = { 
-      hour: 'numeric', 
-      minute: 'numeric', 
-      hour12: true 
-    };
 
-    return times.map((time) => (
+      // Format the time using Intl.DateTimeFormat
+      const formattedTime = time.toLocaleTimeString('en-US', options);
+
+      times.push(formattedTime);
+    }
+
+    return times.map((time: any) => (
       <li key={time} className={`${tertiaryTextColor} h-[100px] relative text-[14px]`}>
-        {time.toLocaleTimeString('en-US', options)}
+        {time}
       </li>
     ));
   };
 
   const value = {
     dates,
+    dayTimes,
     setDates,
     startDate,
-    setStartDate,    
+    setStartDate,
     refetchCalendarSchedules,
     calendarSchedules,
     generateTimeList

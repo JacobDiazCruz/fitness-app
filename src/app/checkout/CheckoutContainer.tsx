@@ -45,43 +45,41 @@ export default function CheckoutContainer({
   };
 
   return (
-    <>
-      <div className="bg-white border rounded-lg p-6 w-[500px] h-fit sticky top-[5em]">
-        <h5 className="font-bold">Checkout</h5>
-        <div className="mt-2">
-          <ul className="max-w-md space-y-1 list-inside mt-7">
-            {orderOptions?.map((orderOption: any) => (
-              <>
-                {orderOption.isSelected && (
-                  <OrderItem 
-                    title={orderOption.title} 
-                    price={orderOption.price}
-                  />
-                )}
-              </>
-            ))}
-          </ul>
-          <hr className="my-2" />
-          <ul className="max-w-md space-y-1 list-inside mt-7">
-            <li className="flex items-center justify-between py-2">
-              <p>Service charge</p>
-              <p>300</p>
-            </li>
-            <li className="flex items-center justify-between py-2">
-              <p className="font-bold">Total</p>
-              <p className="font-bold">PHP {getClientTotalPrice()}</p>
-            </li>
-          </ul>
-        </div>
-        <Button 
-          variant="contained" 
-          className="w-full mt-5"
-          onClick={() => submitCheckout(orderOptions)}
-          loading={isLoadingCheckout}
-        >
-          Checkout
-        </Button>
+    <div className="bg-neutral-100 rounded-lg p-8 w-[470px] h-fit sticky top-[5em]">
+      <h5 className="font-bold">Checkout</h5>
+      <div className="mt-2">
+        <ul className="max-w-md space-y-1 list-inside mt-7">
+          {orderOptions?.map((orderOption: any) => (
+            <>
+              {orderOption.isSelected && (
+                <OrderItem 
+                  title={orderOption.title} 
+                  price={orderOption.price}
+                />
+              )}
+            </>
+          ))}
+        </ul>
+        <hr className="my-2" />
+        <ul className="max-w-md space-y-1 list-inside mt-7">
+          <li className="flex items-center justify-between py-2">
+            <p>Service charge</p>
+            <p>300</p>
+          </li>
+          <li className="flex items-center justify-between py-2">
+            <p className="font-bold">Total</p>
+            <p className="font-bold">PHP {getClientTotalPrice()}</p>
+          </li>
+        </ul>
       </div>
-    </>
+      <Button 
+        variant="contained" 
+        className="w-full mt-5"
+        onClick={() => submitCheckout(orderOptions)}
+        loading={isLoadingCheckout}
+      >
+        Checkout
+      </Button>
+    </div>
   );
 };

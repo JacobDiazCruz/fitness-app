@@ -5,15 +5,15 @@ import { borderColor, fieldBgColor, primaryTextColor, secondaryTextColor } from 
 import { CalendarIcon } from './Icons';
 import { useEffect } from 'react';
 
-const DatePickerField = ({
+export default function DatePickerField ({
   value,
   onChange,
   placeholder = "Select a date"
-}) => {
+}) {
 
   useEffect(() => {
     const body = document.body;
-  
+
     const handleRemoveScroll = () => {
       body.classList.remove("scroll-lock");
     };
@@ -21,10 +21,26 @@ const DatePickerField = ({
     const handleAddScroll = () => {
       body.classList.add("scroll-lock");
     };
-  
-    handleAddScroll();
+
+    // Function to check if .react-datepicker-popper class is available and trigger the scroll lock logic
+    const checkAndHandleScrollLock = () => {
+      const datepickerPopper = document.querySelector(".react-datepicker-popper");
+      if (datepickerPopper) {
+        handleAddScroll();
+      } else {
+        handleRemoveScroll();
+      }
+    };
+
+    // Create a MutationObserver to observe changes in the DOM
+    const observer = new MutationObserver(checkAndHandleScrollLock);
+
+    // Start observing changes in the body element
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Stop observing and clean up when the component unmounts
     return () => {
-      handleRemoveScroll();
+      observer.disconnect();
     };
   }, []);
 
@@ -34,7 +50,7 @@ const DatePickerField = ({
       <DatePicker
         selected={value}
         onChange={onChange}
-        dateFormat="dd/MM/yyyy"
+        dateFormat="EEEE d, yyyy"
         className={`
           ${fieldBgColor}
           ${borderColor}
@@ -47,5 +63,3 @@ const DatePickerField = ({
     </div>
   );
 };
-
-export default DatePickerField;

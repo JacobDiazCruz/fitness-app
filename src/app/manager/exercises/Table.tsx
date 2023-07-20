@@ -7,7 +7,7 @@ import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
-import { borderColor, primaryTextColor } from "@/utils/themeColors";
+import { primaryTextColor } from "@/utils/themeColors";
 import TableNoResults from "@/components/global/TableNoResults";
 
 const TableColumnHeaders = () => {
@@ -89,25 +89,27 @@ export default function Table() {
         }}
       />
       <div className="page-table mt-8">
-        <TableColumnHeaders primaryTextColor={primaryTextColor} />
         {filteredExercises?.length <= 0 ? (
           <TableNoResults />
         ) : (
-          filteredExercises?.map((exercise: Exercise) => {
-            const { _id, name, primaryFocus, videoLink, category, files, createdAt } = exercise;
-            return (
-              <TableItem
-                key={_id}
-                name={name}
-                videoLink={videoLink}
-                primaryFocus={primaryFocus}
-                category={category}
-                itemId={_id}
-                createdAt={createdAt}
-                coverImage={files[0] || ""}
-              />
-            );
-          })
+          <>
+            <TableColumnHeaders primaryTextColor={primaryTextColor} />
+            {filteredExercises?.map((exercise: Exercise) => {
+              const { _id, name, primaryFocus, videoLink, category, files, createdAt } = exercise;
+              return (
+                <TableItem
+                  key={_id}
+                  name={name}
+                  videoLink={videoLink}
+                  primaryFocus={primaryFocus}
+                  category={category}
+                  itemId={_id}
+                  createdAt={createdAt}
+                  coverImage={files[0] || ""}
+                />
+              );
+            })}
+          </>
         )}
       </div>
     </>

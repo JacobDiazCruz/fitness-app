@@ -1,22 +1,17 @@
-import { useState } from "react";
 import Modal from "@/components/global/Modal";
-import { primaryTextColor } from "@/utils/themeColors";
-import SelectedExercise from "./SelectedExercise";
 import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
-import { ProgramExercise, ProgramSupersetExercise, UseProgramWorkoutsContext } from "@/utils/programTypes";
-import VideoModal from "@/components/global/VideoModal";
+import { UseProgramWorkoutsContext } from "@/utils/programTypes";
+import SelectedExercisesList from "./SelectedExercisesList";
 
 export default function WorkoutDetailsModal() {
-  const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
-  const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
-  
+
   const {
     currentWorkoutDetails,
     setShowWorkoutDetailsModal
   }: UseProgramWorkoutsContext = useProgramWorkouts()!;
 
   return (
-    <Modal 
+    <Modal
       onClose={() => setShowWorkoutDetailsModal?.(false)} 
       className="w-[600px] h-[90%]"
     >
@@ -36,65 +31,9 @@ export default function WorkoutDetailsModal() {
         </p>
       </div>
 
-      <div className="workout p-7">
-        <p className={`${primaryTextColor} mb-5`}>
-          {currentWorkoutDetails.exercises?.length} Exercises
-        </p>
-        {currentWorkoutDetails.exercises.map((exercise: ProgramExercise) => {
-          const { 
-            name,
-            instruction,
-            primaryFocus,
-            supersetExercises,
-            sets,
-            videoLink 
-          } = exercise || {};
-
-          if(supersetExercises?.length) {
-            return (
-              <div className="border-[2px] relative cursor-grab border-solid dark:border-blue-900 border-blue-500 rounded-lg overflow-hidden mb-5">
-                <div className="bg-blue-100 dark:bg-blue-950 p-2">
-                  <p className="text-white">
-                    Superset
-                  </p>
-                </div>
-                {supersetExercises?.map((supersetExercise: ProgramSupersetExercise) => (
-                  <SelectedExercise
-                    name={supersetExercise?.name}
-                    primaryFocus={supersetExercise?.primaryFocus}
-                    instruction={supersetExercise?.instruction}
-                    setShowVideoModal={setShowVideoModal}
-                    setCurrentVideoLink={setCurrentVideoLink}
-                    videoLink={supersetExercise?.videoLink}
-                    sets={supersetExercise?.sets}
-                  />
-                ))}
-              </div>
-            );
-          } else {
-            return (
-              <div className="mb-3">
-                <SelectedExercise
-                  name={name}
-                  primaryFocus={primaryFocus}
-                  instruction={instruction}
-                  setShowVideoModal={setShowVideoModal}
-                  setCurrentVideoLink={setCurrentVideoLink}
-                  videoLink={videoLink}
-                  sets={sets}
-                />
-              </div>
-            );
-          }
-        })}
-      </div>
-      
-      {showVideoModal && (
-        <VideoModal
-          videoUrl={currentVideoLink}
-          handleClose={() => setShowVideoModal(false)}
-        />
-      )}
+      <SelectedExercisesList 
+        currentWorkoutDetails={currentWorkoutDetails}
+      />
     </Modal>
   );
 };

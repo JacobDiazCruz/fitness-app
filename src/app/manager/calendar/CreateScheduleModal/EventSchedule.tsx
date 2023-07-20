@@ -9,10 +9,15 @@ import useClients from "@/hooks/clients/useClients";
 import { DayTime } from "@/utils/calendarTypes";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function EventSchedule() {
-  const { submitForm } = useCalendarScheduleBuilder();
+  const { 
+    submitForm,
+    currentSelectedDate,
+    currentSelectedStartTime,
+    currentSelectedEndTime
+  }: any = useCalendarScheduleBuilder();
 
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -22,11 +27,17 @@ export default function EventSchedule() {
   const [selectedGuests, setSelectedGuests] = useState([]);
   const { clientsList } = useClients();
 
+  useEffect(() => {
+    setDate(currentSelectedDate);
+    setStartTime(currentSelectedStartTime);
+    setEndTime(currentSelectedEndTime);
+  }, []);
+
   return (
     <>
       <ModalContent>
         <div>
-          <TextField 
+          <TextField
             value={title}
             onChange={(e: any) => setTitle(e.target.value)}
             placeholder="Add title"
@@ -49,7 +60,7 @@ export default function EventSchedule() {
             </div>
             <div className={primaryTextColor}>-</div>
             <div className="w-[100px]">
-              <AutoComplete 
+              <AutoComplete
                 items={timesList}
                 value={endTime}
                 onChange={(value: any) => setEndTime(value)}

@@ -21,20 +21,24 @@ export default function CalendarSchedule({
   };
 
   return (
-    <div
-      className={`${calendarScheduleColors[calendarSchedule.type]} cursor-pointer rounded-lg p-2 w-full absolute overflow-hidden`}
+    <div 
+      className={`cursor-pointer py-[2px] px-[2px] w-full z-[90] absolute overflow-hidden`}
       style={{ marginTop: topOffset, height }}
-      onClick={handleClick}
     >
-      <div className="font-semibold text-[14px]">
-        {calendarSchedule.type == "Event" ? (
-          <span>{calendarSchedule.title}</span>
-        ) : (
-          <span>{calendarSchedule.workoutDetails.name}</span>
-        )}
-      </div>
-      <div className="font-light mt-1 text-[12px]">
-        {startTime} - {endTime}
+      <div
+        className={`${calendarScheduleColors[calendarSchedule.type]} h-full rounded-lg px-2 py-[2px]`}
+        onClick={handleClick}
+      >
+        <div className="font-semibold text-[14px]">
+          {calendarSchedule.type == "Event" ? (
+            <span>{calendarSchedule.title}</span>
+          ) : (
+            <span>{calendarSchedule.workoutDetails.name}</span>
+          )}
+        </div>
+        <div className="font-light text-[12px]">
+          {startTime} - {endTime}
+        </div>
       </div>
     </div>
   );

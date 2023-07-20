@@ -1,15 +1,38 @@
-import useCalendar from "./useCalendar";
+import { tertiaryTextColor } from "@/utils/themeColors";
 
 export default function useCalendarScheduleDisplay(calendarSchedule: any) {
-  const {
-    generateTimeList
-  } = useCalendar();
+  const generateTimeList = () => {
+    const times = [];
+    for (let hour = 0; hour < 24; hour++) {
+      const time = new Date();
+      time.setHours(hour);
+      time.setMinutes(0);
+      times.push(time);
+    }
+    const options: object = { 
+      hour: 'numeric', 
+      minute: 'numeric', 
+      hour12: true 
+    };
 
-  const startHour = parseInt(calendarSchedule.startTime.hour.split(":")[0], 10);
-  const endHour = parseInt(calendarSchedule.endTime.hour.split(":")[0], 10);
+    return times.map((time, index) => (
+      <li key={index} className={`${tertiaryTextColor} h-[100px] relative text-[14px] border-b w-full`}>
+        {time.toLocaleTimeString('en-US', options)}
+      </li>
+    ));
+  };
 
-  const initialStartTime = new Date().setHours(startHour, 0);
-  const initialEndTime = new Date().setHours(endHour, 0);
+  const startTimeParts = calendarSchedule.startTime.hour.split(":");
+  const startHour = parseInt(startTimeParts[0], 10);
+  const startMinute = parseInt(startTimeParts[1], 10);
+
+  const endTimeParts = calendarSchedule.endTime.hour.split(":");
+  const endHour = parseInt(endTimeParts[0], 10);
+  const endMinute = parseInt(endTimeParts[1], 10);
+
+  const initialStartTime = new Date().setHours(startHour, startMinute, 0, 0);
+
+  const initialEndTime = new Date().setHours(endHour, endMinute, 0, 0);
 
   const startTime = new Date(initialStartTime).toLocaleTimeString([], {
     hour: "numeric",
@@ -49,17 +72,17 @@ export default function useCalendarScheduleDisplay(calendarSchedule: any) {
     return timeText === convertedEndTime;
   });
 
-  let height = 0;
+  let height = 50; // default height value for times like 12:30 or 12:15
   if (endTimeIndex > 0) {
     height =
       (endTimeIndex - startTimeIndex + 1) * 100 -
       (convertedStartTime === startTime ? 100 : 130);
     if (endTime !== convertedEndTime) {
-      height += 50;
+      height += 30;
     }
   }
 
-  let topOffset = startTimeIndex >= 0 ? startTimeIndex * 100 : 0;
+  let topOffset = startTimeIndex >= 0 ? (startTimeIndex + 0.75) * 100 : 0;
 
   // if clock's last 2 digits are not equal to 00
   if (

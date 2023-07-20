@@ -11,6 +11,7 @@ import useCalendarScheduleBuilder from '@/contexts/Calendar/useCalendarScheduleB
 import useCalendar from '@/contexts/Calendar/useCalendar';
 import { CalendarScheduleType } from '@/utils/calendarTypes';
 import CalendarWorkoutDetailsModal from './CalendarBoard/CalendarWorkoutDetailsModal';
+import CreateScheduleModal from './CreateScheduleModal';
 
 export default function Calendar() {
   const {
@@ -123,16 +124,10 @@ export default function Calendar() {
             </IconButton>
           </>
         }
-        createScheduleModal={
-          <>
-            {showCreateScheduleModal && (
-              <CalendarHeader.CreateScheduleModal />
-            )}
-          </>
-        }
       />
 
       <CalendarBoard
+        timesList={<CalendarBoard.TimesList />}
         calendarDate={
           <>
             {dates.map((date: string, index: number) => (
@@ -140,18 +135,16 @@ export default function Calendar() {
                 key={index}
                 handleClick={() => handleDateClick(date)}
                 activeDate={activeDate(date)}
-                formattedDate={formatDate(date)}
+                date={date}
               />
             ))}
           </>
         }
       >
-        <CalendarBoard.TimesList />
-
         {weeklyCalendarSchedules?.map((week: any, key) => (
           <div
             key={key}
-            className={`${borderColor} grid-cell border-r flex-1 z-[50] relative w-[200px] overflow-hidden`}
+            className={`${borderColor} grid-cell border-r flex-1 relative overflow-hidden`}
           >
             {week?.calendarSchedules?.map((calendarSchedule: CalendarScheduleType, index: number) => (
               <CalendarBoard.Schedule
@@ -172,11 +165,15 @@ export default function Calendar() {
       </CalendarBoard>
 
       {showWorkoutDetailsModal && (
-        <CalendarWorkoutDetailsModal 
+        <CalendarWorkoutDetailsModal
           workoutId={selectedWorkoutId}
           setShowWorkoutDetailsModal={setShowWorkoutDetailsModal}
           calendarSchedule={selectedCalendarSchedule}
         />
+      )}
+
+      {showCreateScheduleModal && (
+        <CreateScheduleModal />
       )}
     </div>
   );

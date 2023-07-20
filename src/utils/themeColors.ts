@@ -1,4 +1,5 @@
 export const borderColor = "dark:border-neutral-800 border-neutral-200";
+export const shadowColor = "dark:shadow-neutral-800 shadow-neutral-200";
 export const primaryBgColor = "dark:bg-darkTheme-950 bg-white";
 export const secondaryBgColor = "dark:bg-darkTheme-900 bg-white";
 export const tertiaryBgColor = "dark:bg-darkTheme-900 bg-[#f6f6f6]";

@@ -8,7 +8,6 @@ import useAlert from "@/contexts/Alert";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import useWorkout from "@/contexts/Workout/useWorkout";
 import WorkoutBuilder from "../../WorkoutBuilder";
-import useEditProgram from "@/hooks/useEditProgram";
 import { WorkoutContext } from "@/utils/workoutTypes";
 import { editProgramWorkout, getProgramWorkout } from "@/api/Program";
 
@@ -23,14 +22,6 @@ export default function EditWorkout() {
     selectedExercises,
     setSelectedExercises 
   }: WorkoutContext = useWorkout()!;
-  
-  const {
-    programWeeks,
-    programWeekIndex,
-    programDayIndex,
-    programWorkoutIndex,
-    isLoadingEditProgram
-  }: any = useEditProgram();
   
   const { dispatchAlert }: any = useAlert();
 
@@ -94,18 +85,6 @@ export default function EditWorkout() {
     }
   }, [workoutData]);
 
-  // useEffect(() => {
-  //   if (programWeekIndex && editProgram) {
-  //     const programWorkout = programWeeks[programWeekIndex]?.days[programDayIndex]?.workouts?.[programWorkoutIndex]
-  //     const { name, description, exercises } = programWorkout;
-      
-  //     console.log("programWorkoutgg", programWorkout)
-  //     setWorkoutName(name);
-  //     setWorkoutDescription(description);
-  //     setSelectedExercises?.(exercises);
-  //   }
-  // }, [workoutData, programWeekIndex, params.id]);
-
   /**
    * @Purpose This function handles edit workout from workouts page, and edit workout from programs
    * @Note 
@@ -145,7 +124,7 @@ export default function EditWorkout() {
         pageTitle="Edit Workout"
         backIcon
         showActionButtons
-        isLoading={editWorkoutMutation.isLoading || isLoadingEditProgram}
+        isLoading={editWorkoutMutation.isLoading}
         handleSubmit={handleSubmit}
       />
       <WorkoutBuilder

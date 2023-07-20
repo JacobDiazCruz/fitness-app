@@ -33,7 +33,7 @@ const createScheduleList: CreateScheduleItem[] = [
 export default function CreateScheduleModal() {
 
   const { 
-    activeTab, 
+    activeTab,
     setActiveTab,
     setShowCreateScheduleModal
   } = useCalendarScheduleBuilder(); 
@@ -75,4 +75,4 @@ export default function CreateScheduleModal() {
       <RenderScheduleComponent />
     </Modal>
   );
-}
+};

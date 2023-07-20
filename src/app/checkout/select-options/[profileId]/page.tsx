@@ -12,6 +12,28 @@ import { useParams } from "next/navigation";
 export default function Checkout() {
   const params = useParams();
   const [orderOptions, setOrderOptions] = useState([]);
+  const [coachingPlans, setCoachingPlans] = useState([
+    {
+      label: "4 weeks plan",
+      isSelected: false,
+      price: {
+        currency: "PHP",
+        value: 50
+      },
+      description: "Good for clients why wants to try a coach's service for a day.",
+      type: "30_DAYS"
+    },
+    {
+      label: "1 day plan",
+      isSelected: false,
+      price: {
+        currency: "PHP",
+        value: 500
+      },
+      description: "Good for clients why wants to try a coach's service for a day.",
+      type: "1_DAY"
+    }
+  ]);
 
   // get exercise data
   const {
@@ -26,31 +48,30 @@ export default function Checkout() {
   }, [coachingServices]);
 
   return (
-    <ThemeProvider>
+    <div
+      style={{
+        margin: "100px auto",
+        width: '1200px'
+      }}
+    >
+      <Steps />
       <div
         style={{
-          margin: "100px auto",
+          display: "flex",
+          gap: "30px",
+          margin: "50px auto",
           width: '1200px'
         }}
       >
-        <Steps />
-        <div
-          style={{
-            display: 'flex',
-            gap: "30px",
-            margin: "50px auto",
-            width: '1200px'
-          }}
-        >
-          <SelectOrderOptions
-            orderOptions={orderOptions}
-            setOrderOptions={setOrderOptions}
-          />
-          <CheckoutContainer
-            orderOptions={orderOptions}
-          />
-        </div>
+        <SelectOrderOptions
+          orderOptions={orderOptions}
+          coachingPlans={coachingPlans}
+          setOrderOptions={setOrderOptions}
+        />
+        <CheckoutContainer
+          orderOptions={orderOptions}
+        />
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
