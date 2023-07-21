@@ -6,32 +6,23 @@ import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import useClients from "@/hooks/clients/useClients";
-import { DayTime } from "@/utils/calendarTypes";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import DateAndTimeFields from "./DateAndTimeFields";
 
 export default function EventSchedule() {
   const { 
     submitForm,
-    currentSelectedDate,
-    currentSelectedStartTime,
-    currentSelectedEndTime
+    formDate,
+    formStartTime,
+    formEndTime
   }: any = useCalendarScheduleBuilder();
 
   const [title, setTitle] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [startTime, setStartTime] = useState<DayTime | null>(null);
-  const [endTime, setEndTime] = useState<DayTime | null>(null);
   const [description, setDescription] = useState<string>("");
   const [selectedGuests, setSelectedGuests] = useState([]);
   const { clientsList } = useClients();
-
-  useEffect(() => {
-    setDate(currentSelectedDate);
-    setStartTime(currentSelectedStartTime);
-    setEndTime(currentSelectedEndTime);
-  }, []);
 
   return (
     <>
@@ -43,31 +34,7 @@ export default function EventSchedule() {
             placeholder="Add title"
           />
         </div>
-        <div className="flex gap-[15px] mt-7">
-          <div>
-            <DatePickerField
-              value={date}
-              onChange={(value: any) => setDate(value)}
-            />
-          </div>
-          <div className="flex gap-[10px] items-center">
-            <div className="w-[100px]">
-              <AutoComplete 
-                items={timesList}
-                value={startTime}
-                onChange={(value: any) => setStartTime(value)}
-              />
-            </div>
-            <div className={primaryTextColor}>-</div>
-            <div className="w-[100px]">
-              <AutoComplete
-                items={timesList}
-                value={endTime}
-                onChange={(value: any) => setEndTime(value)}
-              />
-            </div>
-          </div>
-        </div>
+        <DateAndTimeFields />
         <div className="mt-7">
           <TextArea 
             value={description}
@@ -92,10 +59,10 @@ export default function EventSchedule() {
           <Button 
             onClick={() => submitForm({
               title,
-              taggedDate: date,
               description,
-              startTime,
-              endTime,
+              taggedDate: formDate,
+              startTime: formStartTime,
+              endTime: formEndTime,
               guests: selectedGuests
             })} 
             className="ml-auto"

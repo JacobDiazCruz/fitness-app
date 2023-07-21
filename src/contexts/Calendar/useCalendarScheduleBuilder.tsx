@@ -1,6 +1,5 @@
 import { createCalendarSchedule } from "@/api/Calendar";
-import { CalendarScheduleType } from "@/utils/calendarTypes";
-import { TimeItem } from "@/utils/timesList";
+import { CalendarScheduleType, DayTime } from "@/utils/calendarTypes";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import useAlert from "../Alert";
@@ -9,7 +8,7 @@ import useCalendar from "./useCalendar";
 const CalendarScheduleBuilderContext = createContext(null);
 
 export const CalendarScheduleBuilderProvider = ({ 
-  children 
+  children
 }: {
   children: ReactNode;
 }) => {
@@ -20,9 +19,10 @@ export const CalendarScheduleBuilderProvider = ({
   const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<CalendarScheduleType>('Event');
 
-  const [currentSelectedStartTime, setCurrentSelectedStartTime] = useState<TimeItem | null>(null);
-  const [currentSelectedEndTime, setCurrentSelectedEndTime] = useState<TimeItem | null>(null);
-  const [currentSelectedDate, setCurrentSelectedDate] = useState<string>("");
+  // form date and time
+  const [formDate, setFormDate] = useState<string>("");
+  const [formStartTime, setFormStartTime] = useState<DayTime | null>(null);
+  const [formEndTime, setFormEndTime] = useState<DayTime | null>(null);
 
   /**
    * @purpose To add/create a new calendar item
@@ -60,14 +60,14 @@ export const CalendarScheduleBuilderProvider = ({
   };
 
   const value = {
+    formDate,
+    formStartTime,
+    formEndTime,
+    setFormDate,
+    setFormStartTime,
+    setFormEndTime,
     showCreateScheduleModal,
     setShowCreateScheduleModal,
-    currentSelectedEndTime,
-    setCurrentSelectedEndTime,
-    currentSelectedStartTime,
-    setCurrentSelectedStartTime,
-    currentSelectedDate,
-    setCurrentSelectedDate,
     activeTab,
     setActiveTab,
     submitForm

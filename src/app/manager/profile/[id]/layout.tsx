@@ -7,8 +7,10 @@ export default function ProfileLayout({
   children: ReactNode;
 }) {
   return (
-    <PaddedWrapper>
-      {children}
-    </PaddedWrapper>
+    <div className="m-auto w-[1200px]">
+      <PaddedWrapper>
+        {children}
+      </PaddedWrapper>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
-import { primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { tertiaryTextColor } from "@/utils/themeColors";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 

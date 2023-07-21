@@ -6,7 +6,7 @@ import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleB
 import { useState } from "react";
 
 export default function TaskSchedule() {
-  const { submitForm } = useCalendarScheduleBuilder();
+  const { submitForm }: any = useCalendarScheduleBuilder();
   
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");

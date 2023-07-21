@@ -5,6 +5,7 @@ import ProgramSchedule from "./ProgramSchedule";
 import WorkoutSchedule from "./WorkoutSchedule";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import TaskSchedule from "./TaskSchedule";
+import useCalendarCell from "@/contexts/Calendar/useCalendarCell";
 
 type CreateScheduleItem = {
   type: string;
@@ -35,8 +36,8 @@ export default function CreateScheduleModal() {
   const { 
     activeTab,
     setActiveTab,
-    setShowCreateScheduleModal
-  } = useCalendarScheduleBuilder(); 
+    setShowCreateScheduleModal,
+  }: any = useCalendarScheduleBuilder(); 
 
   const RenderScheduleComponent = () => {
     switch (activeTab) {
@@ -55,7 +56,9 @@ export default function CreateScheduleModal() {
 
   return (
     <Modal 
-      onClose={() => setShowCreateScheduleModal(false)} 
+      onClose={() => {
+        setShowCreateScheduleModal(false);
+      }} 
       className="w-[550px] h-[600px]"
     >
       <ModalHeader>

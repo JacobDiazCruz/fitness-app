@@ -4,7 +4,7 @@ import { borderColor, tertiaryTextColor } from "@/utils/themeColors";
 export default function CalendarTimesList() {
   const {
     generateTimeList
-  } = useCalendar();
+  }: any = useCalendar();
 
   return (
     <div className={`${borderColor} times border-r w-[140px] pl-10 mt-8`}>

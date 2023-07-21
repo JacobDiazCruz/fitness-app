@@ -10,7 +10,7 @@ import CalendarBoard from './CalendarBoard';
 import useCalendarScheduleBuilder from '@/contexts/Calendar/useCalendarScheduleBuilder';
 import useCalendar from '@/contexts/Calendar/useCalendar';
 import { CalendarScheduleType } from '@/utils/calendarTypes';
-import CalendarWorkoutDetailsModal from './CalendarBoard/CalendarWorkoutDetailsModal';
+import CalendarWorkoutDetailsModal from './CalendarWorkoutDetailsModal';
 import CreateScheduleModal from './CreateScheduleModal';
 
 export default function Calendar() {
@@ -32,7 +32,7 @@ export default function Calendar() {
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState<string>("");
   const [selectedCalendarSchedule, setSelectedCalendarSchedule] = useState<any>(null);
-
+  
   /**
    * @purpose To set weekly calendar items
    * @action setWeeklyCalendarSchedules

@@ -15,7 +15,7 @@ import EditAccountDetailsModal from "./EditAccountDetailsModal";
 import ProfileGallery from "./ProfileGallery";
 import ProfilePortfolio from "./ProfilePortfolio";
 import ProfileCoachingServices from "./ProfileCoachingServices";
-
+import CoachingPlans from "./CoachingPlans/CoachingPlans";
 export interface Form {
   profileImage: string | null;
   firstName: string | null;
@@ -33,6 +33,35 @@ export default function Profile() {
   const [showEditAccountDetailsModal, setShowEditAccountDetailsModal] = useState<boolean>(false);
 
   const [servicesList, setServicesList] = useState<CoachingService[]>([]);
+  const [plansList, setPlansList] = useState([
+    {
+      name: "Basic",
+      totalPrice: {
+        currency: "PHP",
+        value: 344
+      },
+      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
+      services: ["12381238123", "12381238123", "12381238123"]
+    },
+    {
+      name: "Premium",
+      totalPrice: {
+        currency: "PHP",
+        value: 122
+      },
+      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
+      services: ["12381238123"]
+    },
+    {
+      name: "Premium",
+      totalPrice: {
+        currency: "PHP",
+        value: 122
+      },
+      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
+      services: ["12381238123"]
+    }
+  ]);
 
   // edit modal states
   const [showEditServicesModal, setShowEditServicesModal] = useState<boolean>(false);
@@ -85,6 +114,11 @@ export default function Profile() {
           setShowEditAccountDetailsModal={setShowEditAccountDetailsModal}
         />
         <PermissionAccess roleAccess="Coach">
+          <CoachingPlans 
+            plansList={plansList}
+            setPlansList={setPlansList}
+            handleEdit={() => setShowEditServicesModal(true)}
+          />
           <ProfileCoachingServices
             servicesList={servicesList}
             setServicesList={setServicesList}

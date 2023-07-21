@@ -6,20 +6,21 @@ import { ModalContent, ModalFooter } from "@/components/global/Modal";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import { DayTime } from "@/utils/calendarTypes";
 import { Program } from "@/utils/programTypes";
-import { fieldBgColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import { timesList } from "@/utils/timesList";
+import { fieldBgColor, secondaryTextColor } from "@/utils/themeColors";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import DateAndTimeFields from "./DateAndTimeFields";
 
 export default function ProgramSchedule() {
-  const { submitForm }: any = useCalendarScheduleBuilder();
+  const { 
+    submitForm,
+    formDate,
+    formStartTime,
+    formEndTime
+  }: any = useCalendarScheduleBuilder();
 
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [selectAllWeeks, setSelectAllWeeks] = useState<boolean>(true);
-
-  const [date, setDate] = useState<string>("");
-  const [startTime, setStartTime] = useState<DayTime | null>(null);
-  const [endTime, setEndTime] = useState<DayTime | null>(null);
 
   const {
     data: programs
@@ -44,9 +45,9 @@ export default function ProgramSchedule() {
         name: selectedProgram?.name,
         workouts
       },
-      taggedDate: date,
-      startTime,
-      endTime
+      taggedDate: formDate,
+      startTime: formStartTime,
+      endTime: formEndTime
     });
   };
 
@@ -83,32 +84,7 @@ export default function ProgramSchedule() {
             </div>
           </div>
           
-          <div className="flex gap-[10px] mt-7">
-            <DatePickerField
-              value={date}
-              onChange={(value: any) => setDate(value)}
-              placeholder="Starting date"
-            />
-            <div className="flex gap-[10px] items-center">
-              <div className="w-[100px]">
-                <AutoComplete 
-                  items={timesList}
-                  value={startTime}
-                  placeholder="Start time"
-                  onChange={(value: any) => setStartTime(value)}
-                />
-              </div>
-              <div className={primaryTextColor}>-</div>
-              <div className="w-[100px]">
-                <AutoComplete 
-                  items={timesList}
-                  value={endTime}
-                  placeholder="End time"
-                  onChange={(value: any) => setEndTime(value)}
-                />
-              </div>
-            </div>
-          </div>
+          <DateAndTimeFields />
         </div>
       </ModalContent>
       <ModalFooter>

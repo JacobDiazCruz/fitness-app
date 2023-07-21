@@ -1,7 +1,7 @@
-import useCalendar from "@/contexts/Calendar/useCalendar";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
-import { borderColor, shadowColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
+import { useEffect, useState } from "react";
 
 interface CalendarDateProps { 
   handleClick: () => void;
@@ -16,17 +16,27 @@ export default function CalendarDate({
 }: CalendarDateProps) {
 
   const {
-    setCurrentSelectedStartTime,
-    setCurrentSelectedEndTime,
-    setCurrentSelectedDate,
+    setFormStartTime,
+    setFormEndTime,
+    setFormDate,
+    showCreateScheduleModal,
     setShowCreateScheduleModal
   }: any = useCalendarScheduleBuilder();
+
+  // State to keep track of the index of the currently clicked cell
+  const [activeCellIndex, setActiveCellIndex] = useState<number | null>(null);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: object = { day: 'numeric', weekday: 'short' };
     return date.toLocaleDateString('en-US', options);
   };
+
+  useEffect(() => {
+    if(!showCreateScheduleModal) {
+      setActiveCellIndex(null);
+    }
+  }, [showCreateScheduleModal])
 
   return (
     <li
@@ -46,15 +56,34 @@ export default function CalendarDate({
           {timesList.map((time: TimeItem, index: number) => (
             <div 
               key={index}
-              className="relative cursor-pointer"
+              className="relative cursor-pointer w-full"
               onClick={() => {
-                setCurrentSelectedStartTime(time);
-                setCurrentSelectedEndTime(timesList[index + 2]);
-                setCurrentSelectedDate(new Date(date));
+                setFormStartTime(time);
+                setFormEndTime(timesList[index + 2]);
+                setFormDate(new Date(date));
                 setShowCreateScheduleModal(true);
+
+                setActiveCellIndex(index); // Update the active cell index
               }}
             >
-              <div className={`${time.hour.endsWith("00") && 'border-t'} ${borderColor} h-[50px] text-white`}></div>
+              <div
+                className={`
+                  ${activeCellIndex === index ? 'bg-blue-600' : `${primaryBgColor}`}
+                  border-l
+                  time-cell
+                  relative
+                  w-full
+                  ${time.hour.endsWith("00") && 'border-t'}
+                  ${borderColor}
+                  h-[50px] text-white
+                  p-2
+                  text-[13px]
+                `}
+              >
+                {activeCellIndex === index && (
+                  <>{time.name} - {timesList[index + 2].name}</>
+                )}
+              </div>
             </div>
           ))}
         </div>

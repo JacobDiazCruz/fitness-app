@@ -34,9 +34,11 @@ export default function FormContainer({
               {formDescription}
             </p>
           </div>
-          <IconButton onClick={handleEdit}>
-            <HiOutlinePencil className={`${primaryTextColor} w-6 h-6`} />
-          </IconButton>
+          {handleEdit && (
+            <IconButton onClick={handleEdit}>
+              <HiOutlinePencil className={`${primaryTextColor} w-6 h-6`} />
+            </IconButton>
+          )}
         </div>
       </div>
       {children}
