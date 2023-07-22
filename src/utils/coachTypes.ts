@@ -3,8 +3,8 @@ export interface CoachingService {
   title: string | null;
   description: string | null;
   isSelected?: boolean;
-  price: {
-    currency: "PHP",
-    value: number | string | null;
-  };
+  // price: {
+  //   currency: "PHP",
+  //   value: number | string | null;
+  // };
 };

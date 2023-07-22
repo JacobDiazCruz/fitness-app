@@ -30,10 +30,7 @@ export default function ProfileCoachingServices({
                   <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[16px]">
                     {service.title}
                   </p>
-                  <p className={`${tertiaryTextColor} mb-2 text-[14px]`}>
-                    {service.price.currency} {service.price.value}
-                  </p>
-                  <p className={`${secondaryTextColor} mb-2 text-[14px] line-clamp-3`}>
+                  <p className={`${tertiaryTextColor} mb-2 text-[14px] line-clamp-3`}>
                     {service.description}
                   </p>
                 </div>

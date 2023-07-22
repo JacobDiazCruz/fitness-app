@@ -26,11 +26,7 @@ export default function EditServicesModal({
   const [servicesList, setServicesList] = useState<CoachingService[]>([
     {
       title: "",
-      description: "",
-      price: {
-        currency: "PHP",
-        value: null
-      }
+      description: ""
     }
   ]);
 
@@ -122,23 +118,6 @@ export default function EditServicesModal({
                 placeholder="e.g. I will guide you on how to plan your meals"
               />
             </div>
-            <div className="w-[90px]">
-              <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[14px]">
-                Price
-              </p>
-              <TextField
-                value={service.price.value}
-                onChange={(e) => {
-                  setServicesList(prev => {
-                    const copy = [...prev];
-                    copy[index].price.value = e.target.value;
-                    return copy;
-                  })
-                }}
-                type="number"
-                className="h-[49px]"
-              />
-            </div>
             <div>
               <p className="mb-2 invisible">Actions</p>
               {index == servicesList.length - 1 && (
@@ -147,11 +126,7 @@ export default function EditServicesModal({
                     setServicesList([...servicesList, 
                       { 
                         title: "", 
-                        description: "", 
-                        price: {
-                          currency: "PHP",
-                          value: null
-                        }
+                        description: ""
                       }
                     ])
                   }}
