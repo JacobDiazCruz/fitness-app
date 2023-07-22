@@ -22,7 +22,7 @@ export default function CalendarSchedule({
 
   return (
     <div 
-      className={`cursor-pointer py-[2px] px-[2px] w-full z-[90] absolute overflow-hidden`}
+      className={`cursor-pointer py-[2px] w-full z-[90] absolute overflow-hidden`}
       style={{ marginTop: topOffset, height }}
     >
       <div

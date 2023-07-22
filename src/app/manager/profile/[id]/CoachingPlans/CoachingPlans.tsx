@@ -10,10 +10,14 @@ import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import EditCoachingPlanModal from "./EditCoachingPlanModal";
 
 interface CoachingPlansProps {
+  servicesList: CoachingService[];
+  setServicesList: any;
   plansList: CoachingService[];
 }
 
 export default function CoachingPlans({
+  servicesList,
+  setServicesList,
   plansList
 }: CoachingPlansProps) {
 
@@ -80,6 +84,8 @@ export default function CoachingPlans({
 
       {showEditCoachingPlan && (
         <EditCoachingPlanModal 
+          servicesList={servicesList}
+          setServicesList={setServicesList}
           onClose={() => setShowEditCoachingPlan(false)}
         />
       )}

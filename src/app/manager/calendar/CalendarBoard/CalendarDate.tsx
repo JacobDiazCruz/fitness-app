@@ -36,7 +36,12 @@ export default function CalendarDate({
     if(!showCreateScheduleModal) {
       setActiveCellIndex(null);
     }
-  }, [showCreateScheduleModal])
+  }, [showCreateScheduleModal]);
+
+  const getEndHour = (index: number) => {
+    const newValueIndex = timesList[index].name.startsWith("11") ? 0 : index + 2;
+    return timesList[newValueIndex];
+  };
 
   return (
     <li
@@ -59,7 +64,7 @@ export default function CalendarDate({
               className="relative cursor-pointer w-full"
               onClick={() => {
                 setFormStartTime(time);
-                setFormEndTime(timesList[index + 2]);
+                setFormEndTime(getEndHour(index));
                 setFormDate(new Date(date));
                 setShowCreateScheduleModal(true);
 
@@ -68,7 +73,7 @@ export default function CalendarDate({
             >
               <div
                 className={`
-                  ${activeCellIndex === index ? 'bg-blue-600' : `${primaryBgColor}`}
+                  ${activeCellIndex === index ? 'bg-blue-600' : primaryBgColor}
                   border-l
                   time-cell
                   relative
@@ -81,7 +86,9 @@ export default function CalendarDate({
                 `}
               >
                 {activeCellIndex === index && (
-                  <>{time.name} - {timesList[index + 2].name}</>
+                  <span>
+                    {time.name} - {getEndHour(index).name}
+                  </span>
                 )}
               </div>
             </div>

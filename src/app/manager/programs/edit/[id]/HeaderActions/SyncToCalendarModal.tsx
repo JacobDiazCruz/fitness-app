@@ -93,7 +93,7 @@ export default function SyncToCalendarModal({
   };
 
   return (
-    <Modal onClose={onClose} className="w-[520px] h-fit">
+    <Modal onClose={onClose} className="w-[520px] h-[320px]">
       <ModalHeader>
         <ModalTitle>
           Sync to Calendar

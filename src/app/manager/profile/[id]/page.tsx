@@ -116,7 +116,9 @@ export default function Profile() {
         <PermissionAccess roleAccess="Coach">
           <CoachingPlans 
             plansList={plansList}
+            servicesList={servicesList}
             setPlansList={setPlansList}
+            setServicesList={setServicesList}
             handleEdit={() => setShowEditServicesModal(true)}
           />
           <ProfileCoachingServices
@@ -157,7 +159,7 @@ export default function Profile() {
           />
         )}
         {showEditAccountDetailsModal && (
-          <EditAccountDetailsModal 
+          <EditAccountDetailsModal
             profile={profile}
             onClose={() => setShowEditAccountDetailsModal(false)}
             refetchProfile={refetchProfile}

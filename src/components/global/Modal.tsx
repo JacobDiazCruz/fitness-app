@@ -17,7 +17,7 @@ export const ModalFooter = ({
   children
 }: ChildProps) => {
   return (
-    <div className={`${borderColor} py-5 px-3 w-full bottom-0 sticky z-[100] border-t dark:bg-darkTheme-600 bg-white`}>
+    <div className={`${borderColor} py-5 px-3 w-full z-[100] bottom-[0] absolute border-t dark:bg-darkTheme-600 bg-white`}>
       {children}
     </div>
   );
@@ -27,7 +27,7 @@ export const ModalContent = ({
   children
 }: ChildProps) => {
   return (
-    <div className={`content overflow-y-auto relative p-7 h-full`}>
+    <div className={`content overflow-y-auto relative p-7 h-[80%]`}>
       {children}
     </div>
   );
@@ -81,7 +81,7 @@ export default function Modal({
         >
           <MdClose className={`dark:fill-neutral-800 fill-white w-4 h-4 m-auto`}/>
         </div>
-        <div className="relative h-full overflow-y-hidden rounded-lg">
+        <div className="relative h-full rounded-lg">
           {children}
         </div>
       </div>
