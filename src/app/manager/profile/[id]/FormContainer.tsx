@@ -1,14 +1,14 @@
 import Container from "@/components/global/Container";
 import IconButton from "@/components/global/IconButton";
-import { PencilIcon } from "@/components/global/Icons";
 import { primaryTextColor } from "@/utils/themeColors";
 import { ReactNode } from "react";
-import { HiOutlinePencil } from 'react-icons/hi';
+import { HiOutlinePencil, HiPlus } from 'react-icons/hi';
 interface Props {
   formTitle: string;
   formDescription: string;
   formIcon: ReactNode;
   handleEdit?: any;
+  handleAdd?: any;
   children: React.ReactNode;
 };
 
@@ -17,6 +17,7 @@ export default function FormContainer({
   formDescription,
   formIcon,
   handleEdit,
+  handleAdd,
   children
 }: Props) {
   return (
@@ -26,7 +27,7 @@ export default function FormContainer({
           {formIcon}
         </div>
         <div className="flex justify-between w-full">
-          <div>
+          <div className="w-full">
             <h3 className="dark:text-neutral-50 text-darkTheme-900 text-[18px] font-medium">
               {formTitle}
             </h3>
@@ -34,11 +35,18 @@ export default function FormContainer({
               {formDescription}
             </p>
           </div>
-          {handleEdit && (
-            <IconButton onClick={handleEdit}>
-              <HiOutlinePencil className={`${primaryTextColor} w-6 h-6`} />
-            </IconButton>
-          )}
+          <div>
+            {handleEdit && (
+              <IconButton onClick={handleEdit}>
+                <HiOutlinePencil className={`${primaryTextColor} w-6 h-6`} />
+              </IconButton>
+            )}
+            {handleAdd && (
+              <IconButton onClick={handleAdd}>
+                <HiPlus className={`${primaryTextColor} w-6 h-6`} />
+              </IconButton>
+            )}
+          </div>
         </div>
       </div>
       {children}

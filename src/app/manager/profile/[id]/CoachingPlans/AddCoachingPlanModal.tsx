@@ -1,22 +1,20 @@
-import { editCoachingPlan, getCoachingPlan } from "@/api/CoachingPlan";
+import { addCoachingPlan } from "@/api/CoachingPlan";
 import Button from "@/components/global/Button";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import useAlert from "@/contexts/Alert";
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useState } from "react";
+import { useMutation } from "react-query";
 import CoachingPlanForm from "./CoachingPlanForm";
 
 interface Props {
   servicesList: any;
-  selectedPlanId: string;
   refetchCoachingPlans: any;
   onClose: () => void;
 };
 
-export default function EditCoachingPlanModal({
-  servicesList,
+export default function AddCoachingPlanModal({
+  servicesList = [],
   refetchCoachingPlans,
-  selectedPlanId,
   onClose
 }: Props) {
   
@@ -27,51 +25,13 @@ export default function EditCoachingPlanModal({
   const [price, setPrice] = useState<any>("");
   const [timeLength, setTimeLength] = useState<any>("");
   const [timeUnit, setTimeUnit] = useState<string>("Week/s");
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState(servicesList);
 
-  // get coaching plans
-  const {
-    data: coachingPlan,
-    refetch
-  } = useQuery('coachingPlan', () => getCoachingPlan(selectedPlanId), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true
-  });
-
-  useEffect(() => {
-    refetch();
-  }, []);
-
-  useEffect(() => {
-    if(coachingPlan) {
-      setName(coachingPlan.name);
-      setDescription(coachingPlan.description);
-      setPrice(coachingPlan.price.value);
-      setTimeUnit(coachingPlan.price.timeLength);
-      setTimeUnit(coachingPlan.price.timeUnit);
-
-      const updatedServicesList = servicesList.map((service: any) => {
-        const isSelected = coachingPlan.services.some(
-          (coachingService: any) => coachingService._id === service._id
-        );
-      
-        // Update the isSelected property of the service
-        return { ...service, isSelected };
-      });
-      
-      if(updatedServicesList.length) {
-        setServices(updatedServicesList);
-      } else {
-        setServices(servicesList);
-      }
-    }
-  }, [coachingPlan]);
-
-  const editCoachingPlanMutation = useMutation(editCoachingPlan, {
+  const addCoachingPlanMutation = useMutation(addCoachingPlan, {
     onSuccess: async () => {
       dispatchAlert({
         type: "SUCCESS",
-        message: "Coaching plan edited successfully."
+        message: "Coaching plan added successfully."
       })
       refetchCoachingPlans();
       onClose();
@@ -90,19 +50,17 @@ export default function EditCoachingPlanModal({
           title: service.title
         }
       });
-      
-    editCoachingPlanMutation.mutateAsync({
-      planId: selectedPlanId,
-      data: {
-        name,
-        description,
-        price: {
-          value: price,
-          timeLength,
-          timeUnit
-        },
-        services: selectedServices
-      }
+
+    addCoachingPlanMutation.mutateAsync({
+      name,
+      description,
+      price: {
+        currency: "PHP",
+        value: price,
+        timeLength,
+        timeUnit
+      },
+      services: selectedServices
     });
   };
 
@@ -110,7 +68,7 @@ export default function EditCoachingPlanModal({
     <Modal onClose={onClose} className="w-[1000px] h-[650px]">
       <ModalHeader>
         <ModalTitle>
-          Edit Coaching Plan
+          Add Coaching Plan
         </ModalTitle>
       </ModalHeader>
       <ModalContent>
@@ -136,7 +94,7 @@ export default function EditCoachingPlanModal({
           <Button 
             className="ml-auto"
             onClick={() => submitForm()}
-            loading={editCoachingPlanMutation.isLoading}
+            loading={addCoachingPlanMutation.isLoading}
           >
             Submit
           </Button>
