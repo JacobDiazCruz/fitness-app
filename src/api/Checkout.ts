@@ -4,16 +4,16 @@ import {
 } from ".";
   
 export const calculateTotalPrice = async ({ 
-  selectedOrders
+  planId
 }: {
-  selectedOrders: any
+  planId: string
 }) => {
   const payload = {
     url: `/checkout/calculate/total`,
-    data: selectedOrders
+    data: { planId }
   };
   const res: any = await postRequest(payload);
-  return res.data.data?.totalPrice;
+  return res.data.data;
 };
 
 export const mayaCheckout = async (data: any) => {

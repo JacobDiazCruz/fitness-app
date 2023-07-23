@@ -2,6 +2,7 @@ import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor, te
 import Button from "../Button";
 import IconButton from "../IconButton";
 import { IoMdClose } from "react-icons/io";
+import useCheckout from "@/hooks/checkout/useCheckout";
 
 interface Props {
   onClose: () => void;
@@ -16,6 +17,9 @@ export default function CheckoutModal({
   fullName,
   selectedPlan
 }: Props) {
+
+  const { submitCheckout } = useCheckout();
+
   return (
     <>
       <div
@@ -27,7 +31,7 @@ export default function CheckoutModal({
           <div className={`${secondaryTextColor} text-[18px] font-semibold`}>
             Checkout
           </div>
-          <IconButton>
+          <IconButton onClick={onClose}>
             <IoMdClose className={`${secondaryTextColor} w-5 h-5`}/>
           </IconButton>
         </div>
@@ -44,11 +48,11 @@ export default function CheckoutModal({
             </div>
           </div>
           <div className="flex justify-between mt-5">
-            <div className={`${secondaryTextColor} text-[18px] font-normal`}>
+            <div className={`${primaryTextColor} text-[18px] font-normal`}>
               {selectedPlan?.name}
             </div>
             <div className={`${tertiaryTextColor} text-[18px] font-light`}>
-            {selectedPlan?.price.currency} {selectedPlan?.price.value}
+            {selectedPlan?.totalPrice.currency} {selectedPlan?.totalPrice.value}
             </div>
           </div>
           <div className={`${secondaryTextColor} text-[14px] font-light mt-3`}>
@@ -59,21 +63,18 @@ export default function CheckoutModal({
           <ul className="mb-5 text-[14px]">
             <li className={`${tertiaryTextColor} flex items-center justify-between py-2`}>
               <p className={`${secondaryTextColor} font-light`}>Subtotal</p>
-              <p className={`${primaryTextColor} font-normal`}>PHP 300</p>
-            </li>
-            <li className={`${tertiaryTextColor} flex items-center justify-between py-2`}>
-              <p className={`${secondaryTextColor} font-light`}>Service charge</p>
-              <p className={`${primaryTextColor} font-normal`}>PHP 300</p>
+              <p className={`${primaryTextColor} font-normal`}>PHP {selectedPlan.totalPrice.value}</p>
             </li>
             <li className={`flex items-center justify-between py-2`}>
               <p className={`${secondaryTextColor} font-light`}>Total</p>
               <p className={`${primaryTextColor} font-semibold`}>
-                PHP 300
+                PHP {selectedPlan.totalPrice.value}
               </p>
             </li>
           </ul>
           <Button
             className="w-full"
+            onClick={() => submitCheckout(selectedPlan, selectedPlan._id)}
           >
             Checkout
           </Button>

@@ -3,17 +3,19 @@ import { Dispatch, SetStateAction } from "react";
 import FormContainer from "./FormContainer";
 import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { CoachingService } from "@/utils/coachTypes";
+import useCoachingService from "@/contexts/CoachingService/useCoachingService";
 
-interface ProfileCoachingServicesProps {
-  servicesList: CoachingService[];
-  setServicesList: Dispatch<SetStateAction<CoachingService[]>>;
+interface Props {
   handleEdit: any;
 }
 
-export default function ProfileCoachingServices({
-  servicesList,
+export default function CoachingServices({
   handleEdit
-}: ProfileCoachingServicesProps) {
+}: Props) {
+  const {
+    coachingServices
+  }: any = useCoachingService();
+
   return (
     <FormContainer
       formTitle="Coaching Services"
@@ -22,9 +24,9 @@ export default function ProfileCoachingServices({
       handleEdit={handleEdit}
     >
       <div className="mt-5">
-        {servicesList.length ? (
+        {coachingServices.length ? (
           <>
-            {servicesList.map((service: any, index: number) => (
+            {coachingServices.map((service: any, index: number) => (
               <div key={index} className={`${borderColor} py-5 flex gap-[20px] w-full border-b last:border-none`}>
                 <div className="w-[50%]">
                   <p className="dark:text-neutral-50 text-darkTheme-900 mb-2 text-[16px]">

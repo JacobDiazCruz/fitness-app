@@ -74,7 +74,7 @@ export default function CheckoutContainer({
           </li>
         </ul>
       </div>
-      <Button 
+      <Button
         variant="contained" 
         className="w-full mt-5"
         onClick={() => submitCheckout(orderOptions)}

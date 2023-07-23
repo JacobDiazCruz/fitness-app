@@ -8,7 +8,7 @@ import CoachDetailsWrapper from "./CoachDetailsWrapper";
 import { getCoachingServices } from "@/api/CoachingService";
 import CheckoutModal from "./CheckoutModal";
 import { useState } from "react";
-import useCoachingPlan from "@/hooks/coach/useCoachingPlan";
+import useCoachingPlan from "@/contexts/CoachingPlan/useCoachingPlan";
 
 export default function CoachDetails() {
   const params = useParams();
@@ -18,7 +18,7 @@ export default function CoachDetails() {
     selectedPlan,
     setSelectedPlan,
     isLoadingCoachingPlans
-  } = useCoachingPlan();
+  }: any = useCoachingPlan();
 
   const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
 

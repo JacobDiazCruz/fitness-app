@@ -2,69 +2,75 @@ import FieldName from "@/components/global/FieldName";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import TimeLengthField from "@/components/global/TimeLengthField";
+import useCoachingPlanForm from "@/contexts/CoachingPlan/useCoachingPlanForm";
 import { CoachingService } from "@/utils/coachTypes";
 import { borderColor, primaryBgColor, primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
-import { Dispatch, SetStateAction } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa"
 
-interface Props {
-  form: any;
-  services: any;
-  setName: Dispatch<SetStateAction<string>>;
-  setPrice: Dispatch<SetStateAction<string>>;
-  setTimeUnit: Dispatch<SetStateAction<string>>;
-  setTimeLength: Dispatch<SetStateAction<string>>;
-  setDescription: Dispatch<SetStateAction<string>>;
-  setServices: Dispatch<SetStateAction<any>>;
-};
+export default function CoachingPlanForm() {
 
-export default function CoachingPlanForm({
-  form,
-  services,
-  setName,
-  setPrice,
-  setTimeUnit,
-  setTimeLength,
-  setDescription,
-  setServices
-}: Props) {
+  const {
+    form,
+    services,
+    setName,
+    setGrossPrice,
+    setTimeUnit,
+    setTimeLength,
+    setDescription,
+    setServices
+  }: any = useCoachingPlanForm();
+  
   return (
     <div className="flex gap-[50px]">
       <div className={`${borderColor} border-r pr-[50px] w-full`}>
         <div className="w-full">
           <FieldName>Plan name</FieldName>
-          <TextField 
+          <TextField
             placeholder="e.g, Premium"
             value={form.name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="w-full flex items-center gap-[15px] mt-7">
-          <div className="w-[200px]">
-            <FieldName>Price</FieldName>
+          <div className="w-[100px]">
+            <FieldName>Gross Price</FieldName>
             <TextField 
-              value={form.price}
+              value={form.grossPrice}
               type="number"
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => setGrossPrice(e.target.value)}
             />
           </div>
-          <div className="w-[180px]">
-            <FieldName>Length of plan</FieldName>
-            <TimeLengthField 
-              value={form.timeLength}
-              onChange={(e) => {
-                setTimeLength(e.target.value);
-              }}
-              timeUnit={form.timeUnit}
-              setTimeUnit={setTimeUnit}
+          <div className={`${tertiaryTextColor} mt-7`}>
+            + 15% = 
+          </div>
+          <div className="w-[100px]">
+            <FieldName>Total Price</FieldName>
+            <TextField 
+              value={form.totalPrice}
+              type="number"
+              disabled
             />
           </div>
         </div>
-        {form.timeLength && (
+        {/* <div className={`${tertiaryTextColor} mt-2 text-[14px]`}>
+          Our commission fee, which is 15%, will be added to the Net Price, which represents the total amount to the client.
+        </div> */}
+        <div className="w-[180px] mt-7">
+          <FieldName>Length of plan</FieldName>
+          <TimeLengthField
+            value={form.timeLength}
+            onChange={(e) => {
+              setTimeLength(e.target.value);
+            }}
+            timeUnit={form.timeUnit}
+            setTimeUnit={setTimeUnit}
+          />
+        </div>
+        {/* {form.timeLength && (
           <div className={`${tertiaryTextColor} text-[14px] mt-2`}>
             PHP{form.price} for {form.timeLength} {form.timeUnit}
           </div>
-        )}
+        )} */}
         <div className="w-full mt-7">
           <FieldName>Description</FieldName>
           <TextArea 

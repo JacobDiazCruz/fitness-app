@@ -14,8 +14,11 @@ import UploaderModal from "./UploaderModal";
 import EditAccountDetailsModal from "./EditAccountDetailsModal";
 import ProfileGallery from "./ProfileGallery";
 import ProfilePortfolio from "./ProfilePortfolio";
-import ProfileCoachingServices from "./ProfileCoachingServices";
 import CoachingPlans from "./CoachingPlans/CoachingPlans";
+import CoachingPlanContextProvider from "@/contexts/CoachingPlan";
+import CoachingServices from "./CoachingServices";
+import CoachingServiceContextProvider from "@/contexts/CoachingService";
+import { CoachingPlanProvider } from "@/contexts/CoachingPlan/useCoachingPlan";
 export interface Form {
   profileImage: string | null;
   firstName: string | null;
@@ -24,7 +27,6 @@ export interface Form {
 };
 
 export default function Profile() {
-  const params = useParams();
 
   // uploader states
   const [showUploaderModal, setShowUploaderModal] = useState<boolean>(false);
@@ -33,35 +35,6 @@ export default function Profile() {
   const [showEditAccountDetailsModal, setShowEditAccountDetailsModal] = useState<boolean>(false);
 
   const [servicesList, setServicesList] = useState<CoachingService[]>([]);
-  const [plansList, setPlansList] = useState([
-    {
-      name: "Basic",
-      totalPrice: {
-        currency: "PHP",
-        value: 344
-      },
-      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
-      services: ["12381238123", "12381238123", "12381238123"]
-    },
-    {
-      name: "Premium",
-      totalPrice: {
-        currency: "PHP",
-        value: 122
-      },
-      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
-      services: ["12381238123"]
-    },
-    {
-      name: "Premium",
-      totalPrice: {
-        currency: "PHP",
-        value: 122
-      },
-      description: "I will create a professional Diet or a Workout plan and give you some extra tips",
-      services: ["12381238123"]
-    }
-  ]);
 
   // edit modal states
   const [showEditServicesModal, setShowEditServicesModal] = useState<boolean>(false);
@@ -77,14 +50,6 @@ export default function Profile() {
     refetchOnWindowFocus: false,
     refetchOnMount: true
   });
-
-  const {
-    data: coachingServices,
-  } = useQuery('coachingServices', () => getCoachingServices(params.id), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true
-  });
-
   interface HandleShowUploaderModal {
     headerTitle: string;
     uploadType: 'PORTFOLIO_UPLOAD' | 'GALLERY_UPLOAD';
@@ -99,12 +64,6 @@ export default function Profile() {
     setUploadType(uploadType);
   };
 
-  useEffect(() => {
-    if(coachingServices?.length) {
-      setServicesList(coachingServices);
-    }
-  }, [coachingServices]);
-
   return (
     <div className="profile-page">
       <Header pageTitle="Profile" />
@@ -114,18 +73,15 @@ export default function Profile() {
           setShowEditAccountDetailsModal={setShowEditAccountDetailsModal}
         />
         <PermissionAccess roleAccess="Coach">
-          <CoachingPlans 
-            plansList={plansList}
-            servicesList={servicesList}
-            setPlansList={setPlansList}
-            setServicesList={setServicesList}
-            handleEdit={() => setShowEditServicesModal(true)}
-          />
-          <ProfileCoachingServices
-            servicesList={servicesList}
-            setServicesList={setServicesList}
-            handleEdit={() => setShowEditServicesModal(true)}
-          />
+          
+          <CoachingPlanProvider>
+            <CoachingPlans />
+          </CoachingPlanProvider>
+
+          <CoachingServiceContextProvider>
+            <CoachingServices handleEdit={() => setShowEditServicesModal(true)} />
+          </CoachingServiceContextProvider>
+
           <div className="flex gap-[30px]">
             <ProfileGallery
               galleryImages={profile?.coachingDetails?.galleryImages}

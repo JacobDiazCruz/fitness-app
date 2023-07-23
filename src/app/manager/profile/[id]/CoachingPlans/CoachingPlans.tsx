@@ -1,7 +1,6 @@
 import { useState } from "react";
 import FormContainer from "../FormContainer";
 import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
-import { CoachingService } from "@/utils/coachTypes";
 import { LuPackage } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
 import IconButton from "@/components/global/IconButton";
@@ -10,17 +9,18 @@ import EditCoachingPlanModal from "./EditCoachingPlanModal";
 import AddCoachingPlanModal from "./AddCoachingPlanModal";
 import { useMutation, useQuery } from "react-query";
 import { deleteCoachingPlan, listCoachingPlans } from "@/api/CoachingPlan";
+import useCoachingPlan from "@/contexts/CoachingPlan/useCoachingPlan";
+import { CoachingPlanFormProvider } from "@/contexts/CoachingPlan/useCoachingPlanForm";
+import CoachingServiceContextProvider from "@/contexts/CoachingService";
 
-interface CoachingPlansProps {
-  servicesList: CoachingService[];
-}
+export default function CoachingPlans() {
+  const {
+    showEditCoachingPlan,
+    showAddCoachingPlan,
+    setShowEditCoachingPlan,
+    setShowAddCoachingPlan
+  }: any = useCoachingPlan();
 
-export default function CoachingPlans({
-  servicesList
-}: CoachingPlansProps) {
-
-  const [showEditCoachingPlan, setShowEditCoachingPlan] = useState<boolean>(false);
-  const [showAddCoachingPlan, setShowAddCoachingPlan] = useState<boolean>(false);
   const [selectedPlanId, setSelectedPlanId] = useState<string>("");
 
   // list coaching plans
@@ -60,7 +60,7 @@ export default function CoachingPlans({
                         {plan.name}
                       </p>
                       <p className={`${secondaryTextColor} text-[16px]`}>
-                        {plan.price.currency} {plan.price.value}
+                        {plan.totalPrice.currency} {plan.totalPrice.value}
                       </p>
                     </div>
                     <div>
@@ -109,20 +109,24 @@ export default function CoachingPlans({
       </div>
 
       {showEditCoachingPlan && (
-        <EditCoachingPlanModal 
-          servicesList={servicesList}
-          refetchCoachingPlans={refetchCoachingPlans}
-          selectedPlanId={selectedPlanId}
-          onClose={() => setShowEditCoachingPlan(false)}
-        />
+        <CoachingServiceContextProvider>
+          <CoachingPlanFormProvider>
+            <EditCoachingPlanModal 
+              selectedPlanId={selectedPlanId}
+              onClose={() => setShowEditCoachingPlan(false)}
+            />
+          </CoachingPlanFormProvider>
+        </CoachingServiceContextProvider>
       )}
 
       {showAddCoachingPlan && (
-        <AddCoachingPlanModal 
-          servicesList={servicesList}
-          refetchCoachingPlans={refetchCoachingPlans}
-          onClose={() => setShowAddCoachingPlan(false)}
-        />
+        <CoachingServiceContextProvider>
+          <CoachingPlanFormProvider>
+            <AddCoachingPlanModal
+              onClose={() => setShowAddCoachingPlan(false)}
+            />
+          </CoachingPlanFormProvider>
+        </CoachingServiceContextProvider>
       )}
     </FormContainer>
   );

@@ -15,13 +15,13 @@ const useCheckout = () => {
 
   /**
    * @purpose To calculate total price in the server
-   * @param orderOptions 
+   * @param planId 
    * @return totalPrice
    */
-  const getServerTotalPrice = async (orderOptions: any) => {
+  const getServerTotalPrice = async (planId: string) => {
     try {
       const totalPrice = await calculateTotalPriceMutation.mutateAsync({
-        selectedOrders: orderOptions.filter((option: any) => option.isSelected)
+        planId
       });
       return totalPrice;
     } catch(err) {
@@ -31,34 +31,32 @@ const useCheckout = () => {
 
   /**
    * @purpose To checkout and get redirected on maya payment url
-   * @param orderOptions 
+   * @param planId 
    */
-  const submitCheckout = async (orderOptions: any) => {
+  const submitCheckout = async (selectedPlan: any, planId: string) => {
     try {
-      const totalPrice = await getServerTotalPrice(orderOptions);
-      
-      const items = orderOptions
-        .filter((option: any) => option.isSelected)
-        .map((option: any) => ({
-          amount: {
-            value: option.price.value,
-            details: {
-              subtotal: option.price.value
-            }
-          },
-          name: option.title,
-          quantity: 1,
-          totalAmount: {
-            value: option.price.value
-          }
-        }));
+      const serverPriceDetails = await getServerTotalPrice(planId);
 
       const payload = {
         buyer: {
           firstName,
           lastName
         },
-        items,
+        items: [
+          {
+            amount: {
+              value: selectedPlan.totalPrice.value,
+              details: {
+                subtotal: selectedPlan.totalPrice.value
+              }
+            },
+            name: selectedPlan.name,
+            quantity: 1,
+            totalAmount: {
+              value: selectedPlan.totalPrice.value
+            }
+          }
+        ],
         redirectUrl: {
           cancel: "http://localhost:3000/checkout/payment/canceled?id=2409a31b-8817-411b-9b86-a52813142004",
           failure: "http://localhost:3000/checkout/payment/failed?id=2409a31b-8817-411b-9b86-a52813142004",
@@ -67,13 +65,12 @@ const useCheckout = () => {
         requestReferenceNumber: "2409a31b-8817-411b-9b86-a52813142004",
         totalAmount: {
           currency: "PHP",
-          value: totalPrice
+          value: serverPriceDetails.totalPrice
         }
       };
 
       // mutate checkout
       const res = await mayaCheckoutMutation.mutateAsync(payload);
-      console.log("res", res)
       router.push(res.redirectUrl);
     } catch(err) {
       console.log(err);

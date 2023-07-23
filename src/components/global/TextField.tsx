@@ -37,11 +37,12 @@ export default function TextField({
       <input
         type={type}
         className={`
-          ${startIcon && 'pl-8'}
+          ${startIcon ? 'pl-8' : ''}
           ${className}
           ${fieldBgColor}
           ${primaryTextColor}
-          border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5`} 
+          border h-[45px] z-[10] relative text-sm rounded-lg focus:gray-300 focus:gray-300 block w-full p-2.5
+          ${disabled ? 'opacity-50' : ''}`} 
         placeholder={placeholder}
         required={required}
         disabled={disabled}

@@ -101,13 +101,13 @@ export default function CoachDetailsPricingCard({
       <div className="px-4 py-8 md:p-8">
         <div className="flex items-center">
           <h3 className={`${primaryTextColor} text-[28px]`}>
-            {selectedPlan?.price.currency} {selectedPlan?.price.value}
+            {selectedPlan?.totalPrice.currency} {selectedPlan?.totalPrice.value}
           </h3>
           <span className={`${tertiaryTextColor} ml-3 mt-1`}>
-            / {selectedPlan?.price.timeLength} {selectedPlan?.price.timeUnit}
+            / {selectedPlan?.timeLength} {selectedPlan?.timeUnit}
           </span>
         </div>
-        <div className={`${secondaryTextColor} mt-3 mb-5 text-[14px]`}>
+        <div className={`${secondaryTextColor} mt-3 mb-8 text-[14px]`}>
           {selectedPlan?.description}
         </div>
         <div className="mt-4">
