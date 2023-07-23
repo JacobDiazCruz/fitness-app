@@ -7,12 +7,14 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 export interface SelectOrderOptionsProps {
   orderOptions: CoachingService[];
+  selectedPlan: any;
   setOrderOptions: Dispatch<SetStateAction<any>>;
   coachingPlans: any;
 };
 
 export default function SelectOrderOptions({
   orderOptions = [],
+  selectedPlan,
   setOrderOptions,
   coachingPlans = []
 }: SelectOrderOptionsProps) {
@@ -30,6 +32,12 @@ export default function SelectOrderOptions({
   return (
     <>
       <div className="bg-white pr-6 w-[500px]">
+        <div>
+          <h5 className="font-semibold">Coaching Plan Details</h5>
+          <div className="mt-5">
+            {selectedPlan?.name}
+          </div>
+        </div>
         {/* <div>
           <h5 className="font-semibold">Select Plan</h5>
           {coachingPlans.map((plan: any, index: number) => (
@@ -62,7 +70,7 @@ export default function SelectOrderOptions({
         <div className="mt-10">
           <h5 className="font-semibold">Select Coaching Services</h5>
           {orderOptions?.map((orderOption: CoachingService, key: number) => (
-            <div 
+            <div
               onClick={() => {
                 const newOrderOptions = [...orderOptions];
                 newOrderOptions[key].isSelected = !orderOptions[key].isSelected;

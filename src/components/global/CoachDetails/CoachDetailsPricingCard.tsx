@@ -4,34 +4,39 @@ import Button from "@/components/global/Button";
 import useVerifyUser from "@/hooks/useVerifyUser";
 import { useQuery } from 'react-query';
 import { listCoachingPlans } from '@/api/CoachingPlan';
-import { useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { FaCheck } from "react-icons/fa";
+import Menu, { MenuItem, MenuItems } from '../Menu';
+import { MdArrowDropDown } from 'react-icons/md';
 
 interface Props {
+  coachingPlans: any;
   coachUserId?: string;
   featuredLength?: string;
   services?: Array<any>;
+  selectedPlan: any;
+  isLoadingCoachingPlans: boolean;
+  setSelectedPlan: any;
+  openCheckoutModal: () => void;
 };
 
 export default function CoachDetailsPricingCard({
+  coachingPlans,
   coachUserId,
   featuredLength,
+  selectedPlan,
+  setSelectedPlan,
+  isLoadingCoachingPlans,
+  openCheckoutModal,
   services = []
 }: Props) {
   const params = useParams();
   const router = useRouter();
+
+  const dropdownRef: MutableRefObject<any> = useRef(null);
+  const [showPlansListMenu, setShowPlansListMenu] = useState<boolean>(false);  
+  
   const { triggerVerification } = useVerifyUser();
-
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
-
-  // list coaching plans
-  const {
-    isLoading,
-    data: coachingPlans
-  } = useQuery('coachingPlans', () => listCoachingPlans(localStorage.getItem("userId") ?? ""), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true
-  });
 
   useEffect(() => {
     if(coachingPlans) {
@@ -39,7 +44,11 @@ export default function CoachDetailsPricingCard({
     }
   }, [coachingPlans]);
 
-  const list = services?.map((service: any) => (
+  const togglePlansListMenu = () => {
+    setShowPlansListMenu((prev) => !prev);
+  };
+
+  const list = selectedPlan?.services.map((service: any) => (
     <li className="flex items-center py-2">
       <FaCheck className="w-4 h-4 text-teal-500"/>
       <p className={`${secondaryTextColor} ml-3`}>
@@ -48,7 +57,7 @@ export default function CoachDetailsPricingCard({
     </li>
   ));
 
-  if(isLoading) {
+  if(isLoadingCoachingPlans) {
     return <></>;
   }
 
@@ -60,21 +69,33 @@ export default function CoachDetailsPricingCard({
         dark:border form shadow-md width-full rounded-lg
       `}
     >
-      <div className={`w-full flex border-b ${borderColor}`}>
-        {coachingPlans?.map((plan: any, index: number) => (
-          <div 
-            key={index}
-            onClick={() => setSelectedPlan(plan)}
-            className={`${borderColor} ${secondaryTextColor} flex-1 border-r last:border-r-none text-center cursor-pointer`}
-          >
-            <div className={`p-4 font-semibold ${plan._id === selectedPlan?._id && 'text-teal-500'}`}>
-              {plan.name}
-            </div>
-            {plan._id === selectedPlan?._id && (
-              <div className="w-full h-[3px] bg-teal-500 bottom-0"></div>
-            )}
-          </div>
-        ))}
+      <div className={`w-full border-b ${borderColor}`}>
+        <div 
+          ref={dropdownRef}
+          onClick={() => togglePlansListMenu()}
+          className={`p-4 flex items-center gap-[7px] font-semibold cursor-pointer ${secondaryTextColor}`}
+        >
+          {selectedPlan?.name}
+          <MdArrowDropDown />
+        </div>
+        <Menu
+          buttonRef={dropdownRef}
+          open={showPlansListMenu}
+          setIsDropdownOpen={setShowPlansListMenu}
+        >
+          <MenuItems>
+            {coachingPlans?.map((plan: any, index: number) => (
+              <MenuItem 
+                onClick={() => {
+                  setSelectedPlan(plan);
+                  setShowPlansListMenu(false);
+                }}
+              >
+                {plan.name}
+              </MenuItem>
+            ))}
+          </MenuItems>
+        </Menu>
       </div>
 
       <div className="px-4 py-8 md:p-8">
@@ -86,13 +107,16 @@ export default function CoachDetailsPricingCard({
             / {selectedPlan?.price.timeLength} {selectedPlan?.price.timeUnit}
           </span>
         </div>
+        <div className={`${secondaryTextColor} mt-3 mb-5 text-[14px]`}>
+          {selectedPlan?.description}
+        </div>
         <div className="mt-4">
           <Button 
-            variant="contained" 
+            variant="contained"
             className="w-full"
             onClick={() => {
               triggerVerification();
-              router.push(`/checkout/select-options/${params.id}`);
+              openCheckoutModal();
             }}
           >
             Get now

@@ -48,11 +48,11 @@ export default function CoachingPlans({
       formDescription="Each plan consists of many services."
       handleAdd={() => setShowAddCoachingPlan(true)}
     >
-      <div className="mt-5 flex gap-[20px]">
+      <div className="mt-5 flex flex-wrap gap-[20px]">
         {coachingPlans?.length ? (
           <>
             {coachingPlans.map((plan: any, index: number) => (
-              <div key={index} className={`${borderColor} py-5 w-[340px] overflow-hidden border p-6 rounded-lg`}>
+              <div key={index} className={`${borderColor} py-5 w-[330px] overflow-hidden border p-6 rounded-lg`}>
                 <div className="w-full">
                   <div className="flex justify-between mb-3">
                     <div>

@@ -7,12 +7,17 @@ import Steps from "../../Steps";
 import { ThemeProvider } from "@/contexts/Theme";
 import { useQuery } from "react-query";
 import { getCoachingServices } from "@/api/CoachingService";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { listCoachingPlans } from "@/api/CoachingPlan";
+import CheckoutModal from "../../CheckoutModal";
 
 export default function Checkout() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const urlPlanId = searchParams.get("plan");
+
   const [orderOptions, setOrderOptions] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
   // list coaching plans
   const {
@@ -21,6 +26,13 @@ export default function Checkout() {
     refetchOnWindowFocus: false,
     refetchOnMount: true
   });
+
+  useEffect(() => {
+    if(coachingPlans) {
+      const plan = coachingPlans.find((plan: any) => plan._id === urlPlanId);
+      setSelectedPlan(plan);
+    }
+  }, [coachingPlans]);
 
   const {
     data: coachingServices,
@@ -50,14 +62,16 @@ export default function Checkout() {
         }}
       >
         <SelectOrderOptions
+          selectedPlan={selectedPlan}
           orderOptions={orderOptions}
           coachingPlans={coachingPlans}
           setOrderOptions={setOrderOptions}
         />
         <CheckoutContainer
+          selectedPlan={selectedPlan}
           orderOptions={orderOptions}
         />
       </div>
     </div>
   );
-}
+};

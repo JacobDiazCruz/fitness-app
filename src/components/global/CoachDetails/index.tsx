@@ -6,9 +6,21 @@ import { useParams } from "next/navigation";
 import { LoadingIcon } from "@/components/global/Icons";
 import CoachDetailsWrapper from "./CoachDetailsWrapper";
 import { getCoachingServices } from "@/api/CoachingService";
+import CheckoutModal from "./CheckoutModal";
+import { useState } from "react";
+import useCoachingPlan from "@/hooks/coach/useCoachingPlan";
 
 export default function CoachDetails() {
   const params = useParams();
+
+  const {
+    coachingPlans,
+    selectedPlan,
+    setSelectedPlan,
+    isLoadingCoachingPlans
+  } = useCoachingPlan();
+
+  const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
 
   // fetch coach profile
   const {
@@ -47,32 +59,48 @@ export default function CoachDetails() {
   }
 
   return (
-    <CoachDetailsWrapper
-      header={
-        <CoachDetailsWrapper.Header
-          thumbnailImage={profileImage.thumbnailImage}
-          fullName={`${firstName} ${lastName}`}
-        />
-      }
-      firstColumn={
-        <>
-          <CoachDetailsWrapper.Carousel galleryImages={coachingDetails.galleryImages} />
-          <CoachDetailsWrapper.Profile
+    <>
+      <CoachDetailsWrapper
+        header={
+          <CoachDetailsWrapper.Header
             thumbnailImage={profileImage.thumbnailImage}
-            name={`${firstName} ${lastName}`}
-            about={coachingDetails.about}
+            fullName={`${firstName} ${lastName}`}
           />
-          <CoachDetailsWrapper.Reviews reviewsList={[]}/>
-          <CoachDetailsWrapper.Portfolio portfolioImages={coachingDetails.portfolioImages} />
-        </>
-      }
-      secondColumn={
-        <CoachDetailsWrapper.PricingCard
-          coachUserId={userId}
-          featuredLength="month"
-          services={coachingServices}
+        }
+        firstColumn={
+          <>
+            <CoachDetailsWrapper.Carousel galleryImages={coachingDetails.galleryImages} />
+            <CoachDetailsWrapper.Profile
+              thumbnailImage={profileImage.thumbnailImage}
+              name={`${firstName} ${lastName}`}
+              about={coachingDetails.about}
+            />
+            <CoachDetailsWrapper.Reviews reviewsList={[]}/>
+            <CoachDetailsWrapper.Portfolio portfolioImages={coachingDetails.portfolioImages} />
+          </>
+        }
+        secondColumn={
+          <CoachDetailsWrapper.PricingCard
+            coachUserId={userId}
+            coachingPlans={coachingPlans}
+            selectedPlan={selectedPlan}
+            setSelectedPlan={setSelectedPlan}
+            isLoadingCoachingPlans={isLoadingCoachingPlans}
+            openCheckoutModal={() => setShowCheckoutModal(true)}
+            featuredLength="month"
+            services={coachingServices}
+          />
+        }
+      />
+
+      {showCheckoutModal && (
+        <CheckoutModal
+          onClose={() => setShowCheckoutModal(false)}
+          thumbnailImage={profileImage?.thumbnailImage}
+          fullName={`${firstName} ${lastName}`}
+          selectedPlan={selectedPlan}
         />
-      }
-    />
+      )}
+    </>
   );
 };

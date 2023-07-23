@@ -3,10 +3,12 @@ import { CheckIcon } from "@/components/global/Icons";
 import useCheckout from "@/hooks/checkout/useCheckout";
 import Big from "big.js";
 interface Props {
+  selectedPlan: any;
   orderOptions: any;
 }
 
 export default function CheckoutContainer({
+  selectedPlan,
   orderOptions = []
 }: Props) {
 
@@ -49,22 +51,22 @@ export default function CheckoutContainer({
       <h5 className="font-bold">Checkout</h5>
       <div className="mt-2">
         <ul className="max-w-md space-y-1 list-inside mt-7">
-          {orderOptions?.map((orderOption: any) => (
-            <>
-              {orderOption.isSelected && (
-                <OrderItem 
-                  title={orderOption.title} 
-                  price={orderOption.price}
-                />
-              )}
-            </>
-          ))}
+          <li className="flex justify-between py-2">
+            <div className="flex items-center">
+              <CheckIcon className="w-6 h-6 fill-green-500" />
+              <p className="ml-2">{selectedPlan?.name}</p>
+            </div>
+            <p>
+              {selectedPlan?.price.currency} 
+              {selectedPlan?.price.value}
+            </p>
+          </li>
         </ul>
         <hr className="my-2" />
         <ul className="max-w-md space-y-1 list-inside mt-7">
           <li className="flex items-center justify-between py-2">
             <p>Service charge</p>
-            <p>300</p>
+            <p>PHP 300</p>
           </li>
           <li className="flex items-center justify-between py-2">
             <p className="font-bold">Total</p>

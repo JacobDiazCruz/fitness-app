@@ -74,7 +74,7 @@ export default function Menu ({
         <div
           id="dropdown"
           ref={dropdownRef}
-          className="bg-white dark:bg-darkTheme-600 divide-y divide-gray-100 rounded-lg shadow w-44"
+          className="bg-white dark:bg-darkTheme-600 shadow-lg divide-y divide-gray-100 rounded-lg shadow w-44"
         >
           {children}
         </div>
