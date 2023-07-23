@@ -8,34 +8,20 @@ import { ThemeProvider } from "@/contexts/Theme";
 import { useQuery } from "react-query";
 import { getCoachingServices } from "@/api/CoachingService";
 import { useParams } from "next/navigation";
+import { listCoachingPlans } from "@/api/CoachingPlan";
 
 export default function Checkout() {
   const params = useParams();
   const [orderOptions, setOrderOptions] = useState([]);
-  const [coachingPlans, setCoachingPlans] = useState([
-    {
-      label: "4 weeks plan",
-      isSelected: false,
-      price: {
-        currency: "PHP",
-        value: 50
-      },
-      description: "Good for clients why wants to try a coach's service for a day.",
-      type: "30_DAYS"
-    },
-    {
-      label: "1 day plan",
-      isSelected: false,
-      price: {
-        currency: "PHP",
-        value: 500
-      },
-      description: "Good for clients why wants to try a coach's service for a day.",
-      type: "1_DAY"
-    }
-  ]);
 
-  // get exercise data
+  // list coaching plans
+  const {
+    data: coachingPlans
+  } = useQuery('coachingPlans', () => listCoachingPlans(localStorage.getItem("userId") ?? ""), {
+    refetchOnWindowFocus: false,
+    refetchOnMount: true
+  });
+
   const {
     data: coachingServices,
   } = useQuery('coachingServices', () => getCoachingServices(params.profileId), {

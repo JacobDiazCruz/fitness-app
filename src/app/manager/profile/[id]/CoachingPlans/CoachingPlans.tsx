@@ -1,5 +1,4 @@
-
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import FormContainer from "../FormContainer";
 import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { CoachingService } from "@/utils/coachTypes";
@@ -11,19 +10,14 @@ import EditCoachingPlanModal from "./EditCoachingPlanModal";
 import AddCoachingPlanModal from "./AddCoachingPlanModal";
 import { useMutation, useQuery } from "react-query";
 import { deleteCoachingPlan, listCoachingPlans } from "@/api/CoachingPlan";
-import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface CoachingPlansProps {
   servicesList: CoachingService[];
-  setServicesList: any;
 }
 
 export default function CoachingPlans({
-  servicesList,
-  setServicesList,
+  servicesList
 }: CoachingPlansProps) {
-
-  const userId = useLocalStorage("userId") ?? "";
 
   const [showEditCoachingPlan, setShowEditCoachingPlan] = useState<boolean>(false);
   const [showAddCoachingPlan, setShowAddCoachingPlan] = useState<boolean>(false);

@@ -14,7 +14,7 @@ export interface SelectOrderOptionsProps {
 export default function SelectOrderOptions({
   orderOptions = [],
   setOrderOptions,
-  coachingPlans
+  coachingPlans = []
 }: SelectOrderOptionsProps) {
 
   const [startingDate, setStartingDate] = useState<Date | null>(null);
@@ -30,7 +30,7 @@ export default function SelectOrderOptions({
   return (
     <>
       <div className="bg-white pr-6 w-[500px]">
-        <div>
+        {/* <div>
           <h5 className="font-semibold">Select Plan</h5>
           {coachingPlans.map((plan: any, index: number) => (
             <div 
@@ -38,7 +38,7 @@ export default function SelectOrderOptions({
             >
               <div>
                 <p className="mt-1 text-neutral-950 font-semibold">
-                  {plan.label}
+                  {plan.name}
                 </p>
                 <p className="text-[14px] mt-1 text-neutral-500 font-light">
                   {plan.description}
@@ -57,7 +57,7 @@ export default function SelectOrderOptions({
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
         
         <div className="mt-10">
           <h5 className="font-semibold">Select Coaching Services</h5>

@@ -97,6 +97,7 @@ export default function EditCoachingPlanModal({
         name,
         description,
         price: {
+          currency: "PHP",
           value: price,
           timeLength,
           timeUnit
