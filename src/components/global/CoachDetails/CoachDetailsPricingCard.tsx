@@ -104,7 +104,7 @@ export default function CoachDetailsPricingCard({
             {selectedPlan?.totalPrice.currency} {selectedPlan?.totalPrice.value}
           </h3>
           <span className={`${tertiaryTextColor} ml-3 mt-1`}>
-            / {selectedPlan?.timeLength} {selectedPlan?.timeUnit}
+            / {selectedPlan?.numberOfSessions} sessions
           </span>
         </div>
         <div className={`${secondaryTextColor} mt-3 mb-8 text-[14px]`}>

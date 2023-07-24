@@ -7,6 +7,7 @@ export default function Sidebar() {
       <SidebarWrapper.ToggleButton />
       <SidebarWrapper.BasicNavItems />
       <SidebarWrapper.FitnessNavItems />
+      <SidebarWrapper.ActionButtons />
       <SidebarWrapper.UserMenu />
     </SidebarWrapper>
   );

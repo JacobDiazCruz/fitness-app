@@ -28,4 +28,22 @@ export const mayaCheckout = async (data: any) => {
     data
   })
   return res.data;
+};
+
+export const createWebhookUrl = async () => {
+  const res = await axios({
+    method: 'POST',
+    url: `https://pg-sandbox.paymaya.com/payments/v1/webhooks`,
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      authorization: 'Basic cGstQkNRNVBsVHJwYVZlQTJrWVdlQmcwWmFPb3p3TGVaN0NOVEVsbkphMjdKQzo='
+    },
+    data: {
+      name: 'AUTHORIZED',
+      callbackUrl: 'http://localhost:4000/checkout/maya/webhook'
+    }
+  });
+
+  return res.data;
 }

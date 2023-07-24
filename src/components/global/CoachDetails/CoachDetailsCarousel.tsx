@@ -29,7 +29,7 @@ export default function CoachDetailsCarousel({
 
   return (
     <div className="carousel-container">
-      <div className="bg-neutral-900 flex items-center px-[10px]">
+      <div className="bg-neutral-950 min-h-[300px] flex items-center px-[10px]">
         <IconButton onClick={() => handleChangeCoverImage("back")}>
           <ArrowLeftIcon className={`text-white w-7 h-7`} />
         </IconButton>

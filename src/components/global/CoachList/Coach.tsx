@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import CoachRating from '../CoachRating';
 import Image from 'next/image';
-import { borderColor } from '@/utils/themeColors';
+import { borderColor, primaryBgColor } from '@/utils/themeColors';
 
 interface CoachProps {
   firstName: string;
@@ -26,8 +26,9 @@ export default function Coach({
     <div className={`
       ${cardSize}
       ${borderColor}
+      ${primaryBgColor}
       border
-      dark:bg-darkTheme-900 bg-white rounded-lg h-[390px] overflow-hidden cursor-pointer
+      rounded-lg h-[390px] overflow-hidden cursor-pointer
     `}>
       <div className="w-full h-[200px] relative overflow-hidden">
         {profileImage?.thumbnailImage && (

@@ -8,6 +8,7 @@ import SidebarBasicNavItems from "./SidebarBasicNavItems";
 import SidebarFitnessNavItems from "./SidebarFitnessNavItems";
 import SidebarUserMenu from "./SidebarUserMenu";
 import SidebarLogoWrapper from "./SidebarLogoWrapper";
+import SidebarActionButtons from "./SidebarActionButtons";
 interface SidebarWrapperProps {
   children: ReactNode;
 };
@@ -53,3 +54,4 @@ SidebarWrapper.BasicNavItems = SidebarBasicNavItems;
 SidebarWrapper.FitnessNavItems = SidebarFitnessNavItems;
 SidebarWrapper.UserMenu = SidebarUserMenu;
 SidebarWrapper.LogoWrapper = SidebarLogoWrapper;
+SidebarWrapper.ActionButtons = SidebarActionButtons;

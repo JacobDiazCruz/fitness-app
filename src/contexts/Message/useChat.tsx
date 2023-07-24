@@ -6,6 +6,7 @@ import { socket } from "@/utils/socket";
 import { useParams } from "next/navigation";
 import { createContext, useContext, useMemo, ReactNode, useRef, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+
 const ChatContext = createContext(null);
 
 interface ChatNotif {

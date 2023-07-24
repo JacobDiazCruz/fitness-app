@@ -16,6 +16,7 @@ export default function CoachingPlanForm() {
     setGrossPrice,
     setTimeUnit,
     setTimeLength,
+    setNumberOfSessions,
     setDescription,
     setServices
   }: any = useCoachingPlanForm();
@@ -55,22 +56,31 @@ export default function CoachingPlanForm() {
         {/* <div className={`${tertiaryTextColor} mt-2 text-[14px]`}>
           Our commission fee, which is 15%, will be added to the Net Price, which represents the total amount to the client.
         </div> */}
-        <div className="w-[180px] mt-7">
-          <FieldName>Length of plan</FieldName>
-          <TimeLengthField
-            value={form.timeLength}
-            onChange={(e) => {
-              setTimeLength(e.target.value);
-            }}
-            timeUnit={form.timeUnit}
-            setTimeUnit={setTimeUnit}
-          />
-        </div>
-        {/* {form.timeLength && (
-          <div className={`${tertiaryTextColor} text-[14px] mt-2`}>
-            PHP{form.price} for {form.timeLength} {form.timeUnit}
+        <div className="flex gap-[20px] mt-7">
+          <div className="w-[200px]">
+            <FieldName>Number of Sessions</FieldName>
+            <TextField 
+              value={form.numberOfSessions}
+              type="number"
+              onChange={(e) => {
+                setNumberOfSessions(e.target.value);
+              }}
+            />
           </div>
-        )} */}
+          <div className="w-full">
+            <FieldName>Length of Time (until sessions expire)</FieldName>
+            <div className="w-[200px]">
+              <TimeLengthField
+                value={form.timeLength}
+                onChange={(e) => {
+                  setTimeLength(e.target.value);
+                }}
+                timeUnit={form.timeUnit}
+                setTimeUnit={setTimeUnit}
+              />
+            </div>
+          </div>
+        </div>
         <div className="w-full mt-7">
           <FieldName>Description</FieldName>
           <TextArea 

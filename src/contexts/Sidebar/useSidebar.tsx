@@ -50,7 +50,7 @@ export default function SidebarProvider ({
     },
     {
       icon: <SettingsIcon className="w-6 h-6 text-gray-400" />,
-      name: "Account Settings",
+      name: "Profile",
       path: `/manager/profile/${profileId}`,
       roleAccess: "All"
     },

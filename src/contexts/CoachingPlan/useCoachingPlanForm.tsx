@@ -28,6 +28,7 @@ export const CoachingPlanFormProvider = ({
   const [description, setDescription] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<any>("");
   const [grossPrice, setGrossPrice] = useState<any>("");
+  const [numberOfSessions, setNumberOfSessions] = useState<string>("");
   const [timeLength, setTimeLength] = useState<any>("");
   const [timeUnit, setTimeUnit] = useState<string>("Week/s");
   const [services, setServices] = useState([]);
@@ -101,6 +102,7 @@ export const CoachingPlanFormProvider = ({
           currency: "PHP",
           value: totalPrice
         },
+        numberOfSessions,
         timeLength,
         timeUnit,
         services: selectedServices
@@ -123,11 +125,13 @@ export const CoachingPlanFormProvider = ({
       timeUnit,
       timeLength,
       grossPrice,
+      numberOfSessions,
       totalPrice
     },
     services,
     setName,
     setTotalPrice,
+    setNumberOfSessions,
     setGrossPrice,
     setTimeUnit,
     setTimeLength,

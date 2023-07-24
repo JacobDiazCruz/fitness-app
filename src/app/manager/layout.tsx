@@ -11,6 +11,7 @@ import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import VerifyUser from "./VerifyUser";
 import MessageContextProvider from "@/contexts/Message";
 import SidebarProvider from "@/contexts/Sidebar/useSidebar";
+import Notifications from "@/components/global/Notifications";
 
 export default function ManagerLayout ({
   children
@@ -28,6 +29,7 @@ export default function ManagerLayout ({
             <DarkThemeLoader />
             <div className="flex">
               <Sidebar />
+              <Notifications />
               <WelcomePopup />
               <Alert />
               <ThemeWrapper>

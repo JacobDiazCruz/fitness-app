@@ -3,6 +3,7 @@ import Button from "../Button";
 import IconButton from "../IconButton";
 import { IoMdClose } from "react-icons/io";
 import useCheckout from "@/hooks/checkout/useCheckout";
+import { createWebhookUrl } from "@/api/Checkout";
 
 interface Props {
   onClose: () => void;
@@ -18,7 +19,10 @@ export default function CheckoutModal({
   selectedPlan
 }: Props) {
 
-  const { submitCheckout } = useCheckout();
+  const { 
+    submitCheckout,
+    isLoadingCheckout
+  } = useCheckout();
 
   return (
     <>
@@ -74,7 +78,11 @@ export default function CheckoutModal({
           </ul>
           <Button
             className="w-full"
-            onClick={() => submitCheckout(selectedPlan, selectedPlan._id)}
+            loading={isLoadingCheckout}
+            onClick={() => {
+              createWebhookUrl();
+              // submitCheckout(selectedPlan, selectedPlan._id);
+            }}
           >
             Checkout
           </Button>

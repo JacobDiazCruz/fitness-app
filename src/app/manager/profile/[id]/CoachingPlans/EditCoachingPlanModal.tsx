@@ -27,6 +27,7 @@ export default function EditCoachingPlanModal({
     setTotalPrice,
     setTimeUnit,
     setTimeLength,
+    setNumberOfSessions,
     isLoadingEditMutation,
     setDescription,
     setServices,
@@ -52,6 +53,7 @@ export default function EditCoachingPlanModal({
       setDescription(coachingPlan.description);
       setGrossPrice(coachingPlan.grossPrice.value);
       setTotalPrice(coachingPlan.totalPrice.value);
+      setNumberOfSessions(coachingPlan.numberOfSessions);
       setTimeLength(coachingPlan.timeLength);
       setTimeUnit(coachingPlan.timeUnit);
 

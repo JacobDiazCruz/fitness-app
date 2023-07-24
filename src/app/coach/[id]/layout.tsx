@@ -5,6 +5,8 @@ import AppContextProvider from "@/contexts";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import ThemeWrapper from "@/app/manager/ThemeWrapper";
 import HomeLayout from "@/layouts/HomeLayout";
+import { CoachingServiceProvider } from "@/contexts/CoachingService/useCoachingService";
+import CoachingPlanContextProvider from "@/contexts/CoachingPlan";
 
 export default function CoachLayout ({
   children
@@ -14,12 +16,16 @@ export default function CoachLayout ({
   return (
     <Providers>
       <AppContextProvider>
-        <DarkThemeLoader />
-        <ThemeWrapper>
-          <HomeLayout>
-            {children}
-          </HomeLayout>
-        </ThemeWrapper>
+        <CoachingServiceProvider>
+          <CoachingPlanContextProvider>
+            <DarkThemeLoader />
+            <ThemeWrapper>
+              <HomeLayout>
+                {children}
+              </HomeLayout>
+            </ThemeWrapper>
+          </CoachingPlanContextProvider>
+        </CoachingServiceProvider>
       </AppContextProvider>
     </Providers>
   );
