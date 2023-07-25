@@ -3,7 +3,10 @@ import Button from "../Button";
 import IconButton from "../IconButton";
 import { IoMdClose } from "react-icons/io";
 import useCheckout from "@/hooks/checkout/useCheckout";
-import { createWebhookUrl } from "@/api/Checkout";
+import { createTransaction, createWebhookUrl } from "@/api/Checkout";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
+import useStripe from "@/hooks/checkout/useStripe";
 
 interface Props {
   onClose: () => void;
@@ -19,10 +22,16 @@ export default function CheckoutModal({
   selectedPlan
 }: Props) {
 
+  const router = useRouter();
+
   const { 
     submitCheckout,
     isLoadingCheckout
   } = useCheckout();
+
+  const {
+    handleStripeCheckout
+  } = useStripe();
 
   return (
     <>
@@ -79,8 +88,10 @@ export default function CheckoutModal({
           <Button
             className="w-full"
             loading={isLoadingCheckout}
-            onClick={() => {
-              createWebhookUrl();
+            onClick={async () => {
+              await handleStripeCheckout();
+              // await createTransaction();
+              // router.push('/checkout/payment/success')
               // submitCheckout(selectedPlan, selectedPlan._id);
             }}
           >

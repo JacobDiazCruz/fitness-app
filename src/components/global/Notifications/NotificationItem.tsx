@@ -11,7 +11,7 @@ export default function NotificationItem() {
         />
       </div>
       <div>
-        <div className={`${primaryTextColor} text-[14px] mt-1 line-clamp-2 w-[250px]`}>
+        <div className={`${primaryTextColor} text-[14px] mt-1 line-clamp-3 w-[260px]`}>
           <b>Jacob</b> has requested for a coaching a coaching a coachinga coachinga coaching a coaching
         </div>
         <div className={`${tertiaryTextColor} text-[12px] mt-1`}>
@@ -19,7 +19,7 @@ export default function NotificationItem() {
         </div>
         <div className="mt-3">
           <Button variant="outlined" className="mr-3">
-            Deny
+            Decline
           </Button>
           <Button>
             Accept
