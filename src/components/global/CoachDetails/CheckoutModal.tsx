@@ -89,7 +89,7 @@ export default function CheckoutModal({
             className="w-full"
             loading={isLoadingCheckout}
             onClick={async () => {
-              await handleStripeCheckout();
+              await handleStripeCheckout({ selectedPlan });
               // await createTransaction();
               // router.push('/checkout/payment/success')
               // submitCheckout(selectedPlan, selectedPlan._id);

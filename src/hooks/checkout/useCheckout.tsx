@@ -1,6 +1,6 @@
 'use client';
 
-import { calculateTotalPrice, mayaCheckout } from "@/api/Checkout";
+import { calculateTotalPrice, createStripeCheckoutSession, mayaCheckout } from "@/api/Checkout";
 import { useRouter } from "next/navigation";
 import { useMutation } from "react-query";
 import useLocalStorage from "../useLocalStorage";
