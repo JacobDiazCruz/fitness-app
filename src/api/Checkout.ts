@@ -43,6 +43,19 @@ export const createStripeCheckoutSession = async (data: any) => {
   return res.data.data;
 };
 
+export const createStripeCustomer = async (data: any) => {
+  const payload = {
+    url: `/checkout/stripe/create-customer`,
+    data
+  };
+
+  const { res, err }: any = await postRequestv2(payload);
+  if(err) {
+    throw err.response.data;
+  };
+  return res.data.data;
+};
+
 export const createTransaction = async () => {
   const payload = {
     url: `/checkout/create/transaction`

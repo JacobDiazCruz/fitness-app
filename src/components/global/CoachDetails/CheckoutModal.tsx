@@ -22,7 +22,6 @@ export default function CheckoutModal({
 }: Props) {
 
   const { 
-    submitCheckout,
     isLoadingCheckout
   } = useCheckout();
 
@@ -92,9 +91,6 @@ export default function CheckoutModal({
                 thumbnailImage,
                 email
               });
-              // await createTransaction();
-              // router.push('/checkout/payment/success')
-              // submitCheckout(selectedPlan, selectedPlan._id);
             }}
           >
             Checkout

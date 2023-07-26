@@ -6,6 +6,7 @@ import NotificationItem from "./NotificationItem";
 
 export default function Notifications() {
   const {
+    notifications,
     showNotification,
     setShowNotification
   }: any = useNotification();
@@ -34,17 +35,21 @@ export default function Notifications() {
         <div className={`${borderColor} flex border-b pb-3 px-7 gap-[20px]`}>
           <div className={`${tertiaryTextColor} w-fit cursor-pointer text-[14px] flex gap-[10px]`}>
             All
-            <div className={`${primaryTextColor} font-semibold px-2 bg-[#ef4822] rounded-sm w-fit`}>
-              12
-            </div>
+            {notifications.length ? (
+              <div className={`${primaryTextColor} font-semibold px-2 bg-[#ef4822] rounded-sm w-fit`}>
+                {notifications?.length}
+              </div>
+            ) : <></>}
           </div>
         </div>
 
         {/* List */}
         <div className="w-full h-full overflow-auto">
-          <NotificationItem />
+          {notifications.map((notif: any) => (
+            <NotificationItem notif={notif} />
+          ))}
         </div>
       </div>
     </>
   );
-}
+};

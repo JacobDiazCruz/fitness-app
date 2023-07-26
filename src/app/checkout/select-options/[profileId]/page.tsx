@@ -9,7 +9,6 @@ import { useQuery } from "react-query";
 import { getCoachingServices } from "@/api/CoachingService";
 import { useParams, useSearchParams } from "next/navigation";
 import { listCoachingPlans } from "@/api/CoachingPlan";
-import CheckoutModal from "../../CheckoutModal";
 
 export default function Checkout() {
   const params = useParams();

@@ -5,7 +5,6 @@ interface Payload {
   data?: object;
 }
 
-// POST REQUEST
 export const postRequest = async (payload: Payload) => {
   let accessToken = localStorage.getItem("accessToken")
   const config = {
@@ -20,7 +19,6 @@ export const postRequest = async (payload: Payload) => {
       data: payload.data,
       headers: config.headers
     });
-    console.log("resPost", res)
     return res;
   } catch (err: any) {
     return err.response;
@@ -41,12 +39,39 @@ export const postRequestv2 = async (payload: Payload) => {
       data: payload.data,
       headers: config.headers
     });
-    if(!res) throw new Error("Error with request123")
+    if(!res) throw new Error("Error with request")
     return {
       res,
       err: null
     };
   } catch (err: any) {
+    return {
+      res: null,
+      err
+    };
+  }
+}
+
+// GET REQUEST
+export const getRequestv2 = async (payload: Payload) => {
+  let accessToken = localStorage.getItem("accessToken")
+  const config = {
+    headers: {
+    'Authorization': `Bearer ${accessToken}`
+    },
+    data: payload.data
+  }
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`, 
+      config
+    );
+    if(!res) throw new Error("Error with request")
+    return {
+      res,
+      err: null
+    };
+  } catch (err) {
     return {
       res: null,
       err
@@ -95,7 +120,6 @@ export const putRequest = async (payload: Payload) => {
   }
 }
 
-// PATCH REQUEST
 export const patchRequest = async (payload: Payload) => {
   let accessToken = localStorage.getItem("accessToken")
   const config = {
@@ -115,6 +139,33 @@ export const patchRequest = async (payload: Payload) => {
     return err
   }
 };
+
+export const patchRequestv2 = async (payload: Payload) => {
+  let accessToken = localStorage.getItem("accessToken")
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    },
+  }
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`,
+      data: payload.data,
+      headers: config.headers
+    });
+    if(!res) throw new Error("Error with request")
+    return {
+      res,
+      err: null
+    };
+  } catch (err: any) {
+    return {
+      res: null,
+      err
+    };
+  }
+}
 
 export const deleteRequest = async (payload: Payload) => {
   let accessToken = localStorage.getItem("accessToken")
