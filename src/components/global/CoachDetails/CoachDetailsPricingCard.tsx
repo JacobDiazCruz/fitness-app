@@ -30,7 +30,6 @@ export default function CoachDetailsPricingCard({
   openCheckoutModal,
   services = []
 }: Props) {
-  const params = useParams();
   const router = useRouter();
 
   const dropdownRef: MutableRefObject<any> = useRef(null);

@@ -33,3 +33,10 @@ export interface Message {
   files?: Array<string>;
   createdAt?: number;
 }
+
+export interface ResponseError {
+  data: any;
+  message: string;
+  statusCode: number;
+  success: boolean;
+};

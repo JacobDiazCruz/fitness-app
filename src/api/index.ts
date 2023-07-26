@@ -20,9 +20,37 @@ export const postRequest = async (payload: Payload) => {
       data: payload.data,
       headers: config.headers
     });
+    console.log("resPost", res)
     return res;
-  } catch (err) {
-    return err;
+  } catch (err: any) {
+    return err.response;
+  }
+}
+
+export const postRequestv2 = async (payload: Payload) => {
+  let accessToken = localStorage.getItem("accessToken")
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    },
+  }
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`,
+      data: payload.data,
+      headers: config.headers
+    });
+    if(!res) throw new Error("Error with request123")
+    return {
+      res,
+      err: null
+    };
+  } catch (err: any) {
+    return {
+      res: null,
+      err
+    };
   }
 }
 

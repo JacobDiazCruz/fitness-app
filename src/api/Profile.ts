@@ -1,8 +1,22 @@
 import { getRequest, patchRequest } from ".";
 
-export const getProfile = async ({ userId = null }: { userId: string | null }) => {
+export const getProfile = async ({ 
+  userId = "",
+  profileId = "" 
+}: { 
+  userId?: string | null;
+  profileId?: string | null;
+}) => {
   const payload = {
-    url: `/profile/get/${userId}`
+    url: `/profile/get?userId=${userId}&profileId=${profileId}`
+  };
+  const res = await getRequest(payload);
+  return res.data.data;
+};
+
+export const getProfileById = async ({ profileId = null }: { profileId: string | null }) => {
+  const payload = {
+    url: `/profile/get/${profileId}`
   };
   const res = await getRequest(payload);
   return res.data.data;

@@ -7,18 +7,11 @@ import { LoadingIcon } from "@/components/global/Icons";
 import CoachDetailsWrapper from "./CoachDetailsWrapper";
 import { getCoachingServices } from "@/api/CoachingService";
 import CheckoutModal from "./CheckoutModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCoachingPlan from "@/contexts/CoachingPlan/useCoachingPlan";
 
 export default function CoachDetails() {
   const params = useParams();
-
-  const {
-    coachingPlans,
-    selectedPlan,
-    setSelectedPlan,
-    isLoadingCoachingPlans
-  }: any = useCoachingPlan();
 
   const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
 
@@ -29,6 +22,20 @@ export default function CoachDetails() {
   } = useQuery('coach', () => getCoachProfile(params.id), {
     refetchOnMount: true
   });
+
+  useEffect(() => {
+    if(coach) {
+      localStorage?.setItem("coachUserId", coach.userId)
+    }
+  }, [coach]);
+
+  const {
+    coachingPlans,
+    selectedPlan,
+    setSelectedPlan,
+    isLoadingCoachingPlans
+  }: any = useCoachingPlan();
+
 
   // fetch coach services
   const {
@@ -49,6 +56,7 @@ export default function CoachDetails() {
   const { 
     userId,
     firstName,
+    email,
     lastName,
     profileImage,
     coachingDetails
@@ -98,6 +106,7 @@ export default function CoachDetails() {
           onClose={() => setShowCheckoutModal(false)}
           thumbnailImage={profileImage?.thumbnailImage}
           fullName={`${firstName} ${lastName}`}
+          email={email}
           selectedPlan={selectedPlan}
         />
       )}

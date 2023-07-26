@@ -1,6 +1,6 @@
 import axios from "axios";
 import { 
-  postRequest
+  postRequest, postRequestv2
 } from ".";
   
 export const calculateTotalPrice = async ({ 
@@ -30,14 +30,16 @@ export const mayaCheckout = async (data: any) => {
   return res.data;
 };
 
-export const createStripeCheckoutSession = async () => {
+export const createStripeCheckoutSession = async (data: any) => {
   const payload = {
     url: `/checkout/stripe/create-session`,
-    data: {
-      test: "value"
-    }
+    data
   };
-  const res: any = await postRequest(payload);
+
+  const { res, err }: any = await postRequestv2(payload);
+  if(err) {
+    throw err.response.data;
+  };
   return res.data.data;
 };
 

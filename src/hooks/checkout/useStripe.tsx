@@ -1,9 +1,15 @@
 import { createStripeCheckoutSession } from '@/api/Checkout';
+import useAlert from '@/contexts/Alert';
+import { ResponseError } from '@/utils/types';
 import { loadStripe } from '@stripe/stripe-js';
 import { useMutation } from 'react-query';
 
 export default function useStripe() {
   let stripePromise: any;
+
+  const {
+    dispatchAlert
+  }: any = useAlert();
 
   const getStripe = () => {
     if (!stripePromise) {
@@ -12,26 +18,27 @@ export default function useStripe() {
     return stripePromise;
   };
 
-  const createStripeCheckoutSessionMutation = useMutation(createStripeCheckoutSession);
+  const createStripeCheckoutSessionMutation = useMutation(createStripeCheckoutSession, {
+    onError: (err: ResponseError) => {
+      dispatchAlert({
+        type: "ERROR",
+        message: err.message
+      })
+    }
+  });
 
-  const handleStripeCheckout = async ({
-    selectedPlan
-  }: any) => {
+  const handleStripeCheckout = async (planDetails: any) => {
     const stripe = await getStripe();
-    // const session = await createStripeCheckoutSessionMutation.mutateAsync();
-    // console.log("session", session)
+    const session = await createStripeCheckoutSessionMutation.mutateAsync({
+      totalPrice: planDetails.totalPrice,
+      coachDetails: {
+        name: planDetails.fullName,
+        email: planDetails.email,
+        thumbnailImage: planDetails.thumbnailImage
+      }
+    });
     const { error } = await stripe.redirectToCheckout({
-      // sessionId: session.id
-      lineItems: [
-        {
-          price: "price_1NXi8pBldNc76AkjYMQio6xj",
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      successUrl: `http://localhost:3000/checkout/payment/success`,
-      cancelUrl: `http://localhost:3000/checkout/payment/canceled`,
-      customerEmail: localStorage?.getItem("email") ?? ""
+      sessionId: session.id
     });
     console.warn(error.message);
   }

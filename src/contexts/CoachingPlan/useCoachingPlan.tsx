@@ -18,10 +18,16 @@ export const CoachingPlanProvider = ({
     isLoading: isLoadingCoachingPlans,
     data: coachingPlans,
     refetch: refetchCoachingPlans
-  } = useQuery('coachingPlans', () => listCoachingPlans(localStorage.getItem("userId") ?? ""), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true
-  });
+  } = useQuery('coachingPlans', () =>
+    listCoachingPlans(
+      localStorage?.getItem("coachUserId") ?? 
+      localStorage?.getItem("userId") ?? ""
+    ),
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: true
+    }
+  );
 
   const value = {
     coachingPlans,

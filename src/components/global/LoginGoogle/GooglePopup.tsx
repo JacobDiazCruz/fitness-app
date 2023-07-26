@@ -58,7 +58,7 @@ const GooglePopup = ({ roleType }: { roleType?: string }) => {
 
         // call get profile
         const profileData = await getProfile({ userId: data?.userId });
-        const { userId, role, email, firstName, lastName, profileImage } = profileData;
+        const { role, email, firstName, lastName, profileImage } = profileData;
         
         // set all static values that won't be updated
         localStorage.setItem("userId", data?.userId);
