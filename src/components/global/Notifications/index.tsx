@@ -2,7 +2,7 @@ import useNotification from "@/contexts/Notification/useNotification";
 import { borderColor, primaryBgColor, primaryTextColor, secondaryBgColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { MdClose } from "react-icons/md";
 import IconButton from "../IconButton";
-import NotificationItem from "./NotificationItem";
+import NotifItem from "./NotifItem";
 
 export default function Notifications() {
   const {
@@ -46,7 +46,7 @@ export default function Notifications() {
         {/* List */}
         <div className="w-full h-full overflow-auto">
           {notifications.map((notif: any) => (
-            <NotificationItem notif={notif} />
+            <NotifItem notif={notif} />
           ))}
         </div>
       </div>

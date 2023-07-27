@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import CoachingPlanForm from "./CoachingPlanForm";
 import useCoachingPlanForm from "@/contexts/CoachingPlan/useCoachingPlanForm";
-import useCoachingService from "@/contexts/CoachingService/useCoachingService";
 
 interface Props {
   selectedPlanId: string;
@@ -16,11 +15,6 @@ export default function EditCoachingPlanModal({
   selectedPlanId,
   onClose
 }: Props) {
-
-  const {
-    coachingServices
-  }: any = useCoachingService();
-  
   const {
     setName,
     setGrossPrice,
@@ -56,19 +50,7 @@ export default function EditCoachingPlanModal({
       setNumberOfSessions(coachingPlan.numberOfSessions);
       setTimeLength(coachingPlan.timeLength);
       setTimeUnit(coachingPlan.timeUnit);
-
-      const updatedServicesList = coachingServices.map((service: any) => {
-        const isSelected = coachingPlan.services.some(
-          (coachingService: any) => coachingService._id === service._id
-        );
-      
-        // Update the isSelected property of the service
-        return { ...service, isSelected };
-      });
-      
-      if(updatedServicesList.length) {
-        setServices(updatedServicesList);
-      }
+      setServices(coachingPlan.services);
     }
   }, [coachingPlan]);
 

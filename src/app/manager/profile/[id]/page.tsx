@@ -16,9 +16,10 @@ import ProfileGallery from "./ProfileGallery";
 import ProfilePortfolio from "./ProfilePortfolio";
 import CoachingPlans from "./CoachingPlans/CoachingPlans";
 import CoachingPlanContextProvider from "@/contexts/CoachingPlan";
-import CoachingServices from "./CoachingServices";
+import CoachingServices from "./CoachingServices/CoachingServices";
 import CoachingServiceContextProvider from "@/contexts/CoachingService";
 import { CoachingPlanProvider } from "@/contexts/CoachingPlan/useCoachingPlan";
+import AddCoachingServiceModal from "./CoachingServices/AddCoachingServiceModal";
 export interface Form {
   profileImage: string | null;
   firstName: string | null;
@@ -35,9 +36,6 @@ export default function Profile() {
   const [showEditAccountDetailsModal, setShowEditAccountDetailsModal] = useState<boolean>(false);
 
   const [servicesList, setServicesList] = useState<CoachingService[]>([]);
-
-  // edit modal states
-  const [showEditServicesModal, setShowEditServicesModal] = useState<boolean>(false);
 
   // get exercise data
   const {
@@ -78,10 +76,6 @@ export default function Profile() {
             <CoachingPlans />
           </CoachingPlanProvider>
 
-          <CoachingServiceContextProvider>
-            <CoachingServices handleEdit={() => setShowEditServicesModal(true)} />
-          </CoachingServiceContextProvider>
-
           <div className="flex gap-[30px]">
             <ProfileGallery
               galleryImages={profile?.coachingDetails?.galleryImages}
@@ -93,13 +87,6 @@ export default function Profile() {
             />
           </div>
         </PermissionAccess>
-        {showEditServicesModal && (
-          <EditServicesModal
-            initialServicesList={servicesList}
-            onClose={() => setShowEditServicesModal(false)}
-            refetchProfile={refetchProfile}
-          />
-        )}
         {showUploaderModal && (
           <UploaderModal
             headerTitle={selectedHeaderTitle}

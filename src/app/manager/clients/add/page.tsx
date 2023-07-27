@@ -20,7 +20,7 @@ interface ClientForm {
 
 export default function AddNewClient () {
   const router = useRouter();
-  const { dispatchAlert } = useAlert();
+  const { dispatchAlert }: any = useAlert();
   const [countryCode, setCountryCode] = useState<string>("+63");
   const [clientForm, setClientForm] = useState<ClientForm>({
     firstName: "",

@@ -1,4 +1,4 @@
-import { primaryTextColor } from "@/utils/themeColors";
+import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { ReactNode } from "react";
 
 interface Props {
@@ -11,7 +11,7 @@ export default function FieldName({
   required = false
 }: Props) {
   return (
-    <p className={`${primaryTextColor} text-[14px] mb-2`}>
+    <p className={`${secondaryTextColor} text-[14px] mb-2`}>
       {children}
       {required && (
         <span className="text-red-500 ml-1">*</span>

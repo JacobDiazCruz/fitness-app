@@ -120,6 +120,33 @@ export const putRequest = async (payload: Payload) => {
   }
 }
 
+export const putRequestv2 = async (payload: Payload) => {
+  let accessToken = localStorage.getItem("accessToken")
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    },
+  }
+  try {
+    const res = await axios({
+      method: 'PUT',
+      url: `${process.env.NEXT_PUBLIC_SERVICE_URL}${payload.url}`,
+      data: payload.data,
+      headers: config.headers
+    });
+    if(!res) throw new Error("Error with request")
+    return {
+      res,
+      err: null
+    };
+  } catch (err: any) {
+    return {
+      res: null,
+      err
+    };
+  }
+}
+
 export const patchRequest = async (payload: Payload) => {
   let accessToken = localStorage.getItem("accessToken")
   const config = {

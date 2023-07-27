@@ -1,10 +1,9 @@
 import { 
   getRequest, 
-  postRequest,
-  putRequest 
+  postRequest
 } from ".";
 
-export const addClient = async (data) => {
+export const addClient = async (data: any) => {
   const payload = {
     url: `/client/add`,
     data

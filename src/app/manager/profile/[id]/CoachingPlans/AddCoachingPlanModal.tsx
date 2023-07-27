@@ -16,7 +16,7 @@ export default function AddCoachingPlanModal({
   }: any = useCoachingPlanForm();
 
   return (
-    <Modal onClose={onClose} className="w-[1000px] h-[650px]">
+    <Modal onClose={onClose} className="w-[1100px] h-[650px]">
       <ModalHeader>
         <ModalTitle>
           Add Coaching Plan

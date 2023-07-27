@@ -28,15 +28,6 @@ export default function useStripe() {
     }
   });
 
-  // const createStripeCustomerMutation = useMutation(createStripeCustomer, {
-  //   onError: (err: ResponseError) => {
-  //     dispatchAlert({
-  //       type: "ERROR",
-  //       message: err.message
-  //     })
-  //   }
-  // });
-
   // fetch coach profile
   const { 
     data: customerProfile
@@ -59,7 +50,8 @@ export default function useStripe() {
     // 2. create invoice
     // 3. create checkout session
     const session = await createStripeCheckoutSessionMutation.mutateAsync({
-      totalPrice: planDetails.totalPrice,
+      planId: planDetails._id,
+      sessionQuantity: planDetails.sessionQuantity,
       coachDetails: {
         name: planDetails.fullName,
         email: planDetails.email,

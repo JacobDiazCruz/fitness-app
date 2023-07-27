@@ -15,7 +15,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
   // list coaching plans
   const {
-    data: notifications
+    data: notifications,
+    refetch: refetchNotifications
   } = useQuery('notifications', () => listNotifications(), {
     refetchOnWindowFocus: false,
     refetchOnMount: true
@@ -34,12 +35,14 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(() => {
     return {
       notifications,
+      refetchNotifications,
       editNotifOrderStatusMutation,
       showNotification,
       setShowNotification
     }
   }, [
     notifications,
+    refetchNotifications,
     showNotification,
     setShowNotification
   ]);

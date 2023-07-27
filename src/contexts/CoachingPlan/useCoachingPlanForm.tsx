@@ -20,30 +20,17 @@ export const CoachingPlanFormProvider = ({
     setShowEditCoachingPlan
   }: any = useCoachingPlan();
 
-  const {
-    coachingServices,
-  }: any = useCoachingService();
-
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<any>("");
-  const [grossPrice, setGrossPrice] = useState<any>("");
+  const [grossPrice, setGrossPrice] = useState<number>(0);
   const [numberOfSessions, setNumberOfSessions] = useState<string>("");
   const [timeLength, setTimeLength] = useState<any>("");
   const [timeUnit, setTimeUnit] = useState<string>("Week/s");
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    if(coachingServices?.length) {
-      setServices(coachingServices);
-    }
-  }, [coachingServices]);
-
-  useEffect(() => {
-    const subTotalPrice = new Big(grossPrice || 0);
-    const commissionPercentage = subTotalPrice.times(0.15);
-    const totalPrice = subTotalPrice.plus(commissionPercentage);
-
+    const totalPrice = new Big(grossPrice);
     setTotalPrice(totalPrice);
   }, [grossPrice]);
 
@@ -82,30 +69,21 @@ export const CoachingPlanFormProvider = ({
     type: string;
     selectedPlanId?: string;
   }) => {
-    const selectedServices = services
-      .filter((service: any) => service.isSelected)
-      .map((service: any) => {
-        return {
-          _id: service._id,
-          title: service.title
-        }
-      });
-    
     const data = {
       name,
-        description,
-        grossPrice: {
-          currency: "PHP",
-          value: grossPrice
-        },
-        totalPrice: {
-          currency: "PHP",
-          value: totalPrice
-        },
-        numberOfSessions,
-        timeLength,
-        timeUnit,
-        services: selectedServices
+      description,
+      grossPrice: {
+        currency: "PHP",
+        value: grossPrice
+      },
+      totalPrice: {
+        currency: "PHP",
+        value: totalPrice
+      },
+      numberOfSessions,
+      timeLength,
+      timeUnit,
+      services
     };
 
     if(type === "ADD") {
@@ -125,10 +103,10 @@ export const CoachingPlanFormProvider = ({
       timeUnit,
       timeLength,
       grossPrice,
+      services,
       numberOfSessions,
       totalPrice
     },
-    services,
     setName,
     setTotalPrice,
     setNumberOfSessions,

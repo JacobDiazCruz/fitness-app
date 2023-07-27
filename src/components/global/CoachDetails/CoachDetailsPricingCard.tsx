@@ -51,7 +51,7 @@ export default function CoachDetailsPricingCard({
     <li className="flex items-center py-2">
       <FaCheck className="w-4 h-4 text-teal-500"/>
       <p className={`${secondaryTextColor} ml-3`}>
-        {service?.title}
+        {service}
       </p>
     </li>
   ));
@@ -100,10 +100,10 @@ export default function CoachDetailsPricingCard({
       <div className="px-4 py-8 md:p-8">
         <div className="flex items-center">
           <h3 className={`${primaryTextColor} text-[28px]`}>
-            {selectedPlan?.totalPrice.currency} {selectedPlan?.totalPrice.value}
+            &#x20B1; {selectedPlan?.totalPrice.value}
           </h3>
           <span className={`${tertiaryTextColor} ml-3 mt-1`}>
-            / {selectedPlan?.numberOfSessions} sessions
+            / session
           </span>
         </div>
         <div className={`${secondaryTextColor} mt-3 mb-8 text-[14px]`}>

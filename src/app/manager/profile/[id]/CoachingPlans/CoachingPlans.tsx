@@ -60,7 +60,7 @@ export default function CoachingPlans() {
                         {plan.name}
                       </p>
                       <p className={`${secondaryTextColor} text-[16px]`}>
-                        {plan.totalPrice.currency} {plan.totalPrice.value}
+                        &#x20B1; {plan.totalPrice.value}
                       </p>
                     </div>
                     <div>
@@ -92,7 +92,7 @@ export default function CoachingPlans() {
                       <div key={serviceIndex} className="flex gap-[8px] mb-2">
                         <FaCheck className="text-green-500 w-4 h-4 mt-[2px]" />
                         <p className={`${tertiaryTextColor} text-[14px] line-clamp-2`}>
-                          {service.title}
+                          {service}
                         </p>
                       </div>
                     ))}

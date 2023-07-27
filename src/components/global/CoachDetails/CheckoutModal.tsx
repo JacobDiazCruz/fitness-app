@@ -4,6 +4,10 @@ import IconButton from "../IconButton";
 import { IoMdClose } from "react-icons/io";
 import useCheckout from "@/hooks/checkout/useCheckout";
 import useStripe from "@/hooks/checkout/useStripe";
+import QuantityField from "../QuantityField";
+import { useEffect, useState } from "react";
+import FieldName from "../FieldName";
+import Big from "big.js";
 
 interface Props {
   onClose: () => void;
@@ -28,6 +32,47 @@ export default function CheckoutModal({
   const {
     handleStripeCheckout
   } = useStripe();
+
+  const totalPrice = selectedPlan.totalPrice.value;
+  const [sessionQuantity, setSessionQuantity] = useState<number>(30);
+  const [currentTotalPrice, setCurrentTotalPriceValue] = useState<any>(0);
+
+  useEffect(() => {
+    if(!sessionQuantity) return 0;
+
+    const bigTotalPrice = Big(totalPrice);
+    const bigSessionsQuantity = Big(sessionQuantity);
+    const total = bigTotalPrice.times(bigSessionsQuantity);
+  
+    const fifteenPercent = Big(0.15); // 15% represented as 0.15
+    const totalPriceWith15Percent = total.times(fifteenPercent).plus(total);
+  
+    // Round off the total price to 2 decimal places
+    const roundedTotalPrice = totalPriceWith15Percent.round(2);
+  
+    // Convert the total price to a string without cents
+    const totalWithoutCents = roundedTotalPrice.toFixed(0);
+  
+    setCurrentTotalPriceValue(totalWithoutCents);
+
+    return(() => {
+      setCurrentTotalPriceValue(0);
+    })
+  }, [sessionQuantity]);
+
+  const submitCheckout = () => {
+    handleStripeCheckout({ 
+      ...selectedPlan,
+      sessionQuantity,
+      totalPrice: {
+        currency: "PHP",
+        value: currentTotalPrice
+      },
+      fullName,
+      thumbnailImage,
+      email
+    });
+  };
 
   return (
     <>
@@ -60,38 +105,42 @@ export default function CheckoutModal({
             <div className={`${primaryTextColor} text-[18px] font-normal`}>
               {selectedPlan?.name}
             </div>
-            <div className={`${tertiaryTextColor} text-[18px] font-light`}>
-            {selectedPlan?.totalPrice.currency} {selectedPlan?.totalPrice.value}
-            </div>
           </div>
-          <div className={`${secondaryTextColor} text-[14px] font-light mt-3`}>
-            {selectedPlan?.description}            
+          <div className={`${secondaryTextColor} flex items-center mt-2`}>
+            <div className={`${secondaryTextColor} text-[18px] font-light mr-2`}>
+              &#x20B1; {selectedPlan?.totalPrice.value}
+            </div>
+            <div className={`${tertiaryTextColor} text-[14px]`}>/ session</div>
+          </div>
+          <div className={`${secondaryTextColor} mt-8 text-[16px] w-[130px]`}>
+            <FieldName>
+              Sessions Quantity
+            </FieldName>
+            <QuantityField
+              value={sessionQuantity}
+              onChange={(value: any) => setSessionQuantity(value)}
+            />
           </div>
         </div>
         <div className={`${borderColor} border-t absolute bottom-0 py-8 px-6 w-full`}>
           <ul className="mb-5 text-[14px]">
             <li className={`${tertiaryTextColor} flex items-center justify-between py-2`}>
               <p className={`${secondaryTextColor} font-light`}>Subtotal</p>
-              <p className={`${primaryTextColor} font-normal`}>PHP {selectedPlan.totalPrice.value}</p>
+              <p className={`${primaryTextColor} font-normal`}>
+                PHP {currentTotalPrice}
+              </p>
             </li>
             <li className={`flex items-center justify-between py-2`}>
               <p className={`${secondaryTextColor} font-light`}>Total</p>
               <p className={`${primaryTextColor} font-semibold`}>
-                PHP {selectedPlan.totalPrice.value}
+                PHP {currentTotalPrice}
               </p>
             </li>
           </ul>
           <Button
             className="w-full"
             loading={isLoadingCheckout}
-            onClick={async () => {
-              await handleStripeCheckout({ 
-                ...selectedPlan,
-                fullName,
-                thumbnailImage,
-                email
-              });
-            }}
+            onClick={submitCheckout}
           >
             Checkout
           </Button>
