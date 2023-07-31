@@ -9,8 +9,15 @@ import {
   primaryTextColor
 } from "@/utils/themeColors";
 import VideoThumbnail from "../../../components/global/VideoThumbnail";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+interface Props {
+  itemId: string;
+  name: string;
+  primaryFocus: string;
+  videoLink: string;
+  category: string;
+  createdAt: string;
+};
 
 export default function TableItem({
   itemId,
@@ -18,13 +25,13 @@ export default function TableItem({
   primaryFocus,
   videoLink,
   category,
-  createdAt,
-  coverImage
-}) {
+  createdAt
+}: Props) {
   const router = useRouter();
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
+
   const date = new Date(createdAt);
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const options: object = { month: 'short', day: 'numeric', year: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
@@ -64,7 +71,6 @@ export default function TableItem({
         <div className="col-5 hidden md:block">
           {/* For Desktop View */}
           <ItemActionsMenu
-            itemId={itemId}
             handleEdit={() => {
               router.push(`/manager/exercises/edit/${itemId}`)
             }}
@@ -74,7 +80,6 @@ export default function TableItem({
       {/* For Mobile View */}
       <div className="col-5 block md:hidden">
         <ItemActionsMenu 
-          itemId={itemId}
           handleEdit={() => {
             router.push(`/manager/exercises/edit/${itemId}`)
           }}

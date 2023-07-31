@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import React, { useEffect, useState } from 'react';
-import IconButton from '@/components/global/IconButton';
-import { SlArrowRight, SlArrowLeft } from 'react-icons/sl';
-import { borderColor, primaryTextColor } from '@/utils/themeColors';
-import CalendarHeader from './CalendarHeader';
-import CalendarDate from './CalendarBoard/CalendarDate';
-import CalendarBoard from './CalendarBoard';
-import useCalendarScheduleBuilder from '@/contexts/Calendar/useCalendarScheduleBuilder';
-import useCalendar from '@/contexts/Calendar/useCalendar';
-import { CalendarScheduleType } from '@/utils/calendarTypes';
-import CalendarWorkoutDetailsModal from './CalendarWorkoutDetailsModal';
-import CreateScheduleModal from './CreateScheduleModal';
+import React, { useEffect, useState } from "react";
+import IconButton from "@/components/global/IconButton";
+import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
+import { borderColor, primaryTextColor } from "@/utils/themeColors";
+import CalendarHeader from "./CalendarHeader";
+import CalendarDate from "./CalendarBoard/CalendarDate";
+import CalendarBoard from "./CalendarBoard";
+import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendar from "@/contexts/Calendar/useCalendar";
+import { CalendarScheduleType } from "@/utils/calendarTypes";
+import CalendarWorkoutDetailsModal from "./CalendarWorkoutDetailsModal";
+import CreateScheduleModal from "./CreateScheduleModal";
 
 export default function Calendar() {
   const {
@@ -57,8 +57,8 @@ export default function Calendar() {
   useEffect(() => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
     setSelectedDate(formattedDate);
@@ -82,8 +82,8 @@ export default function Calendar() {
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const options: object = { day: 'numeric', weekday: 'short' };
-    return date.toLocaleDateString('en-US', options);
+    const options: object = { day: "numeric", weekday: "short" };
+    return date.toLocaleDateString("en-US", options);
   };
 
   const activeDate = (date: string) => {
@@ -95,8 +95,8 @@ export default function Calendar() {
 
   const formatMonthTitle = (dateString: string) => {
     const date = new Date(dateString);
-    const options: object = { month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options: object = { month: "long", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   };
 
   const handleClickWorkout = (calendarSchedule: any, workoutDetails: any) => {

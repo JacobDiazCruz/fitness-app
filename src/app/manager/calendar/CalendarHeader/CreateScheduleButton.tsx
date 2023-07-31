@@ -1,6 +1,7 @@
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import React, { useState, useRef, useEffect, MutableRefObject } from "react";
 import { MdAdd, MdArrowDropDown } from "react-icons/md";
+import { createScheduleList } from "../CreateScheduleModal";
 
 export default function CreateScheduleButton () {
   const {
@@ -12,25 +13,6 @@ export default function CreateScheduleButton () {
   
   const dropdownRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
   const buttonRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
-
-  const [createScheduleList] = useState([
-    {
-      type: "CREATE_EVENT",
-      title: "Event"
-    },
-    {
-      type: "CREATE_TASK",
-      title: "Task"
-    },
-    {
-      type: "CREATE_WORKOUT",
-      title: "Workout"
-    },
-    {
-      type: "CREATE_PROGRAM",
-      title: "Program"
-    }
-  ]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevIsDropdownOpen) => !prevIsDropdownOpen);

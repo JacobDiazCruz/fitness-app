@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import useAlert from "@/contexts/Alert";
 import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
 import { useExercise } from "@/contexts/Exercise/useExercise";
+import { IExerciseFormField, IExerciseFormSection } from "@/types/exercise";
 
 export default function EditExercise() {
   const router = useRouter();
@@ -18,38 +19,32 @@ export default function EditExercise() {
   const {
     initialFilesList,
     exerciseForm,
-    setExerciseForm,
+    setExerciseForm
   }: any = useExercise();
 
   // get exercise data
   const {
-    isLoading,
-    isError,
-    data: exerciseData,
+    data: exerciseData
   } = useQuery('exercise', () => getExercise(params.id), {
     refetchOnMount: true
   });
-
+  
   // assign exercise data to exercise form
   useEffect(() => {
     if (exerciseData) {
-      const { 
-        name,
-        primaryFocus,
-        category,
-        instruction,
-        videoLink,
-        files
-      } = exerciseData;
-  
-      setExerciseForm(() => ({
-        name,
-        primaryFocus: { name: primaryFocus },
-        category: { name: category },
-        instruction,
-        videoLink,
-        files
-      }))
+      // Update exerciseForm based on exerciseData dynamically
+      setExerciseForm((prevForm: IExerciseFormSection[]) => {
+        return prevForm.map(form => {
+          return {
+            ...form,
+            fields: form.fields.map((field: IExerciseFormField) => {
+              const value = 
+                exerciseData[field.fieldName as keyof typeof exerciseData] || "";
+              return { ...field, value };
+            })
+          };
+        });
+      });
     }
   }, [exerciseData]);
 

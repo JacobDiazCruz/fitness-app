@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 import CalendarContextProvider from "@/contexts/Calendar";
 import Calendar from "./Calendar";
 

@@ -1,3 +1,4 @@
+import SidebarSessionDetails from "./SidebarSessionDetails";
 import SidebarWrapper from "./SidebarWrapper";
 
 export default function Sidebar() {
@@ -7,6 +8,7 @@ export default function Sidebar() {
       <SidebarWrapper.ToggleButton />
       <SidebarWrapper.BasicNavItems />
       <SidebarWrapper.FitnessNavItems />
+      {/* <SidebarSessionDetails /> */}
       <SidebarWrapper.ActionButtons />
       <SidebarWrapper.UserMenu />
     </SidebarWrapper>

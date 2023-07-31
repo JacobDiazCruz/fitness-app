@@ -1,19 +1,3 @@
-export interface Exercise {
-  _id?: string;
-  userId: string;
-  secondaryId?: string;
-  name: string;
-  focus: string;
-  category: string;
-  videoLink?: string;
-  instruction: string;
-  sets?: any;
-  files: Array<any>;
-  checked?: boolean;
-  isSelected?: boolean;
-  supersetExercises?: Array<any>;
-}
-
 export interface Program {
   _id?: string;
   ownerId: string;

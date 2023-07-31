@@ -5,9 +5,8 @@ import { AddIcon } from "@/components/global/Icons";
 import TableActions from "@/components/global/TableActions";
 import TableItem from "./TableItem";
 import { useQuery } from "react-query";
-import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
-import { borderColor, primaryTextColor } from "@/utils/themeColors";
+import { primaryTextColor } from "@/utils/themeColors";
 import TableNoResults from "@/components/global/TableNoResults";
 import { listClients } from "@/api/Client";
 
@@ -44,7 +43,9 @@ export default function Table() {
   useEffect(() => {
     if(clients && Array.isArray(clients)) {
       const filteredClients = clients?.filter((client: any) =>
-        client?.client.firstName.toLowerCase().includes(searchValue.toLowerCase())
+        client?.client.firstName
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
       );
       setFilteredClients(filteredClients);
     }

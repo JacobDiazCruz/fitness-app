@@ -5,14 +5,17 @@ import ProgramSchedule from "./ProgramSchedule";
 import WorkoutSchedule from "./WorkoutSchedule";
 import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
 import TaskSchedule from "./TaskSchedule";
-import useCalendarCell from "@/contexts/Calendar/useCalendarCell";
 
 type CreateScheduleItem = {
   type: string;
   title: string;
 };
 
-const createScheduleList: CreateScheduleItem[] = [
+export const createScheduleList: CreateScheduleItem[] = [
+  {
+    type: "CREATE_SESSION",
+    title: "Session"
+  },
   {
     type: "CREATE_EVENT",
     title: "Event",

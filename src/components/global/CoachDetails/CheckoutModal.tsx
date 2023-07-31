@@ -2,7 +2,6 @@ import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor, te
 import Button from "../Button";
 import IconButton from "../IconButton";
 import { IoMdClose } from "react-icons/io";
-import useCheckout from "@/hooks/checkout/useCheckout";
 import useStripe from "@/hooks/checkout/useStripe";
 import QuantityField from "../QuantityField";
 import { useEffect, useState } from "react";
@@ -24,10 +23,6 @@ export default function CheckoutModal({
   fullName,
   selectedPlan
 }: Props) {
-
-  const { 
-    isLoadingCheckout
-  } = useCheckout();
 
   const {
     handleStripeCheckout
@@ -139,7 +134,6 @@ export default function CheckoutModal({
           </ul>
           <Button
             className="w-full"
-            loading={isLoadingCheckout}
             onClick={submitCheckout}
           >
             Checkout

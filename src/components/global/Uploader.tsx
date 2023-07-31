@@ -1,7 +1,7 @@
 'use state';
 
 import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { 
   borderColor, 
   primaryTextColor, 
@@ -18,14 +18,14 @@ interface Props {
   setExistingFilesList?: any;
 };
 
-export default function Uploader({
+const Uploader = ({
   id = "file",
   max = 6,
   existingFilesList = [],
   initialFilesList = [],
   setInitialFilesList,
   setExistingFilesList
-}: Props) {
+}: Props) => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target?.files;
     if (fileList) {
@@ -122,3 +122,5 @@ export default function Uploader({
     </div>
   );
 };
+
+export default memo(Uploader);

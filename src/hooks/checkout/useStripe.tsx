@@ -51,6 +51,8 @@ export default function useStripe() {
     // 3. create checkout session
     const session = await createStripeCheckoutSessionMutation.mutateAsync({
       planId: planDetails._id,
+      planName: planDetails.name,
+      planServices: planDetails.services,
       sessionQuantity: planDetails.sessionQuantity,
       coachDetails: {
         name: planDetails.fullName,

@@ -4,13 +4,14 @@ import useAlert from "@/contexts/Alert";
 import useNotification from "@/contexts/Notification/useNotification";
 import useGetTimeDiff from "@/hooks/useGetTimeDiff";
 import { borderColor, primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { useMutation, useQuery } from "react-query";
 import Button from "../../Button";
 
 export default function NotifItemCoachingRequest({
+  planId,
   notificationId,
   order
 }: any) {
@@ -20,6 +21,8 @@ export default function NotifItemCoachingRequest({
     refetchNotifications,
     editNotifOrderStatusMutation
   }: any = useNotification();
+
+  const [triggerAddClient, setTriggerAddClient] = useState<boolean>(false);
 
   const addClientMutation = useMutation(addClient, {
     onSuccess: async () => {
@@ -55,17 +58,21 @@ export default function NotifItemCoachingRequest({
 
     if(status === "ACCEPTED") {
       refetchCustomerProfile();
+      setTriggerAddClient(true);
     }
   };
 
   useEffect(() => {
-    if(customerProfile) {
+    if(customerProfile && triggerAddClient) {
       addClientMutation.mutateAsync({
+        planId,
         firstName: customerProfile?.firstName,
         lastName: customerProfile?.lastName,
         email: customerProfile?.email,
         contact: customerProfile?.contact
       });
+
+      setTriggerAddClient(false);
     }
   }, [customerProfile]);
 

@@ -36,7 +36,6 @@ export default function CoachDetails() {
     isLoadingCoachingPlans
   }: any = useCoachingPlan();
 
-
   // fetch coach services
   const {
     isLoading: isLoadingCoachingServices,

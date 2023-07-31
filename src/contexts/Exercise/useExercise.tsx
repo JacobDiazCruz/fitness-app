@@ -1,9 +1,12 @@
 'use state';
 
-import { ExerciseContext, ExerciseForm } from "@/utils/exerciseTypes";
+import { IExerciseFormSection, IExerciseStore } from "@/types/exercise";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-const ExerciseContext = createContext<ExerciseContext | null>(null);
+const ExerciseContext = createContext<IExerciseStore>(
+  // @ts-ignore
+  null
+);
 
 export default function ExerciseProvider({
   children
@@ -11,57 +14,100 @@ export default function ExerciseProvider({
   children: ReactNode;
 }) {
   const [initialFilesList, setInitialFilesList] = useState([]);
-  const [exerciseForm, setExerciseForm] = useState<ExerciseForm>({
-    name: "",
-    primaryFocus: "",
-    category: "",
-    instruction: "",
-    videoLink: "",
-    files: []
-  });
 
-  const [primayFocusItems, setPrimaryFocusItems] = useState([
-    {
-      name: "Biceps"
-    },
-    {
-      name: "Upper Chest"
-    },
-    {
-      name: "Middle Chest"
-    },
-    {
-      name: "Lower Chest"
-    },
-    {
-      name: "Triceps"
-    },
-    {
-      name: "Upper Back"
-    }
+  const required = (value: string) => !!value;
+
+  const [primaryFocusItems] = useState([
+    "Biceps",
+    "Upper Chest",
+    "Middle Chest",
+    "Lower Chest",
+    "Triceps",
+    "Upper Back"
   ]);
   const [categoryItems, setCategoryItems] = useState([
+    "Weights",
+    "Bodyweight",
+    "Timed",
+    "Distance"
+  ]);
+  
+  const [exerciseForm, setExerciseForm] = useState<IExerciseFormSection[]>([
     {
-      name: "Weights"
+      section: "Basic details",
+      fields: [
+        {
+          label: "Exercise name *",
+          fieldName: "name",
+          placeholder: "e.g. Incline dumbbell press",
+          fieldType: "textfield",
+          value: "",
+          validator: [required]
+        },
+        {
+          label: "Primary focus *",
+          fieldName: "primaryFocus",
+          fieldType: "autocomplete",
+          placeholder: "Choose one",
+          value: "",
+          items: primaryFocusItems,
+          validator: [required]
+        },
+        {
+          label: "Category *",
+          fieldName: "category",
+          fieldType: "autocomplete",
+          placeholder: "Choose one",
+          value: "",
+          items: categoryItems,
+          validator: [required]
+        },
+        {
+          label: "Instruction",
+          fieldName: "instruction",
+          fieldType: "textarea",
+          placeholder: "Write instructions / notes",
+          value: "",
+          validator: []
+        }
+      ]
     },
     {
-      name: "Bodyweight"
-    },
-    {
-      name: "Timed"
-    },
-    {
-      name: "Distance"
+      section: "Video",
+      fields: [
+        {
+          label: "Video *",
+          fieldName: "videoLink",
+          fieldType: "textfield",
+          placeholder: "Paste a link from Youtube",
+          value: "",
+          validator: [required]
+        },
+        {
+          label: "Upload images or videos",
+          subLabel: "Upload your own workout videos and images.",
+          fieldName: "files",
+          fieldType: "upload",
+          value: initialFilesList,
+          validator: []
+        }
+      ]
     }
   ]);
 
-  const value = {
+  const isExerciseFormValid = exerciseForm.every((form: any) =>
+    form.fields.every((field: any) =>
+      field.validator.every((validateFn: any) => validateFn(field.value))
+    )
+  );
+
+  const value: IExerciseStore = {
+    isExerciseFormValid,
     initialFilesList,
     setInitialFilesList,
     exerciseForm,
     setExerciseForm,
-    primayFocusItems,
-    setPrimaryFocusItems,
+    primaryFocusItems,
     categoryItems,
     setCategoryItems
   };

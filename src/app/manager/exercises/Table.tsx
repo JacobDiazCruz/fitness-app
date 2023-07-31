@@ -7,44 +7,23 @@ import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import { listExercises } from "@/api/Exercise";
 import TableLoader from "@/components/global/TableLoader";
-import { primaryTextColor } from "@/utils/themeColors";
 import TableNoResults from "@/components/global/TableNoResults";
-
-const TableColumnHeaders = () => {
-  return (
-    <div className={`${primaryTextColor} hidden md:flex justify-between px-5 py-3 text-[14px]`}>
-      <div className="flex-1">
-        <p>Exercises</p>
-      </div>
-      <div className="flex-1">
-        <p>Primary focus</p>
-      </div>
-      <div className="flex-1">
-        <p>Category</p>
-      </div>
-      <div className="flex-1">
-        <p>Date added</p>
-      </div>
-      <div className="w-[32px]"></div>
-    </div>
-  );
-};
+import { IExercise } from "@/types/exercise";
+import TableColumnHeader from "@/components/global/TableColumnHeader";
 
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [filteredExercises, setFilteredExercises] = useState([]);
   const { 
     isLoading, 
-    isError,
-    data: exercises,
-    error
+    data: exercises
   } = useQuery('exercises', listExercises, {
     refetchOnMount: true
   });
 
   // Search filter logic
   useEffect(() => {
-    const filteredExercises = exercises?.filter((exercise: Exercise) =>
+    const filteredExercises = exercises?.filter((exercise: IExercise) =>
       exercise.name.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredExercises(filteredExercises);
@@ -64,16 +43,13 @@ export default function Table() {
           }}
         />
         <div className="page-table mt-8">
-          <TableColumnHeaders />
+          <TableColumnHeader 
+            items={["Exercises", "Primary focus", "Category", "Date added"]}
+          />
           <TableLoader />
         </div>
       </>
     );
-  }
-
-  // Return error state
-  if (isError) {
-    return <div>Error: {error.message}</div>;
   }
 
   // Return table if data is available
@@ -93,19 +69,26 @@ export default function Table() {
           <TableNoResults />
         ) : (
           <>
-            <TableColumnHeaders primaryTextColor={primaryTextColor} />
-            {filteredExercises?.map((exercise: Exercise) => {
-              const { _id, name, primaryFocus, videoLink, category, files, createdAt } = exercise;
+            <TableColumnHeader
+              items={["Exercises", "Primary focus", "Category", "Date added"]}
+            />
+            {filteredExercises?.map(({
+              _id = "",
+              name,
+              primaryFocus,
+              videoLink,
+              category,
+              createdAt = ""
+            }: IExercise) => {
               return (
                 <TableItem
                   key={_id}
+                  itemId={_id}
                   name={name}
                   videoLink={videoLink}
                   primaryFocus={primaryFocus}
                   category={category}
-                  itemId={_id}
                   createdAt={createdAt}
-                  coverImage={files[0] || ""}
                 />
               );
             })}

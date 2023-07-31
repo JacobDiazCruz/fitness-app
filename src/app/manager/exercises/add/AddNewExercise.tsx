@@ -7,15 +7,15 @@ import { addExercise, uploadFiles } from "@/api/Exercise";
 import ExerciseForm from "../ExerciseForm";
 import useAlert from "@/contexts/Alert";
 import { useExercise } from "@/contexts/Exercise/useExercise";
-import { ExerciseContext } from "@/utils/exerciseTypes";
 
 export default function AddNewExercise() {
   const router = useRouter();
   const { dispatchAlert }: any = useAlert();
   const {
     initialFilesList,
+    isExerciseFormValid,
     exerciseForm
-  }: ExerciseContext = useExercise()!;
+  } = useExercise()!;
   
   // add exercise request
   const addExerciseMutation = useMutation(addExercise, {
@@ -51,11 +51,18 @@ export default function AddNewExercise() {
       }
 
       // call add exercise mutation
+      const payload = exerciseForm.map((form: any) =>
+        Object.fromEntries(
+          form.fields.map((field: any) => [field.fieldName, field.value])
+        )
+      );
+      const combinedPayload = Object.assign({}, ...payload);
+
       await addExerciseMutation.mutateAsync({
-        ...exerciseForm,
-        category: exerciseForm?.category?.name,
-        primaryFocus: exerciseForm?.primaryFocus?.name,
-        files: filesRes?.data.length ? filesRes?.data : []
+        ...combinedPayload,
+        primaryFocus: combinedPayload.primaryFocus.name,
+        category: combinedPayload.category.name,
+        // files: filesRes?.data.length ? filesRes?.data : []
       });
       dispatchAlert({
         type: "SUCCESS",
@@ -65,7 +72,7 @@ export default function AddNewExercise() {
     } catch(err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <>
@@ -76,6 +83,7 @@ export default function AddNewExercise() {
         showActionButtons
         isLoading={uploadFilesMutation.isLoading || addExerciseMutation.isLoading}
         handleSubmit={() => handleSubmit()}
+        disableSubmit={!isExerciseFormValid}
       />
       <ExerciseForm />
     </>
