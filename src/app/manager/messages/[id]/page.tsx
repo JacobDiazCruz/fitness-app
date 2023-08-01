@@ -70,14 +70,14 @@ export default function Messages() {
   });
 
   /**
-   * @Purpose To refetch the messages data everytime the url param updates
+   * @purpose To refetch the messages data everytime the url param updates
    */
   useEffect(() => {
     refetchMessagesData();
   }, [params.id]);
 
   /**
-   * @Purpose To set the requested messages data on messages state and display it on the UI
+   * @purpose To set the requested messages data on messages state and display it on the UI
    */
   useEffect(() => {
     if(messagesData) {
@@ -86,7 +86,7 @@ export default function Messages() {
   }, [messagesData]);
 
   /**
-   * @Purpose To fetch the previous messages data upon scrolling to the -
+   * @purpose To fetch the previous messages data upon scrolling to the -
    * upmost part of the parent messages container.
    * FIX THIS BUGGY FUNCTION
    */

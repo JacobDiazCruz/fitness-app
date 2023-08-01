@@ -86,8 +86,8 @@ export default function EditWorkout() {
   }, [workoutData]);
 
   /**
-   * @Purpose This function handles edit workout from workouts page, and edit workout from programs
-   * @Note 
+   * @purpose This function handles edit workout from workouts page, and edit workout from programs
+   * @note 
    */
   const handleSubmit = () => {
     if(!editProgram) {

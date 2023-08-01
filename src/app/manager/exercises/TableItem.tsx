@@ -1,5 +1,3 @@
-import Image from "next/image";
-import IconButton from "@/components/global/IconButton";
 import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 

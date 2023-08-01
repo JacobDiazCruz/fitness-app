@@ -36,7 +36,7 @@ export default function ExercisesBuilder({
       {children}
     </div>
   );
-};
+}
 
 ExercisesBuilder.ActionButtons = ExercisesActionButtons;
 ExercisesBuilder.SelectedExercises = SelectedExercises;

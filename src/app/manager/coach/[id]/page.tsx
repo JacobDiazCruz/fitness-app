@@ -12,4 +12,4 @@ export default function Coach() {
       </CoachingPlanContextProvider>
     </CoachingServiceProvider>
   );
-};
+}

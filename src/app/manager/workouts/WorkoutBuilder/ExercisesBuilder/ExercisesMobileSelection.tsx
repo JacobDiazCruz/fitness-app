@@ -22,7 +22,7 @@ export default function ExercisesMobileSelection() {
         Select Exercise
       </Button>
 
-      {/* @Note: For mobile view only */}
+      {/* @note: For mobile view only */}
       {showYourExercises && (
         <SelectExercisesModal
           onClose={() => setShowYourExercises(false)}
@@ -31,4 +31,4 @@ export default function ExercisesMobileSelection() {
       )}
     </>
   );
-};
+}

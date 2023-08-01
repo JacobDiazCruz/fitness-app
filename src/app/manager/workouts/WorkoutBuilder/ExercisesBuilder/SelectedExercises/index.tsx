@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useWorkout from "@/contexts/Workout/useWorkout";
-import { Exercise } from "@/utils/types";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
 import { WorkoutContext } from "@/utils/workoutTypes";
+import { IExercise } from "@/types/exercise";
 
-interface selectedExerciseFactoryParams {
-  exercise: Exercise;
+interface ISelectedExerciseFactory {
+  exercise: IExercise;
   exerciseType: string;
   exerciseIndex: number;
 };
@@ -15,19 +15,19 @@ interface selectedExerciseFactoryParams {
 export default function SelectedExercises() {
   const {
     selectedExercises
-  }: WorkoutContext = useWorkout()!;
+  }: WorkoutContext = useWorkout();
 
-  const [draggedExercise, setDraggedExercise] = useState<Exercise | null>(null);
+  const [draggedExercise, setDraggedExercise] = useState<IExercise | null>(null);
 
   /**
-   * @Purpose To return a superset or normal "SelectedExercise" component
-   * @Note N/A
+   * @purpose To return a superset or normal "SelectedExercise" component
+   * @note N/A
    */
   const selectedExerciseFactory = ({
     exercise,
     exerciseType,
     exerciseIndex
-  }: selectedExerciseFactoryParams) => {
+  }: ISelectedExerciseFactory) => {
 
     if (exerciseType === "superset") {
       return (
@@ -35,7 +35,7 @@ export default function SelectedExercises() {
           exerciseSecondaryId={exercise?.secondaryId}
           exerciseIndex={exerciseIndex}
         >
-          {exercise.supersetExercises?.map((supersetExercise: Exercise, supersetIndex: number) => (
+          {exercise.supersetExercises?.map((supersetExercise: IExercise, supersetIndex: number) => (
             <SelectedExercise>
               <SelectedExercise.Header
                 exercise={supersetExercise}
@@ -67,14 +67,16 @@ export default function SelectedExercises() {
   
   return (
     <>
-      {selectedExercises?.map((exercise: Exercise, exerciseIndex: number) => {
+      {selectedExercises?.map((exercise: IExercise, exerciseIndex: number) => {
         return (
           <DragController 
             key={exercise.secondaryId}
             exercise={exercise}
             exerciseIndex={exerciseIndex}
             draggedExercise={draggedExercise}
-            setDraggedExercise={setDraggedExercise}
+            handleDraggedExercise={(val) => {
+              setDraggedExercise(val)
+            }}
           >
             {selectedExerciseFactory({
               exercise,

@@ -13,4 +13,4 @@ export default function DekstopDropzone() {
       </div>
     </div>
   );
-};
+}

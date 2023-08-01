@@ -59,7 +59,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   }, [myUserId]);
 
   /**
-   * @Purpose GET request chat data via room id
+   * @purpose GET request chat data via room id
    */
    const {
     isLoading: isLoadingChatData,
@@ -71,8 +71,8 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   });
 
   /**
-   * @Purpose To set chat details on the chatbox whenever chatData is available
-   * @Note This is used to display the thumbnailImage and get the profile link of the sender and receiver.
+   * @purpose To set chat details on the chatbox whenever chatData is available
+   * @note This is used to display the thumbnailImage and get the profile link of the sender and receiver.
    */
    useEffect(() => {
     if(chatData) {

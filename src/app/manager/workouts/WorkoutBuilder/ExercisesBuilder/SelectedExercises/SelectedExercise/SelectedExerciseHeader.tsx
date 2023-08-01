@@ -3,14 +3,14 @@ import { TrashIcon } from "@/components/global/Icons";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
+import { IExercise } from "@/types/exercise";
 import { borderColor } from "@/utils/themeColors";
-import { Exercise } from "@/utils/types";
 
 export default function SelectedExerciseHeader({
   exercise,
   showCheckInput = true
 }: {
-  exercise: Exercise;
+  exercise: IExercise;
   showCheckInput?: boolean;
 }) {
   const {
@@ -19,8 +19,10 @@ export default function SelectedExerciseHeader({
     secondaryId,
     videoLink,
     primaryFocus
-  }: any = exercise;
+  } = exercise;
+
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
+
   const {
     handleRemoveExercise,
     handleCheck
@@ -42,7 +44,7 @@ export default function SelectedExerciseHeader({
             <VideoThumbnail videoUrl={videoLink} />
           </div>
         )}
-       <div className="md:flex md:gap-[15px]">
+        <div className="md:flex md:gap-[15px]">
           <p className="dark:text-neutral-50 text-darkTheme-950">
             {name}
           </p>
@@ -51,11 +53,9 @@ export default function SelectedExerciseHeader({
           </div> 
         </div>
       </div>
-      <IconButton onClick={() => {
-        handleRemoveExercise(secondaryId)
-      }}>
+      <IconButton onClick={() => handleRemoveExercise(secondaryId)}>
         <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
       </IconButton>
     </div>
   );
-};
+}

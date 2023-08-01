@@ -1,10 +1,14 @@
 'use client';
 
-import { Exercise } from "@/utils/types";
-import { HandleChangeSetFieldParams, WorkoutContext } from "@/utils/workoutTypes";
-import { useState, createContext, useContext, useMemo, useEffect, ReactNode } from "react";
+import { IExercise } from "@/types/exercise";
+import { IChildProps } from "@/types/global";
+import { ExerciseType, IHandleChangeSetFieldParams, IUseWorkout } from "@/types/workout";
+import { useState, createContext, useContext, useMemo, useEffect } from "react";
 
-const WorkoutContext = createContext<WorkoutContext | null>(null);
+const WorkoutContext = createContext<IUseWorkout>(
+  // @ts-ignore
+  null
+);
 
 export const initialSet = {
   setType: "",
@@ -12,7 +16,7 @@ export const initialSet = {
   rest: "00:00"
 };
 
-export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
+export const WorkoutProvider = ({ children }: IChildProps) => {
   const [
     selectedExercises,
     setSelectedExercises
@@ -26,16 +30,16 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * @Purpose drops an exercise from "Your Exercises" section to the ExercisesBoard
-   * @Note N/A
+   * @purpose drops an exercise from "Your Exercises" section to the ExercisesBoard
+   * @note N/A
    */
   const onDropFromExercises = (e: React.DragEvent<HTMLDivElement>) => {
     if (e.dataTransfer.getData("exercise")) {
-      const exercise: Exercise = JSON.parse(e.dataTransfer.getData("exercise"));
-
+      const exercise: IExercise = JSON.parse(e.dataTransfer.getData("exercise"));
+      
       // set additional fields for the dropped exercise and update selectedExercises
-      // - secondaryId: used for having a second unique identifier in case the same Exercise _id is dropped and selected again
-      // - sets: every exercise should have at least a single set
+      // secondaryId: used for having a second unique identifier in case the same Exercise _id is dropped and selected again
+      // sets: every exercise should have at least a single set
       const exercisesList = [...selectedExercises, {
         ...exercise,
         secondaryId: Math.random(),
@@ -46,8 +50,8 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   };
 
   /**
-   * @Purpose to merge exercises into a superset
-   * @Note N/A
+   * @purpose to merge exercises into a superset
+   * @note N/A
    */
   const handleMergeSuperset = () => {
     const checkedItems = selectedExercises.filter((exercise) => exercise.checked);
@@ -79,8 +83,8 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   };
 
   /**
-   * @Purpose to unmerge exercises from a superset
-   * @Note N/A
+   * @purpose to unmerge exercises from a superset
+   * @note N/A
    */
   const handleUnmergeSuperset = (exerciseSecondaryId: string) => {
     // 1. filter all the checked supersets
@@ -108,11 +112,11 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   };
 
   /**
-   * @Purpose To push the next exercise from the superset's exercises
-   * @Note N/A
+   * @purpose To push the next exercise from the superset's exercises
+   * @note N/A
    */
   const hookNewExerciseToSuperset = (
-    hookType: 'next' | 'prev',
+    hookType: "next" | "prev",
     exerciseSecondaryId: string,
     supersetIndex: number
   ) => {
@@ -125,13 +129,13 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
 
     const selectedSuperset = clonedSelectedExercises[selectedSupersetIndex];
     
-    if (selectedSuperset && hookType === 'prev') {
+    if (selectedSuperset && hookType === "prev") {
       const prevExerciseIndex = supersetIndex - 1;
       const prevExercise = clonedSelectedExercises.splice(prevExerciseIndex, 1)[0];
       selectedSuperset.supersetExercises.unshift(prevExercise);
     }
     
-    if (selectedSuperset && hookType === 'next') {
+    if (selectedSuperset && hookType === "next") {
       const nextExerciseIndex = supersetIndex + 1;
       const nextExercise = clonedSelectedExercises.splice(nextExerciseIndex, 1)[0];
       selectedSuperset.supersetExercises.push(nextExercise);
@@ -141,10 +145,17 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   };
   
   /**
-   * @Purpose to add a new exercise set
-   * @Note Observe the difference on setting a state between a normal and a superset type of exercises.
+   * @purpose to add a new exercise set
+   * @note Observe the difference on setting a state between a normal and a superset type of exercises.
+   * @param {string} exerciseType - The type of exercise ('normal' or 'superset').
+   * @param {number} index - The index of the exercise in the selectedExercises array.
+   * @param {number} supersetIndex - (Only applicable for 'superset' exerciseType) The index of the superset exercise in the selectedExercises[index].supersetExercises array.
    */
-  const handleAddExerciseSet = (exerciseType: string, index: number, supersetIndex: number) => {
+  const handleAddExerciseSet = (
+    exerciseType: ExerciseType,
+    index: number, 
+    supersetIndex: number
+  ) => {
     setSelectedExercises((prevExercises) => {
       const updatedExercises = [...prevExercises];
       if(exerciseType === "normal") {
@@ -157,16 +168,16 @@ export const WorkoutProvider = ({ children }: { children: ReactNode }) => {
   };
 
   /**
-   * @Purpose to update the "set" field's value
-   * @Note N/A
+   * @purpose to update the "set" field's value
+   * @note N/A
    */
   const handleChangeSetField = ({
     value,
     field,
-    supersetExerciseIndex,
-    exerciseIndex,
-    setIndex
-  }: HandleChangeSetFieldParams) => {
+    supersetExerciseIndex = 0,
+    exerciseIndex = 0,
+    setIndex = 0
+  }: IHandleChangeSetFieldParams) => {
     setSelectedExercises((prevExercises) => {
       const updatedExercises = [...prevExercises];
       const exercise = updatedExercises[exerciseIndex];

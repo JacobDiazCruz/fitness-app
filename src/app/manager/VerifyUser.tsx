@@ -9,7 +9,7 @@ export default function VerifyUser() {
   const router = useRouter();
 
   /**
-   * @Purpose check token request
+   * @purpose check token request
    */
   const {
     isLoading,

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { 
   postRequest, postRequestv2
 } from ".";
@@ -14,20 +13,6 @@ export const calculateTotalPrice = async ({
   };
   const res: any = await postRequest(payload);
   return res.data.data;
-};
-
-export const mayaCheckout = async (data: any) => {
-  const res = await axios({
-    method: 'POST',
-    url: `https://pg-sandbox.paymaya.com/checkout/v1/checkouts`,
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json',
-      authorization: 'Basic cGstQkNRNVBsVHJwYVZlQTJrWVdlQmcwWmFPb3p3TGVaN0NOVEVsbkphMjdKQzo='
-    },
-    data
-  })
-  return res.data;
 };
 
 export const createStripeCheckoutSession = async (data: any) => {

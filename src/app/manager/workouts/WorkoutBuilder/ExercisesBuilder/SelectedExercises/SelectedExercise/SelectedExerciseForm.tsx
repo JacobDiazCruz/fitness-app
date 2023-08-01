@@ -4,22 +4,21 @@ import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import { AddIcon } from "@/components/global/Icons";
 import useWorkout from "@/contexts/Workout/useWorkout";
-import { Exercise } from "@/utils/types";
-import { WorkoutContext } from "@/utils/workoutTypes";
+import { IExercise } from "@/types/exercise";
 
 interface SelectedExerciseFormProps {
-  exercise: Exercise;
-  exerciseType: 'superset' | 'normal';
+  exercise: IExercise;
+  exerciseType: "superset" | "normal";
   supersetIndex?: number;
   exerciseIndex: number;
-};
+}
 
 interface HandleTimeChangeParams {
   value: any;
   exerciseIndex: number;
   field: string;
   setIndex: number;
-};
+}
 
 const SelectedExerciseForm = ({
   exercise,
@@ -31,7 +30,7 @@ const SelectedExerciseForm = ({
   const {
     handleAddExerciseSet,
     handleChangeSetField
-  }: WorkoutContext = useWorkout()!;
+  } = useWorkout();
 
   const formatTime = (time: string) => {
     // Remove any non-digit characters

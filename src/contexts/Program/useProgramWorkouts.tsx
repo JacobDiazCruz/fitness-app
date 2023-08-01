@@ -113,8 +113,8 @@ export const ProgramWorkoutsProvider = ({ children }) => {
   };
 
   /**
-   * @Purpose To set the initial editable data of a workout
-   * @Note This edited workout is not the same as its original "Workout" data.
+   * @purpose To set the initial editable data of a workout
+   * @note This edited workout is not the same as its original "Workout" data.
    * The program creates another copy of the original workout, and that copy is the one -
    * to be edited in this function.
    */

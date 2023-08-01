@@ -1,14 +1,14 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
-import { Exercise } from "@/utils/types";
+import { IExercise } from "@/types/exercise";
 
 interface DragControllerProps {
-  exercise: Exercise;
+  exercise: IExercise;
   exerciseIndex: number;
   children: React.ReactNode;
-  draggedExercise: Exercise | null;
+  draggedExercise: IExercise | null;
   exerciseType?: 'superset' | 'normal';
-  setDraggedExercise: Dispatch<SetStateAction<Exercise | null>>;
+  handleDraggedExercise: (val: any) => void;
 }
 
 export default function DragController({
@@ -17,7 +17,7 @@ export default function DragController({
   children,
   exerciseType,
   draggedExercise,
-  setDraggedExercise
+  handleDraggedExercise
 }: DragControllerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const placeholderRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export default function DragController({
   const {
     handleSupersetDragEnter,
     handleDragEnter
-  }: any = useExercisesDragController();
+  } = useExercisesDragController();
 
   useEffect(() => {
     if (containerRef.current && placeholderRef.current) {
@@ -52,18 +52,18 @@ export default function DragController({
         ref={containerRef}
         draggable
         onDragStart={() => {
-          setDraggedExercise(exercise);
+          handleDraggedExercise(exercise);
         }}
         onDrop={(e) => {
           e.preventDefault();
-          setDraggedExercise(null);
+          handleDraggedExercise(null);
         }}
         onDragOver={(e) => {
           e.preventDefault();
         }}
         onDragEnd={(e) => {
           e.preventDefault();
-          setDraggedExercise(null);
+          handleDraggedExercise(null);
         }}
         className="cursor-grab mt-4"
         style={{

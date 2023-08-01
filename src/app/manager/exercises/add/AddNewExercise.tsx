@@ -59,9 +59,7 @@ export default function AddNewExercise() {
       const combinedPayload = Object.assign({}, ...payload);
 
       await addExerciseMutation.mutateAsync({
-        ...combinedPayload,
-        primaryFocus: combinedPayload.primaryFocus.name,
-        category: combinedPayload.category.name,
+        ...combinedPayload
         // files: filesRes?.data.length ? filesRes?.data : []
       });
       dispatchAlert({

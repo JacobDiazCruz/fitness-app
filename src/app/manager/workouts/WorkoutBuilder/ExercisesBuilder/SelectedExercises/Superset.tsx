@@ -20,7 +20,7 @@ export default function Superset({
     selectedExercises,
     hookNewExerciseToSuperset,
     handleUnmergeSuperset
-  }: WorkoutContext = useWorkout()!;
+  }: WorkoutContext = useWorkout();
 
   const HookButton = ({ hookType }: { hookType: 'next' | 'prev' }) => {
     return (

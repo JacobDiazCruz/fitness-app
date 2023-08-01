@@ -9,7 +9,7 @@ export default function useVerifyUser() {
   const [userAccess, setUserAccess] = useState(null);
 
   /**
-   * @Purpose check token request
+   * @purpose check token request
    */
   const {
     isLoading,

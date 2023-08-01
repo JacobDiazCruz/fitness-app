@@ -30,8 +30,8 @@ export default function YourExercises({
   } = useQuery('exercises', listExercises);
 
   /**
-   * @Purpose Set the data based on searched exercise
-   * @Note 
+   * @purpose Set the data based on searched exercise
+   * @note 
    */
   useEffect(() => {
     const filteredExercise = initialExercises?.filter((exercise: Exercise) => {
@@ -50,8 +50,8 @@ export default function YourExercises({
   };
 
   /**
-   * @Purpose To handle click exercise event and set new data for exercisesList
-   * @Note For mobile use only since desktop views should be a dnd
+   * @purpose To handle click exercise event and set new data for exercisesList
+   * @note For mobile use only since desktop views should be a dnd
    */
   const clickExercise = (selectedExercise: Exercise) => {
     if (window?.innerWidth > 640) return;

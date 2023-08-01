@@ -1,5 +1,6 @@
 import Button from "@/components/global/Button";
 import Modal, { ModalFooter } from "@/components/global/Modal";
+import { IExercise } from "@/types/exercise";
 import { useState } from "react";
 import YourExercises from "../YourExercises";
 
@@ -28,9 +29,9 @@ export default function SelectExercisesModal({
           variant="contained"
           className="w-full"
           onClick={() => {
-            setSelectedExercises(prevSelectedExercises => {
-              const selected = initialSelectedExercises.filter(exercise => exercise.isSelected);
-              return [...prevSelectedExercises, ...selected];
+            setSelectedExercises((prev: IExercise[]) => {
+              const selected = initialSelectedExercises.filter((exercise: IExercise) => exercise.isSelected);
+              return [...prev, ...selected];
             });
             onClose();
           }}
