@@ -1,7 +1,7 @@
 import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
 import { ImageIcon, SmileyIcon } from "@/components/global/Icons";
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useMessageSender from "@/store/Message/useMessageSender";
 import { primaryTextColor } from "@/utils/themeColors";
 
 export default function MessageInputActions({

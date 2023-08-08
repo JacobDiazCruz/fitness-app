@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";

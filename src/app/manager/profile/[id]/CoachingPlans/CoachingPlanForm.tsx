@@ -3,7 +3,7 @@ import FieldName from "@/components/global/FieldName";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
 import TimeLengthField from "@/components/global/TimeLengthField";
-import useCoachingPlanForm from "@/contexts/CoachingPlan/useCoachingPlanForm";
+import useCoachingPlanForm from "@/store/CoachingPlan/useCoachingPlanForm";
 import { coachingServices } from "@/utils/coachingServices";
 import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TbCurrencyPeso } from "react-icons/tb";

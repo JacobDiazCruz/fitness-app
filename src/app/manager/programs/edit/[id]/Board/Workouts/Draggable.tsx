@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from "react";
-import useDraggableWorkout from "@/contexts/Program/useDraggableWorkout";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import useDraggableWorkout from "@/store/Program/useDraggableWorkout";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
 import { UseDraggableWorkoutContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
 import SelectedWorkout from "./SelectedWorkout";
 

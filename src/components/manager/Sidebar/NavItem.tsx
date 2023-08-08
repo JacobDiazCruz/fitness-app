@@ -1,5 +1,5 @@
-import { useSidebar } from '@/contexts/Sidebar/useSidebar';
-import useTheme from '@/contexts/Theme';
+import { useSidebar } from '@/store/Sidebar/useSidebar';
+import useTheme from '@/store/Theme';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface NavItemProps {

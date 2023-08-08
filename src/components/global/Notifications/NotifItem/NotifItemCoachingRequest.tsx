@@ -1,7 +1,7 @@
 import { addClient } from "@/api/Client";
 import { getProfile } from "@/api/Profile";
-import useAlert from "@/contexts/Alert";
-import useNotification from "@/contexts/Notification/useNotification";
+import useAlert from "@/store/Alert";
+import useNotification from "@/store/Notification/useNotification";
 import useGetTimeDiff from "@/hooks/useGetTimeDiff";
 import { borderColor, primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { useEffect, useState } from "react";
@@ -119,7 +119,7 @@ export default function NotifItemCoachingRequest({
         return <></>
     }
   };
-
+  
   return (
     <div className={`${borderColor} item border-b last:border-none flex p-5 gap-[15px] overflow-hidden`}>
       <div className="w-12 h-12 overflow-hidden rounded-full">

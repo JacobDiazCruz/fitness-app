@@ -9,9 +9,9 @@ import EditCoachingPlanModal from "./EditCoachingPlanModal";
 import AddCoachingPlanModal from "./AddCoachingPlanModal";
 import { useMutation, useQuery } from "react-query";
 import { deleteCoachingPlan, listCoachingPlans } from "@/api/CoachingPlan";
-import useCoachingPlan from "@/contexts/CoachingPlan/useCoachingPlan";
-import { CoachingPlanFormProvider } from "@/contexts/CoachingPlan/useCoachingPlanForm";
-import CoachingServiceContextProvider from "@/contexts/CoachingService";
+import useCoachingPlan from "@/store/CoachingPlan/useCoachingPlan";
+import { CoachingPlanFormProvider } from "@/store/CoachingPlan/useCoachingPlanForm";
+import CoachingServiceContextProvider from "@/store/CoachingService";
 
 export default function CoachingPlans() {
   const {

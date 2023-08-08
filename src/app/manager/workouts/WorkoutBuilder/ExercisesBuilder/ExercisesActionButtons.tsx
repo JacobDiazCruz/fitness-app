@@ -1,6 +1,6 @@
 import Button from "@/components/global/Button";
 import { CubeTransparentIcon, ViewFinderIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import { secondaryBgColor } from "@/utils/themeColors";
 import { WorkoutContext } from "@/utils/workoutTypes";
 

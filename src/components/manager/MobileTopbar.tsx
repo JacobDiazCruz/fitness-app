@@ -1,6 +1,6 @@
 'use client';
 
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 import { secondaryBgColor } from "@/utils/themeColors";
 import IconButton from "../global/IconButton";
 import { HamburgerIcon } from "../global/Icons";

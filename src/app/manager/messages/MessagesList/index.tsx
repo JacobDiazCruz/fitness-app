@@ -1,5 +1,5 @@
 import FileModal from "@/components/global/FileModal";
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Message } from "@/utils/types";
 

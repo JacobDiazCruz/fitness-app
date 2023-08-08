@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import {
   borderColor,
 } from "@/utils/themeColors";
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 import SidebarToggleButton from "./SidebarToggleButton";
 import SidebarBasicNavItems from "./SidebarBasicNavItems";
 import SidebarFitnessNavItems from "./SidebarFitnessNavItems";

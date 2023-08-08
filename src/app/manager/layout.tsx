@@ -3,14 +3,14 @@
 import Sidebar from "@/components/manager/Sidebar";
 import Alert from "@/components/global/Alert";
 import Providers from "@/utils/provider";
-import AppContextProvider from "@/contexts";
+import AppContextProvider from "@/store";
 import WelcomePopup from "./WelcomePopup";
 import MobileTopbar from "@/components/manager/MobileTopbar";
 import ThemeWrapper from "./ThemeWrapper";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import VerifyUser from "./VerifyUser";
-import MessageContextProvider from "@/contexts/Message";
-import SidebarProvider from "@/contexts/Sidebar/useSidebar";
+import MessageContextProvider from "@/store/Message";
+import SidebarProvider from "@/store/Sidebar/useSidebar";
 import Notifications from "@/components/global/Notifications";
 
 export default function ManagerLayout ({

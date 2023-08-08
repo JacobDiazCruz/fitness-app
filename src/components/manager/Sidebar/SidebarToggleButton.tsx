@@ -1,4 +1,4 @@
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 import { borderColor, primaryBgColor } from "@/utils/themeColors";
 
 export default function SidebarToggleButton() {

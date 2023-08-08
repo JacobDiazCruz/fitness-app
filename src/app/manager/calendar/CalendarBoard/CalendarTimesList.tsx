@@ -1,4 +1,4 @@
-import useCalendar from "@/contexts/Calendar/useCalendar";
+import useCalendar from "@/store/Calendar/useCalendar";
 import { borderColor, tertiaryTextColor } from "@/utils/themeColors";
 
 export default function CalendarTimesList() {

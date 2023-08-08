@@ -2,7 +2,7 @@ import Button from "@/components/global/Button";
 import { ModalContent, ModalFooter } from "@/components/global/Modal";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { useState } from "react";
 
 export default function TaskSchedule() {

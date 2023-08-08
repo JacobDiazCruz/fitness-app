@@ -1,4 +1,4 @@
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { borderColor, primaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
 import { useEffect, useState } from "react";

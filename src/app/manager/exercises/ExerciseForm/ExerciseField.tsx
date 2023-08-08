@@ -5,7 +5,7 @@ import TextField from "@/components/global/TextField";
 import Uploader from "@/components/global/Uploader";
 import VideoModal from "@/components/global/VideoModal";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
-import { useExercise } from "@/contexts/Exercise/useExercise";
+import { useExercise } from "@/store/Exercise/useExercise";
 import useVideoLinkCoverter from "@/hooks/useVideoLinkConverter";
 import { IExerciseFormField, IExerciseFormSection } from "@/types/exercise";
 

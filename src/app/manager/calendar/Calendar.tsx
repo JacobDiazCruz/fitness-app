@@ -7,8 +7,8 @@ import { borderColor, primaryTextColor } from "@/utils/themeColors";
 import CalendarHeader from "./CalendarHeader";
 import CalendarDate from "./CalendarBoard/CalendarDate";
 import CalendarBoard from "./CalendarBoard";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
-import useCalendar from "@/contexts/Calendar/useCalendar";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
+import useCalendar from "@/store/Calendar/useCalendar";
 import { CalendarScheduleType } from "@/utils/calendarTypes";
 import CalendarWorkoutDetailsModal from "./CalendarWorkoutDetailsModal";
 import CreateScheduleModal from "./CreateScheduleModal";
@@ -25,7 +25,7 @@ export default function Calendar() {
     calendarSchedules
   }: any = useCalendar();
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [weeklyCalendarSchedules, setWeeklyCalendarSchedules] = useState([]);
   
   // workout details

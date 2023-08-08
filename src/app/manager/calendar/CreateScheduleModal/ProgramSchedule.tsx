@@ -3,7 +3,7 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import DatePickerField from "@/components/global/DatePickerField";
 import { ModalContent, ModalFooter } from "@/components/global/Modal";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { DayTime } from "@/utils/calendarTypes";
 import { Program } from "@/utils/programTypes";
 import { fieldBgColor, secondaryTextColor } from "@/utils/themeColors";

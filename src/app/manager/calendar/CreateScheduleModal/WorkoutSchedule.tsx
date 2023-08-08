@@ -3,7 +3,7 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import DatePickerField from "@/components/global/DatePickerField";
 import { ModalContent, ModalFooter } from "@/components/global/Modal";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { DayTime } from "@/utils/calendarTypes";
 import { fieldBgColor, primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
@@ -20,6 +20,7 @@ export default function WorkoutSchedule() {
     formStartTime,
     formEndTime
   }: any = useCalendarScheduleBuilder();
+
 
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
@@ -59,7 +60,7 @@ export default function WorkoutSchedule() {
               )}
             </div>
           </div>
-          
+
           <DateAndTimeFields />
         </div>
       </ModalContent>

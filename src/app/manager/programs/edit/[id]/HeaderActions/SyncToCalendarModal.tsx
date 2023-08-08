@@ -4,7 +4,7 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import DatePickerField from "@/components/global/DatePickerField";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
 import { useParams } from "next/navigation";

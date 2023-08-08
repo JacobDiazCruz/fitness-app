@@ -1,6 +1,6 @@
 "use client";
 
-import CalendarContextProvider from "@/contexts/Calendar";
+import CalendarContextProvider from "@/store/Calendar";
 import Calendar from "./Calendar";
 
 export default function CalendarPage() {
@@ -9,4 +9,4 @@ export default function CalendarPage() {
       <Calendar />
     </CalendarContextProvider>
   );
-};
+}

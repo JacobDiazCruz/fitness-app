@@ -1,6 +1,6 @@
 import Button from "@/components/global/Button";
 import { DumbbellIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import { WorkoutContext } from "@/utils/workoutTypes";
 import { useState } from "react";
 import SelectExercisesModal from "./SelectExercisesModal";

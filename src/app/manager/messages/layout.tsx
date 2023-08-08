@@ -1,5 +1,5 @@
 import { primaryTextColor } from "@/utils/themeColors";
-import MessageContextProvider from "@/contexts/Message";
+import MessageContextProvider from "@/store/Message";
 import { ReactNode } from "react";
 
 export default function MessagesLayout({

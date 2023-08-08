@@ -1,4 +1,4 @@
-import useCalendarScheduleDisplay from "@/contexts/Calendar/useCalendarScheduleDisplay";
+import useCalendarScheduleDisplay from "@/store/Calendar/useCalendarScheduleDisplay";
 
 interface CalendarItemProps {
   calendarSchedule: any;

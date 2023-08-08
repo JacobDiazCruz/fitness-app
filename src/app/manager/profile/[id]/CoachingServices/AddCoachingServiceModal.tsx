@@ -1,6 +1,6 @@
 import Button from "@/components/global/Button";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
-import useCoachingServiceForm, { UseCoachingServiceForm } from "@/contexts/CoachingService/useCoachingServiceForm";
+import useCoachingServiceForm, { UseCoachingServiceForm } from "@/store/CoachingService/useCoachingServiceForm";
 import { Dispatch, SetStateAction } from "react";
 import CoachingServiceForm from "./CoachingServiceForm";
 

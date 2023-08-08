@@ -1,5 +1,5 @@
 import PermissionAccess from "@/components/global/PermissionAccess";
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 import NavItem from "./NavItem";
 
 export default function SidebarBasicNavItems() {

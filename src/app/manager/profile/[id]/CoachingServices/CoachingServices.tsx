@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import FormContainer from "../FormContainer";
 import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { CoachingService } from "@/utils/coachTypes";
-import useCoachingService from "@/contexts/CoachingService/useCoachingService";
+import useCoachingService from "@/store/CoachingService/useCoachingService";
 import AddCoachingServiceModal from "./AddCoachingServiceModal";
 
 export default function CoachingServices() {

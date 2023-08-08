@@ -1,6 +1,6 @@
 import { AddIcon } from "@/components/global/Icons";
 import Menu, { MenuItem, MenuItems } from "@/components/global/Menu";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
 import { UseProgramWorkoutsContext } from "@/utils/programTypes";
 import { primaryTextColor } from "@/utils/themeColors";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -22,6 +22,8 @@ export default function DayHeader({
   const params = useParams();
   const searchParams = useSearchParams();
   const weekId = searchParams.get("week");
+
+  const [, set] = useState();
 
   const {
     setShowAddWorkoutModal,
@@ -63,11 +65,13 @@ export default function DayHeader({
             }}>
               Add new workout
             </MenuItem>
-            <MenuItem onClick={() => {
-              setShowAddWorkoutModal?.(true);
-              setSelectedDayIndex?.(dayIndex);
-              setSelectedDayCount?.(dayCount);
-            }}>
+            <MenuItem 
+              onClick={() => {
+                setShowAddWorkoutModal?.(true);
+                setSelectedDayIndex?.(dayIndex);
+                setSelectedDayCount?.(dayCount);
+              }}
+            >
               Select workouts
             </MenuItem>
           </MenuItems>

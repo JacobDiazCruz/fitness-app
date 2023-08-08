@@ -8,13 +8,12 @@ import { Message } from "@/utils/types";
 import { useQuery } from "react-query";
 import { listMessages } from "@/api/Message";
 import { socket } from "@/utils/socket";
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 import ChatList from "../ChatList";
 import MessageInput from "../MessageInput";
 import MessagesList from "../MessagesList";
 
 export default function Messages() {
-  // hooks
   const params = useParams();
   const { chatBoxRef }: any = useChat();
   

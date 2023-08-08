@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Message } from "@/utils/types";
 import { getProfile } from "@/api/Profile";
 import { useQuery } from "react-query";
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useMessageSender from "@/store/Message/useMessageSender";
 import MessageInput from "../MessageInput";
 import MessagesList from "../MessagesList";
 import RecepientHeader from "../RecepientHeader";

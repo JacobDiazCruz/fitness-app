@@ -8,7 +8,7 @@ import CoachDetailsWrapper from "./CoachDetailsWrapper";
 import { getCoachingServices } from "@/api/CoachingService";
 import CheckoutModal from "./CheckoutModal";
 import { useEffect, useState } from "react";
-import useCoachingPlan from "@/contexts/CoachingPlan/useCoachingPlan";
+import useCoachingPlan from "@/store/CoachingPlan/useCoachingPlan";
 
 export default function CoachDetails() {
   const params = useParams();

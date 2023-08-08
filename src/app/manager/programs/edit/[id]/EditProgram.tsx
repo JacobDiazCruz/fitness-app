@@ -13,10 +13,10 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import IconButton from "@/components/global/IconButton";
 
 // context and hooks
-import useProgram from "@/contexts/Program/useProgram";
+import useProgram from "@/store/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 import Board from "./Board";
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 
 export default function EditProgram() {
   const params = useParams();

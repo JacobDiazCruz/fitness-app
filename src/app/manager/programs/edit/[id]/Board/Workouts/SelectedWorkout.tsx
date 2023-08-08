@@ -1,11 +1,11 @@
 import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 import { primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import PermissionAccess from "@/components/global/PermissionAccess";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
 import { UseProgramWorkoutsContext } from "@/utils/programTypes";
 import { useMutation } from "react-query";
 import { addProgramWorkouts } from "@/api/Program";
-import useProgram from "@/contexts/Program/useProgram";
+import useProgram from "@/store/Program/useProgram";
 
 interface Props {
   workout: any;

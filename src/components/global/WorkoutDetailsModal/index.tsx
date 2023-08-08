@@ -1,5 +1,5 @@
 import Modal from "@/components/global/Modal";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
 import { UseProgramWorkoutsContext } from "@/utils/programTypes";
 import SelectedExercisesList from "./SelectedExercisesList";
 

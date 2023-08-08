@@ -10,7 +10,7 @@ import { logoutUser } from "@/api/User";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import Link from "next/link";
 import Switch from "./Switch";
-import useTheme from "@/contexts/Theme";
+import useTheme from "@/store/Theme";
 import { secondaryBgColor } from "@/utils/themeColors";
 
 interface Props {

@@ -6,9 +6,9 @@ import { useMutation } from "react-query";
 import Header from "@/app/manager/Header";
 import ExerciseForm from "../../ExerciseForm";
 import { useQuery } from "react-query";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import { editExercise, uploadFiles, getExercise } from "@/api/Exercise";
-import { useExercise } from "@/contexts/Exercise/useExercise";
+import { useExercise } from "@/store/Exercise/useExercise";
 import { IExerciseFormField, IExerciseFormSection } from "@/types/exercise";
 
 export default function EditExercise() {

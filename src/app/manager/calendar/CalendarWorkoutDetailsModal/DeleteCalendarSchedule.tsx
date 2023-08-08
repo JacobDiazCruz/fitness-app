@@ -1,6 +1,6 @@
 import { deleteCalendarSchedule } from "@/api/Calendar";
 import IconButton from "@/components/global/IconButton";
-import useCalendar from "@/contexts/Calendar/useCalendar";
+import useCalendar from "@/store/Calendar/useCalendar";
 import { BsTrash } from "react-icons/bs";
 import { useMutation } from "react-query";
 

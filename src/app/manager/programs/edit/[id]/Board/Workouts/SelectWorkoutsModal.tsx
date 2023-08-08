@@ -12,9 +12,9 @@ import {
 import { useParams, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import { addProgramWorkouts } from "@/api/Program";
-import useProgram from "@/contexts/Program/useProgram";
+import useProgram from "@/store/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
 
 interface Props {
   onClose: () => void;

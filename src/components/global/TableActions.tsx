@@ -37,13 +37,15 @@ export default function TableActions({
           onChange={handleChange}
         />
       </div>
-      <Button
-        variant="contained"
-        startIcon={primaryBtnIcon}
-        onClick={() => router.push(primaryBtnPath)}
-      >
-        {primaryBtnContent}
-      </Button>
+      {primaryBtnContent && (
+        <Button
+          variant="contained"
+          startIcon={primaryBtnIcon}
+          onClick={() => router.push(primaryBtnPath)}
+        >
+          {primaryBtnContent}
+        </Button>
+      )}
     </div>
   );
 }

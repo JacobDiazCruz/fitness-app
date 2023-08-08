@@ -4,7 +4,7 @@ import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/com
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import CoachingPlanForm from "./CoachingPlanForm";
-import useCoachingPlanForm from "@/contexts/CoachingPlan/useCoachingPlanForm";
+import useCoachingPlanForm from "@/store/CoachingPlan/useCoachingPlanForm";
 
 interface Props {
   selectedPlanId: string;

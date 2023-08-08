@@ -3,7 +3,7 @@ import Button from "@/components/global/Button";
 import { AddIcon } from "@/components/global/Icons";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import TextField from "@/components/global/TextField";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import { CoachingService } from "@/utils/coachTypes";
 import { useParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

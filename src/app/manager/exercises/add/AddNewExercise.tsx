@@ -5,8 +5,8 @@ import { useMutation } from "react-query";
 import Header from "@/app/manager/Header";
 import { addExercise, uploadFiles } from "@/api/Exercise";
 import ExerciseForm from "../ExerciseForm";
-import useAlert from "@/contexts/Alert";
-import { useExercise } from "@/contexts/Exercise/useExercise";
+import useAlert from "@/store/Alert";
+import { useExercise } from "@/store/Exercise/useExercise";
 
 export default function AddNewExercise() {
   const router = useRouter();

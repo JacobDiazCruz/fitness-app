@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/global/Navbar";
 import Providers from "@/utils/provider";
-import AppContextProvider from "@/contexts";
+import AppContextProvider from "@/store";
 import DarkThemeLoader from "@/hooks/DarkThemeLoader";
 import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";

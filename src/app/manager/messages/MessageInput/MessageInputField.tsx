@@ -1,4 +1,4 @@
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useMessageSender from "@/store/Message/useMessageSender";
 import { fieldBgColor, primaryTextColor } from "@/utils/themeColors";
 
 interface Props {

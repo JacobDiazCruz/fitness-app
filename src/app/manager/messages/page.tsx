@@ -1,7 +1,7 @@
 'use client';
 
 import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 import { LuMessagesSquare } from "react-icons/lu";
 import ChatList from "./ChatList";
 

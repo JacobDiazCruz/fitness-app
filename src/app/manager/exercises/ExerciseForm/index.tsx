@@ -1,6 +1,6 @@
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
-import { useExercise } from "@/contexts/Exercise/useExercise";
+import { useExercise } from "@/store/Exercise/useExercise";
 import ExerciseField from "./ExerciseField";
 
 export default function ExerciseForm() {

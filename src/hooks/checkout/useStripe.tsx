@@ -1,6 +1,6 @@
 import { createStripeCheckoutSession, createStripeCustomer } from '@/api/Checkout';
 import { getProfile } from '@/api/Profile';
-import useAlert from '@/contexts/Alert';
+import useAlert from '@/store/Alert';
 import { ResponseError } from '@/utils/types';
 import { loadStripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from 'react-query';

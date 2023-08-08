@@ -4,6 +4,9 @@ import SidebarChatWrapper from "@/components/manager/Sidebar/SidebarChatWrapper"
 import { BsCalendarWeek } from "react-icons/bs";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { LuDumbbell } from "react-icons/lu";
+import { FiShoppingBag } from "react-icons/fi";
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+
 interface NavItem {
   icon: React.JSX.Element; 
   name: string; 
@@ -44,6 +47,12 @@ export default function SidebarProvider ({
     },
     {
       icon: <ShoppingBagIcon className="w-6 h-6 text-gray-400" />,
+      name: "Orders",
+      path: "/manager/orders",
+      roleAccess: "Client"
+    },
+    {
+      icon: <LiaChalkboardTeacherSolid className="w-6 h-6 text-gray-400" />,
       name: "Coaches",
       path: "/manager/coaches",
       roleAccess: "All"

@@ -15,10 +15,10 @@ import EditAccountDetailsModal from "./EditAccountDetailsModal";
 import ProfileGallery from "./ProfileGallery";
 import ProfilePortfolio from "./ProfilePortfolio";
 import CoachingPlans from "./CoachingPlans/CoachingPlans";
-import CoachingPlanContextProvider from "@/contexts/CoachingPlan";
+import CoachingPlanContextProvider from "@/store/CoachingPlan";
 import CoachingServices from "./CoachingServices/CoachingServices";
-import CoachingServiceContextProvider from "@/contexts/CoachingService";
-import { CoachingPlanProvider } from "@/contexts/CoachingPlan/useCoachingPlan";
+import CoachingServiceContextProvider from "@/store/CoachingService";
+import { CoachingPlanProvider } from "@/store/CoachingPlan/useCoachingPlan";
 import AddCoachingServiceModal from "./CoachingServices/AddCoachingServiceModal";
 export interface Form {
   profileImage: string | null;

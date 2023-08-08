@@ -4,7 +4,7 @@ import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/com
 import PhoneInputField from "@/components/global/PhoneInputField";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Form } from "./page";

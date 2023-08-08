@@ -1,4 +1,4 @@
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import React, { useState, useRef, useEffect, MutableRefObject } from "react";
 import { MdAdd, MdArrowDropDown } from "react-icons/md";
 import { createScheduleList } from "../CreateScheduleModal";

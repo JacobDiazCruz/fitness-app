@@ -1,6 +1,6 @@
 'use client';
 
-import AppContextProvider from "@/contexts";
+import AppContextProvider from "@/store";
 import Providers from "@/utils/provider";
 
 export default function SignupLayout({

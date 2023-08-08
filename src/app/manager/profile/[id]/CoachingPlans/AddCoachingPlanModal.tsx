@@ -1,6 +1,6 @@
 import Button from "@/components/global/Button";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
-import useCoachingPlanForm from "@/contexts/CoachingPlan/useCoachingPlanForm";
+import useCoachingPlanForm from "@/store/CoachingPlan/useCoachingPlanForm";
 import CoachingPlanForm from "./CoachingPlanForm";
 interface Props {
   onClose: () => void;

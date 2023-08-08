@@ -9,7 +9,7 @@ import DatePickerField from "@/components/global/DatePickerField";
 import AutoComplete from "@/components/global/AutoComplete";
 import { assignProgramToClient } from "@/api/Program";
 import { useParams } from "next/navigation";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 
 export default function AssignClientModal({ onClose }: any) {
   const params = useParams();

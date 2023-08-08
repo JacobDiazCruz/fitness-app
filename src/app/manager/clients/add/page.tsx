@@ -7,7 +7,7 @@ import { useMutation } from "react-query";
 import { addClient } from "@/api/Client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import FieldName from "@/components/global/FieldName";
 import PhoneInputField from "@/components/global/PhoneInputField";
 

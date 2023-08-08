@@ -1,4 +1,4 @@
-import useNotification from "@/contexts/Notification/useNotification";
+import useNotification from "@/store/Notification/useNotification";
 import { borderColor, primaryBgColor, primaryTextColor, secondaryBgColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { MdClose } from "react-icons/md";
 import IconButton from "../IconButton";

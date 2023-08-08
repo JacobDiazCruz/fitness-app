@@ -1,5 +1,5 @@
 import { addCoachingPlan, editCoachingPlan } from "@/api/CoachingPlan";
-import useCoachingService from "@/contexts/CoachingService/useCoachingService";
+import useCoachingService from "@/store/CoachingService/useCoachingService";
 import Big from "big.js";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";

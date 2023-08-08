@@ -1,5 +1,5 @@
 import { ReactNode, } from "react";
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useMessageSender from "@/store/Message/useMessageSender";
 import { primaryBgColor } from "@/utils/themeColors";
 
 // child components

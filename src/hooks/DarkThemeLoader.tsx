@@ -1,6 +1,6 @@
 'use client';
 
-import useTheme from "@/contexts/Theme";
+import useTheme from "@/store/Theme";
 import { useEffect } from "react";
 
 export default function DarkThemeLoader() {

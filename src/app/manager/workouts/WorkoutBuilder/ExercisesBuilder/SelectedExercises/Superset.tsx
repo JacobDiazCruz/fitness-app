@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Button from "@/components/global/Button";
 import { CubeTransparentIcon, HookIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import IconButton from "@/components/global/IconButton";
 import { WorkoutContext } from "@/utils/workoutTypes";
 import Tooltip from "@/components/global/Tooltip";

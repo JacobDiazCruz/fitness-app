@@ -1,5 +1,5 @@
 import { ChatIcon } from "@/components/global/Icons";
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 
 export default function SidebarChatWrapper() {
   const { chatNotifData }: any = useChat();

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { UseDraggableWorkoutContext } from "@/utils/programTypes";
 import DayHeader from "./DayHeader";
-import useDraggableWorkout from "@/contexts/Program/useDraggableWorkout";
+import useDraggableWorkout from "@/store/Program/useDraggableWorkout";
 
 interface Props {
   dayIndex: number;

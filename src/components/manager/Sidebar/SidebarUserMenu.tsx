@@ -1,5 +1,5 @@
 import UserMenu from "@/components/global/UserMenu";
-import { useSidebar } from "@/contexts/Sidebar/useSidebar";
+import { useSidebar } from "@/store/Sidebar/useSidebar";
 import { borderColor } from "@/utils/themeColors";
 
 export default function SidebarUserMenu() {

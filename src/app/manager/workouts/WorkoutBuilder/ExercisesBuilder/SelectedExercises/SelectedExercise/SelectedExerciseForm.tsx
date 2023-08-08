@@ -3,7 +3,7 @@ import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
 import { AddIcon } from "@/components/global/Icons";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import { IExercise } from "@/types/exercise";
 
 interface SelectedExerciseFormProps {

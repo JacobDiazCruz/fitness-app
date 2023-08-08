@@ -1,15 +1,10 @@
-'use client'
-
-// modals
 import SelectWorkoutsModal from "./Workouts/SelectWorkoutsModal";
 
-// child components
 import DayContainer from "./Day/DayContainer";
 import Draggable from "./Workouts/Draggable";
 
-// context and hooks
-import useProgramWorkouts from "@/contexts/Program/useProgramWorkouts";
-import useProgram from "@/contexts/Program/useProgram";
+import useProgramWorkouts from "@/store/Program/useProgramWorkouts";
+import useProgram from "@/store/Program/useProgram";
 import { UseProgramContext, UseProgramWorkoutsContext } from "@/utils/programTypes";
 import WorkoutDetailsModal from "@/components/global/WorkoutDetailsModal";
 

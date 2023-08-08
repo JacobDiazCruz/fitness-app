@@ -1,5 +1,5 @@
 import IconButton from "@/components/global/IconButton";
-import useNotification from "@/contexts/Notification/useNotification";
+import useNotification from "@/store/Notification/useNotification";
 import { borderColor } from "@/utils/themeColors";
 import { BsBell } from "react-icons/bs";
 

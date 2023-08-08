@@ -1,7 +1,7 @@
 'use client';
 
-import { ProgramProvider } from "@/contexts/Program/useProgram";
-import { WorkoutProvider } from "@/contexts/Workout/useWorkout";
+import { ProgramProvider } from "@/store/Program/useProgram";
+import { WorkoutProvider } from "@/store/Workout/useWorkout";
 import AddNewWorkout from "./AddNewWorkout";
 
 export default function AddNewWorkoutPage() {

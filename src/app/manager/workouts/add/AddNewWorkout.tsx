@@ -4,12 +4,12 @@ import { useState } from "react";
 import Header from "../../Header";
 import { addWorkout } from "@/api/Workout";
 import { useMutation } from "react-query";
-import useAlert from "@/contexts/Alert";
+import useAlert from "@/store/Alert";
 import { useRouter } from "next/navigation";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 import WorkoutBuilder from "../WorkoutBuilder";
 import { WorkoutContext } from "@/utils/workoutTypes";
-import useAddProgramWorkout from "@/contexts/Workout/useAddProgramWorkout";
+import useAddProgramWorkout from "@/store/Workout/useAddProgramWorkout";
 
 export default function AddNewWorkout() {
   const router = useRouter();

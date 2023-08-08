@@ -1,5 +1,5 @@
 import { CloseIcon, PlayIcon } from "@/components/global/Icons";
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useMessageSender from "@/store/Message/useMessageSender";
 import { borderColor, primaryBgColor } from "@/utils/themeColors";
 import Image from "next/image";
 

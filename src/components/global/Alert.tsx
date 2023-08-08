@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckIcon, CloseIcon } from "./Icons";
-import useAlert from "@/contexts/Alert";import { useEffect } from "react";
+import useAlert from "@/store/Alert";import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 ;
 

@@ -3,7 +3,7 @@ import Button from "@/components/global/Button";
 import EventSchedule from "./EventSchedule";
 import ProgramSchedule from "./ProgramSchedule";
 import WorkoutSchedule from "./WorkoutSchedule";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import TaskSchedule from "./TaskSchedule";
 
 type CreateScheduleItem = {

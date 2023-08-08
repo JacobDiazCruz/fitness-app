@@ -8,7 +8,7 @@ import { addProgram } from "@/api/Program";
 import { useMutation } from "react-query";
 import FieldName from "@/components/global/FieldName";
 import Container from "@/components/global/Container";
-import useProgram from "@/contexts/Program/useProgram";
+import useProgram from "@/store/Program/useProgram";
 import { UseProgramContext } from "@/utils/programTypes";
 
 export default function AddNewProgram() {

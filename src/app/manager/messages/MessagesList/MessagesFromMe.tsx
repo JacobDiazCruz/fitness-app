@@ -1,5 +1,5 @@
-import useChat from "@/contexts/Message/useChat";
-import useMessageSender from "@/contexts/Message/useMessageSender";
+import useChat from "@/store/Message/useChat";
+import useMessageSender from "@/store/Message/useMessageSender";
 import { Message } from "@/utils/types";
 import FilesDisplay from "../FilesDisplay";
 

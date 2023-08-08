@@ -1,7 +1,7 @@
 'use client';
 
 import { borderColor, primaryBgColor } from "@/utils/themeColors";
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 import ChatListItem from "./ChatListItem";
 import ChatListEmpty from "./ChatListEmpty";
 import useLocalStorage from "@/hooks/useLocalStorage";

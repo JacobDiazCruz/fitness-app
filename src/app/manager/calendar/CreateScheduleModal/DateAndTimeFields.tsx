@@ -1,6 +1,6 @@
 import AutoComplete from "@/components/global/AutoComplete";
 import DatePickerField from "@/components/global/DatePickerField";
-import useCalendarScheduleBuilder from "@/contexts/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
 

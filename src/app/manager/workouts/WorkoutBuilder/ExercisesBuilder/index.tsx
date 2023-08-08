@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode } from "react";
-import useWorkout from "@/contexts/Workout/useWorkout";
+import useWorkout from "@/store/Workout/useWorkout";
 
 import SelectedExercises from "./SelectedExercises";
 import ExercisesMobileSelection from "./ExercisesMobileSelection";

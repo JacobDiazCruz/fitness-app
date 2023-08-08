@@ -1,4 +1,4 @@
-import useChat from "@/contexts/Message/useChat";
+import useChat from "@/store/Message/useChat";
 import Image from "next/image";
 import FilesDisplay from "../FilesDisplay";
 

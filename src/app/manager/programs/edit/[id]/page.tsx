@@ -1,6 +1,6 @@
 'use client';
 
-import ProgramContextProvider from "@/contexts/Program";
+import ProgramContextProvider from "@/store/Program";
 import EditProgram from "./EditProgram";
 
 export default function EditProgramPage() {
@@ -9,4 +9,4 @@ export default function EditProgramPage() {
       <EditProgram />
     </ProgramContextProvider>
   );
-};
+}
