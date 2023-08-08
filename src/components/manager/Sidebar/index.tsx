@@ -1,4 +1,3 @@
-import SidebarSessionDetails from "./SidebarSessionDetails";
 import SidebarWrapper from "./SidebarWrapper";
 
 export default function Sidebar() {

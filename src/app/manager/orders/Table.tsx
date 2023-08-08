@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { AddIcon } from "@/components/global/Icons";
 import TableActions from "@/components/global/TableActions";
 import TableItem from "./TableItem";
 import { useQuery } from "react-query";
 import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
 import TableNoResults from "@/components/global/TableNoResults";
-import { listClients } from "@/api/Client";
 import { listOrders } from "@/api/Order";
 
 const TableColumnHeaders = () => {

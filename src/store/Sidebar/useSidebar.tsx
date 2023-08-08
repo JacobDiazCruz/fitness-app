@@ -40,12 +40,6 @@ export default function SidebarProvider ({
       roleAccess: "Coach"
     },
     {
-      icon: <SidebarChatWrapper />,
-      name: "Messages",
-      path: "/manager/messages",
-      roleAccess: "All"
-    },
-    {
       icon: <ShoppingBagIcon className="w-6 h-6 text-gray-400" />,
       name: "Orders",
       path: "/manager/orders",
