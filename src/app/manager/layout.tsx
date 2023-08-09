@@ -12,6 +12,7 @@ import VerifyUser from "./VerifyUser";
 import MessageContextProvider from "@/store/Message";
 import SidebarProvider from "@/store/Sidebar/useSidebar";
 import Notifications from "@/components/global/Notifications";
+import WorkoutTodayAlert from "@/components/global/WorkoutTodayAlert";
 
 export default function ManagerLayout ({
   children
@@ -32,6 +33,7 @@ export default function ManagerLayout ({
               <Notifications />
               <WelcomePopup />
               <Alert />
+              <WorkoutTodayAlert />
               <ThemeWrapper>
                 {children}
               </ThemeWrapper>
