@@ -1,5 +1,5 @@
 export default function usePrimaryFocusColor() {
-  const handlePrimaryFocusColor = (primaryFocus) => {
+  const handlePrimaryFocusColor = (primaryFocus: string) => {
     const collection = {
       "Abs": "dark:bg-green-50 dark:border dark:border-style dark:border-green-300 dark:text-green-300 bg-green-100 text-green-900",
       "Biceps": "dark:bg-green-950 dark:border dark:border-style dark:border-green-300 dark:text-green-300 bg-green-100 text-green-900",
