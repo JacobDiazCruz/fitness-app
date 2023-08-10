@@ -4,16 +4,17 @@ import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import Button from "@/components/global/Button";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
-import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BsLink } from "react-icons/bs";
 import { useQuery } from "react-query";
 
 export default function Workout() {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
 
   const [exercises, setExercises] = useState<IExercise[]>([]);
-  const [currentExercise, setCurrentExercise] = useState<IExercise>(
+  const [currentExercise, setCurrentExercise] = useState<any>(
     // @ts-ignore
     null
   );
@@ -37,7 +38,10 @@ export default function Workout() {
   useEffect(() => {
     if(workout) {
       setExercises(workout.workoutDetails.exercises);
-      setCurrentExercise(workout.workoutDetails.exercises[0]);
+      setCurrentExercise({
+        ...workout.workoutDetails.exercises[0],
+        status: "INACTIVE"
+      });
     }
   }, [workout]);
 
@@ -51,13 +55,20 @@ export default function Workout() {
       const videoIdMatch = url.match(youtubeRegex);
       if (videoIdMatch && videoIdMatch[4]) {
         const videoId = videoIdMatch[4];
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        return `https://www.youtube.com/embed/IlvKxjApbso?autoplay=1`;
       }
     }
     return '';
   };
 
   const embeddedLink = getEmbeddedLink(currentExercise?.videoLink);
+
+  const startNow = () => {
+    setCurrentExercise((prev: any) => ({
+      ...prev,
+      status: "ACTIVE"
+    }));
+  };
 
   return (
     <div className={`interactive-workout-page`}>
@@ -105,38 +116,90 @@ export default function Workout() {
           <div className="title mb-2">
             <div className={`${tertiaryTextColor} text-[13px]`}>Chest Workout</div>
           </div>
-          {exercises.map((exercise: IExercise, index: number) => (
-            <div 
-              key={index} 
-              className={`p-2 w-full border mb-2 rounded-lg ${exercise._id === currentExercise?._id ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
-              onClick={() => {
-                setCurrentExercise(exercise);
-              }}
-            >
-              <div className={`${secondaryTextColor} text-[13px]`}>
-                {exercise.name}
-              </div>
-              <div className={`${handlePrimaryFocusColor(exercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
-                {exercise.primaryFocus}
-              </div>
-            </div>
-          ))}
+          {exercises.map((exercise: IExercise, index: number) => {
+            if(exercise.supersetExercises?.length) {
+              return (
+                <div className="my-3">
+                  {exercise.supersetExercises.map((supersetExercise: any, supersetIndex: number) => (
+                    <div 
+                      key={supersetIndex}
+                      className={`p-2 w-full border relative rounded-lg ${exercise._id === currentExercise?._id ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                      onClick={() => {
+                        setCurrentExercise(exercise);
+                      }}
+                    >
+                      <div className={`${secondaryTextColor} text-[13px]`}>
+                        {supersetExercise.name}
+                      </div>
+                      <div className={`${handlePrimaryFocusColor(supersetExercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
+                        {supersetExercise.primaryFocus}
+                      </div>
+                      {exercise.supersetExercises.length - 1 !== supersetIndex && (
+                        <div className="absolute flex items-center w-full">
+                          <div className="m-auto">
+                            <BsLink className={`w-5 h-5 ${secondaryTextColor}`}/>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            } else {
+              return (
+                <div 
+                  key={index} 
+                  className={`p-2 w-full border mb-3 rounded-lg ${exercise._id === currentExercise?._id ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                  onClick={() => {
+                    setCurrentExercise(exercise);
+                  }}
+                >
+                  <div className={`${secondaryTextColor} text-[13px]`}>
+                    {exercise.name}
+                  </div>
+                  <div className={`${handlePrimaryFocusColor(exercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
+                    {exercise.primaryFocus}
+                  </div>
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
 
       <div className={`actionbar border-t w-full ${borderColor} bg-[#131313] m-auto fixed bottom-0 md:left-0 md:right-0`}>
         <div className="flex items-center justify-between px-5 py-3 h-full">
+          <div className={`sets flex gap-[40px] w-fit`}>
+              <div>
+                <div className={`${secondaryTextColor} text-[14px]`}>Sets</div>
+                <div className={`${tertiaryTextColor} text-[14px]`}>1</div>
+              </div>
+              <div>
+                <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
+                <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
+              </div>
+              <div>
+                <div className={`${secondaryTextColor} text-[14px]`}>Rest</div>
+                <div className={`${tertiaryTextColor} text-[14px]`}>00:00</div>
+               </div>
+            </div>
           <div className="col-1">
             <div className={`text-neutral-400 text-[12px]`}>
-              Next workout:
+              Next exercise:
             </div>
             <div className={`text-neutral-200 text-[14px] md:text-[16px]`}>
               Incline Bench Press
             </div>
           </div>
-          <Button variant="contained">
-            Start 1st set
-          </Button>
+          {currentExercise?.status === "INACTIVE" ? (
+            <Button variant="contained" onClick={startNow}>
+              Start now
+            </Button>
+          ) : currentExercise?.status === "ACTIVE" && (
+            <Button variant="success" className="bg-green-500">
+              Done
+            </Button>
+          )}
         </div>
       </div>
     </div>
