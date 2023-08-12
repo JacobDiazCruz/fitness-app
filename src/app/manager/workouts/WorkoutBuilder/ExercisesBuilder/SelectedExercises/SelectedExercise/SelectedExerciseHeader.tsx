@@ -1,10 +1,12 @@
 import IconButton from "@/components/global/IconButton";
-import { TrashIcon } from "@/components/global/Icons";
 import VideoThumbnail from "@/components/global/VideoThumbnail";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
 import { IExercise } from "@/types/exercise";
-import { borderColor } from "@/utils/themeColors";
+import { borderColor, secondaryTextColor } from "@/utils/themeColors";
+import { useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function SelectedExerciseHeader({
   exercise,
@@ -22,11 +24,14 @@ export default function SelectedExerciseHeader({
   } = exercise;
 
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const settingsRef: any = useOutsideClick(() => setIsDropdownOpen(false));
+  
   const {
     handleRemoveExercise,
     handleCheck
   } = useExercisesDragController();
+
 
   return (
     <div className={`${borderColor} py-5 md:py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-auto md:h-[55px] flex justify-between items-center`}>
@@ -53,9 +58,32 @@ export default function SelectedExerciseHeader({
           </div> 
         </div>
       </div>
-      <IconButton onClick={() => handleRemoveExercise(secondaryId)}>
-        <TrashIcon className="w-5 h-5 dark:text-white text-neutral-800" />
-      </IconButton>
+
+      {/* Settings Icon and Menu */}
+      <div ref={settingsRef} className="flex items-center cursor-pointer">
+        <IconButton
+          onClick={() => setIsDropdownOpen(prev => !prev)}
+          className="text-left"
+        >
+          <BsThreeDotsVertical className={`${secondaryTextColor} w-5 h-5`} />
+        </IconButton>
+        {isDropdownOpen && (
+          <div className="dropdown bg-white dark:bg-darkTheme-950 dark:border dark:border-neutral-800 dark:-style w-[150px] ml-[-140px] absolute z-[999] mt-[150px] shadow-md rounded-md">
+            <ul className="py-2 text-sm text-gray-700 dark:text-neutral-50" aria-labelledby="dropdownDefaultButton">
+              <li>
+                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
+                  Edit fields
+                </div>
+              </li>
+              <li onClick={() => handleRemoveExercise(secondaryId)}>
+                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
+                  Delete
+                </div>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

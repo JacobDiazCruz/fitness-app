@@ -23,8 +23,6 @@ export default function DayHeader({
   const searchParams = useSearchParams();
   const weekId = searchParams.get("week");
 
-  const [, set] = useState();
-
   const {
     setShowAddWorkoutModal,
     setSelectedDayIndex,

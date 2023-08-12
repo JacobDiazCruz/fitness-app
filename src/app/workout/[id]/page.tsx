@@ -19,6 +19,11 @@ export default function Workout() {
     // @ts-ignore
     null
   );
+  const [currentExerciseSet, setCurrentExerciseSet] = useState<any>(
+    // @ts-ignore
+    null
+  );
+  const [primaryButtonValue, setPrimaryButtonValue] = useState<string>("Start 1st set");
 
   const { 
     data: workout,
@@ -35,20 +40,17 @@ export default function Workout() {
       enabled: true
     }
   );
-  
+
   useEffect(() => {
     if(workout) {
       setExercises(workout.workoutDetails.exercises);
-      setCurrentExercise({
-        ...workout.workoutDetails.exercises[0],
-        status: "INACTIVE"
+      setCurrentExercise(workout.workoutDetails.exercises[0]);
+      setCurrentExerciseSet({
+        ...workout.workoutDetails.exercises[0].sets[0],
+        setIndex: 0
       });
     }
   }, [workout]);
-
-  if(isLoading) {
-    return <></>;
-  }
 
   const getEmbeddedLink = (url: string) => {
     const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch\/([^?/#&]+)/;
@@ -56,7 +58,7 @@ export default function Workout() {
       const videoIdMatch = url.match(youtubeRegex);
       if (videoIdMatch && videoIdMatch[4]) {
         const videoId = videoIdMatch[4];
-        return `https://www.youtube.com/embed/IlvKxjApbso?autoplay=1`;
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
       }
     }
     return '';
@@ -64,12 +66,64 @@ export default function Workout() {
 
   const embeddedLink = getEmbeddedLink(currentExercise?.videoLink);
 
-  const startNow = () => {
-    setCurrentExercise((prev: any) => ({
-      ...prev,
-      status: "ACTIVE"
-    }));
+  // tech spec for the primary action:
+  // create a switch case to handle the status of an exercise's set
+  // if the user clicks "End exercise" after an exercise set is done, update its set status to done.
+  // then proceed to the next set.
+  // if all the sets of a certain exercise is already done. Proceed with the next exercise
+  // repeat
+  const handleClickPrimaryAction = () => {
+    switch(currentExerciseSet.status) {
+      case "PENDING":
+        setCurrentExerciseSet((prev: any) => ({
+          ...prev,
+          status: "ONGOING"
+        }));
+        setPrimaryButtonValue("End set");
+        handleUpdateExercises("ONGOING");
+        return;
+      case "ONGOING":
+        setCurrentExerciseSet((prev: any) => ({
+          ...prev,
+          status: "DONE"
+        }));
+        setPrimaryButtonValue("Start next set");
+        handleUpdateExercises("DONE");
+        return;
+      case "DONE":
+        setCurrentExerciseSet(currentExercise.sets[currentExerciseSet.setIndex + 1])
+        return;
+      default:
+        return;
+    };
   };
+
+  const handleUpdateExercises = (status: string) => {
+    const updatedExercises = exercises.map((exercise: any) => {
+      if (exercise._id === currentExercise._id) {
+        return {
+          ...exercise,
+          sets: exercise.sets.map((set: any, index: number) => {
+            if (index === currentExerciseSet.setIndex) {
+              return {
+                ...set,
+                status
+              };
+            }
+            return set;
+          })
+        };
+      }
+      return exercise;
+    });
+
+    console.log("updatedExercises", updatedExercises)   
+    setExercises(updatedExercises);
+  };
+
+  if(isLoading) {
+    return <></>;
+  }
 
   return (
     <div className={`interactive-workout-page bg-[#FFF] dark:bg-[#000] min-h-[100vh]`}>
@@ -192,15 +246,9 @@ export default function Workout() {
               <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
             </div>
           </div>
-          {currentExercise?.status === "INACTIVE" ? (
-            <Button variant="contained" onClick={startNow}>
-              Start now
-            </Button>
-          ) : currentExercise?.status === "ACTIVE" && (
-            <Button variant="success" className="bg-green-500">
-              Done
-            </Button>
-          )}
+          <Button variant="contained" onClick={handleClickPrimaryAction}>
+            {primaryButtonValue}
+          </Button>
         </div>
       </div>
     </div>

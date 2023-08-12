@@ -13,7 +13,8 @@ const WorkoutContext = createContext<IUseWorkout>(
 export const initialSet = {
   setType: "",
   reps: null,
-  rest: "00:00"
+  rest: "00:00",
+  status: "PENDING"
 };
 
 export const WorkoutProvider = ({ children }: IChildProps) => {

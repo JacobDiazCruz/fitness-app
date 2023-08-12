@@ -7,7 +7,7 @@ interface MenuItemsProps {
 
 interface MenuItemProps {
   children: ReactNode;
-  onClick: any;
+  onClick?: any;
 };
 
 interface MenuProps {
