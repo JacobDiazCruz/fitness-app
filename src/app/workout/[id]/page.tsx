@@ -4,6 +4,7 @@ import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import Button from "@/components/global/Button";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
+import { getOrdinalSuffix } from "@/utils/getOrdinalSuffix";
 import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -23,7 +24,7 @@ export default function Workout() {
     // @ts-ignore
     null
   );
-  const [primaryButtonValue, setPrimaryButtonValue] = useState<string>("Start 1st set");
+  const [primaryButtonValue, setPrimaryButtonValue] = useState<string>("Start now");
 
   const { 
     data: workout,
@@ -44,10 +45,13 @@ export default function Workout() {
   useEffect(() => {
     if(workout) {
       setExercises(workout.workoutDetails.exercises);
-      setCurrentExercise(workout.workoutDetails.exercises[0]);
+      setCurrentExercise({
+        ...workout.workoutDetails.exercises[0],
+        index: 0
+      });
       setCurrentExerciseSet({
         ...workout.workoutDetails.exercises[0].sets[0],
-        setIndex: 0
+        index: 0
       });
     }
   }, [workout]);
@@ -73,38 +77,65 @@ export default function Workout() {
   // if all the sets of a certain exercise is already done. Proceed with the next exercise
   // repeat
   const handleClickPrimaryAction = () => {
-    switch(currentExerciseSet.status) {
-      case "PENDING":
-        setCurrentExerciseSet((prev: any) => ({
-          ...prev,
-          status: "ONGOING"
-        }));
-        setPrimaryButtonValue("End set");
-        handleUpdateExercises("ONGOING");
-        return;
-      case "ONGOING":
-        setCurrentExerciseSet((prev: any) => ({
-          ...prev,
-          status: "DONE"
-        }));
-        setPrimaryButtonValue("Start next set");
-        handleUpdateExercises("DONE");
-        return;
-      case "DONE":
-        setCurrentExerciseSet(currentExercise.sets[currentExerciseSet.setIndex + 1])
-        return;
-      default:
-        return;
-    };
+    console.log("currentExerciseSet", currentExerciseSet)
+    if(currentExerciseSet.reps) {
+      switch(currentExerciseSet.status) {
+        case "PENDING":
+          setCurrentExerciseSet((prev: any) => ({
+            ...prev,
+            status: "ONGOING"
+          }));
+          setPrimaryButtonValue("End set");
+          handleUpdateExercises("ONGOING");
+          return;
+        case "ONGOING":
+          console.log("HERE ONGOING")
+          setCurrentExerciseSet((prev: any) => ({
+            ...prev,
+            status: "DONE"
+          }));
+          handleUpdateExercises("DONE");
+          setPrimaryButtonValue(`Start now`);
+          
+          if(exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
+            setCurrentExerciseSet((prev: any) => {
+              return {
+                ...currentExercise.sets[prev.index + 1],
+                index: prev.index + 1
+              }
+            });
+          } else {
+            setCurrentExercise((prev: any) => {
+              return {
+                ...exercises[prev.index + 1],
+                index: prev.index + 1
+              }
+            });
+            setCurrentExerciseSet((prev: any) => {
+              return {
+                ...exercises[currentExercise.index].sets[prev.index],
+                status: "PENDING",
+                index: 0
+              }
+            });
+          }
+
+          return;
+        case "DONE":
+          return;
+        default:
+          return;
+      };
+    }
   };
 
   const handleUpdateExercises = (status: string) => {
     const updatedExercises = exercises.map((exercise: any) => {
-      if (exercise._id === currentExercise._id) {
+      if (exercise.secondaryId === currentExercise.secondaryId) {
         return {
           ...exercise,
           sets: exercise.sets.map((set: any, index: number) => {
-            if (index === currentExerciseSet.setIndex) {
+            if (index === currentExerciseSet.index) {
               return {
                 ...set,
                 status
@@ -179,10 +210,10 @@ export default function Workout() {
             if(exercise.supersetExercises?.length) {
               return (
                 <div className="my-3">
-                  {exercise.supersetExercises.map((supersetExercise: any, supersetIndex: number) => (
+                  {exercise.supersetExercises.map((supersetExercise: any, superindex: number) => (
                     <div 
-                      key={supersetIndex}
-                      className={`p-2 w-full border relative rounded-lg ${exercise._id === currentExercise?._id ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                      key={superindex}
+                      className={`p-2 w-full border relative rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
                       onClick={() => {
                         setCurrentExercise(exercise);
                       }}
@@ -193,7 +224,7 @@ export default function Workout() {
                       <div className={`${handlePrimaryFocusColor(supersetExercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
                         {supersetExercise.primaryFocus}
                       </div>
-                      {exercise.supersetExercises.length - 1 !== supersetIndex && (
+                      {exercise.supersetExercises.length - 1 !== superindex && (
                         <div className="absolute flex items-center w-full">
                           <div className="m-auto">
                             <BsLink className={`w-5 h-5 ${secondaryTextColor}`}/>
@@ -208,7 +239,7 @@ export default function Workout() {
               return (
                 <div 
                   key={index} 
-                  className={`p-2 w-full border mb-3 rounded-lg ${exercise._id === currentExercise?._id ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                  className={`p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
                   onClick={() => {
                     setCurrentExercise(exercise);
                   }}
@@ -233,13 +264,13 @@ export default function Workout() {
               exercise:
             </div>
             <div className={`text-neutral-200 text-[14px] md:text-[16px]`}>
-              Incline Bench Press
+              {currentExercise?.name}
             </div>
           </div>
           <div className={`sets flex gap-[40px] w-fit`}>
             <div>
               <div className={`${secondaryTextColor} text-[14px]`}>Set</div>
-              <div className={`${tertiaryTextColor} text-[14px]`}>1st</div>
+              <div className={`${tertiaryTextColor} text-[14px]`}>{currentExerciseSet?.index + 1}</div>
             </div>
             <div>
               <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
