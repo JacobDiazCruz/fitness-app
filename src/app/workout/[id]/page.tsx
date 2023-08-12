@@ -4,9 +4,10 @@ import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import Button from "@/components/global/Button";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
-import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
 import { useQuery } from "react-query";
 
@@ -71,9 +72,13 @@ export default function Workout() {
   };
 
   return (
-    <div className={`interactive-workout-page`}>
-      <div className="body w-full h-[80vh] mx-auto flex md:flex-row flex-col">
+    <div className={`interactive-workout-page bg-[#FFF] dark:bg-[#000] min-h-[100vh]`}>
+      <div className="body w-full h-[83vh] mx-auto flex md:flex-row flex-col">
         <div className="p-3">
+          <div className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3`}>
+            <AiOutlineArrowLeft />
+            Exit workout
+          </div>
           <div className={`text-[14px] font-semibold ${secondaryTextColor}`}>
             {currentExercise?.name}
           </div>
@@ -169,26 +174,22 @@ export default function Workout() {
 
       <div className={`actionbar border-t w-full ${borderColor} bg-[#131313] m-auto fixed bottom-0 md:left-0 md:right-0`}>
         <div className="flex items-center justify-between px-5 py-3 h-full">
-          <div className={`sets flex gap-[40px] w-fit`}>
-              <div>
-                <div className={`${secondaryTextColor} text-[14px]`}>Sets</div>
-                <div className={`${tertiaryTextColor} text-[14px]`}>1</div>
-              </div>
-              <div>
-                <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
-                <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
-              </div>
-              <div>
-                <div className={`${secondaryTextColor} text-[14px]`}>Rest</div>
-                <div className={`${tertiaryTextColor} text-[14px]`}>00:00</div>
-               </div>
-            </div>
           <div className="col-1">
             <div className={`text-neutral-400 text-[12px]`}>
-              Next exercise:
+              exercise:
             </div>
             <div className={`text-neutral-200 text-[14px] md:text-[16px]`}>
               Incline Bench Press
+            </div>
+          </div>
+          <div className={`sets flex gap-[40px] w-fit`}>
+            <div>
+              <div className={`${secondaryTextColor} text-[14px]`}>Set</div>
+              <div className={`${tertiaryTextColor} text-[14px]`}>1st</div>
+            </div>
+            <div>
+              <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
+              <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
             </div>
           </div>
           {currentExercise?.status === "INACTIVE" ? (
