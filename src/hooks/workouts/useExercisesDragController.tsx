@@ -94,17 +94,18 @@ export default function useExercisesDragController() {
     });
   };
 
-  const handleCheck = (exerciseId: string) => {
+  const handleCheck = (secondaryId: string) => {
     const selectedExercisesCopy = [...selectedExercises];
-    const updatedSelectedExercises = selectedExercisesCopy.filter((prevExercise) => {
-      if (exerciseId === prevExercise.secondaryId) {
+    const updatedSelectedExercises = selectedExercisesCopy.map((prevExercise) => {
+      console.log("secondaryId", secondaryId)
+      if (secondaryId === prevExercise.secondaryId) {
         return {
           ...prevExercise,
           checked: !prevExercise.checked // Toggle the checked value
         };
       }
       return prevExercise;
-    })
+    });
 
     dispatch({
       type: "SET_SELECTED_EXERCISES",

@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 };
 
-function SelectedExercise ({
+export default function SelectedExercise ({
   children
 }: Props) {
   return (
@@ -15,5 +15,3 @@ function SelectedExercise ({
     </div>
   );
 };
-
-export default memo(SelectedExercise);

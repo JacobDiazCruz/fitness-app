@@ -28,9 +28,10 @@ const SelectedExerciseForm = ({
   supersetIndex = 0,
   circuitIndex = 0,
   exerciseIndex
-}: SelectedExerciseFormProps) => {
+}: any) => {
   const { state, dispatch } = useWorkout();
   const { selectedExercises } = state;
+  const { sets } = exercise;
 
   const {
     handleAddExerciseSet
@@ -38,8 +39,6 @@ const SelectedExerciseForm = ({
 
   const inputRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState(0);
-  // const { sets } = exercise;
-  const [sets, setSets] = useState(exercise.sets);
 
   const formatTime = (time: string) => {
     // Remove any non-digit characters
@@ -83,11 +82,10 @@ const SelectedExerciseForm = ({
       [field]: value
     };
 
-    setSets(updatedSets);
-    // dispatch({
-    //   type: "SET_SELECTED_EXERCISES",
-    //   data: selectedExercisesCopy
-    // });
+    dispatch({
+      type: "SET_SELECTED_EXERCISES",
+      data: selectedExercisesCopy
+    });
   };
 
   const handleTimeChange = ({
@@ -270,4 +268,4 @@ const SelectedExerciseForm = ({
   );
 }
 
-export default memo(SelectedExerciseForm);
+export default SelectedExerciseForm;

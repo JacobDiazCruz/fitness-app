@@ -8,6 +8,7 @@ import Tooltip from "@/components/global/Tooltip";
 import TextField from "@/components/global/TextField";
 import FieldName from "@/components/global/FieldName";
 import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import useSelectedExerciseController from "@/hooks/workouts/useSelectedExerciseController";
 
 export default function Circuit({
   children,
@@ -18,11 +19,13 @@ export default function Circuit({
   exerciseSecondaryId?: string;
   exerciseIndex: number;
 }) {
-  const {
-    selectedExercises,
-    hookNewExerciseToSuperset,
-    handleUnmergeSuperset
-  }: WorkoutContext = useWorkout();
+  const { state } = useWorkout();
+  const { selectedExercises } = state;
+
+  const { 
+    handleUnmergeSuperset,
+    hookNewExerciseToSuperset
+  } = useSelectedExerciseController();
 
   const [duration, setDuration] = useState<string>("00:00");
 

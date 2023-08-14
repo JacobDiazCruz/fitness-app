@@ -27,7 +27,7 @@ export default function WorkoutBuilder ({
 
   return (
     <div className="flex gap-[40px]">
-      <div className="md:w-[40%] hidden md:block form dark:bg-darkTheme-950 dark:border-darkTheme-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
+      <div className="md:w-[60%] hidden md:block form dark:bg-darkTheme-950 dark:border-darkTheme-950 bg-white sticky top-[5em] h-[80vh] shadow-sm border border-solid border-gray-200 rounded-lg mt-5">
         <Container>
           <YourExercises />
         </Container>

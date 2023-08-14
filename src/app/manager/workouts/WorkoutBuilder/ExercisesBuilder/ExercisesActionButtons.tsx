@@ -15,6 +15,8 @@ export default function ExercisesActionButtons() {
    */
   const handleMergeExercise = (exerciseTypeKey: string) => {
     const checkedItems = selectedExercises.filter((exercise: IExercise) => exercise.checked);
+
+    // console.log("selectedExercises", selectedExercises);
   
     if (checkedItems.length > 0) {
       const firstCheckedItem = checkedItems[0];
@@ -36,9 +38,11 @@ export default function ExercisesActionButtons() {
         }
         return acc;
       }, []);
-      
+
+      console.log("updatedExercises", updatedExercises)
+
       dispatch({
-        type: "ADD_SELECTED_EXERCISE",
+        type: "SET_SELECTED_EXERCISES",
         data: updatedExercises
       });
     }

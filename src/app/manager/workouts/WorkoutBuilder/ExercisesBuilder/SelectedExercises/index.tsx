@@ -1,13 +1,14 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import useWorkout from "@/store/Workout/useWorkout";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
-import { WorkoutContext } from "@/utils/workoutTypes";
 import { IExercise } from "@/types/exercise";
 import Circuit from "./Circuit";
 import SelectedExerciseHeader from "./SelectedExercise/SelectedExerciseHeader";
 import SelectedExerciseForm from "./SelectedExercise/SelectedExerciseForm";
+import SelectedExerciseSets from "./SelectedExercise/SelectedExerciseSets";
+import Modal, { ModalContent, ModalHeader } from "@/components/global/Modal";
 
 interface ISelectedExerciseFactory {
   exercise: IExercise;
@@ -15,9 +16,18 @@ interface ISelectedExerciseFactory {
   exerciseIndex: number;
 };
 
-function SelectedExercises() {
+export default function SelectedExercises() {
   const { state } = useWorkout();
   const { selectedExercises } = state;
+
+  const [showEditSets, setShowEditSets] = useState(false);
+  const [currentEditedExerciseSet] = useState({
+    exercise: "",
+    exerciseType: "",
+    exerciseIndex: 0,
+    supersetIndex: 0,
+    circuitIndex: 0
+  });
 
   const [draggedExercise, setDraggedExercise] = useState<IExercise | null>(null);
 
@@ -36,7 +46,7 @@ function SelectedExercises() {
             >
               {exercise.supersetExercises?.map((supersetExercise: IExercise, supersetIndex: number) => (
                 <SelectedExercise>
-                  <SelectedExerciseHeader
+                  {/* <SelectedExerciseHeader
                     exercise={supersetExercise}
                     showCheckInput={false}
                   />
@@ -45,7 +55,7 @@ function SelectedExercises() {
                     exerciseType={exerciseType}
                     exerciseIndex={exerciseIndex}
                     supersetIndex={supersetIndex}
-                  />
+                  /> */}
                 </SelectedExercise>
               ))}
             </Superset>
@@ -76,11 +86,14 @@ function SelectedExercises() {
           return (
             <SelectedExercise>
               <SelectedExerciseHeader exercise={exercise} />
-              <SelectedExerciseForm
+              <SelectedExerciseSets 
+                exercise={exercise}
+              />
+              {/* <SelectedExerciseForm
                 exercise={exercise}
                 exerciseType={exerciseType}
                 exerciseIndex={exerciseIndex}
-              />
+              /> */}
             </SelectedExercise>
           );
       }
@@ -100,7 +113,7 @@ function SelectedExercises() {
   
   return (
     <>
-        {selectedExercises?.map((exercise: IExercise, exerciseIndex: number) => {
+      {selectedExercises?.map((exercise: IExercise, exerciseIndex: number) => {
         return (
           <DragController
             key={exercise.secondaryId}
@@ -119,8 +132,15 @@ function SelectedExercises() {
           </DragController>
         );
       })}
+
+      {showEditSets && (
+        <Modal onClose={() => setShowEditSets(false)}>
+          <ModalHeader>Edit sets</ModalHeader>
+          <ModalContent>
+            <SelectedExerciseForm {...currentEditedExerciseSet}/>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };
-
-export default memo(SelectedExercises);
