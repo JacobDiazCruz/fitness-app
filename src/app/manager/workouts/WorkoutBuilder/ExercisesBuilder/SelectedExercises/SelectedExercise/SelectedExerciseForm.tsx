@@ -14,14 +14,13 @@ interface SelectedExerciseFormProps {
   supersetIndex?: number;
   circuitIndex?: number;
   exerciseIndex: number;
-}
-
+};
 interface HandleTimeChangeParams {
   e: any;
   exerciseIndex: number;
   field: string;
   setIndex: number;
-}
+};
 
 const SelectedExerciseForm = ({
   exercise,
@@ -39,7 +38,8 @@ const SelectedExerciseForm = ({
 
   const inputRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState(0);
-  const { sets } = exercise;
+  // const { sets } = exercise;
+  const [sets, setSets] = useState(exercise.sets);
 
   const formatTime = (time: string) => {
     // Remove any non-digit characters
@@ -83,10 +83,11 @@ const SelectedExerciseForm = ({
       [field]: value
     };
 
-    dispatch({
-      type: "SET_SELECTED_EXERCISES",
-      data: selectedExercisesCopy
-    });
+    setSets(updatedSets);
+    // dispatch({
+    //   type: "SET_SELECTED_EXERCISES",
+    //   data: selectedExercisesCopy
+    // });
   };
 
   const handleTimeChange = ({
@@ -156,6 +157,7 @@ const SelectedExerciseForm = ({
     <div className={`dark:bg-darkTheme-800 bg-white px-6 py-6`}>
       {sets?.map((set: any, setIndex: number) => {
         const {setType, reps, rest, time = "00:00"} = set;
+
         return (
           <>
             <SetCount count={setIndex + 1} />

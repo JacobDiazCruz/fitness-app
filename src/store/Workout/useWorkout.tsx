@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export const ACTIONS = {
-  GET_SELECTED_EXERCISES: "GET_SELECTED_EXERCISES",
   ADD_SELECTED_EXERCISE: "ADD_SELECTED_EXERCISE",
   SET_SELECTED_EXERCISES: "SET_SELECTED_EXERCISES",
   UPDATE_SELECTED_EXERCISE: "UPDATE_SELECTED_EXERCISE",
@@ -30,8 +29,6 @@ const WorkoutContext = createContext<{
 
 const reducer = (state: any, action: Action) => {
   switch(action.type) {
-    case ACTIONS.GET_SELECTED_EXERCISES:
-      return { ...state, selectedExercises: action.data };
     case ACTIONS.SET_SELECTED_EXERCISES:
       return {
         ...state,
@@ -42,6 +39,23 @@ const reducer = (state: any, action: Action) => {
         ...state,
         selectedExercises: [...state.selectedExercises, action.data]
       };
+    case ACTIONS.UPDATE_SELECTED_EXERCISE: {
+      const { exerciseIndex, setIndex, field, value } = action.data;
+      const updatedExercises = state.selectedExercises.map(
+        (exercise: any, idx: number) => {
+          if (idx === exerciseIndex) {
+            const updatedSets = [...exercise.sets];
+            updatedSets[setIndex] = {
+              ...updatedSets[setIndex],
+              [field]: value
+            };
+            return { ...exercise, sets: updatedSets };
+          }
+          return exercise;
+        }
+      );
+      return { ...state, selectedExercises: updatedExercises };
+    }
     default:
       return state;
   }
@@ -69,6 +83,6 @@ const useWorkout = () => {
     throw new Error("useWorkout must be used within workout context")
   }
   return context;
-}
+};
 
 export default useWorkout;

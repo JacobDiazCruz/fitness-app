@@ -6,10 +6,10 @@ import { editWorkout, getWorkout } from "@/api/Workout";
 import { useMutation, useQuery } from "react-query";
 import useAlert from "@/store/Alert";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
-import useWorkout from "@/store/Workout/useWorkout";
 import WorkoutBuilder from "../../WorkoutBuilder";
-import { WorkoutContext } from "@/utils/workoutTypes";
 import { editProgramWorkout, getProgramWorkout } from "@/api/Program";
+import useEditWorkoutForm from "@/hooks/workouts/useEditWorkoutForm";
+import WorkoutHeader from "../../WorkoutHeader";
 
 export default function EditWorkout() {
   const router = useRouter();
@@ -17,39 +17,8 @@ export default function EditWorkout() {
   const searchParams = useSearchParams();
   const editProgram = searchParams.get("editProgram");
 
-  const { state, dispatch } = useWorkout();
-  const { selectedExercises } = state;
-  
-  const { dispatchAlert }: any = useAlert();
-
   const [workoutName, setWorkoutName] = useState<string>("");
   const [workoutDescription, setWorkoutDescription] = useState<string>("");
-
-  const editWorkoutMutation = useMutation(editWorkout, {
-    onSuccess: async () => {
-      dispatchAlert({
-        type: "SUCCESS",
-        message: "Workout edited successfully"
-      });
-      router.push('/manager/workouts');
-    },
-    onError: (err) => {
-      console.log(err);
-    }
-  });
-
-  const editProgramWorkoutMutation = useMutation(editProgramWorkout, {
-    onSuccess: async () => {
-      dispatchAlert({
-        type: "SUCCESS",
-        message: "Program's workout edited successfully"
-      });
-      router.back();
-    },
-    onError: (err) => {
-      console.log(err);
-    }
-  });
 
   // get exercise data
   const {
@@ -75,45 +44,11 @@ export default function EditWorkout() {
 
   useEffect(() => {
     if (workoutData) {
-      const { name, description, exercises } = workoutData;
+      const { name, description } = workoutData;
       setWorkoutName(name);
       setWorkoutDescription(description);
-
-      dispatch({
-        type: "SET_SELECTED_EXERCISES",
-        data: exercises
-      });
     }
   }, [workoutData]);
-
-  /**
-   * @purpose This function handles edit workout from workouts page, and edit workout from programs
-   * @note 
-   */
-  const handleSubmit = () => {
-    if(!editProgram) {
-      editWorkoutMutation.mutateAsync({
-        id: params.id,
-        data: {
-          name: workoutName,
-          description: workoutDescription,
-          exercises: selectedExercises
-        }
-      });
-    } else {
-      const { _id, ...existingWorkoutData } = workoutData;
-
-      editProgramWorkoutMutation.mutateAsync({
-        id: params.id,
-        data: {
-          ...existingWorkoutData,
-          name: workoutName,
-          description: workoutDescription,
-          exercises: selectedExercises
-        }
-      });
-    }
-  };
 
   if(isErrorFetching) {
     router.push('/manager/workouts');
@@ -121,18 +56,13 @@ export default function EditWorkout() {
 
   return (
     <>
-      <Header 
-        pageTitle="Edit Workout"
-        backIcon
-        showActionButtons
-        isLoading={editWorkoutMutation.isLoading}
-        handleSubmit={handleSubmit}
-      />
+      <WorkoutHeader />
       <WorkoutBuilder
         workoutName={workoutName}
         workoutDescription={workoutDescription}
         setWorkoutName={setWorkoutName}
         setWorkoutDescription={setWorkoutDescription}
+        workoutData={workoutData}
       />
     </>
   );

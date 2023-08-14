@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
-import { IExercise } from "@/types/exercise";
+import { ExerciseType, IExercise } from "@/types/exercise";
 
 interface DragControllerProps {
   exercise: IExercise;
   exerciseIndex: number;
   children: React.ReactNode;
   draggedExercise: IExercise | null;
-  exerciseType?: 'superset' | 'normal';
+  exerciseType?: ExerciseType;
   handleDraggedExercise: (val: any) => void;
 }
 

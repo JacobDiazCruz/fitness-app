@@ -119,27 +119,32 @@ export default function useSelectedExerciseController() {
     exerciseIndex = 0,
     setIndex = 0
   }: IHandleChangeSetFieldParams) => {
-    // dispatch({
-    //   type: "ADD_SELECTED_EXERCISE",
-    //   data: 
-    // })
+    dispatch({
+      type: "UPDATE_SELECTED_EXERCISE",
+      data: {
+        exerciseIndex,
+        setIndex,
+        field,
+        value
+      }
+    });
     // setSelectedExercises((prevExercises) => {
     //   const updatedExercises = [...prevExercises];
     //   const exercise = updatedExercises[exerciseIndex];
 
-    //   let updatedSets = [];
-    //   if (exercise.supersetExercises && exercise.supersetExercises.length > 0) {
-    //     const supersetExercise = exercise.supersetExercises[supersetExerciseIndex];
-    //     updatedSets = [...supersetExercise.sets];
-    //     supersetExercise.sets = updatedSets;
-    //   } else if (exercise.circuitExercises && exercise.circuitExercises.length > 0) {
-    //     const circuitExercise = exercise.circuitExercises[circuitExerciseIndex];
-    //     updatedSets = [...circuitExercise.sets];
-    //     circuitExercise.sets = updatedSets;
-    //   } else {
-    //     updatedSets = [...exercise.sets];
-    //     exercise.sets = updatedSets;
-    //   }
+      // let updatedSets = [];
+      // if (exercise.supersetExercises && exercise.supersetExercises.length > 0) {
+      //   const supersetExercise = exercise.supersetExercises[supersetExerciseIndex];
+      //   updatedSets = [...supersetExercise.sets];
+      //   supersetExercise.sets = updatedSets;
+      // } else if (exercise.circuitExercises && exercise.circuitExercises.length > 0) {
+      //   const circuitExercise = exercise.circuitExercises[circuitExerciseIndex];
+      //   updatedSets = [...circuitExercise.sets];
+      //   circuitExercise.sets = updatedSets;
+      // } else {
+      //   updatedSets = [...exercise.sets];
+      //   exercise.sets = updatedSets;
+      // }
 
     //   updatedSets[setIndex] = {
     //     ...updatedSets[setIndex],

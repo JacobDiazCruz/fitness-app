@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import useWorkout from "@/store/Workout/useWorkout";
 
 import SelectedExercises from "./SelectedExercises";
@@ -12,10 +12,12 @@ import { initialSet } from "@/hooks/workouts/useSelectedExerciseController";
 
 interface ExercisesBuilderProps {
   children: ReactNode;
+  workoutData: any;
 };
 
 export default function ExercisesBuilder({
-  children
+  children,
+  workoutData
 }: ExercisesBuilderProps) {
   console.log('ExercisesBuilder is rendering');
 
@@ -45,6 +47,16 @@ export default function ExercisesBuilder({
       });
     }
   };
+
+  useEffect(() => {
+    if (workoutData) {
+      const { exercises } = workoutData;
+      dispatch({
+        type: "SET_SELECTED_EXERCISES",
+        data: exercises
+      });
+    }
+  }, [workoutData]);
   
   return (
     <div

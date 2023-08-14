@@ -104,7 +104,7 @@ export default function AddNewClient () {
           <FieldName>
             Contact number
           </FieldName>
-          <PhoneInputField 
+          <PhoneInputField
             placeholder="xxxxxxxxx"
             className="h-[49px]"
             value={clientForm.contact}

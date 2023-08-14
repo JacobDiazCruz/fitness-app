@@ -12,13 +12,15 @@ interface WorkoutBuilderProps {
   workoutDescription: string;
   setWorkoutName: Dispatch<SetStateAction<string>>;
   setWorkoutDescription: Dispatch<SetStateAction<string>>;
+  workoutData: any;
 };
 
 export default function WorkoutBuilder ({
   workoutName,
   workoutDescription,
   setWorkoutName,
-  setWorkoutDescription
+  setWorkoutDescription,
+  workoutData
 }: WorkoutBuilderProps) {
 
   console.log('WorkoutBuilder is rendering');
@@ -54,7 +56,7 @@ export default function WorkoutBuilder ({
             />
           </div>
 
-          <ExercisesBuilder>
+          <ExercisesBuilder workoutData={workoutData}>
             <ExercisesBuilder.ActionButtons />
             <ExercisesBuilder.SelectedExercises />
             <ExercisesBuilder.Desktop />
