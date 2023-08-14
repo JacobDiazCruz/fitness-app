@@ -2,11 +2,13 @@
 
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import Button, { ButtonVariant } from "@/components/global/Button";
+import { MuscleFlex } from "@/components/global/Icons";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
 import { getOrdinalSuffix } from "@/utils/getOrdinalSuffix";
 import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
@@ -18,6 +20,7 @@ type PrimaryButton = {
 };
 
 export default function Workout() {
+  const router = useRouter();
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
 
   const [exercises, setExercises] = useState<IExercise[]>([]);
@@ -33,6 +36,7 @@ export default function Workout() {
     value: "Start now",
     variant: "contained"
   });
+  const [showDoneWorkout, setShowDoneWorkout] = useState<boolean>(false);
 
   const { 
     data: workout,
@@ -78,6 +82,12 @@ export default function Workout() {
 
   const embeddedLink = getEmbeddedLink(currentExercise?.videoLink);
 
+  const isLastExercise = () => currentExercise?.index === exercises.length - 1;
+
+  const isExerciseDone = (exercise: IExercise) => {
+    return exercise.sets.every((set: any) => set.status === "DONE");
+  }
+
   // tech spec for the primary action:
   // create a switch case to handle the status of an exercise's set
   // if the user clicks "End exercise" after an exercise set is done, update its set status to done.
@@ -86,8 +96,10 @@ export default function Workout() {
   // repeat
   // @TASK: handle superset and timed exercises
   const handleClickPrimaryAction = () => {
-    console.log("currentExerciseSet", currentExerciseSet)
     if(!currentExerciseSet.reps) return;
+    if(primaryButton.value == "Done Workout") {
+      router.back()
+    }
     switch(currentExerciseSet.status) {
       case "PENDING":
         setCurrentExerciseSet((prev: any) => ({
@@ -107,11 +119,14 @@ export default function Workout() {
         }));
         handleUpdateExercises("DONE");
 
-        if(currentExercise.index === exercises.length - 1) {
+        if(isLastExercise()) {
+          setShowDoneWorkout(true);
           setPrimaryButton({
             value: "Done workout",
             variant: "success"
           });
+          setCurrentExercise(null);
+          return;
         } else {
           setPrimaryButton({
             value: "Start now",
@@ -172,6 +187,23 @@ export default function Workout() {
     setExercises(updatedExercises);
   };
 
+  const DoneWorkout = () => {
+    return (
+      <div className="m-auto">
+        <MuscleFlex className="m-auto"/>
+        <div className="text-center">
+          <div className={`${secondaryTextColor} mt-3 font-medium`}>
+            {/* <BsCheckCircleFill className="text-green-500 w-5 h-5"/> */}
+            Congratulations!
+          </div>
+          <div className={`${tertiaryTextColor} font-light`}>
+            You made it to the end.
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if(isLoading) {
     return <></>;
   }
@@ -179,47 +211,56 @@ export default function Workout() {
   return (
     <div className={`interactive-workout-page bg-[#FFF] dark:bg-[#000] min-h-[100vh]`}>
       <div className="body w-full h-[83vh] mx-auto flex md:flex-row flex-col">
-        <div className="p-3">
-          <div className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3`}>
+        <div className="p-3 min-w-[200px]">
+          <div className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3 w-full`}>
             <AiOutlineArrowLeft />
             Exit workout
           </div>
-          <div className={`text-[14px] font-semibold ${secondaryTextColor}`}>
-            {currentExercise?.name}
-          </div>
-          <div className={`${handlePrimaryFocusColor(currentExercise?.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
-            {currentExercise?.primaryFocus}
-          </div>
-          <div className="coach-instructions flex flex-col gap-[5px] mt-7">
-            <div className="-mb-4">
-              <div className="w-[45px] h-[45px] rounded-full relative overflow-hidden">
-                <Image 
-                  src={localStorage.getItem("thumbnailImage") || "/"}
-                  fill
-                  alt="Trainer Image"
-                  style={{ objectFit: "cover" }}
-                />
+
+          {currentExercise && (
+            <>
+              <div className={`text-[14px] font-semibold ${secondaryTextColor}`}>
+                {currentExercise?.name}
               </div>
-            </div>
-            <div className={`${secondaryTextColor} font-light text-[14px] rounded-xl p-3 w-fit dark:bg-neutral-50 bg-neutral-200`}>
-              <div className="text-neutral-950 w-[150px] mt-1 text-[12px]">
-                {currentExercise?.instruction}
+              <div className={`${handlePrimaryFocusColor(currentExercise?.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
+                {currentExercise?.primaryFocus}
               </div>
-            </div>
-          </div>
+              <div className="coach-instructions flex flex-col gap-[5px] mt-7">
+                <div className="-mb-4">
+                  <div className="w-[45px] h-[45px] rounded-full relative overflow-hidden">
+                    <Image 
+                      src={localStorage.getItem("thumbnailImage") || "/"}
+                      fill
+                      alt="Trainer Image"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                </div>
+                <div className={`${secondaryTextColor} font-light text-[14px] rounded-xl p-3 w-fit dark:bg-neutral-50 bg-neutral-200`}>
+                  <div className="text-neutral-950 w-[150px] mt-1 text-[12px]">
+                    {currentExercise?.instruction}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="w-full h-full flex items-center p-3 md:p-0">
-          <div className="flex gap-[50px] m-auto w-full h-full">
-            <iframe
-              width="100%"
-              height="100%"
-              className="rounded-lg md:rounded-none"
-              src={embeddedLink}
-              title="YouTube Video"
-              allowFullScreen
-            ></iframe>
-          </div>
+          {showDoneWorkout ? (
+            <DoneWorkout />
+          ) : (
+            <div className="flex gap-[50px] m-auto w-full h-full">
+              <iframe
+                width="100%"
+                height="100%"
+                className="rounded-lg md:rounded-none"
+                src={embeddedLink}
+                title="YouTube Video"
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
         </div>
 
         <div className="p-3 h-full w-full md:w-[45%] overflow-y-auto overflow-x-hidden">
@@ -257,9 +298,9 @@ export default function Workout() {
               );
             } else {
               return (
-                <div 
+                <div
                   key={index} 
-                  className={`p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                  className={`${isExerciseDone(exercise) && "opacity-[0.5]"} p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
                   onClick={() => {
                     setCurrentExercise(exercise);
                   }}
