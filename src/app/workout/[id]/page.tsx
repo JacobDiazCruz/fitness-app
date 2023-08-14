@@ -1,7 +1,7 @@
 "use client";
 
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
-import Button from "@/components/global/Button";
+import Button, { ButtonVariant } from "@/components/global/Button";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
 import { getOrdinalSuffix } from "@/utils/getOrdinalSuffix";
@@ -11,6 +11,11 @@ import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
 import { useQuery } from "react-query";
+
+type PrimaryButton = {
+  value: string;
+  variant: ButtonVariant;
+};
 
 export default function Workout() {
   const { handlePrimaryFocusColor } = usePrimaryFocusColor();
@@ -24,7 +29,10 @@ export default function Workout() {
     // @ts-ignore
     null
   );
-  const [primaryButtonValue, setPrimaryButtonValue] = useState<string>("Start now");
+  const [primaryButton, setPrimaryButton] = useState<PrimaryButton>({
+    value: "Start now",
+    variant: "contained"
+  });
 
   const { 
     data: workout,
@@ -76,57 +84,70 @@ export default function Workout() {
   // then proceed to the next set.
   // if all the sets of a certain exercise is already done. Proceed with the next exercise
   // repeat
+  // @TASK: handle superset and timed exercises
   const handleClickPrimaryAction = () => {
     console.log("currentExerciseSet", currentExerciseSet)
-    if(currentExerciseSet.reps) {
-      switch(currentExerciseSet.status) {
-        case "PENDING":
-          setCurrentExerciseSet((prev: any) => ({
-            ...prev,
-            status: "ONGOING"
-          }));
-          setPrimaryButtonValue("End set");
-          handleUpdateExercises("ONGOING");
-          return;
-        case "ONGOING":
-          console.log("HERE ONGOING")
-          setCurrentExerciseSet((prev: any) => ({
-            ...prev,
-            status: "DONE"
-          }));
-          handleUpdateExercises("DONE");
-          setPrimaryButtonValue(`Start now`);
-          
-          if(exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
-            setCurrentExerciseSet((prev: any) => {
-              return {
-                ...currentExercise.sets[prev.index + 1],
-                index: prev.index + 1
-              }
-            });
-          } else {
-            setCurrentExercise((prev: any) => {
-              return {
-                ...exercises[prev.index + 1],
-                index: prev.index + 1
-              }
-            });
-            setCurrentExerciseSet((prev: any) => {
-              return {
-                ...exercises[currentExercise.index].sets[prev.index],
-                status: "PENDING",
-                index: 0
-              }
-            });
-          }
+    if(!currentExerciseSet.reps) return;
+    switch(currentExerciseSet.status) {
+      case "PENDING":
+        setCurrentExerciseSet((prev: any) => ({
+          ...prev,
+          status: "ONGOING"
+        }));
+        setPrimaryButton({
+          value: "End set",
+          variant: "danger"
+        });
+        handleUpdateExercises("ONGOING");
+        return;
+      case "ONGOING":
+        setCurrentExerciseSet((prev: any) => ({
+          ...prev,
+          status: "DONE"
+        }));
+        handleUpdateExercises("DONE");
 
-          return;
-        case "DONE":
-          return;
-        default:
-          return;
-      };
-    }
+        if(currentExercise.index === exercises.length - 1) {
+          setPrimaryButton({
+            value: "Done workout",
+            variant: "success"
+          });
+        } else {
+          setPrimaryButton({
+            value: "Start now",
+            variant: "contained"
+          });
+        }
+
+        if(exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
+          setCurrentExerciseSet((prev: any) => {
+            return {
+              ...currentExercise.sets[prev.index + 1],
+              index: prev.index + 1
+            }
+          });
+        } else {
+          setCurrentExercise((prev: any) => {
+            return {
+              ...exercises[prev.index + 1],
+              index: prev.index + 1
+            }
+          });
+          setCurrentExerciseSet((prev: any) => {
+            return {
+              ...exercises[currentExercise.index].sets[prev.index],
+              status: "PENDING",
+              index: 0
+            }
+          });
+        }
+
+        return;
+      case "DONE":
+        return;
+      default:
+        return;
+    };
   };
 
   const handleUpdateExercises = (status: string) => {
@@ -148,7 +169,6 @@ export default function Workout() {
       return exercise;
     });
 
-    console.log("updatedExercises", updatedExercises)   
     setExercises(updatedExercises);
   };
 
@@ -277,8 +297,8 @@ export default function Workout() {
               <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
             </div>
           </div>
-          <Button variant="contained" onClick={handleClickPrimaryAction}>
-            {primaryButtonValue}
+          <Button variant={primaryButton.variant} onClick={handleClickPrimaryAction}>
+            {primaryButton.value}
           </Button>
         </div>
       </div>
