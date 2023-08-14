@@ -11,6 +11,7 @@ interface Props {
   onChange?: (e: any) => void;
   className?: string;
   type?: string;
+  inputRef?: any;
   startIcon?: ReactElement | ReactNode | SVGAElement | null;
   placeholder?: string;
   disabled?: boolean;
@@ -21,6 +22,7 @@ export default function TextField({
   value = "",
   className = "",
   type = "text",
+  inputRef = null,
   startIcon = null,
   disabled = false,
   placeholder = "",
@@ -36,6 +38,7 @@ export default function TextField({
       )}
       <input
         type={type}
+        ref={inputRef}
         className={`
           ${startIcon ? 'pl-8' : ''}
           ${className}

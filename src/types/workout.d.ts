@@ -14,6 +14,7 @@ interface IHandleChangeSetFieldParams {
   value?: any;
   field?: any;
   supersetExerciseIndex?: number;
+  circuitExerciseIndex?: number;
   exerciseIndex?: number;
   setIndex?: number;
 }

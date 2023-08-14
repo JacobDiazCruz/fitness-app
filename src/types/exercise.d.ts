@@ -41,6 +41,9 @@ interface IExercise {
   checked?: boolean;
   isSelected?: boolean;
   supersetExercises?: Array<any>;
+  circuitExercises?: Array<any>;
   createdAt?: string;
   updatedAt?: string;
 }
+
+export type ExerciseType = "superset" | "circuit" | "normal";

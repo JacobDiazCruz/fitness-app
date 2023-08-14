@@ -17,11 +17,8 @@ export default function EditWorkout() {
   const searchParams = useSearchParams();
   const editProgram = searchParams.get("editProgram");
 
-  // hooks
-  const {
-    selectedExercises,
-    setSelectedExercises 
-  }: WorkoutContext = useWorkout()!;
+  const { state, dispatch } = useWorkout();
+  const { selectedExercises } = state;
   
   const { dispatchAlert }: any = useAlert();
 
@@ -81,7 +78,11 @@ export default function EditWorkout() {
       const { name, description, exercises } = workoutData;
       setWorkoutName(name);
       setWorkoutDescription(description);
-      setSelectedExercises?.(exercises);
+
+      dispatch({
+        type: "SET_SELECTED_EXERCISES",
+        data: exercises
+      });
     }
   }, [workoutData]);
 

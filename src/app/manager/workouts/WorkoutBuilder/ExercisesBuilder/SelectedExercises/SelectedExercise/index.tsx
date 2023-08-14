@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 import SelectedExerciseForm from "./SelectedExerciseForm";
 import SelectedExerciseHeader from "./SelectedExerciseHeader";
 
@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 };
 
-export default function SelectedExercise ({
+function SelectedExercise ({
   children
 }: Props) {
   return (
@@ -16,5 +16,4 @@ export default function SelectedExercise ({
   );
 };
 
-SelectedExercise.Header = SelectedExerciseHeader;
-SelectedExercise.Form = SelectedExerciseForm;
+export default memo(SelectedExercise);

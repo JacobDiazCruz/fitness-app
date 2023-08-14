@@ -5,10 +5,10 @@ import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
 import { IExercise } from "@/types/exercise";
 import { borderColor, secondaryTextColor } from "@/utils/themeColors";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-export default function SelectedExerciseHeader({
+function SelectedExerciseHeader({
   exercise,
   showCheckInput = true
 }: {
@@ -31,7 +31,6 @@ export default function SelectedExerciseHeader({
     handleRemoveExercise,
     handleCheck
   } = useExercisesDragController();
-
 
   return (
     <div className={`${borderColor} py-5 md:py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-auto md:h-[55px] flex justify-between items-center`}>
@@ -87,3 +86,5 @@ export default function SelectedExerciseHeader({
     </div>
   );
 }
+
+export default memo(SelectedExerciseHeader);

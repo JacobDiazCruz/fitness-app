@@ -1,19 +1,17 @@
 import useWorkout from "@/store/Workout/useWorkout";
-import { Exercise } from "@/utils/types";
+import { IExercise } from "@/types/exercise";
 import { useState } from "react";
 
 export default function useExercisesDragController() {
-  const { 
-    selectedExercises,
-    setSelectedExercises
-  } = useWorkout();
+  const { state, dispatch } = useWorkout();
+  const { selectedExercises } = state;
 
   const [targetExerciseId, setTargetExerciseId] = useState("");
 
   const handleDragEnter = (
     e: any, 
     exerciseIndex: number, 
-    draggedExercise: Exercise | null
+    draggedExercise: IExercise | null
   ) => {
     e.preventDefault();
     const targetIndex = selectedExercises.indexOf(draggedExercise);
@@ -22,14 +20,18 @@ export default function useExercisesDragController() {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
       updatedArr.splice(exerciseIndex, 0, draggedExercise);
-      setSelectedExercises(updatedArr);
+
+      dispatch({
+        type: "SET_SELECTED_EXERCISES",
+        data: updatedArr
+      });
     }
   };
 
   const handleSupersetDragEnter = (
     e: any, 
     exerciseIndex: number, 
-    draggedExercise: Exercise | null
+    draggedExercise: IExercise | null
   ) => {
     e.stopPropagation();
     e.preventDefault();
@@ -39,11 +41,14 @@ export default function useExercisesDragController() {
       const updatedArr = [...selectedExercises];
       updatedArr.splice(targetIndex, 1);
       updatedArr.splice(exerciseIndex, 0, draggedExercise);
-      setSelectedExercises(updatedArr);
+      dispatch({
+        type: "SET_SELECTED_EXERCISES",
+        data: updatedArr
+      });
     }
   }
 
-  const handleDropSuperset = (e, exercise) => {
+  const handleDropSuperset = (e: any, exercise: IExercise) => {
     e.stopPropagation();
   
     // Get the dragged exercise from dataTransfer if available
@@ -61,38 +66,62 @@ export default function useExercisesDragController() {
 
       // Move the source exercise into the target exercise's supersetExercises array
       targetExercise.supersetExercises.push(sourceExercise || dataDraggedExercise);
-      setSelectedExercises(updatedExercises);
+      
+      dispatch({
+        type: "SET_SELECTED_EXERCISES",
+        data: updatedExercises
+      });
     }
     
     setTargetExerciseId("");
     // setDraggedExercise(null);
-    setShowDropContainer(false);  
+    // setShowDropContainer(false);  
   };
 
-  const handleRemoveExercise = (secondaryId) => {
-    setSelectedExercises((prevExercises) => {
-      return prevExercises.filter((prevExercise) => {
-        if(prevExercise.secondaryId !== secondaryId) {
-          return {
-            ...prevExercise
-          }
+  const handleRemoveExercise = (secondaryId: string) => {
+    const selectedExercisesCopy = [...selectedExercises];
+    const updatedSelectedExercises = selectedExercisesCopy.filter((prevExercise) => {
+      if(prevExercise.secondaryId !== secondaryId) {
+        return {
+          ...prevExercise
         }
-      })
+      }
     })
+
+    dispatch({
+      type: "SET_SELECTED_EXERCISES",
+      data: updatedSelectedExercises
+    });
   };
 
-  const handleCheck = (exerciseId) => {
-    setSelectedExercises((prevExercises) => {
-      return prevExercises.map((prevExercise) => {
-        if (exerciseId === prevExercise.secondaryId) {
-          return {
-            ...prevExercise,
-            checked: !prevExercise.checked // Toggle the checked value
-          };
-        }
-        return prevExercise;
-      });
+  const handleCheck = (exerciseId: string) => {
+    const selectedExercisesCopy = [...selectedExercises];
+    const updatedSelectedExercises = selectedExercisesCopy.filter((prevExercise) => {
+      if (exerciseId === prevExercise.secondaryId) {
+        return {
+          ...prevExercise,
+          checked: !prevExercise.checked // Toggle the checked value
+        };
+      }
+      return prevExercise;
+    })
+
+    dispatch({
+      type: "SET_SELECTED_EXERCISES",
+      data: updatedSelectedExercises
     });
+
+    // setSelectedExercises((prevExercises) => {
+    //   return prevExercises.map((prevExercise) => {
+    //     if (exerciseId === prevExercise.secondaryId) {
+    //       return {
+    //         ...prevExercise,
+    //         checked: !prevExercise.checked // Toggle the checked value
+    //       };
+    //     }
+    //     return prevExercise;
+    //   });
+    // });
   }
 
   return {

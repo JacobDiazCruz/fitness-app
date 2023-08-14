@@ -5,6 +5,7 @@ import useWorkout from "@/store/Workout/useWorkout";
 import IconButton from "@/components/global/IconButton";
 import { WorkoutContext } from "@/utils/workoutTypes";
 import Tooltip from "@/components/global/Tooltip";
+import useSelectedExerciseController from "@/hooks/workouts/useSelectedExerciseController";
 
 export default function Superset({
   children,
@@ -15,12 +16,13 @@ export default function Superset({
   exerciseSecondaryId?: string;
   exerciseIndex: number;
 }) {
+  const { state, dispatch } = useWorkout();
+  const { selectedExercises } = state;
 
-  const {
-    selectedExercises,
-    hookNewExerciseToSuperset,
-    handleUnmergeSuperset
-  }: WorkoutContext = useWorkout();
+  const { 
+    handleUnmergeSuperset,
+    hookNewExerciseToSuperset
+  } = useSelectedExerciseController();
 
   const HookButton = ({ hookType }: { hookType: 'next' | 'prev' }) => {
     return (
@@ -35,7 +37,7 @@ export default function Superset({
               hookType,
               exerciseSecondaryId,
               exerciseIndex
-              )}
+            )}
             className="m-auto bg-blue-100 dark:bg-blue-950 border dark:border-blue-900 border-blue-500 dark:hover:bg-blue-800"
           >
             <HookIcon className="h-5 w-5 fill-[#FFF]"/>
@@ -66,7 +68,7 @@ export default function Superset({
               startIcon={<CubeTransparentIcon />}
               onClick={() => handleUnmergeSuperset?.(exerciseSecondaryId)}
             >
-              Unmerge Superset
+              Unmerge
             </Button>
           </div>
         </div>

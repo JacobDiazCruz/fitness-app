@@ -80,7 +80,6 @@ function AutoComplete({
   }, [openDropdown]);
 
   // check if the valued type exists in the list. if it doesn't, empty the input
-
   const handleOpenDropdown = () => {
     if(!openDropdown) {
       setOpenDropdown(true)

@@ -6,12 +6,10 @@ import YourExercises from "../YourExercises";
 
 interface Props {
   onClose: () => void;
-  setSelectedExercises: any;
 };
 
 export default function SelectExercisesModal({
-  onClose,
-  setSelectedExercises
+  onClose
 }: Props) {
 
   const [initialSelectedExercises, setInitialSelectedExercises] = useState<any>([]);
@@ -29,10 +27,10 @@ export default function SelectExercisesModal({
           variant="contained"
           className="w-full"
           onClick={() => {
-            setSelectedExercises((prev: IExercise[]) => {
-              const selected = initialSelectedExercises.filter((exercise: IExercise) => exercise.isSelected);
-              return [...prev, ...selected];
-            });
+            // setSelectedExercises((prev: IExercise[]) => {
+            //   const selected = initialSelectedExercises.filter((exercise: IExercise) => exercise.isSelected);
+            //   return [...prev, ...selected];
+            // });
             onClose();
           }}
         >
