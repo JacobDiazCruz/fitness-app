@@ -24,7 +24,7 @@ export default function Circuit({
 
   const { 
     handleUnmergeSuperset,
-    hookNewExerciseToSuperset
+    hookNewExerciseToGroupExercise
   } = useSelectedExerciseController();
 
   const [duration, setDuration] = useState<string>("00:00");
@@ -50,11 +50,14 @@ export default function Circuit({
           tooltipClassName="min-w-[120px]"
         >
           <IconButton
-            onClick={() => hookNewExerciseToSuperset?.(
-              hookType,
-              exerciseSecondaryId,
-              exerciseIndex
-            )}
+            onClick={() => {
+              hookNewExerciseToGroupExercise(
+                hookType,
+                exerciseSecondaryId,
+                exerciseIndex,
+                "circuitExercises"
+              )
+            }}
             className="m-auto bg-purple-100 dark:bg-purple-950 border dark:border-purple-900 border-purple-500 dark:hover:bg-purple-800"
           >
             <HookIcon className="h-5 w-5 fill-[#FFF]"/>

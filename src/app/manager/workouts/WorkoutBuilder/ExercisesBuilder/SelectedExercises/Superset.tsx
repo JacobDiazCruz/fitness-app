@@ -21,7 +21,7 @@ export default function Superset({
 
   const { 
     handleUnmergeSuperset,
-    hookNewExerciseToSuperset
+    hookNewExerciseToGroupExercise
   } = useSelectedExerciseController();
 
   const HookButton = ({ hookType }: { hookType: 'next' | 'prev' }) => {
@@ -33,10 +33,11 @@ export default function Superset({
           tooltipClassName="min-w-[120px]"
         >
           <IconButton
-            onClick={() => hookNewExerciseToSuperset?.(
+            onClick={() => hookNewExerciseToGroupExercise(
               hookType,
               exerciseSecondaryId,
-              exerciseIndex
+              exerciseIndex,
+              "supersetExercises"
             )}
             className="m-auto bg-blue-100 dark:bg-blue-950 border dark:border-blue-900 border-blue-500 dark:hover:bg-blue-800"
           >

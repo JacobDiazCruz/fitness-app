@@ -83,6 +83,43 @@ export default function useSelectedExerciseController() {
   };
 
   /**
+   * @purpose To push the next exercise from superset or circuit exercise set
+   * @note N/A
+   */
+   const hookNewExerciseToGroupExercise = (
+    hookType: "next" | "prev",
+    exerciseSecondaryId: string,
+    exerciseIndex: number,
+    field: "supersetExercises" | "circuitExercises"
+  ) => {
+    const clonedSelectedExercises = [...selectedExercises];
+    const selectedGroupIndex = clonedSelectedExercises.findIndex(
+      (exercise) => exercise.secondaryId === exerciseSecondaryId
+    );
+
+    if (selectedGroupIndex === -1) return;
+
+    const selectedGroup = clonedSelectedExercises[selectedGroupIndex];
+    
+    if (selectedGroup && hookType === "prev") {
+      const prevExerciseIndex = exerciseIndex - 1;
+      const prevExercise = clonedSelectedExercises.splice(prevExerciseIndex, 1)[0];
+      selectedGroup[field].unshift(prevExercise);
+    }
+    
+    if (selectedGroup && hookType === "next") {
+      const nextExerciseIndex = exerciseIndex + 1;
+      const nextExercise = clonedSelectedExercises.splice(nextExerciseIndex, 1)[0];
+      selectedGroup[field].push(nextExercise);
+    }
+
+    dispatch({
+      type: "SET_SELECTED_EXERCISES",
+      data: clonedSelectedExercises
+    });
+  };
+
+  /**
    * @purpose to add a new exercise set
    * @note Observe the difference on setting a state between a normal and a superset type of exercises.
    * @param {string} exerciseType - The type of exercise ('normal' or 'superset').
@@ -157,7 +194,7 @@ export default function useSelectedExerciseController() {
 
   return {
     handleUnmergeSuperset,
-    hookNewExerciseToSuperset,
+    hookNewExerciseToGroupExercise,
     handleAddExerciseSet,    
     handleChangeSetField
   }
