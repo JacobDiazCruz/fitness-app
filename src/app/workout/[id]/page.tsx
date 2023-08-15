@@ -109,73 +109,74 @@ export default function Workout() {
   // repeat
   // @TASK: handle superset and timed exercises
   const handleClickPrimaryAction = () => {
-    if(!currentExerciseSet.reps) return;
-    if(primaryButton.value == "Done Workout") {
-      router.back()
+    if (!currentExerciseSet.reps) {
+      throw new Error("Rep is not defined.");
     }
-    switch(currentExerciseSet.status) {
+  
+    if (primaryButton.value === "Done Workout") {
+      router.back();
+      return;
+    }
+  
+    const updateExerciseSet = (status: string, nextIndex: number) => {
+      setCurrentExerciseSet((prev: any) => ({
+        ...prev,
+        status,
+        index: nextIndex,
+      }));
+      handleUpdateExercises(status);
+    };
+  
+    switch (currentExerciseSet.status) {
       case "PENDING":
-        setCurrentExerciseSet((prev: any) => ({
-          ...prev,
-          status: "ONGOING"
-        }));
+        updateExerciseSet("ONGOING", currentExerciseSet.index);
         setPrimaryButton({
           value: "End set",
           variant: "danger"
         });
-        handleUpdateExercises("ONGOING");
         return;
       case "ONGOING":
-        setCurrentExerciseSet((prev: any) => ({
-          ...prev,
-          status: "DONE"
-        }));
-        handleUpdateExercises("DONE");
-
-        if(isLastExercise()) {
+        updateExerciseSet("DONE", currentExerciseSet.index);
+        
+        if (isLastExercise()) {
           setShowDoneWorkout(true);
           setPrimaryButton({
             value: "Done workout",
-            variant: "success"
+            variant: "success",
           });
           setCurrentExercise(null);
           return;
         } else {
           setPrimaryButton({
             value: "Start now",
-            variant: "contained"
+            variant: "contained",
           });
+        }
+  
+        if (exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
+          setCurrentExerciseSet((prev: any) => ({
+            ...currentExercise.sets[prev.index + 1],
+            index: prev.index + 1,
+          }));
+        } else {
+          setCurrentExercise((prev: any) => ({
+            ...exercises[prev.index + 1],
+            index: prev.index + 1,
+          }));
+          setCurrentExerciseSet((prev: any) => ({
+            ...exercises[currentExercise.index].sets[prev.index],
+            status: "PENDING",
+            index: 0,
+          }));
         }
 
-        if(exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
-          setCurrentExerciseSet((prev: any) => {
-            return {
-              ...currentExercise.sets[prev.index + 1],
-              index: prev.index + 1
-            }
-          });
-        } else {
-          setCurrentExercise((prev: any) => {
-            return {
-              ...exercises[prev.index + 1],
-              index: prev.index + 1
-            }
-          });
-          setCurrentExerciseSet((prev: any) => {
-            return {
-              ...exercises[currentExercise.index].sets[prev.index],
-              status: "PENDING",
-              index: 0
-            }
-          });
-        }
         return;
       case "DONE":
         return;
       default:
         return;
-    };
-  };
+    }
+  };  
 
   const handleUpdateExercises = (status: string) => {
     const updatedExercises = exercises.map((exercise: any) => {
@@ -224,7 +225,10 @@ export default function Workout() {
     <div className={`interactive-workout-page bg-[#FFF] dark:bg-[#000] min-h-[100vh]`}>
       <div className="body w-full h-[83vh] mx-auto flex md:flex-row flex-col">
         <div className="p-3 min-w-[200px]">
-          <div className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3 w-full`}>
+          <div 
+            className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3 w-full`}
+            onClick={() => router.back()}
+          >
             <AiOutlineArrowLeft />
             Exit workout
           </div>
@@ -288,10 +292,7 @@ export default function Workout() {
               return (
                 <div 
                   key={index}
-                  className={`p-2 w-full border relative rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
-                  onClick={() => {
-                    setCurrentExercise(exercise);
-                  }}
+                  className={`${isExerciseDone(exercise) && "opacity-[0.5]"} relative p-2 w-full border relative rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
                 >
                   <div className={`${secondaryTextColor} text-[13px]`}>
                     {exercise.name}
@@ -300,7 +301,7 @@ export default function Workout() {
                     {exercise.primaryFocus}
                   </div>
                   {!isLastInGroup && (
-                    <div className="absolute flex items-center w-full">
+                    <div className="absolute flex items-center w-full z-[500]">
                       <div className="m-auto">
                         <BsLink className={`w-5 h-5 ${secondaryTextColor}`}/>
                       </div>
@@ -311,11 +312,8 @@ export default function Workout() {
             } else {
               return (
                 <div
-                  key={index} 
+                  key={index}
                   className={`${isExerciseDone(exercise) && "opacity-[0.5]"} my-4 p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
-                  onClick={() => {
-                    setCurrentExercise(exercise);
-                  }}
                 >
                   <div className={`${secondaryTextColor} text-[13px]`}>
                     {exercise.name}
