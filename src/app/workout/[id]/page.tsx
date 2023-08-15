@@ -9,7 +9,7 @@ import { getOrdinalSuffix } from "@/utils/getOrdinalSuffix";
 import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
 import { LuTimer } from "react-icons/lu";
@@ -99,11 +99,20 @@ export default function Workout() {
     return '';
   };
 
+  const currentExerciseSetIndexRef = useRef<number>(currentExerciseSet?.index);
+
   const videoId = getEmbeddedLink(currentExercise?.videoLink);
 
   const isLastExercise = () => currentExercise?.index === exercises.length - 1;
 
-  const isLastExerciseSet = () => exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index;
+  useEffect(() => {
+    currentExerciseSetIndexRef.current = currentExerciseSet?.index;
+  }, [currentExerciseSet?.index]);
+
+  const isLastExerciseSet = () => {
+    console.log("currentExerciseSet.index", currentExerciseSetIndexRef.current);
+    return exercises[currentExercise.index].sets.length - 1 === currentExerciseSetIndexRef.current;
+  };
 
   const isExerciseDone = (exercise: IExercise) => {
     return exercise.sets.every((set: any) => set.status === "DONE");
@@ -112,6 +121,7 @@ export default function Workout() {
   const isExerciseSetTimeBased = () => {
     return currentExerciseSet.time && currentExerciseSet.time !== "00:00";
   }
+
 
   // tech spec for the primary action:
   // create a switch case to handle the status of an exercise's set
@@ -152,12 +162,12 @@ export default function Workout() {
     }, 1000);
   };
   
-  const handleExerciseSetTimer = () => {
-    handleTimer(currentExerciseSet.time, handleRestTimer, "time");
+  const handleExerciseSetTimer = (updatedExerciseSet?: any) => {
+    handleTimer(updatedExerciseSet?.time || currentExerciseSet.time, handleRestTimer, "time");
   };
-  
+
   const handleRestTimer = () => {
-    handleTimer(currentExerciseSet.rest, handleNextExerciseSet, "rest");
+    handleTimer(currentExerciseSet.rest, handleNextTimerExerciseSet, "rest");
   };
 
   // ON CLICK OF BUTTON
@@ -173,6 +183,7 @@ export default function Workout() {
 
     const checkIfTimedSet = () => {
       if (isExerciseSetTimeBased()) {
+        console.log("checkIfTimedSet timebasedHERE");
         setPrimaryButton({
           value: currentExerciseSet.time,
           icon: <LuTimer className={`${secondaryTextColor}`} />,
@@ -186,18 +197,23 @@ export default function Workout() {
         });
       }
     }
-
-    console.log("countdown ends");
-  
+      
     switch (currentExerciseSet.status) {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
         checkIfTimedSet();
         onPlayButtonClick();
-        handleExerciseSetTimer();
+
+        if(isExerciseSetTimeBased()) {
+          console.log("handleClickPrimaryAction PENDING timebasedHERE");
+          handleExerciseSetTimer();
+        }
         return;
       case "ONGOING":
-        handleNextExerciseSet();
+        if(!isExerciseSetTimeBased()) {
+          console.log("handleClickPrimaryAction ONGOING NOT");
+          handleNextRepExerciseSet();
+        }
         return;
       case "DONE":
         return;
@@ -205,8 +221,60 @@ export default function Workout() {
         return;
     }
   };
+  
+  const handleNextTimerExerciseSet = () => {
+    updateExerciseSet("DONE", currentExerciseSet.index);
+  
+    setCurrentExercise((prevExercise: any) => {
+      const nextExerciseIndex = prevExercise.index + 1;
+  
+      if (!isLastExerciseSet()) {
+        setCurrentExerciseSet((prevSet: any) => ({
+          ...prevExercise.sets[prevSet.index + 1],
+          index: prevSet.index + 1,
+        }));
+        
+        // @NOTE: THIS IS STILL RUNNING EVEN THOUGH CURRENT EXERCISE SET IS TIME BASE
+        if(isExerciseSetTimeBased()) {
+          console.log("handleNextTimerExerciseSet 1 timebasedHERE");
+          handleExerciseSetTimer({
+            ...exercises[nextExerciseIndex].sets[nextExerciseIndex],
+            status: "PENDING",
+            index: nextExerciseIndex,
+          });
+        }
+  
+        return {
+          ...prevExercise,
+          index: nextExerciseIndex
+        };
+      }
+      
+      setCurrentExerciseSet((prevSet: any) => ({
+        ...exercises[prevExercise.index].sets[prevSet.index],
+        status: "PENDING",
+        index: 0,
+      }));
+      
+      // @NOTE: THIS IS STILL RUNNING EVEN THOUGH CURRENT EXERCISE SET IS TIME BASE
+      if(isExerciseSetTimeBased()) {
+        console.log("handleNextTimerExerciseSet 2 timebasedHERE");
+        handleExerciseSetTimer({
+          ...exercises[nextExerciseIndex]?.sets[0],
+          status: "PENDING",
+          index: 0,
+        });
+      }
+      
+      return {
+        ...exercises[nextExerciseIndex - 1],
+        index: nextExerciseIndex - 1,
+      };
+    });
+  };  
 
-  const handleNextExerciseSet = () => {
+  // handleNextExerciseSet
+  const handleNextRepExerciseSet = () => {
     updateExerciseSet("DONE", currentExerciseSet.index);
     
     if (isLastExercise()) {
@@ -219,25 +287,11 @@ export default function Workout() {
       return;
     }
 
-    if (isLastExerciseSet()) {
+    if (!isLastExerciseSet()) {
       setCurrentExerciseSet((prev: any) => ({
         ...currentExercise.sets[prev.index + 1],
         index: prev.index + 1,
       }));
-    }
-
-    if(isExerciseSetTimeBased()) {
-      handleExerciseSetTimer();
-      setCurrentExercise((prev: any) => ({
-        ...exercises[prev.index + 1],
-        index: prev.index + 1,
-      }));
-      setCurrentExerciseSet((prev: any) => ({
-        ...exercises[currentExercise.index].sets[prev.index],
-        status: "PENDING",
-        index: 0,
-      }));
-      return;
     }
 
     setPrimaryButton({
