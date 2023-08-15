@@ -6,17 +6,20 @@ import { MuscleFlex } from "@/components/global/Icons";
 import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
 import { getOrdinalSuffix } from "@/utils/getOrdinalSuffix";
-import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
+import { LuTimer } from "react-icons/lu";
 import { useQuery } from "react-query";
+import YouTubePlayer from "./YoutubePlayer";
 
 type PrimaryButton = {
   value: string;
   variant: ButtonVariant;
+  icon?: any;
 };
 
 export default function Workout() {
@@ -34,9 +37,11 @@ export default function Workout() {
   );
   const [primaryButton, setPrimaryButton] = useState<PrimaryButton>({
     value: "Start now",
-    variant: "contained"
+    variant: "contained",
+    icon: null
   });
   const [showDoneWorkout, setShowDoneWorkout] = useState<boolean>(false);
+  const [shouldPlayVideo, setShouldPlayVideo] = useState<boolean>(false);
 
   const { 
     data: workout,
@@ -87,18 +92,25 @@ export default function Workout() {
       const videoIdMatch = url.match(youtubeRegex);
       if (videoIdMatch && videoIdMatch[4]) {
         const videoId = videoIdMatch[4];
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        return videoId;
+        // return `https://www.youtube.com/embed/${videoId}`;
       }
     }
     return '';
   };
 
-  const embeddedLink = getEmbeddedLink(currentExercise?.videoLink);
+  const videoId = getEmbeddedLink(currentExercise?.videoLink);
 
   const isLastExercise = () => currentExercise?.index === exercises.length - 1;
 
+  const isLastExerciseSet = () => exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index;
+
   const isExerciseDone = (exercise: IExercise) => {
     return exercise.sets.every((set: any) => set.status === "DONE");
+  }
+
+  const isExerciseSetTimeBased = () => {
+    return currentExerciseSet.time && currentExerciseSet.time !== "00:00";
   }
 
   // tech spec for the primary action:
@@ -108,6 +120,47 @@ export default function Workout() {
   // if all the sets of a certain exercise is already done. Proceed with the next exercise
   // repeat
   // @TASK: handle superset and timed exercises
+
+  const handleTimer = (
+    time: string,
+    onComplete: any,
+    fieldName
+  ) => {
+    const [minutes, seconds] = time.split(":");
+    const totalTimeInSeconds = parseInt(minutes) * 60 + parseInt(seconds);
+  
+    let remainingTime = totalTimeInSeconds;
+  
+    const countdownInterval = setInterval(() => {
+      remainingTime -= 1;
+  
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+        onComplete();
+        return;
+      } else {
+        const formattedTime = `${Math.floor(remainingTime / 60)
+          .toString()
+          .padStart(2, "0")}:${(remainingTime % 60).toString().padStart(2, "0")}`;
+  
+        setPrimaryButton((prev) => ({
+          ...prev,
+          variant: fieldName === "time" ? 'contained' : 'outlined',
+          value: formattedTime,
+        }));
+      }
+    }, 1000);
+  };
+  
+  const handleExerciseSetTimer = () => {
+    handleTimer(currentExerciseSet.time, handleRestTimer, "time");
+  };
+  
+  const handleRestTimer = () => {
+    handleTimer(currentExerciseSet.rest, handleNextExerciseSet, "rest");
+  };
+
+  // ON CLICK OF BUTTON
   const handleClickPrimaryAction = () => {
     if (!currentExerciseSet.reps) {
       throw new Error("Rep is not defined.");
@@ -117,66 +170,99 @@ export default function Workout() {
       router.back();
       return;
     }
-  
-    const updateExerciseSet = (status: string, nextIndex: number) => {
-      setCurrentExerciseSet((prev: any) => ({
-        ...prev,
-        status,
-        index: nextIndex,
-      }));
-      handleUpdateExercises(status);
-    };
-  
-    switch (currentExerciseSet.status) {
-      case "PENDING":
-        updateExerciseSet("ONGOING", currentExerciseSet.index);
+
+    const checkIfTimedSet = () => {
+      if (isExerciseSetTimeBased()) {
+        setPrimaryButton({
+          value: currentExerciseSet.time,
+          icon: <LuTimer className={`${secondaryTextColor}`} />,
+          variant: "contained"
+        });
+        return;
+      } else {
         setPrimaryButton({
           value: "End set",
           variant: "danger"
         });
+      }
+    }
+
+    console.log("countdown ends");
+  
+    switch (currentExerciseSet.status) {
+      case "PENDING":
+        updateExerciseSet("ONGOING", currentExerciseSet.index);
+        checkIfTimedSet();
+        onPlayButtonClick();
+        handleExerciseSetTimer();
         return;
       case "ONGOING":
-        updateExerciseSet("DONE", currentExerciseSet.index);
-        
-        if (isLastExercise()) {
-          setShowDoneWorkout(true);
-          setPrimaryButton({
-            value: "Done workout",
-            variant: "success",
-          });
-          setCurrentExercise(null);
-          return;
-        } else {
-          setPrimaryButton({
-            value: "Start now",
-            variant: "contained",
-          });
-        }
-  
-        if (exercises[currentExercise.index].sets.length - 1 !== currentExerciseSet.index) {
-          setCurrentExerciseSet((prev: any) => ({
-            ...currentExercise.sets[prev.index + 1],
-            index: prev.index + 1,
-          }));
-        } else {
-          setCurrentExercise((prev: any) => ({
-            ...exercises[prev.index + 1],
-            index: prev.index + 1,
-          }));
-          setCurrentExerciseSet((prev: any) => ({
-            ...exercises[currentExercise.index].sets[prev.index],
-            status: "PENDING",
-            index: 0,
-          }));
-        }
-
+        handleNextExerciseSet();
         return;
       case "DONE":
         return;
       default:
         return;
     }
-  };  
+  };
+
+  const handleNextExerciseSet = () => {
+    updateExerciseSet("DONE", currentExerciseSet.index);
+    
+    if (isLastExercise()) {
+      setShowDoneWorkout(true);
+      setPrimaryButton({
+        value: "Done workout",
+        variant: "success",
+      });
+      setCurrentExercise(null);
+      return;
+    }
+
+    if (isLastExerciseSet()) {
+      setCurrentExerciseSet((prev: any) => ({
+        ...currentExercise.sets[prev.index + 1],
+        index: prev.index + 1,
+      }));
+    }
+
+    if(isExerciseSetTimeBased()) {
+      handleExerciseSetTimer();
+      setCurrentExercise((prev: any) => ({
+        ...exercises[prev.index + 1],
+        index: prev.index + 1,
+      }));
+      setCurrentExerciseSet((prev: any) => ({
+        ...exercises[currentExercise.index].sets[prev.index],
+        status: "PENDING",
+        index: 0,
+      }));
+      return;
+    }
+
+    setPrimaryButton({
+      value: "Start now",
+      variant: "contained"
+    });
+    setCurrentExercise((prev: any) => ({
+      ...exercises[prev.index + 1],
+      index: prev.index + 1,
+    }));
+    setCurrentExerciseSet((prev: any) => ({
+      ...exercises[currentExercise.index].sets[prev.index],
+      status: "PENDING",
+      index: 0,
+    }));
+  };
+
+  const updateExerciseSet = (status: string, nextIndex: number) => {
+    setCurrentExerciseSet((prev: any) => ({
+      ...prev,
+      status,
+      index: nextIndex,
+    }));
+    handleUpdateExercises(status);
+  };
 
   const handleUpdateExercises = (status: string) => {
     const updatedExercises = exercises.map((exercise: any) => {
@@ -206,7 +292,6 @@ export default function Workout() {
         <MuscleFlex className="m-auto"/>
         <div className="text-center">
           <div className={`${secondaryTextColor} mt-3 font-medium`}>
-            {/* <BsCheckCircleFill className="text-green-500 w-5 h-5"/> */}
             Congratulations!
           </div>
           <div className={`${tertiaryTextColor} font-light`}>
@@ -215,6 +300,27 @@ export default function Workout() {
         </div>
       </div>
     );
+  };
+
+  const [player, setPlayer] = useState<any>(null);
+
+  const onPlayButtonClick = () => {
+    if (player) {
+      player.playVideo();
+    }
+  };
+
+  const onPauseButtonClick = () => {
+    if (player) {
+      player.pauseVideo();
+    }
+  };
+
+  const onSeekButtonClick = () => {
+    if (player) {
+      const newPosition = 60; // Seek to 60 seconds
+      player.seekTo(newPosition, true);
+    }
   };
 
   if(isLoading) {
@@ -254,7 +360,7 @@ export default function Workout() {
                 </div>
                 <div className={`${secondaryTextColor} font-light text-[14px] rounded-xl p-3 w-fit dark:bg-neutral-50 bg-neutral-200`}>
                   <div className="text-neutral-950 w-[150px] mt-1 text-[12px]">
-                    {currentExercise?.instruction}
+                    {currentExercise?.instruction} {shouldPlayVideo.toString()} {videoId}
                   </div>
                 </div>
               </div>
@@ -266,15 +372,22 @@ export default function Workout() {
           {showDoneWorkout ? (
             <DoneWorkout />
           ) : (
-            <div className="flex gap-[50px] m-auto w-full h-full">
-              <iframe
-                width="100%"
-                height="100%"
-                className="rounded-lg md:rounded-none"
-                src={embeddedLink}
-                title="YouTube Video"
-                allowFullScreen
-              ></iframe>
+            <div className="m-auto w-full h-full">
+              <div className="video-wrapper">
+                <div className="frame-container">
+                  {videoId && (
+                    <YouTubePlayer player={player} setPlayer={setPlayer} videoId={videoId} />
+                  )}
+                  {/* <iframe
+                    width="100%"
+                    height="100%"
+                    className="rounded-lg md:rounded-none"
+                    src={`${embeddedLink}?rel=0&controls=0&autoplay=${shouldPlayVideo ? 1 : 0}&modestbranding=1`}
+                    title="YouTube Video"
+                    allowFullScreen
+                  ></iframe> */}
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -348,7 +461,11 @@ export default function Workout() {
               <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
             </div>
           </div>
-          <Button variant={primaryButton.variant} onClick={handleClickPrimaryAction}>
+          <Button 
+            variant={primaryButton.variant} 
+            onClick={handleClickPrimaryAction}
+            startIcon={primaryButton.icon}
+          >
             {primaryButton.value}
           </Button>
         </div>

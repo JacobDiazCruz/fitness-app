@@ -1,6 +1,5 @@
 import useWorkout from "@/store/Workout/useWorkout";
 import { ExerciseType, IExercise } from "@/types/exercise";
-import { IHandleChangeSetFieldParams } from "@/types/workout";
 
 export const initialSet = {
   setType: "",
@@ -50,42 +49,6 @@ export default function useSelectedExerciseController() {
     dispatch({
       type: "SET_SELECTED_EXERCISES",
       data: [...filteredExercises, ...unmergedExercises]
-    });
-  };
-
-  /**
-   * @purpose To push the next exercise from the superset's exercises
-   * @note N/A
-   */
-  const hookNewExerciseToSuperset = (
-    hookType: "next" | "prev",
-    exerciseSecondaryId: string,
-    supersetIndex: number
-  ) => {
-    const clonedSelectedExercises = [...selectedExercises];
-    const selectedSupersetIndex = clonedSelectedExercises.findIndex(
-      (exercise) => exercise.secondaryId === exerciseSecondaryId
-    );
-
-    if (selectedSupersetIndex === -1) return;
-
-    const selectedSuperset = clonedSelectedExercises[selectedSupersetIndex];
-    
-    if (selectedSuperset && hookType === "prev") {
-      const prevExerciseIndex = supersetIndex - 1;
-      const prevExercise = clonedSelectedExercises.splice(prevExerciseIndex, 1)[0];
-      selectedSuperset.supersetExercises.unshift(prevExercise);
-    }
-    
-    if (selectedSuperset && hookType === "next") {
-      const nextExerciseIndex = supersetIndex + 1;
-      const nextExercise = clonedSelectedExercises.splice(nextExerciseIndex, 1)[0];
-      selectedSuperset.supersetExercises.push(nextExercise);
-    }
-
-    dispatch({
-      type: "SET_SELECTED_EXERCISES",
-      data: clonedSelectedExercises
     });
   };
 
