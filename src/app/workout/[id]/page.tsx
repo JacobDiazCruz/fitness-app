@@ -55,18 +55,31 @@ export default function Workout() {
   );
 
   useEffect(() => {
-    if(workout) {
-      setExercises(workout.workoutDetails.exercises);
+    if (workout) {
+      const flattenedExercises = workout.workoutDetails.exercises.reduce((acc, exercise) => {
+        if (exercise.supersetExercises) {
+          acc.push(...exercise.supersetExercises.map(subExercise => ({ ...subExercise, groupId: exercise._id })));
+        } else if (exercise.circuitExercises) {
+          acc.push(...exercise.circuitExercises.map(subExercise => ({ ...subExercise, groupId: exercise._id })));
+        } else {
+          acc.push({ ...exercise, groupId: exercise.id });
+        }
+        return acc;
+      }, []);
+  
+      setExercises(flattenedExercises);
+  
       setCurrentExercise({
-        ...workout.workoutDetails.exercises[0],
+        ...flattenedExercises[0],
         index: 0
       });
+  
       setCurrentExerciseSet({
-        ...workout.workoutDetails.exercises[0].sets[0],
+        ...flattenedExercises[0].sets[0],
         index: 0
       });
     }
-  }, [workout]);
+  }, [workout]);  
 
   const getEmbeddedLink = (url: string) => {
     const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch\/([^?/#&]+)/;
@@ -156,7 +169,6 @@ export default function Workout() {
             }
           });
         }
-
         return;
       case "DONE":
         return;
@@ -268,39 +280,39 @@ export default function Workout() {
             <div className={`${tertiaryTextColor} text-[13px]`}>Chest Workout</div>
           </div>
           {exercises.map((exercise: IExercise, index: number) => {
-            if(exercise.supersetExercises?.length) {
+            const nextExercise = exercises[index + 1];
+            
+            if(exercise?.groupId) {
+              const isLastInGroup = !nextExercise || exercise.groupId !== nextExercise.groupId;
+
               return (
-                <div className="my-3">
-                  {exercise.supersetExercises.map((supersetExercise: any, superindex: number) => (
-                    <div 
-                      key={superindex}
-                      className={`p-2 w-full border relative rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
-                      onClick={() => {
-                        setCurrentExercise(exercise);
-                      }}
-                    >
-                      <div className={`${secondaryTextColor} text-[13px]`}>
-                        {supersetExercise.name}
+                <div 
+                  key={index}
+                  className={`p-2 w-full border relative rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                  onClick={() => {
+                    setCurrentExercise(exercise);
+                  }}
+                >
+                  <div className={`${secondaryTextColor} text-[13px]`}>
+                    {exercise.name}
+                  </div>
+                  <div className={`${handlePrimaryFocusColor(exercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
+                    {exercise.primaryFocus}
+                  </div>
+                  {!isLastInGroup && (
+                    <div className="absolute flex items-center w-full">
+                      <div className="m-auto">
+                        <BsLink className={`w-5 h-5 ${secondaryTextColor}`}/>
                       </div>
-                      <div className={`${handlePrimaryFocusColor(supersetExercise.primaryFocus)} w-fit rounded-lg px-1 mt-1 text-[10px]`}>
-                        {supersetExercise.primaryFocus}
-                      </div>
-                      {exercise.supersetExercises.length - 1 !== superindex && (
-                        <div className="absolute flex items-center w-full">
-                          <div className="m-auto">
-                            <BsLink className={`w-5 h-5 ${secondaryTextColor}`}/>
-                          </div>
-                        </div>
-                      )}
                     </div>
-                  ))}
+                  )}
                 </div>
               );
             } else {
               return (
                 <div
                   key={index} 
-                  className={`${isExerciseDone(exercise) && "opacity-[0.5]"} p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
+                  className={`${isExerciseDone(exercise) && "opacity-[0.5]"} my-4 p-2 w-full border mb-3 rounded-lg ${exercise.secondaryId === currentExercise?.secondaryId ? "border-blue-500 dark:blue-300 bg-blue-50 dark:bg-blue-950" : borderColor}`}
                   onClick={() => {
                     setCurrentExercise(exercise);
                   }}
