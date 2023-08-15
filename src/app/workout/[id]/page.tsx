@@ -172,15 +172,11 @@ export default function Workout() {
   };
 
   const handleRestTimer = () => {
-    handleTimer(currentExerciseSet.rest, handleNextTimerExerciseSet, "rest");
+    handleTimer(currentExerciseSet.rest, handleNextExerciseSet, "rest");
   };
 
   // ON CLICK OF BUTTON
   const handleClickPrimaryAction = () => {
-    if (!currentExerciseSet.reps) {
-      throw new Error("Rep is not defined.");
-    }
-  
     if (primaryButton.value === "Done Workout") {
       router.back();
       return;
@@ -201,7 +197,7 @@ export default function Workout() {
         });
       }
     }
-      
+
     switch (currentExerciseSet.status) {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
@@ -213,8 +209,12 @@ export default function Workout() {
         }
         return;
       case "ONGOING":
-        if(!isExerciseSetTimeBased()) {
-          handleNextRepExerciseSet();
+        handleNextExerciseSet();
+        if(isLastExercise()) {
+          setPrimaryButton({
+            value: "Done workout",
+            variant: "success"
+          });
         }
         return;
       case "DONE":
@@ -224,7 +224,7 @@ export default function Workout() {
     }
   };
   
-  const handleNextTimerExerciseSet = () => {
+  const handleNextExerciseSet = () => {
     updateExerciseSet("DONE", currentExerciseSet.index);
   
     setCurrentExercise((prevExercise: any) => {
@@ -235,7 +235,7 @@ export default function Workout() {
           ...prevExercise.sets[prevSet.index + 1],
           index: prevSet.index + 1,
         }));
-        
+
         // @NOTE: THIS IS STILL RUNNING EVEN THOUGH CURRENT EXERCISE SET IS TIME BASE
         if(isExerciseSetTimeBased()) {
           handleExerciseSetTimer({
@@ -249,7 +249,7 @@ export default function Workout() {
             variant: "contained"
           });
         }
-  
+
         return {
           ...prevExercise,
           index: nextExerciseIndex
@@ -281,43 +281,7 @@ export default function Workout() {
         index: nextExerciseIndex - 1,
       };
     });
-  };  
-
-  // handleNextExerciseSet
-  const handleNextRepExerciseSet = () => {
-    updateExerciseSet("DONE", currentExerciseSet.index);
-    
-    if (isLastExercise()) {
-      setShowDoneWorkout(true);
-      setPrimaryButton({
-        value: "Done workout",
-        variant: "success",
-      });
-      setCurrentExercise(null);
-      return;
-    }
-
-    if (!isLastExerciseSet()) {
-      setCurrentExerciseSet((prev: any) => ({
-        ...currentExercise.sets[prev.index + 1],
-        index: prev.index + 1,
-      }));
-    }
-
-    setPrimaryButton({
-      value: "Start now",
-      variant: "contained"
-    });
-    setCurrentExercise((prev: any) => ({
-      ...exercises[prev.index + 1],
-      index: prev.index + 1,
-    }));
-    setCurrentExerciseSet((prev: any) => ({
-      ...exercises[currentExercise.index].sets[prev.index],
-      status: "PENDING",
-      index: 0,
-    }));
-  };
+  }; 
 
   const updateExerciseSet = (status: string, nextIndex: number) => {
     setCurrentExerciseSet((prev: any) => ({
