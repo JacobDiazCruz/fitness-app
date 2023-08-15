@@ -22,7 +22,7 @@ export default function EditSetModal({
       </ModalContent>
       <ModalFooter>
         <div className="flex justify-between">
-          <Button 
+          <Button
             className="ml-auto"
             onClick={onClose}
           >

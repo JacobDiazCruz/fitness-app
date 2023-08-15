@@ -1,4 +1,4 @@
-import { memo, ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import Button from "@/components/global/Button";
 import TextField from "@/components/global/TextField";
@@ -108,6 +108,7 @@ export default function EditSetForm(props: any) {
       value: formattedTime,
       field,
       supersetExerciseIndex: supersetIndex,
+      circuitExerciseIndex: circuitIndex,
       exerciseIndex,
       setIndex
     });
@@ -194,12 +195,10 @@ export default function EditSetForm(props: any) {
                   <div className="md:w-[100px]">
                     <TextField
                       value={time}
-                      type="number"
                       onChange={(e) => {
-                        handleChangeSetField({
-                          value: e.target.value,
+                        handleTimeChange({
+                          e,
                           field: "time",
-                          circuitExerciseIndex: circuitIndex,
                           exerciseIndex,
                           setIndex
                         });
@@ -254,7 +253,8 @@ export default function EditSetForm(props: any) {
                       handleAddExerciseSet(
                         exerciseType, 
                         exerciseIndex,
-                        supersetIndex
+                        supersetIndex,
+                        circuitIndex
                       )}
                     }
                   >

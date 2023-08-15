@@ -1,13 +1,15 @@
 import FieldName from "@/components/global/FieldName";
-import { IExercise } from "@/types/exercise";
+import { ExerciseType, IExercise } from "@/types/exercise";
 import { borderColor, secondaryBgColor, tertiaryBgColor } from "@/utils/themeColors";
 
 interface Props {
   exercise: IExercise;
+  exerciseType: ExerciseType;
 };
 
 export default function SelectedExerciseSets({
-  exercise
+  exercise,
+  exerciseType
 }: Props) {
   const { sets } = exercise;
 
@@ -22,7 +24,7 @@ export default function SelectedExerciseSets({
           </div>
           <div className="flex-1">
             <FieldName>
-              Reps
+              {exerciseType === "circuit" ? "Time" : "Reps"}
             </FieldName>
           </div>
           <div className="flex-1">
@@ -37,7 +39,9 @@ export default function SelectedExerciseSets({
               <FieldName>{index + 1}</FieldName>
             </div>
             <div className="flex-1">
-              <FieldName>{set.reps}</FieldName>
+              <FieldName>
+                {exerciseType === "circuit" ? set.time : set.reps}
+              </FieldName>
             </div>
             <div className="flex-1">
               <FieldName>{set.rest}</FieldName>

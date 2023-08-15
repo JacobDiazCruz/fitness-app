@@ -67,7 +67,10 @@ export default function SelectedExercises() {
                       })
                     }}
                   />
-                  <SelectedExerciseSets exercise={supersetExercise} />
+                  <SelectedExerciseSets 
+                    exercise={supersetExercise} 
+                    exerciseType={exerciseType}
+                  />
                 </SelectedExercise>
               ))}
             </Superset>
@@ -92,7 +95,10 @@ export default function SelectedExercises() {
                       })
                     }}
                   />
-                  <SelectedExerciseSets exercise={circuitExercise} />
+                  <SelectedExerciseSets 
+                    exercise={circuitExercise} 
+                    exerciseType={exerciseType}
+                  />
                 </SelectedExercise>
               ))}
             </Circuit>
@@ -110,7 +116,10 @@ export default function SelectedExercises() {
                   })
                 }}
               />
-              <SelectedExerciseSets exercise={exercise} />
+              <SelectedExerciseSets 
+                exercise={exercise} 
+                exerciseType={exerciseType}
+              />
             </SelectedExercise>
           );
       }

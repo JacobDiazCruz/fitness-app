@@ -23,7 +23,7 @@ export default function Circuit({
   const { selectedExercises } = state;
 
   const { 
-    handleUnmergeSuperset,
+    handleUnmergeGroupExercise,
     hookNewExerciseToGroupExercise
   } = useSelectedExerciseController();
 
@@ -45,9 +45,9 @@ export default function Circuit({
     return (
       <div className="flex items-center w-full">
         <Tooltip 
-          value="Hook to superset"
+          value="Hook to circuit"
           className="m-auto"
-          tooltipClassName="min-w-[120px]"
+          tooltipClassName="min-w-[100px]"
         >
           <IconButton
             onClick={() => {
@@ -115,7 +115,12 @@ export default function Circuit({
                 variant="outlined"
                 className="mr-2"
                 startIcon={<ViewFinderIcon />}
-                onClick={() => handleUnmergeSuperset?.(exerciseSecondaryId)}
+                onClick={() => {
+                  handleUnmergeGroupExercise({
+                    exerciseSecondaryId,
+                    groupField: "circuitExercises"
+                  });
+                }}
               >
                 Unmerge
               </Button>

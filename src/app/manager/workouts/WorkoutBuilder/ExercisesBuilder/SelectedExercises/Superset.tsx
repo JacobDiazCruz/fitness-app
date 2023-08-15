@@ -16,11 +16,11 @@ export default function Superset({
   exerciseSecondaryId?: string;
   exerciseIndex: number;
 }) {
-  const { state, dispatch } = useWorkout();
+  const { state } = useWorkout();
   const { selectedExercises } = state;
 
   const { 
-    handleUnmergeSuperset,
+    handleUnmergeGroupExercise,
     hookNewExerciseToGroupExercise
   } = useSelectedExerciseController();
 
@@ -67,7 +67,12 @@ export default function Superset({
               variant="outlined"
               className="mr-2"
               startIcon={<CubeTransparentIcon />}
-              onClick={() => handleUnmergeSuperset?.(exerciseSecondaryId)}
+              onClick={() => {
+                handleUnmergeGroupExercise({
+                  exerciseSecondaryId,
+                  groupField: "supersetExercises"
+                });
+              }}
             >
               Unmerge
             </Button>
