@@ -11,9 +11,9 @@ import useSelectedExerciseController from "@/hooks/workouts/useSelectedExerciseC
 interface SelectedExerciseFormProps {
   exercise: IExercise;
   exerciseType: ExerciseType;
+  exerciseIndex: number;
   supersetIndex?: number;
   circuitIndex?: number;
-  exerciseIndex: number;
 };
 interface HandleTimeChangeParams {
   e: any;
@@ -22,13 +22,15 @@ interface HandleTimeChangeParams {
   setIndex: number;
 };
 
-const SelectedExerciseForm = ({
-  exercise,
-  exerciseType,
-  supersetIndex = 0,
-  circuitIndex = 0,
-  exerciseIndex
-}: any) => {
+const SelectedExerciseForm = (props: any) => {
+  const {
+    exercise,
+    exerciseType,
+    supersetIndex = 0,
+    circuitIndex = 0,
+    exerciseIndex
+  }: SelectedExerciseFormProps = props;
+
   const { state, dispatch } = useWorkout();
   const { selectedExercises } = state;
   const { sets } = exercise;
@@ -152,7 +154,7 @@ const SelectedExerciseForm = ({
   };
 
   return (
-    <div className={`dark:bg-darkTheme-800 bg-white px-6 py-6`}>
+    <div className={`dark:bg-darkTheme-800 bg-white`}>
       {sets?.map((set: any, setIndex: number) => {
         const {setType, reps, rest, time = "00:00"} = set;
 

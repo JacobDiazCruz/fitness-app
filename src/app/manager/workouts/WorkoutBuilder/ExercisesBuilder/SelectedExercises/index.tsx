@@ -3,12 +3,14 @@ import useWorkout from "@/store/Workout/useWorkout";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
 import Superset from "./Superset";
-import { IExercise } from "@/types/exercise";
+import { ExerciseType, IExercise } from "@/types/exercise";
 import Circuit from "./Circuit";
 import SelectedExerciseHeader from "./SelectedExercise/SelectedExerciseHeader";
 import SelectedExerciseForm from "./SelectedExercise/SelectedExerciseForm";
 import SelectedExerciseSets from "./SelectedExercise/SelectedExerciseSets";
-import Modal, { ModalContent, ModalHeader } from "@/components/global/Modal";
+import Modal, { ModalContent, ModalFooter, ModalHeader } from "@/components/global/Modal";
+import { primaryTextColor } from "@/utils/themeColors";
+import Button from "@/components/global/Button";
 
 interface ISelectedExerciseFactory {
   exercise: IExercise;
@@ -16,20 +18,30 @@ interface ISelectedExerciseFactory {
   exerciseIndex: number;
 };
 
+interface IEditSet {
+  exercise: IExercise;
+  exerciseType: ExerciseType;
+  exerciseIndex: number;
+  supersetIndex?: number;
+  circuitIndex?: number;
+};
+
 export default function SelectedExercises() {
   const { state } = useWorkout();
   const { selectedExercises } = state;
 
+  const [currentEditedExerciseSet, setCurrentEditedExerciseSet] = useState<IEditSet>(
+    // @ts-ignore
+    null
+  );
+  
   const [showEditSets, setShowEditSets] = useState(false);
-  const [currentEditedExerciseSet] = useState({
-    exercise: "",
-    exerciseType: "",
-    exerciseIndex: 0,
-    supersetIndex: 0,
-    circuitIndex: 0
-  });
-
   const [draggedExercise, setDraggedExercise] = useState<IExercise | null>(null);
+
+  const handleEditSets = (data: IEditSet) => {
+    setCurrentEditedExerciseSet(data);
+    setShowEditSets(true);
+  };
 
   /**
    * @purpose To return a superset or normal "SelectedExercise" component
@@ -46,16 +58,19 @@ export default function SelectedExercises() {
             >
               {exercise.supersetExercises?.map((supersetExercise: IExercise, supersetIndex: number) => (
                 <SelectedExercise>
-                  {/* <SelectedExerciseHeader
+                  <SelectedExerciseHeader
                     exercise={supersetExercise}
                     showCheckInput={false}
+                    handleEditSets={() => {
+                      handleEditSets({
+                        exercise: supersetExercise,
+                        exerciseType,
+                        exerciseIndex,
+                        supersetIndex
+                      })
+                    }}
                   />
-                  <SelectedExerciseForm
-                    exercise={supersetExercise}
-                    exerciseType={exerciseType}
-                    exerciseIndex={exerciseIndex}
-                    supersetIndex={supersetIndex}
-                  /> */}
+                  <SelectedExerciseSets exercise={supersetExercise} />
                 </SelectedExercise>
               ))}
             </Superset>
@@ -71,13 +86,16 @@ export default function SelectedExercises() {
                   <SelectedExerciseHeader
                     exercise={circuitExercise}
                     showCheckInput={false}
+                    handleEditSets={() => {
+                      handleEditSets({
+                        exercise: circuitExercise,
+                        exerciseType,
+                        exerciseIndex,
+                        circuitIndex: circuitIndex
+                      })
+                    }}
                   />
-                  <SelectedExerciseForm
-                    exercise={circuitExercise}
-                    exerciseType={exerciseType}
-                    exerciseIndex={exerciseIndex}
-                    circuitIndex={circuitIndex}
-                  />
+                  <SelectedExerciseSets exercise={circuitExercise} />
                 </SelectedExercise>
               ))}
             </Circuit>
@@ -85,15 +103,17 @@ export default function SelectedExercises() {
         case "normal":
           return (
             <SelectedExercise>
-              <SelectedExerciseHeader exercise={exercise} />
-              <SelectedExerciseSets 
+              <SelectedExerciseHeader 
                 exercise={exercise}
+                handleEditSets={() => {
+                  handleEditSets({
+                    exercise,
+                    exerciseType,
+                    exerciseIndex
+                  })
+                }}
               />
-              {/* <SelectedExerciseForm
-                exercise={exercise}
-                exerciseType={exerciseType}
-                exerciseIndex={exerciseIndex}
-              /> */}
+              <SelectedExerciseSets exercise={exercise} />
             </SelectedExercise>
           );
       }
@@ -134,11 +154,20 @@ export default function SelectedExercises() {
       })}
 
       {showEditSets && (
-        <Modal onClose={() => setShowEditSets(false)}>
-          <ModalHeader>Edit sets</ModalHeader>
+        <Modal className="w-[700px] h-[80%]" onClose={() => setShowEditSets(false)}>
+          <ModalHeader>
+            <div className={`${primaryTextColor}`}>Edit sets</div>
+          </ModalHeader>
           <ModalContent>
-            <SelectedExerciseForm {...currentEditedExerciseSet}/>
+            <SelectedExerciseForm {...currentEditedExerciseSet} />
           </ModalContent>
+          <ModalFooter>
+            <div className="flex justify-between">
+              <Button className="ml-auto">
+                Save
+              </Button>
+            </div>
+          </ModalFooter>
         </Modal>
       )}
     </>

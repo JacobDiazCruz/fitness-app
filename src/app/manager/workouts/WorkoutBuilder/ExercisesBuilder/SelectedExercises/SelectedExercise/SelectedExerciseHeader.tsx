@@ -5,15 +5,17 @@ import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import useExercisesDragController from "@/hooks/workouts/useExercisesDragController";
 import { IExercise } from "@/types/exercise";
 import { borderColor, secondaryTextColor } from "@/utils/themeColors";
-import { memo, useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function SelectedExerciseHeader({
   exercise,
-  showCheckInput = true
+  showCheckInput = true,
+  handleEditSets
 }: {
   exercise: IExercise;
   showCheckInput?: boolean;
+  handleEditSets: () => void;
 }) {
   const {
     checked,
@@ -69,7 +71,12 @@ export default function SelectedExerciseHeader({
         {isDropdownOpen && (
           <div className="dropdown bg-white dark:bg-darkTheme-950 dark:border dark:border-neutral-800 dark:-style w-[150px] ml-[-140px] absolute z-[999] mt-[150px] shadow-md rounded-md">
             <ul className="py-2 text-sm text-gray-700 dark:text-neutral-50" aria-labelledby="dropdownDefaultButton">
-              <li onClick={() => setShowEditSets(true)}>
+              <li 
+                onClick={() => {
+                  handleEditSets();
+                  setIsDropdownOpen(false);
+                }}
+              >
                 <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-darkTheme-900">
                   Edit sets
                 </div>
