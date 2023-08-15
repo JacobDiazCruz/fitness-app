@@ -8,7 +8,7 @@ import { IHandleChangeSetFieldParams } from "@/types/workout";
 import useWorkout from "@/store/Workout/useWorkout";
 import useSelectedExerciseController from "@/hooks/workouts/useSelectedExerciseController";
 
-interface SelectedExerciseFormProps {
+interface EditSetFormProps {
   exercise: IExercise;
   exerciseType: ExerciseType;
   exerciseIndex: number;
@@ -22,14 +22,14 @@ interface HandleTimeChangeParams {
   setIndex: number;
 };
 
-const SelectedExerciseForm = (props: any) => {
+export default function EditSetForm(props: any) {
   const {
     exercise,
     exerciseType,
     supersetIndex = 0,
     circuitIndex = 0,
     exerciseIndex
-  }: SelectedExerciseFormProps = props;
+  }: EditSetFormProps = props;
 
   const { state, dispatch } = useWorkout();
   const { selectedExercises } = state;
@@ -39,7 +39,7 @@ const SelectedExerciseForm = (props: any) => {
     handleAddExerciseSet
   } = useSelectedExerciseController();
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<any>(null);
   const [cursorPosition, setCursorPosition] = useState(0);
 
   const formatTime = (time: string) => {
@@ -268,6 +268,4 @@ const SelectedExerciseForm = (props: any) => {
       })}
     </div>
   );
-}
-
-export default SelectedExerciseForm;
+};

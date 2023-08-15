@@ -6,11 +6,8 @@ import Superset from "./Superset";
 import { ExerciseType, IExercise } from "@/types/exercise";
 import Circuit from "./Circuit";
 import SelectedExerciseHeader from "./SelectedExercise/SelectedExerciseHeader";
-import SelectedExerciseForm from "./SelectedExercise/SelectedExerciseForm";
 import SelectedExerciseSets from "./SelectedExercise/SelectedExerciseSets";
-import Modal, { ModalContent, ModalFooter, ModalHeader } from "@/components/global/Modal";
-import { primaryTextColor } from "@/utils/themeColors";
-import Button from "@/components/global/Button";
+import EditSetModal from "./SelectedExercise/EditSetModal";
 
 interface ISelectedExerciseFactory {
   exercise: IExercise;
@@ -154,21 +151,10 @@ export default function SelectedExercises() {
       })}
 
       {showEditSets && (
-        <Modal className="w-[700px] h-[80%]" onClose={() => setShowEditSets(false)}>
-          <ModalHeader>
-            <div className={`${primaryTextColor}`}>Edit sets</div>
-          </ModalHeader>
-          <ModalContent>
-            <SelectedExerciseForm {...currentEditedExerciseSet} />
-          </ModalContent>
-          <ModalFooter>
-            <div className="flex justify-between">
-              <Button className="ml-auto">
-                Save
-              </Button>
-            </div>
-          </ModalFooter>
-        </Modal>
+        <EditSetModal
+          onClose={() => setShowEditSets(false)}
+          currentEditedExerciseSet={currentEditedExerciseSet}
+        />
       )}
     </>
   );
