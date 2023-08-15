@@ -100,6 +100,7 @@ export default function Workout() {
   };
 
   const currentExerciseSetIndexRef = useRef<number>(currentExerciseSet?.index);
+  const currentExerciseSetRef = useRef<any>(currentExerciseSet);
 
   const videoId = getEmbeddedLink(currentExercise?.videoLink);
 
@@ -109,6 +110,10 @@ export default function Workout() {
     currentExerciseSetIndexRef.current = currentExerciseSet?.index;
   }, [currentExerciseSet?.index]);
 
+  useEffect(() => {
+    currentExerciseSetRef.current = currentExerciseSet;
+  }, [currentExerciseSet]);
+
   const isLastExerciseSet = () => {
     console.log("currentExerciseSet.index", currentExerciseSetIndexRef.current);
     return exercises[currentExercise.index].sets.length - 1 === currentExerciseSetIndexRef.current;
@@ -116,11 +121,11 @@ export default function Workout() {
 
   const isExerciseDone = (exercise: IExercise) => {
     return exercise.sets.every((set: any) => set.status === "DONE");
-  }
+  };
 
   const isExerciseSetTimeBased = () => {
-    return currentExerciseSet.time && currentExerciseSet.time !== "00:00";
-  }
+    return currentExerciseSetRef.current.time && currentExerciseSetRef.current.time !== "00:00";
+  };
 
 
   // tech spec for the primary action:
@@ -183,7 +188,6 @@ export default function Workout() {
 
     const checkIfTimedSet = () => {
       if (isExerciseSetTimeBased()) {
-        console.log("checkIfTimedSet timebasedHERE");
         setPrimaryButton({
           value: currentExerciseSet.time,
           icon: <LuTimer className={`${secondaryTextColor}`} />,
@@ -205,13 +209,11 @@ export default function Workout() {
         onPlayButtonClick();
 
         if(isExerciseSetTimeBased()) {
-          console.log("handleClickPrimaryAction PENDING timebasedHERE");
           handleExerciseSetTimer();
         }
         return;
       case "ONGOING":
         if(!isExerciseSetTimeBased()) {
-          console.log("handleClickPrimaryAction ONGOING NOT");
           handleNextRepExerciseSet();
         }
         return;
@@ -236,11 +238,15 @@ export default function Workout() {
         
         // @NOTE: THIS IS STILL RUNNING EVEN THOUGH CURRENT EXERCISE SET IS TIME BASE
         if(isExerciseSetTimeBased()) {
-          console.log("handleNextTimerExerciseSet 1 timebasedHERE");
           handleExerciseSetTimer({
             ...exercises[nextExerciseIndex].sets[nextExerciseIndex],
             status: "PENDING",
             index: nextExerciseIndex,
+          });
+        } else {
+          setPrimaryButton({
+            value: "Start now",
+            variant: "contained"
           });
         }
   
@@ -253,19 +259,23 @@ export default function Workout() {
       setCurrentExerciseSet((prevSet: any) => ({
         ...exercises[prevExercise.index].sets[prevSet.index],
         status: "PENDING",
-        index: 0,
+        index: 0
       }));
       
       // @NOTE: THIS IS STILL RUNNING EVEN THOUGH CURRENT EXERCISE SET IS TIME BASE
       if(isExerciseSetTimeBased()) {
-        console.log("handleNextTimerExerciseSet 2 timebasedHERE");
         handleExerciseSetTimer({
           ...exercises[nextExerciseIndex]?.sets[0],
           status: "PENDING",
           index: 0,
         });
       }
-      
+
+      setPrimaryButton({
+        value: "Start now",
+        variant: "contained"
+      });
+
       return {
         ...exercises[nextExerciseIndex - 1],
         index: nextExerciseIndex - 1,
