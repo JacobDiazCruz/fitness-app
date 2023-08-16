@@ -41,7 +41,9 @@ export default function Workout() {
     icon: null
   });
   const [showDoneWorkout, setShowDoneWorkout] = useState<boolean>(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  
+  const [isExercisePlaying, setIsExercisePlaying] = useState<boolean>(false);
+  const [isRestPlaying, setIsRestPlaying] = useState<boolean>(false);
 
   const {
     data: workout,
@@ -139,7 +141,7 @@ export default function Workout() {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
         onPlayButtonClick();
-        setIsVideoPlaying(true);
+        setIsExercisePlaying(true);
         setPrimaryButton({
           value: "End set",
           variant: "danger"
@@ -160,6 +162,15 @@ export default function Workout() {
         return;
     }
   };
+
+  useEffect(() => {
+    if(!isExerciseSetTimeBased()) {
+      setPrimaryButton({
+        value: "Start now",
+        variant: "contained"
+      });
+    }
+  }, [currentExercise]);
   
   const handleNextExerciseSet = () => {
     updateExerciseSet("DONE", currentExerciseSet.index);
@@ -340,6 +351,10 @@ export default function Workout() {
         setPrimaryButton={setPrimaryButton}
         updateExerciseSet={updateExerciseSet}
         exercises={exercises}
+        isExercisePlaying={isExercisePlaying}
+        isRestPlaying={isRestPlaying}
+        setIsExercisePlaying={setIsExercisePlaying}
+        setIsRestPlaying={setIsRestPlaying}
         setCurrentExercise={setCurrentExercise}
         setCurrentExerciseSet={setCurrentExerciseSet}
         isLastExerciseSet={isLastExerciseSet}

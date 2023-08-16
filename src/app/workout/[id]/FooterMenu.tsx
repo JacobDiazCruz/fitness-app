@@ -12,6 +12,10 @@ export default function FooterMenu({
   handleClickPrimaryAction,
   isExerciseSetTimeBased,
   setPrimaryButton,
+  isRestPlaying,
+  setIsRestPlaying,
+  isExercisePlaying,
+  setIsExercisePlaying,
   updateExerciseSet,
   exercises,
   setCurrentExercise,
@@ -19,9 +23,6 @@ export default function FooterMenu({
 }: any) {
   const playtimerInSeconds = convertTimerToSeconds(currentExerciseSet?.time || "");
   const restTimerInSeconds = convertTimerToSeconds(currentExerciseSet?.rest || "");
-  
-  const [isExercisePlaying, setIsExercisePlaying] = useState<boolean>(true);
-  const [isRestPlaying, setIsRestPlaying] = useState<boolean>(false);
 
   const [currentTimer, setCurrentTimer] = useState<any>("");
 
@@ -81,7 +82,7 @@ export default function FooterMenu({
           </div>
         </div>
         <div className={`sets flex gap-[40px] w-fit`}>
-          {isExerciseSetTimeBased() ? (
+          {/* {isExerciseSetTimeBased() ? ( */}
             <>
               {isExercisePlaying && (
                 <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
@@ -91,7 +92,7 @@ export default function FooterMenu({
                     duration={parseInt(currentTimer)}
                     size={60}
                     strokeWidth={4}
-                    colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                    colors={['#363636', '#363636', '#363636', '#A30000']}
                     colorsTime={[7, 5, 2, 0]}
                     onComplete={() => {
                       setCurrentTimer(restTimerInSeconds);
@@ -111,7 +112,7 @@ export default function FooterMenu({
                     duration={parseInt(currentTimer)}
                     size={60}
                     strokeWidth={4}
-                    colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                    colors={['#363636', '#363636', '#363636', '#A30000']}
                     colorsTime={[7, 5, 2, 0]}
                     onComplete={() => {
                       handleNextTimedExercise();
@@ -123,8 +124,8 @@ export default function FooterMenu({
                 </div>
               )}
             </>
-          ) : (
-            <>
+          {/* ) : ( */}
+            {/* <>
               <div>
                 <div className={`${secondaryTextColor} text-[14px]`}>Set</div>
                 <div className={`${tertiaryTextColor} text-[14px]`}>{currentExerciseSet?.index + 1}</div>
@@ -133,8 +134,8 @@ export default function FooterMenu({
                 <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
                 <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
               </div>
-            </>
-          )}
+            </> */}
+          {/* )} */}
         </div>
         <Button 
           variant={primaryButton.variant} 
