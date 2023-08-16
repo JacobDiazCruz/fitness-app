@@ -8,15 +8,13 @@ import useAlert from "@/store/Alert";
 import { useRouter } from "next/navigation";
 import useWorkout from "@/store/Workout/useWorkout";
 import WorkoutBuilder from "../WorkoutBuilder";
-import { WorkoutContext } from "@/utils/workoutTypes";
 import useAddProgramWorkout from "@/store/Workout/useAddProgramWorkout";
 
 export default function AddNewWorkout() {
   const router = useRouter();
 
-  const {
-    selectedExercises
-  }: WorkoutContext = useWorkout()!;
+  const { state } = useWorkout();
+  const { selectedExercises } = state;
 
   const {
     programId,

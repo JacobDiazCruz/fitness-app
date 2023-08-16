@@ -15,8 +15,7 @@ export default function FooterMenu({
   updateExerciseSet,
   exercises,
   setCurrentExercise,
-  setCurrentExerciseSet,
-  isLastExerciseSet
+  setCurrentExerciseSet
 }: any) {
   const playtimerInSeconds = convertTimerToSeconds(currentExerciseSet?.time || "");
   const restTimerInSeconds = convertTimerToSeconds(currentExerciseSet?.rest || "");
@@ -30,57 +29,45 @@ export default function FooterMenu({
     setCurrentTimer(playtimerInSeconds);
   }, [playtimerInSeconds]);
 
-  useEffect(() => {
-    console.log("currentTimer", currentTimer)
-    // setIsVideoPlaying(true);
-  }, [currentTimer]);
+  const isLastExerciseSet = () => {
+    return exercises[currentExercise.index].sets.length - 1 == currentExerciseSet.index;
+  }
 
   const handleNextTimedExercise = () => {
     updateExerciseSet("DONE", currentExerciseSet.index);
 
     setCurrentExercise((prevExercise: any) => {
       const nextExerciseIndex = prevExercise.index + 1;
-      
-      if (!isLastExerciseSet()) {
-        setCurrentExerciseSet((prevSet: any) => ({
-          ...prevExercise.sets[prevSet.index + 1],
-          index: prevSet.index + 1,
-        }));
 
+      if (isLastExerciseSet()) {
+        // next exercise set to play
+        setCurrentExerciseSet(() => {
+          return {
+            ...exercises[prevExercise.index].sets[0],
+            status: "PENDING",
+            index: 0
+          }
+        });
         setIsExercisePlaying(true);
 
+        // return next exercise
         return {
-          ...prevExercise,
+          ...exercises[nextExerciseIndex],
           index: nextExerciseIndex
         };
       }
-      
-      // setCurrentExerciseSet((prevSet: any) => {
-      //   console.log("exercises[prevExercise.index].sets[prevSet.index]", exercises[prevExercise.index].sets[prevSet.index])
-      //   return {
-      //     ...exercises[prevExercise.index].sets[prevSet.index],
-      //     status: "PENDING",
-      //     index: 0
-      //   }
-      // });
-      
-      // if(isExerciseSetTimeBased()) {
-      //   console.log("TIMER here1")
-      //   handleExerciseSetTimer();
-      // } else {
-      //   console.log("no timer here1")
-      //   setPrimaryButton({
-      //     value: "Start now",
-      //     variant: "contained"
-      //   });
-      // }
 
-      return {
-        ...exercises[nextExerciseIndex - 1],
-        index: nextExerciseIndex - 1,
-      };
+      setIsExercisePlaying(true);
+      
+      // go to next exercise set
+      setCurrentExerciseSet((prevSet: any) => ({
+        ...prevExercise.sets[prevSet.index + 1],
+        index: prevSet.index + 1,
+      }));
+
+      return prevExercise;
     });
-  }; 
+  };
 
   return (
     <div className={`actionbar border-t w-full ${borderColor} bg-[#131313] m-auto fixed bottom-0 md:left-0 md:right-0`}>
@@ -98,7 +85,7 @@ export default function FooterMenu({
             <>
               {isExercisePlaying && (
                 <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
-                  <div>Workout</div>
+                  <div>Workout {currentExerciseSet.index + 1}</div>
                   <CountdownCircleTimer
                     isPlaying={isExercisePlaying}
                     duration={parseInt(currentTimer)}
@@ -118,7 +105,7 @@ export default function FooterMenu({
               )}
               {isRestPlaying && (
                 <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
-                  <div>Rest</div>
+                  <div>Rest {currentExerciseSet.index + 1}</div>
                   <CountdownCircleTimer
                     isPlaying={isRestPlaying}
                     duration={parseInt(currentTimer)}
@@ -129,7 +116,6 @@ export default function FooterMenu({
                     onComplete={() => {
                       handleNextTimedExercise();
                       setIsRestPlaying(false);
-                      // setCurrentTimer(restTimerInSeconds);
                     }}
                   >
                     {({ remainingTime }) => <p className={`${primaryTextColor} text-[16px]`}>{remainingTime}</p> }

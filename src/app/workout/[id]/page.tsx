@@ -115,8 +115,9 @@ export default function Workout() {
   }, [currentExerciseSet]);
 
   const isLastExerciseSet = () => {
-    console.log("currentExerciseSet.index", currentExerciseSetIndexRef.current);
-    return exercises[currentExercise.index].sets.length - 1 === currentExerciseSetIndexRef.current;
+    console.log("currentExerciseSet?.index", currentExerciseSet?.index)
+    console.log("exercises[currentExerciseSetIndexRef.current].sets", exercises[currentExerciseSetIndexRef.current].sets)
+    return exercises[currentExerciseSetIndexRef.current].sets.length - 1 == currentExerciseSet?.index;
   };
 
   const isExerciseDone = (exercise: IExercise) => {
@@ -127,83 +128,22 @@ export default function Workout() {
     return currentExerciseSetRef.current?.time && currentExerciseSetRef.current.time !== "00:00";
   };
 
-  // tech spec for the primary action:
-  // create a switch case to handle the status of an exercise's set
-  // if the user clicks "End exercise" after an exercise set is done, update its set status to done.
-  // then proceed to the next set.
-  // if all the sets of a certain exercise is already done. Proceed with the next exercise
-  // repeat
-  // @TASK: handle superset and timed exercises
-
-  const handleTimer = (
-    time: string,
-    onComplete: any,
-    fieldName: string
-  ) => {
-    const [minutes, seconds] = time.split(":");
-    const totalTimeInSeconds = parseInt(minutes) * 60 + parseInt(seconds);
-  
-    let remainingTime = totalTimeInSeconds;
-  
-    const countdownInterval = setInterval(() => {
-      remainingTime -= 1;
-  
-      if (remainingTime <= 0) {
-        clearInterval(countdownInterval);
-        onComplete();
-        return;
-      } else {
-        const formattedTime = `${Math.floor(remainingTime / 60)
-          .toString()
-          .padStart(2, "0")}:${(remainingTime % 60).toString().padStart(2, "0")}`;
-  
-        setPrimaryButton((prev) => ({
-          ...prev,
-          variant: fieldName === "rest" ? 'outlined' : 'contained',
-          value: formattedTime
-        }));
-      }
-    }, 1000);
-  };
-  
-  const handleExerciseSetTimer = () => {
-    handleTimer(currentExerciseSet.time, handleRestTimer, "time");
-  };
-
-  const handleRestTimer = () => {
-    handleTimer(currentExerciseSet.rest, handleNextExerciseSet, "rest");
-  };
-
   // ON CLICK OF BUTTON
   const handleClickPrimaryAction = () => {
     if (primaryButton.value === "Done Workout") {
       router.back();
       return;
     }
-
-    // console.log("currentExerciseSet123", currentExerciseSet)
-
+    
     switch (currentExerciseSet.status) {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
         onPlayButtonClick();
         setIsVideoPlaying(true);
-        // console.log("clicked 1")
-        if(isExerciseSetTimeBased()) {
-          // console.log("clicked 2")
-          setPrimaryButton({
-            value: currentExerciseSet.time,
-            icon: <LuTimer className={`${secondaryTextColor}`} />,
-            variant: "contained"
-          });
-          handleExerciseSetTimer();
-        } else {
-          // console.log("clicked 3")
-          setPrimaryButton({
-            value: "End set",
-            variant: "danger"
-          });
-        }
+        setPrimaryButton({
+          value: "End set",
+          variant: "danger"
+        });
         return;
       case "ONGOING":
         handleNextExerciseSet();
@@ -233,24 +173,13 @@ export default function Workout() {
           index: prevSet.index + 1,
         }));
         
-        if(isExerciseSetTimeBased()) {
-          handleExerciseSetTimer();
-        } else {
-          setPrimaryButton({
-            value: "Start now",
-            variant: "contained"
-          });
-        }
-
-        return {
-          ...prevExercise,
-          index: nextExerciseIndex
-        };
+        setPrimaryButton({
+          value: "Start now",
+          variant: "contained"
+        });
       }
       
-      // IT WENT TO NEXT EXERCISE BUT DIDNT START PROPERLY
       setCurrentExerciseSet((prevSet: any) => {
-        console.log("exercises[prevExercise.index].sets[prevSet.index]", exercises[prevExercise.index].sets[prevSet.index])
         return {
           ...exercises[prevExercise.index].sets[prevSet.index],
           status: "PENDING",
@@ -258,20 +187,14 @@ export default function Workout() {
         }
       });
       
-      if(isExerciseSetTimeBased()) {
-        console.log("TIMER here1")
-        handleExerciseSetTimer();
-      } else {
-        console.log("no timer here1")
-        setPrimaryButton({
-          value: "Start now",
-          variant: "contained"
-        });
-      }
+      setPrimaryButton({
+        value: "Start now",
+        variant: "contained"
+      });
 
       return {
-        ...exercises[nextExerciseIndex - 1],
-        index: nextExerciseIndex - 1,
+        ...exercises[nextExerciseIndex],
+        index: 0,
       };
     });
   };

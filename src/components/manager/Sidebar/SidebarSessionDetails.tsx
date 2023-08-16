@@ -18,11 +18,15 @@ export default function SidebarSessionDetails() {
     return <></>;
   }
 
+  if(!clients) {
+    return <></>;
+  }
+
   return (
     <div className={`${borderColor} bg-neutral-200 dark:bg-neutral-800 border p-3 rounded-lg w-[90%] m-auto`}>
       <div className="flex gap-[10px]">
         <div className="rounded-full w-[30px] h-[30px] relative overflow-hidden">
-          {clients[0].client.thumbnailImage && (
+          {clients[0]?.client.thumbnailImage && (
             <Image
               alt="Trainer Image"
               src={clients[0].client.thumbnailImage || "/"}
