@@ -31,6 +31,7 @@ interface IExercise {
   _id?: string;
   secondaryId?: string;
   userId?: string;
+  groupId?: string;
   name: string;
   primaryFocus: string;
   category: string;
