@@ -1,12 +1,87 @@
 import Button from "@/components/global/Button";
-import { borderColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+
+import { convertTimerToSeconds } from "@/utils/converTimerToSeconds";
+import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { useEffect, useState } from "react";
 
 export default function FooterMenu({
   primaryButton,
   currentExercise,
   currentExerciseSet,
-  handleClickPrimaryAction
+  handleClickPrimaryAction,
+  isExerciseSetTimeBased,
+  setPrimaryButton,
+  updateExerciseSet,
+  exercises,
+  setCurrentExercise,
+  setCurrentExerciseSet,
+  isLastExerciseSet
 }: any) {
+  const playtimerInSeconds = convertTimerToSeconds(currentExerciseSet?.time || "");
+  const restTimerInSeconds = convertTimerToSeconds(currentExerciseSet?.rest || "");
+  
+  const [isExercisePlaying, setIsExercisePlaying] = useState<boolean>(true);
+  const [isRestPlaying, setIsRestPlaying] = useState<boolean>(false);
+
+  const [currentTimer, setCurrentTimer] = useState<any>("");
+
+  useEffect(() => {
+    setCurrentTimer(playtimerInSeconds);
+  }, [playtimerInSeconds]);
+
+  useEffect(() => {
+    console.log("currentTimer", currentTimer)
+    // setIsVideoPlaying(true);
+  }, [currentTimer]);
+
+  const handleNextTimedExercise = () => {
+    updateExerciseSet("DONE", currentExerciseSet.index);
+
+    setCurrentExercise((prevExercise: any) => {
+      const nextExerciseIndex = prevExercise.index + 1;
+      
+      if (!isLastExerciseSet()) {
+        setCurrentExerciseSet((prevSet: any) => ({
+          ...prevExercise.sets[prevSet.index + 1],
+          index: prevSet.index + 1,
+        }));
+
+        setIsExercisePlaying(true);
+
+        return {
+          ...prevExercise,
+          index: nextExerciseIndex
+        };
+      }
+      
+      // setCurrentExerciseSet((prevSet: any) => {
+      //   console.log("exercises[prevExercise.index].sets[prevSet.index]", exercises[prevExercise.index].sets[prevSet.index])
+      //   return {
+      //     ...exercises[prevExercise.index].sets[prevSet.index],
+      //     status: "PENDING",
+      //     index: 0
+      //   }
+      // });
+      
+      // if(isExerciseSetTimeBased()) {
+      //   console.log("TIMER here1")
+      //   handleExerciseSetTimer();
+      // } else {
+      //   console.log("no timer here1")
+      //   setPrimaryButton({
+      //     value: "Start now",
+      //     variant: "contained"
+      //   });
+      // }
+
+      return {
+        ...exercises[nextExerciseIndex - 1],
+        index: nextExerciseIndex - 1,
+      };
+    });
+  }; 
+
   return (
     <div className={`actionbar border-t w-full ${borderColor} bg-[#131313] m-auto fixed bottom-0 md:left-0 md:right-0`}>
       <div className="flex items-center justify-between px-5 py-3 h-full">
@@ -19,14 +94,61 @@ export default function FooterMenu({
           </div>
         </div>
         <div className={`sets flex gap-[40px] w-fit`}>
-          <div>
-            <div className={`${secondaryTextColor} text-[14px]`}>Set</div>
-            <div className={`${tertiaryTextColor} text-[14px]`}>{currentExerciseSet?.index + 1}</div>
-          </div>
-          <div>
-            <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
-            <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
-          </div>
+          {isExerciseSetTimeBased() ? (
+            <>
+              {isExercisePlaying && (
+                <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
+                  <div>Workout</div>
+                  <CountdownCircleTimer
+                    isPlaying={isExercisePlaying}
+                    duration={parseInt(currentTimer)}
+                    size={60}
+                    strokeWidth={4}
+                    colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                    colorsTime={[7, 5, 2, 0]}
+                    onComplete={() => {
+                      setCurrentTimer(restTimerInSeconds);
+                      setIsExercisePlaying(false);
+                      setIsRestPlaying(true);
+                    }}
+                  >
+                    {({ remainingTime }) => <p className={`${primaryTextColor} text-[16px]`}>{remainingTime}</p> }
+                  </CountdownCircleTimer>
+                </div>
+              )}
+              {isRestPlaying && (
+                <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
+                  <div>Rest</div>
+                  <CountdownCircleTimer
+                    isPlaying={isRestPlaying}
+                    duration={parseInt(currentTimer)}
+                    size={60}
+                    strokeWidth={4}
+                    colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                    colorsTime={[7, 5, 2, 0]}
+                    onComplete={() => {
+                      handleNextTimedExercise();
+                      setIsRestPlaying(false);
+                      // setCurrentTimer(restTimerInSeconds);
+                    }}
+                  >
+                    {({ remainingTime }) => <p className={`${primaryTextColor} text-[16px]`}>{remainingTime}</p> }
+                  </CountdownCircleTimer>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div>
+                <div className={`${secondaryTextColor} text-[14px]`}>Set</div>
+                <div className={`${tertiaryTextColor} text-[14px]`}>{currentExerciseSet?.index + 1}</div>
+              </div>
+              <div>
+                <div className={`${secondaryTextColor} text-[14px]`}>Reps</div>
+                <div className={`${tertiaryTextColor} text-[14px]`}>7-10</div>
+              </div>
+            </>
+          )}
         </div>
         <Button 
           variant={primaryButton.variant} 

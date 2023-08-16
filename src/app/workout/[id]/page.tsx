@@ -41,6 +41,7 @@ export default function Workout() {
     icon: null
   });
   const [showDoneWorkout, setShowDoneWorkout] = useState<boolean>(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
 
   const {
     data: workout,
@@ -123,7 +124,7 @@ export default function Workout() {
   };
 
   const isExerciseSetTimeBased = () => {
-    return currentExerciseSetRef.current.time && currentExerciseSetRef.current.time !== "00:00";
+    return currentExerciseSetRef.current?.time && currentExerciseSetRef.current.time !== "00:00";
   };
 
   // tech spec for the primary action:
@@ -137,7 +138,7 @@ export default function Workout() {
   const handleTimer = (
     time: string,
     onComplete: any,
-    fieldName
+    fieldName: string
   ) => {
     const [minutes, seconds] = time.split(":");
     const totalTimeInSeconds = parseInt(minutes) * 60 + parseInt(seconds);
@@ -186,6 +187,7 @@ export default function Workout() {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
         onPlayButtonClick();
+        setIsVideoPlaying(true);
         // console.log("clicked 1")
         if(isExerciseSetTimeBased()) {
           // console.log("clicked 2")
@@ -239,7 +241,7 @@ export default function Workout() {
             variant: "contained"
           });
         }
-        
+
         return {
           ...prevExercise,
           index: nextExerciseIndex
@@ -247,15 +249,20 @@ export default function Workout() {
       }
       
       // IT WENT TO NEXT EXERCISE BUT DIDNT START PROPERLY
-      setCurrentExerciseSet((prevSet: any) => ({
-        ...exercises[prevExercise.index].sets[prevSet.index],
-        status: "PENDING",
-        index: 0
-      }));
+      setCurrentExerciseSet((prevSet: any) => {
+        console.log("exercises[prevExercise.index].sets[prevSet.index]", exercises[prevExercise.index].sets[prevSet.index])
+        return {
+          ...exercises[prevExercise.index].sets[prevSet.index],
+          status: "PENDING",
+          index: 0
+        }
+      });
       
       if(isExerciseSetTimeBased()) {
+        console.log("TIMER here1")
         handleExerciseSetTimer();
       } else {
+        console.log("no timer here1")
         setPrimaryButton({
           value: "Start now",
           variant: "contained"
@@ -267,7 +274,7 @@ export default function Workout() {
         index: nextExerciseIndex - 1,
       };
     });
-  }; 
+  };
 
   const updateExerciseSet = (status: string, nextIndex: number) => {
     setCurrentExerciseSet((prev: any) => ({
@@ -350,7 +357,9 @@ export default function Workout() {
               <div className="video-wrapper">
                 <div className="frame-container">
                   {videoId && (
-                    <YouTubePlayer player={player} setPlayer={setPlayer} videoId={videoId} />
+                    <>
+                      <YouTubePlayer player={player} setPlayer={setPlayer} videoId={videoId} />
+                    </>
                   )}
                 </div>
               </div>
@@ -402,7 +411,15 @@ export default function Workout() {
         primaryButton={primaryButton}
         currentExercise={currentExercise}
         currentExerciseSet={currentExerciseSet}
+        currentExerciseSetRef={currentExerciseSetRef}
+        isExerciseSetTimeBased={isExerciseSetTimeBased}
         handleClickPrimaryAction={handleClickPrimaryAction}
+        setPrimaryButton={setPrimaryButton}
+        updateExerciseSet={updateExerciseSet}
+        exercises={exercises}
+        setCurrentExercise={setCurrentExercise}
+        setCurrentExerciseSet={setCurrentExerciseSet}
+        isLastExerciseSet={isLastExerciseSet}
       />
     </div>
   );
