@@ -1,4 +1,5 @@
-import { ProgramExercise, ProgramSupersetExercise } from "@/utils/programTypes";
+import { IExercise } from "@/types/exercise";
+import { ProgramSupersetExercise } from "@/utils/programTypes";
 import { primaryTextColor } from "@/utils/themeColors";
 import { useState } from "react";
 import VideoModal from "../VideoModal";
@@ -20,12 +21,13 @@ export default function SelectedExercisesList({
       <p className={`${primaryTextColor} mb-5`}>
         {currentWorkoutDetails.exercises?.length} Exercises
       </p>
-      {currentWorkoutDetails.exercises.map((exercise: ProgramExercise) => {
+      {currentWorkoutDetails.exercises.map((exercise: IExercise) => {
         const {
           name,
           instruction,
           primaryFocus,
           supersetExercises,
+          circuitExercises,
           sets,
           videoLink 
         } = exercise || {};
@@ -47,6 +49,27 @@ export default function SelectedExercisesList({
                   setCurrentVideoLink={setCurrentVideoLink}
                   videoLink={supersetExercise?.videoLink}
                   sets={supersetExercise?.sets}
+                />
+              ))}
+            </div>
+          );
+        } else if (circuitExercises?.length) {
+          return (
+            <div className="border-[2px] relative cursor-grab border-solid dark:border-violet-900 border-violet-500 rounded-lg overflow-hidden mb-5">
+              <div className="bg-violet-100 dark:bg-violet-950 p-2">
+                <p className="text-white">
+                  Circuit
+                </p>
+              </div>
+              {circuitExercises?.map((circuitExercise: ProgramSupersetExercise) => (
+                <SelectedExercise
+                  name={circuitExercise?.name}
+                  primaryFocus={circuitExercise?.primaryFocus}
+                  instruction={circuitExercise?.instruction}
+                  setShowVideoModal={setShowVideoModal}
+                  setCurrentVideoLink={setCurrentVideoLink}
+                  videoLink={circuitExercise?.videoLink}
+                  sets={circuitExercise?.sets}
                 />
               ))}
             </div>

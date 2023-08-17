@@ -74,7 +74,7 @@ export default function Workout() {
       router.back();
       return;
     }
-    
+
     switch (currentExerciseSet.status) {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
