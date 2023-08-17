@@ -2,7 +2,7 @@ import Button from "@/components/global/Button";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 import { convertTimerToSeconds } from "@/utils/converTimerToSeconds";
-import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { useEffect, useState } from "react";
 
 export default function FooterMenu({
@@ -19,12 +19,12 @@ export default function FooterMenu({
   updateExerciseSet,
   exercises,
   setCurrentExercise,
+  currentTimer,
+  setCurrentTimer,
   setCurrentExerciseSet
 }: any) {
   const playtimerInSeconds = convertTimerToSeconds(currentExerciseSet?.time || "");
   const restTimerInSeconds = convertTimerToSeconds(currentExerciseSet?.rest || "");
-
-  const [currentTimer, setCurrentTimer] = useState<any>("");
 
   useEffect(() => {
     setCurrentTimer(playtimerInSeconds);
@@ -44,7 +44,7 @@ export default function FooterMenu({
         // next exercise set to play
         setCurrentExerciseSet(() => {
           return {
-            ...exercises[prevExercise.index].sets[0],
+            ...exercises[prevExercise.index + 1].sets[0],
             status: "PENDING",
             index: 0
           }
@@ -63,7 +63,7 @@ export default function FooterMenu({
       // go to next exercise set
       setCurrentExerciseSet((prevSet: any) => ({
         ...prevExercise.sets[prevSet.index + 1],
-        index: prevSet.index + 1,
+        index: prevSet.index + 1
       }));
 
       return prevExercise;
@@ -106,7 +106,7 @@ export default function FooterMenu({
               )}
               {isRestPlaying && (
                 <div className={`flex items-center gap-[10px] ${secondaryTextColor}`}>
-                  <div>Rest {currentExerciseSet.index + 1}</div>
+                  <div>Rest {currentExerciseSet.index + 1} {currentTimer}</div>
                   <CountdownCircleTimer
                     isPlaying={isRestPlaying}
                     duration={parseInt(currentTimer)}

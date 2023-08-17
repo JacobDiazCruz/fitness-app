@@ -2,14 +2,12 @@
 
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import { ButtonVariant } from "@/components/global/Button";
-import usePrimaryFocusColor from "@/hooks/usePrimaryFocusColor";
 import { IExercise } from "@/types/exercise";
 import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
-import { LuTimer } from "react-icons/lu";
 import { useQuery } from "react-query";
 import CurrentExercise from "./CurrentExercise";
 import DoneWorkoutDisplay from "./DoneWorkoutDisplay";
@@ -44,6 +42,7 @@ export default function Workout() {
   
   const [isExercisePlaying, setIsExercisePlaying] = useState<boolean>(false);
   const [isRestPlaying, setIsRestPlaying] = useState<boolean>(false);
+  const [currentTimer, setCurrentTimer] = useState<any>("");
 
   const {
     data: workout,
@@ -63,13 +62,13 @@ export default function Workout() {
 
   useEffect(() => {
     if (workout) {
-      const flattenedExercises = workout.workoutDetails.exercises.reduce((acc, exercise) => {
+      const flattenedExercises = workout.workoutDetails.exercises.reduce((acc: any, exercise: IExercise) => {
         if (exercise.supersetExercises) {
-          acc.push(...exercise.supersetExercises.map(subExercise => ({ ...subExercise, groupId: exercise._id })));
+          acc.push(...exercise.supersetExercises.map((subExercise: IExercise) => ({ ...subExercise, groupId: exercise._id })));
         } else if (exercise.circuitExercises) {
-          acc.push(...exercise.circuitExercises.map(subExercise => ({ ...subExercise, groupId: exercise._id })));
+          acc.push(...exercise.circuitExercises.map((subExercise: IExercise) => ({ ...subExercise, groupId: exercise._id })));
         } else {
-          acc.push({ ...exercise, groupId: exercise.id });
+          acc.push({ ...exercise, groupId: exercise._id });
         }
         return acc;
       }, []);
@@ -148,13 +147,18 @@ export default function Workout() {
         });
         return;
       case "ONGOING":
-        handleNextExerciseSet();
+        // setIsRestPlaying(true);
+        // console.log("currentExerciseSet?.rest", currentExerciseSet?.rest)
+        // setCurrentTimer(convertTimerToSeconds(currentExerciseSet?.rest || "00:05"));
         if(isLastExercise()) {
           setPrimaryButton({
             value: "Done workout",
             variant: "success"
           });
+          return;
         }
+        handleNextExerciseSet();
+        setIsExercisePlaying(false);
         return;
       case "DONE":
         return;
@@ -176,6 +180,7 @@ export default function Workout() {
     updateExerciseSet("DONE", currentExerciseSet.index);
   
     setCurrentExercise((prevExercise: any) => {
+      console.log("prevExerciseIndex", prevExercise.index)
       const nextExerciseIndex = prevExercise.index + 1;
       
       if (!isLastExerciseSet()) {
@@ -189,7 +194,7 @@ export default function Workout() {
           variant: "contained"
         });
       }
-      
+            
       setCurrentExerciseSet((prevSet: any) => {
         return {
           ...exercises[prevExercise.index].sets[prevSet.index],
@@ -197,7 +202,7 @@ export default function Workout() {
           index: 0
         }
       });
-      
+
       setPrimaryButton({
         value: "Start now",
         variant: "contained"
@@ -205,12 +210,14 @@ export default function Workout() {
 
       return {
         ...exercises[nextExerciseIndex],
-        index: 0,
+        index: nextExerciseIndex,
       };
     });
   };
 
   const updateExerciseSet = (status: string, nextIndex: number) => {
+    // console.log("currentExercise", currentExercise);
+    // console.log("currentExerciseSet", currentExerciseSet);
     setCurrentExerciseSet((prev: any) => ({
       ...prev,
       status,
@@ -358,6 +365,8 @@ export default function Workout() {
         setCurrentExercise={setCurrentExercise}
         setCurrentExerciseSet={setCurrentExerciseSet}
         isLastExerciseSet={isLastExerciseSet}
+        currentTimer={currentTimer}
+        setCurrentTimer={setCurrentTimer}
       />
     </div>
   );
