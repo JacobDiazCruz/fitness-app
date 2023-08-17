@@ -1,17 +1,12 @@
-import Button from "@/components/global/Button";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 import { convertTimerToSeconds } from "@/utils/converTimerToSeconds";
 import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function FooterMenu({
-  primaryButton,
   currentExercise,
   currentExerciseSet,
-  handleClickPrimaryAction,
-  isExerciseSetTimeBased,
-  setPrimaryButton,
   isRestPlaying,
   setIsRestPlaying,
   isExercisePlaying,
@@ -21,7 +16,9 @@ export default function FooterMenu({
   setCurrentExercise,
   currentTimer,
   setCurrentTimer,
-  setCurrentExerciseSet
+  handleDoneWorkout,
+  setCurrentExerciseSet,
+  primaryAction
 }: any) {
   const playtimerInSeconds = convertTimerToSeconds(currentExerciseSet?.time || "");
   const restTimerInSeconds = convertTimerToSeconds(currentExerciseSet?.rest || "");
@@ -42,14 +39,18 @@ export default function FooterMenu({
 
       if (isLastExerciseSet()) {
         // next exercise set to play
-        setCurrentExerciseSet(() => {
-          return {
-            ...exercises[prevExercise.index + 1].sets[0],
-            status: "PENDING",
-            index: 0
-          }
-        });
-        setIsExercisePlaying(true);
+        if(exercises[prevExercise.index + 1]) {
+          setCurrentExerciseSet(() => {
+            return {
+              ...exercises[prevExercise.index + 1].sets[0],
+              status: "PENDING",
+              index: 0
+            }
+          });
+          setIsExercisePlaying(true);
+        } else {
+          handleDoneWorkout();
+        }
 
         // return next exercise
         return {
@@ -137,13 +138,7 @@ export default function FooterMenu({
             </> */}
           {/* )} */}
         </div>
-        <Button 
-          variant={primaryButton.variant} 
-          onClick={handleClickPrimaryAction}
-          startIcon={primaryButton.icon}
-        >
-          {primaryButton.value}
-        </Button>
+        {primaryAction}
       </div>
     </div>
   );

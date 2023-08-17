@@ -1,18 +1,18 @@
 "use client";
 
-import { listWeeklyCalendarSchedules } from "@/api/Calendar";
-import { ButtonVariant } from "@/components/global/Button";
+import Button, { ButtonVariant } from "@/components/global/Button";
 import { IExercise } from "@/types/exercise";
 import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsLink } from "react-icons/bs";
-import { useQuery } from "react-query";
 import CurrentExercise from "./CurrentExercise";
 import DoneWorkoutDisplay from "./DoneWorkoutDisplay";
 import ExerciseItem from "./ExerciseItem";
 import FooterMenu from "./FooterMenu";
+import useExercises from "./hooks/useExercises";
+import useExerciseVideo from "./hooks/useExerciseVideo";
 import YouTubePlayer from "./YoutubePlayer";
 
 type PrimaryButton = {
@@ -24,15 +24,28 @@ type PrimaryButton = {
 export default function Workout() {
   const router = useRouter();
 
-  const [exercises, setExercises] = useState<IExercise[]>([]);
-  const [currentExercise, setCurrentExercise] = useState<any>(
-    // @ts-ignore
-    null
-  );
-  const [currentExerciseSet, setCurrentExerciseSet] = useState<any>(
-    // @ts-ignore
-    null
-  );
+  const {
+    exercises,
+    currentExercise,
+    setCurrentExercise,
+    currentExerciseSet,
+    setCurrentExerciseSet,
+    isLastExercise,
+    isLastExerciseSet,
+    isLoading,
+    isExerciseDone,
+    isExerciseSetTimeBased,
+    updateExerciseSet
+  } = useExercises();
+
+  const {
+    player,
+    setPlayer,
+    videoId,
+    onPlayVideo,
+    onPauseVideo
+  } = useExerciseVideo({ currentExercise });
+
   const [primaryButton, setPrimaryButton] = useState<PrimaryButton>({
     value: "Start now",
     variant: "contained",
@@ -44,90 +57,16 @@ export default function Workout() {
   const [isRestPlaying, setIsRestPlaying] = useState<boolean>(false);
   const [currentTimer, setCurrentTimer] = useState<any>("");
 
-  const {
-    data: workout,
-    isLoading
-  } = useQuery(
-    'calendarSchedules',
-    async () => {
-      const data = await listWeeklyCalendarSchedules(JSON.stringify([new Date().toLocaleDateString()]));
-      return data[0];
-    },
-    {
-      refetchOnWindowFocus: true,
-      refetchOnMount: true,
-      enabled: true
-    }
-  );
-
+  // play the next exercise video for timed based exercise
   useEffect(() => {
-    if (workout) {
-      const flattenedExercises = workout.workoutDetails.exercises.reduce((acc: any, exercise: IExercise) => {
-        if (exercise.supersetExercises) {
-          acc.push(...exercise.supersetExercises.map((subExercise: IExercise) => ({ ...subExercise, groupId: exercise._id })));
-        } else if (exercise.circuitExercises) {
-          acc.push(...exercise.circuitExercises.map((subExercise: IExercise) => ({ ...subExercise, groupId: exercise._id })));
-        } else {
-          acc.push({ ...exercise, groupId: exercise._id });
-        }
-        return acc;
-      }, []);
-  
-      setExercises(flattenedExercises);
-  
-      setCurrentExercise({
-        ...flattenedExercises[0],
-        index: 0
-      });
-  
-      setCurrentExerciseSet({
-        ...flattenedExercises[0].sets[0],
-        index: 0
-      });
-    }
-  }, [workout]);  
-
-  const getEmbeddedLink = (url: string) => {
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/watch\/([^?/#&]+)/;
-    if (youtubeRegex.test(url)) {
-      const videoIdMatch = url.match(youtubeRegex);
-      if (videoIdMatch && videoIdMatch[4]) {
-        const videoId = videoIdMatch[4];
-        return videoId;
-        // return `https://www.youtube.com/embed/${videoId}`;
+    if(isExerciseSetTimeBased()) {
+      if (isExercisePlaying && videoId && player) {
+        setTimeout(() => {
+          onPlayVideo();
+        }, 50);
       }
     }
-    return '';
-  };
-
-  const currentExerciseSetIndexRef = useRef<number>(currentExerciseSet?.index);
-  const currentExerciseSetRef = useRef<any>(currentExerciseSet);
-
-  const videoId = getEmbeddedLink(currentExercise?.videoLink);
-
-  const isLastExercise = () => currentExercise?.index === exercises.length - 1;
-
-  useEffect(() => {
-    currentExerciseSetIndexRef.current = currentExerciseSet?.index;
-  }, [currentExerciseSet?.index]);
-
-  useEffect(() => {
-    currentExerciseSetRef.current = currentExerciseSet;
-  }, [currentExerciseSet]);
-
-  const isLastExerciseSet = () => {
-    console.log("currentExerciseSet?.index", currentExerciseSet?.index)
-    console.log("exercises[currentExerciseSetIndexRef.current].sets", exercises[currentExerciseSetIndexRef.current].sets)
-    return exercises[currentExerciseSetIndexRef.current].sets.length - 1 == currentExerciseSet?.index;
-  };
-
-  const isExerciseDone = (exercise: IExercise) => {
-    return exercise.sets.every((set: any) => set.status === "DONE");
-  };
-
-  const isExerciseSetTimeBased = () => {
-    return currentExerciseSetRef.current?.time && currentExerciseSetRef.current.time !== "00:00";
-  };
+  }, [isExercisePlaying, videoId, player]);
 
   // ON CLICK OF BUTTON
   const handleClickPrimaryAction = () => {
@@ -139,7 +78,7 @@ export default function Workout() {
     switch (currentExerciseSet.status) {
       case "PENDING":
         updateExerciseSet("ONGOING", currentExerciseSet.index);
-        onPlayButtonClick();
+        onPlayVideo();
         setIsExercisePlaying(true);
         setPrimaryButton({
           value: "End set",
@@ -147,9 +86,6 @@ export default function Workout() {
         });
         return;
       case "ONGOING":
-        // setIsRestPlaying(true);
-        // console.log("currentExerciseSet?.rest", currentExerciseSet?.rest)
-        // setCurrentTimer(convertTimerToSeconds(currentExerciseSet?.rest || "00:05"));
         if(isLastExercise()) {
           setPrimaryButton({
             value: "Done workout",
@@ -167,6 +103,13 @@ export default function Workout() {
     }
   };
 
+  // if rest is playing, pause video
+  useEffect(() => {
+    if(videoId && isRestPlaying) {
+      onPauseVideo();
+    }
+  }, [isRestPlaying]);
+
   useEffect(() => {
     if(!isExerciseSetTimeBased()) {
       setPrimaryButton({
@@ -180,7 +123,6 @@ export default function Workout() {
     updateExerciseSet("DONE", currentExerciseSet.index);
   
     setCurrentExercise((prevExercise: any) => {
-      console.log("prevExerciseIndex", prevExercise.index)
       const nextExerciseIndex = prevExercise.index + 1;
       
       if (!isLastExerciseSet()) {
@@ -215,58 +157,12 @@ export default function Workout() {
     });
   };
 
-  const updateExerciseSet = (status: string, nextIndex: number) => {
-    // console.log("currentExercise", currentExercise);
-    // console.log("currentExerciseSet", currentExerciseSet);
-    setCurrentExerciseSet((prev: any) => ({
-      ...prev,
-      status,
-      index: nextIndex,
-    }));
-    handleUpdateExercises(status);
-  };
-
-  const handleUpdateExercises = (status: string) => {
-    const updatedExercises = exercises.map((exercise: any) => {
-      if (exercise.secondaryId === currentExercise.secondaryId) {
-        return {
-          ...exercise,
-          sets: exercise.sets.map((set: any, index: number) => {
-            if (index === currentExerciseSet.index) {
-              return {
-                ...set,
-                status
-              };
-            }
-            return set;
-          })
-        };
-      }
-      return exercise;
+  const handleDoneWorkout = () => {
+    setPrimaryButton({
+      value: "Done workout",
+      variant: "success"
     });
-
-    setExercises(updatedExercises);
-  };
-
-  const [player, setPlayer] = useState<any>(null);
-
-  const onPlayButtonClick = () => {
-    if (player) {
-      player.playVideo();
-    }
-  };
-
-  const onPauseButtonClick = () => {
-    if (player) {
-      player.pauseVideo();
-    }
-  };
-
-  const onSeekButtonClick = () => {
-    if (player) {
-      const newPosition = 60; // Seek to 60 seconds
-      player.seekTo(newPosition, true);
-    }
+    setShowDoneWorkout(true);
   };
 
   if(isLoading) {
@@ -276,6 +172,7 @@ export default function Workout() {
   return (
     <div className={`interactive-workout-page bg-[#FFF] dark:bg-[#000] min-h-[100vh]`}>
       <div className="body w-full h-[83vh] mx-auto flex md:flex-row flex-col">
+        {/* Left view */}
         <div className="p-3 min-w-[200px]">
           <div 
             className={`flex items-center ${tertiaryTextColor} text-[12px] gap-[5px] mb-3 w-full`}
@@ -285,11 +182,12 @@ export default function Workout() {
             Exit workout
           </div>
 
-          {currentExercise && (
+          {(currentExercise && !showDoneWorkout) && (
             <CurrentExercise currentExercise={currentExercise} />
           )}
         </div>
-
+        
+        {/* Center view */}
         <div className="w-full h-full flex items-center p-3 md:p-0">
           {showDoneWorkout ? (
             <DoneWorkoutDisplay />
@@ -307,7 +205,8 @@ export default function Workout() {
             </div>
           )}
         </div>
-
+        
+        {/* Right view */}
         <div className="p-3 h-full w-full md:w-[45%] overflow-y-auto overflow-x-hidden">
           <div className="title mb-2">
             <div className={`${tertiaryTextColor} text-[13px]`}>Chest Workout</div>
@@ -336,7 +235,7 @@ export default function Workout() {
               );
             } else {
               return (
-                <ExerciseItem 
+                <ExerciseItem
                   key={index}
                   exercise={exercise}
                   isExerciseDone={isExerciseDone}
@@ -348,14 +247,9 @@ export default function Workout() {
         </div>
       </div>
 
-      <FooterMenu 
-        primaryButton={primaryButton}
+      <FooterMenu
         currentExercise={currentExercise}
         currentExerciseSet={currentExerciseSet}
-        currentExerciseSetRef={currentExerciseSetRef}
-        isExerciseSetTimeBased={isExerciseSetTimeBased}
-        handleClickPrimaryAction={handleClickPrimaryAction}
-        setPrimaryButton={setPrimaryButton}
         updateExerciseSet={updateExerciseSet}
         exercises={exercises}
         isExercisePlaying={isExercisePlaying}
@@ -364,9 +258,18 @@ export default function Workout() {
         setIsRestPlaying={setIsRestPlaying}
         setCurrentExercise={setCurrentExercise}
         setCurrentExerciseSet={setCurrentExerciseSet}
-        isLastExerciseSet={isLastExerciseSet}
         currentTimer={currentTimer}
         setCurrentTimer={setCurrentTimer}
+        handleDoneWorkout={handleDoneWorkout}
+        primaryAction={
+          <Button
+            variant={primaryButton.variant}
+            onClick={handleClickPrimaryAction}
+            startIcon={primaryButton.icon}
+          >
+            {primaryButton.value}
+          </Button>
+        }
       />
     </div>
   );
