@@ -37,7 +37,7 @@ const YouTubePlayer = ({ player, setPlayer, videoId }: any) => {
 
   return (
     <div>
-      <div id="player"></div>
+      <div id="player" className="w-[400px] h-[350px]"></div>
     </div>
   );
 };

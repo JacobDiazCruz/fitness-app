@@ -192,16 +192,10 @@ export default function Workout() {
           {showDoneWorkout ? (
             <DoneWorkoutDisplay />
           ) : (
-            <div className="m-auto w-full h-full">
-              <div className="video-wrapper">
-                <div className="frame-container">
-                  {videoId && (
-                    <>
-                      <YouTubePlayer player={player} setPlayer={setPlayer} videoId={videoId} />
-                    </>
-                  )}
-                </div>
-              </div>
+            <div className="m-auto">
+              {videoId && (
+                <YouTubePlayer player={player} setPlayer={setPlayer} videoId={videoId} />
+              )}
             </div>
           )}
         </div>

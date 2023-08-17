@@ -1,6 +1,5 @@
 import { IExercise } from "@/types/exercise";
 import { ProgramSupersetExercise } from "@/utils/programTypes";
-import { primaryTextColor } from "@/utils/themeColors";
 import { useState } from "react";
 import VideoModal from "../VideoModal";
 import SelectedExercise from "./SelectedExercise";
@@ -18,10 +17,7 @@ export default function SelectedExercisesList({
 
   return (
     <div className="workout p-7">
-      <p className={`${primaryTextColor} mb-5`}>
-        {currentWorkoutDetails.exercises?.length} Exercises
-      </p>
-      {currentWorkoutDetails.exercises.map((exercise: IExercise) => {
+      {currentWorkoutDetails?.exercises.map((exercise: IExercise) => {
         const {
           name,
           instruction,
