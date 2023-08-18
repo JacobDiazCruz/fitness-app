@@ -4,7 +4,7 @@ import Modal, { ModalContent, ModalFooter } from "@/components/global/Modal";
 import TextArea from "@/components/global/TextArea";
 import useWorkout from "@/store/Workout/useWorkout";
 import { IExercise } from "@/types/exercise";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   onClose: () => void;
@@ -24,7 +24,7 @@ export default function EditNoteModal({
   const { state, dispatch } = useWorkout();
   const { selectedExercises } = state;
 
-  const [note, setNote] = useState<string>("");
+  const [note, setNote] = useState<string>(currentEditedExercise.note);
 
   const saveNote = () => {
     const selectedExercisesCopy = [...selectedExercises];

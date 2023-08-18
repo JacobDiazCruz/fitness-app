@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import useWorkout from "@/store/Workout/useWorkout";
 import SelectedExercise from "./SelectedExercise";
 import DragController from "./DragController";
@@ -10,9 +10,9 @@ import SelectedExerciseBody from "./SelectedExercise/SelectedExerciseBody";
 import EditSetModal from "./SelectedExercise/EditSetModal";
 import EditNoteModal from "./SelectedExercise/EditNoteModal";
 
-interface ISelectedExerciseFactory {
-  exercise: IExercise;
-  exerciseType: string;
+interface IDynamicExerciseRenderer {
+  exercise: any;
+  exerciseType: any;
   exerciseIndex: number;
 };
 
@@ -35,7 +35,8 @@ export default function SelectedExercises() {
   const [currentEditedExercise, setCurrentEditedExercise] = useState({
     exerciseIndex: null,
     circuitIndex: null,
-    supersetIndex: null
+    supersetIndex: null,
+    note: null
   });
   
   const [showEditSets, setShowEditSets] = useState(false);
@@ -53,109 +54,89 @@ export default function SelectedExercises() {
       ...data
     }));
     setShowEditNote(true);
-  }
+  };
 
   /**
-   * @purpose To return a superset or normal "SelectedExercise" component
-   * @note N/A
+   * @purpose To return a superset, circuit, or normal exercise component
+   * @note if you have an additional exercise type, just add it in the componentMap
    */
-   const selectedExerciseFactory = useCallback(
-    ({ exercise, exerciseType, exerciseIndex }: ISelectedExerciseFactory) => {  
-      switch(exerciseType) {
-        case "superset":
-          return (
-            <Superset
-              exerciseSecondaryId={exercise?.secondaryId}
-              exerciseIndex={exerciseIndex}
-            >
-              {exercise.supersetExercises?.map((supersetExercise: IExercise, supersetIndex: number) => (
-                <SelectedExercise>
-                  <SelectedExerciseHeader
-                    exercise={supersetExercise}
-                    showCheckInput={false}
-                    handleEditSets={() => {
-                      handleEditSets({
-                        exercise: supersetExercise,
-                        exerciseType,
-                        exerciseIndex,
-                        supersetIndex
-                      })
-                    }}
-                  />
-                  <SelectedExerciseBody 
-                    exercise={supersetExercise} 
-                    exerciseType={exerciseType}
-                    handleShowEditNote={() => {
-                      handleEditNote({ 
-                        exerciseIndex,
-                        supersetExercise
-                      });
-                    }}
-                  />
-                </SelectedExercise>
-              ))}
-            </Superset>
-          );
-        case "circuit":
-          return (
-            <Circuit
-              exerciseSecondaryId={exercise?.secondaryId}
-              exerciseIndex={exerciseIndex}
-            >
-              {exercise.circuitExercises?.map((circuitExercise: IExercise, circuitIndex: number) => (
-                <SelectedExercise>
-                  <SelectedExerciseHeader
-                    exercise={circuitExercise}
-                    showCheckInput={false}
-                    handleEditSets={() => {
-                      handleEditSets({
-                        exercise: circuitExercise,
-                        exerciseType,
-                        exerciseIndex,
-                        circuitIndex: circuitIndex
-                      })
-                    }}
-                  />
-                  <SelectedExerciseBody 
-                    exercise={circuitExercise} 
-                    exerciseType={exerciseType}
-                    handleShowEditNote={() => {
-                      handleEditNote({ 
-                        exerciseIndex,
-                        circuitIndex
-                      });
-                    }}
-                  />
-                </SelectedExercise>
-              ))}
-            </Circuit>
-          );
-        case "normal":
-          return (
-            <SelectedExercise>
-              <SelectedExerciseHeader 
-                exercise={exercise}
-                handleEditSets={() => {
-                  handleEditSets({
-                    exercise,
-                    exerciseType,
-                    exerciseIndex
-                  })
-                }}
-              />
-              <SelectedExerciseBody 
-                exercise={exercise} 
-                exerciseType={exerciseType}
-                handleShowEditNote={() => {
-                  handleEditNote({ exerciseIndex });
-                }}
-              />
-            </SelectedExercise>
-          );
-      }
-    },
-    []
-  );
+  const DynamicExerciseRenderer = ({
+    exercise,
+    exerciseIndex,
+    exerciseType
+  }: IDynamicExerciseRenderer) => {
+    const groupFieldName = `${exerciseType}Exercises`;
+    const groupIndexName = `${exerciseType}Index`
+
+    const componentMap: any = {
+      "superset": Superset,
+      "circuit": Circuit
+    };
+
+    const GroupExercise = componentMap[exerciseType];
+
+    if(exerciseType === "normal") {
+      return (
+        <SelectedExercise>
+          <SelectedExerciseHeader
+            exercise={exercise}
+            handleEditSets={() => {
+              handleEditSets({
+                exercise,
+                exerciseType,
+                exerciseIndex
+              })
+            }}
+          />
+          <SelectedExerciseBody
+            exercise={exercise} 
+            exerciseType={exerciseType}
+            handleShowEditNote={() => {
+              handleEditNote({
+                exerciseIndex,
+                note: exercise.instruction
+              });
+            }}
+          />
+        </SelectedExercise>
+      );
+    }
+
+    return (
+      <GroupExercise
+        exerciseSecondaryId={exercise?.secondaryId}
+        exerciseIndex={exerciseIndex}
+      >
+        {exercise[groupFieldName]?.map((groupExercise: IExercise, groupExerciseIndex: number) => (
+          <SelectedExercise>
+            <SelectedExerciseHeader
+              exercise={groupExercise}
+              showCheckInput={false}
+              handleEditSets={() => {
+                handleEditSets({
+                  exercise: groupExercise,
+                  exerciseType,
+                  exerciseIndex,
+                  [groupIndexName]: groupExerciseIndex
+                })
+              }}
+            />
+            <SelectedExerciseBody
+              exercise={groupExercise}
+              exerciseType={exerciseType}
+              handleShowEditNote={() => {
+                handleEditNote({
+                  exerciseIndex,
+                  note: groupExercise.instruction,
+                  [groupIndexName]: groupExerciseIndex
+                });
+              }}
+            />
+          </SelectedExercise>
+        ))}
+      </GroupExercise>
+    )
+  };
 
   const findExerciseType = (exercise: IExercise) => {
     if(exercise.supersetExercises?.length) {
@@ -180,11 +161,11 @@ export default function SelectedExercises() {
               setDraggedExercise(val);
             }}
           >
-            {selectedExerciseFactory({
-              exercise,
-              exerciseType: findExerciseType(exercise),
-              exerciseIndex: exerciseIndex
-            })}
+            <DynamicExerciseRenderer 
+              exercise={exercise}
+              exerciseType={findExerciseType(exercise)}
+              exerciseIndex={exerciseIndex}
+            />
           </DragController>
         );
       })}
@@ -203,7 +184,8 @@ export default function SelectedExercises() {
             setCurrentEditedExercise({
               exerciseIndex: null,
               circuitIndex: null,
-              supersetIndex: null
+              supersetIndex: null,
+              note: null
             })
           }}
           currentEditedExercise={currentEditedExercise}
