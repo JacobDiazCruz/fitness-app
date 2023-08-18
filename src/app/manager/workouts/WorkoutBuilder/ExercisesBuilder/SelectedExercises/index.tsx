@@ -6,8 +6,9 @@ import Superset from "./Superset";
 import { ExerciseType, IExercise } from "@/types/exercise";
 import Circuit from "./Circuit";
 import SelectedExerciseHeader from "./SelectedExercise/SelectedExerciseHeader";
-import SelectedExerciseSets from "./SelectedExercise/SelectedExerciseSets";
+import SelectedExerciseBody from "./SelectedExercise/SelectedExerciseBody";
 import EditSetModal from "./SelectedExercise/EditSetModal";
+import EditNoteModal from "./SelectedExercise/EditNoteModal";
 
 interface ISelectedExerciseFactory {
   exercise: IExercise;
@@ -31,14 +32,28 @@ export default function SelectedExercises() {
     // @ts-ignore
     null
   );
+  const [currentEditedExercise, setCurrentEditedExercise] = useState({
+    exerciseIndex: null,
+    circuitIndex: null,
+    supersetIndex: null
+  });
   
   const [showEditSets, setShowEditSets] = useState(false);
+  const [showEditNote, setShowEditNote] = useState(false);
   const [draggedExercise, setDraggedExercise] = useState<IExercise | null>(null);
 
   const handleEditSets = (data: IEditSet) => {
     setCurrentEditedExerciseSet(data);
     setShowEditSets(true);
   };
+
+  const handleEditNote = (data: any) => {
+    setCurrentEditedExercise((prev) => ({
+      ...prev,
+      ...data
+    }));
+    setShowEditNote(true);
+  }
 
   /**
    * @purpose To return a superset or normal "SelectedExercise" component
@@ -67,9 +82,15 @@ export default function SelectedExercises() {
                       })
                     }}
                   />
-                  <SelectedExerciseSets 
+                  <SelectedExerciseBody 
                     exercise={supersetExercise} 
                     exerciseType={exerciseType}
+                    handleShowEditNote={() => {
+                      handleEditNote({ 
+                        exerciseIndex,
+                        supersetExercise
+                      });
+                    }}
                   />
                 </SelectedExercise>
               ))}
@@ -95,9 +116,15 @@ export default function SelectedExercises() {
                       })
                     }}
                   />
-                  <SelectedExerciseSets 
+                  <SelectedExerciseBody 
                     exercise={circuitExercise} 
                     exerciseType={exerciseType}
+                    handleShowEditNote={() => {
+                      handleEditNote({ 
+                        exerciseIndex,
+                        circuitIndex
+                      });
+                    }}
                   />
                 </SelectedExercise>
               ))}
@@ -116,9 +143,12 @@ export default function SelectedExercises() {
                   })
                 }}
               />
-              <SelectedExerciseSets 
+              <SelectedExerciseBody 
                 exercise={exercise} 
                 exerciseType={exerciseType}
+                handleShowEditNote={() => {
+                  handleEditNote({ exerciseIndex });
+                }}
               />
             </SelectedExercise>
           );
@@ -147,7 +177,7 @@ export default function SelectedExercises() {
             exerciseIndex={exerciseIndex}
             draggedExercise={draggedExercise}
             handleDraggedExercise={(val) => {
-              setDraggedExercise(val)
+              setDraggedExercise(val);
             }}
           >
             {selectedExerciseFactory({
@@ -163,6 +193,20 @@ export default function SelectedExercises() {
         <EditSetModal
           onClose={() => setShowEditSets(false)}
           currentEditedExerciseSet={currentEditedExerciseSet}
+        />
+      )}
+
+      {showEditNote && (
+        <EditNoteModal
+          onClose={() => {
+            setShowEditNote(false);
+            setCurrentEditedExercise({
+              exerciseIndex: null,
+              circuitIndex: null,
+              supersetIndex: null
+            })
+          }}
+          currentEditedExercise={currentEditedExercise}
         />
       )}
     </>

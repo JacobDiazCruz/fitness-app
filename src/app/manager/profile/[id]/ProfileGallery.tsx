@@ -26,10 +26,10 @@ export default function ProfileGallery({
             key={index}
             className="image-container relative w-[100px] bg-black h-[100px] flex items-center rounded-md overflow-hidden"
           >
-            <Image 
+            <img
               alt={image}
               src={image}
-              fill
+              style={{ objectFit: "fill" }}
             />
           </div>
         ))}

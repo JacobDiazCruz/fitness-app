@@ -1,14 +1,11 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
-import Header from "../../../Header";
-import { editWorkout, getWorkout } from "@/api/Workout";
-import { useMutation, useQuery } from "react-query";
-import useAlert from "@/store/Alert";
+import { getWorkout } from "@/api/Workout";
+import { useQuery } from "react-query";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import WorkoutBuilder from "../../WorkoutBuilder";
-import { editProgramWorkout, getProgramWorkout } from "@/api/Program";
-import useEditWorkoutForm from "@/hooks/workouts/useEditWorkoutForm";
+import { getProgramWorkout } from "@/api/Program";
 import WorkoutHeader from "../../WorkoutHeader";
 
 export default function EditWorkout() {
@@ -22,7 +19,6 @@ export default function EditWorkout() {
 
   // get exercise data
   const {
-    isLoading,
     isError: isErrorFetching,
     data: workoutData,
     refetch
@@ -56,7 +52,11 @@ export default function EditWorkout() {
 
   return (
     <>
-      <WorkoutHeader />
+      <WorkoutHeader 
+        workoutName={workoutName}
+        workoutDescription={workoutDescription}
+        workoutData={workoutData}
+      />
       <WorkoutBuilder
         workoutName={workoutName}
         workoutDescription={workoutDescription}

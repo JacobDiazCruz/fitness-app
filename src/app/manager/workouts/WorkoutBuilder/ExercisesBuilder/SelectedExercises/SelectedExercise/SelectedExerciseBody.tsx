@@ -1,20 +1,23 @@
 import FieldName from "@/components/global/FieldName";
 import { ExerciseType, IExercise } from "@/types/exercise";
-import { borderColor, secondaryBgColor, tertiaryBgColor } from "@/utils/themeColors";
+import { borderColor, tertiaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   exercise: IExercise;
   exerciseType: ExerciseType;
+  handleShowEditNote: () => void;
 };
 
-export default function SelectedExerciseSets({
+export default function SelectedExerciseBody({
   exercise,
-  exerciseType
+  exerciseType,
+  handleShowEditNote
 }: Props) {
   const { sets } = exercise;
 
   return (
     <div className={`w-full p-5 dark:bg-neutral-800 bg-neutral-50`}>
+      {/* Sets table */}
       <div>
         <div className="flex gap-[50px] items-center p-2">
           <div className="flex-1">
@@ -48,6 +51,16 @@ export default function SelectedExerciseSets({
             </div>
           </div>
         ))}
+      </div>
+      
+      {/* Note */}
+      <div 
+        className={`mt-2 ${tertiaryBgColor} py-2 px-3 rounded-md`}
+        onClick={handleShowEditNote}
+      >
+        <div className={`${tertiaryTextColor} text-[14px]`}>
+          {exercise.instruction || "Add note for this exercise"}
+        </div>
       </div>
     </div>
   );

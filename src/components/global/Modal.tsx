@@ -6,6 +6,7 @@ import { MdClose } from "react-icons/md";
 interface ModalProps {
   onClose: () => void;
   className?: string;
+  persist?: boolean;
   children: React.ReactNode;
 };
 
@@ -24,10 +25,11 @@ export const ModalFooter = ({
 };
 
 export const ModalContent = ({
+  height = "h-full",
   children
-}: ChildProps) => {
+}: any) => {
   return (
-    <div className={`content overflow-y-auto relative p-7 h-[80%]`}>
+    <div className={`${height} content overflow-y-auto relative p-7`}>
       {children}
     </div>
   );
@@ -56,13 +58,18 @@ export const ModalTitle = ({
 export default function Modal({
   onClose,
   className,
+  persist,
   children
 }: ModalProps) {
   return (
     <>
       <div
         className="fixed inset-0 w-full h-full dark:bg-neutral-500 bg-darkTheme-950 opacity-60 z-[600]"
-        onClick={onClose}
+        onClick={() => {
+          if(!persist) {
+            onClose();
+          }
+        }}
       ></div>
       <div
         className={`
@@ -73,7 +80,7 @@ export default function Modal({
           dark:border-style dark:border
           dark:shadow-2xl
           shadow-sm rounded-lg m-auto fixed inset-0 z-[700] outline-none focus:outline-none
-        `}
+          `}
       >
         <div
           onClick={onClose}

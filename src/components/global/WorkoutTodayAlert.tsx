@@ -1,5 +1,4 @@
-import { listClients } from "@/api/Client";
-import { borderColor } from "@/utils/themeColors";
+import { borderColor, primaryTextColor, secondaryTextColor } from "@/utils/themeColors";
 import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import { MdClose } from "react-icons/md";
@@ -10,10 +9,9 @@ import { getProgramWorkout } from "@/api/Program";
 import { getWorkout } from "@/api/Workout";
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
 import { useEffect, useState } from "react";
-import Modal from "./Modal";
+import Modal, { ModalContent } from "./Modal";
 
 export default function SidebarWorkoutToday() {
-  const router = useRouter();
   const firstName = useLocalStorage("firstName");
 
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
@@ -84,11 +82,21 @@ export default function SidebarWorkoutToday() {
           onClose={() => setShowWorkoutDetailsModal(false)} 
           className="w-[600px] h-[90%]"
         >
-          <SelectedExercisesList
-            currentWorkoutDetails={workoutData}
-          />
+          <ModalContent>
+            <div className="mb-5">
+              <div className={`${primaryTextColor} font-semibold`}>
+                {workoutData?.name}
+              </div>
+              <div className={`${secondaryTextColor} text-[14px] mt-1`}>
+                {workoutData?.description}
+              </div>
+            </div>
+            <SelectedExercisesList
+              currentWorkoutDetails={workoutData}
+            />
+          </ModalContent>
         </Modal>
       )}
     </>
   );
-}
+};

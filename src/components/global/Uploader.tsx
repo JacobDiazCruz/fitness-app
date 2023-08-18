@@ -28,6 +28,12 @@ const Uploader = ({
 }: Props) => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target?.files;
+    console.log("initialFilesList", initialFilesList)
+    console.log("max", max)
+    if(initialFilesList.length >= max) {
+      return;
+    }
+
     if (fileList) {
       const newFiles = Array.from(fileList);
       setInitialFilesList((prevFiles: Array<File>) => [...prevFiles, ...newFiles]);

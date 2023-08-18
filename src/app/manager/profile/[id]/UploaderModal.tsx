@@ -54,7 +54,7 @@ export default function UploaderModal({
   };
 
   return (
-    <Modal onClose={onClose} className="w-[700px] h-fit">
+    <Modal onClose={onClose} className="w-[800px] h-[65%]">
       <ModalHeader>
         <ModalTitle>
           {headerTitle}

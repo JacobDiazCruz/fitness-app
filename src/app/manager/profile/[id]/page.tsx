@@ -1,25 +1,18 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "@/app/manager/Header";
 import { getProfile } from "@/api/Profile";
 import { useQuery } from "react-query";
 import AccountDetails from "./AccountDetails";
 import PermissionAccess from "@/components/global/PermissionAccess";
-import EditServicesModal from "./EditServicesModal";
-import { getCoachingServices } from "@/api/CoachingService";
-import { useParams } from "next/navigation";
 import { CoachingService } from "@/utils/coachTypes";
 import UploaderModal from "./UploaderModal";
 import EditAccountDetailsModal from "./EditAccountDetailsModal";
 import ProfileGallery from "./ProfileGallery";
 import ProfilePortfolio from "./ProfilePortfolio";
 import CoachingPlans from "./CoachingPlans/CoachingPlans";
-import CoachingPlanContextProvider from "@/store/CoachingPlan";
-import CoachingServices from "./CoachingServices/CoachingServices";
-import CoachingServiceContextProvider from "@/store/CoachingService";
 import { CoachingPlanProvider } from "@/store/CoachingPlan/useCoachingPlan";
-import AddCoachingServiceModal from "./CoachingServices/AddCoachingServiceModal";
 export interface Form {
   profileImage: string | null;
   firstName: string | null;
@@ -34,8 +27,6 @@ export default function Profile() {
   const [selectedHeaderTitle, setSelectedHeaderTitle] = useState<string>("");
   const [uploadType, setUploadType] = useState<'PORTFOLIO_UPLOAD' | 'GALLERY_UPLOAD'>("GALLERY_UPLOAD");
   const [showEditAccountDetailsModal, setShowEditAccountDetailsModal] = useState<boolean>(false);
-
-  const [servicesList, setServicesList] = useState<CoachingService[]>([]);
 
   // get exercise data
   const {

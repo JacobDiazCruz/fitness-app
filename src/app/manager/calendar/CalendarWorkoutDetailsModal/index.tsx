@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Modal from "@/components/global/Modal";
+import Modal, { ModalContent } from "@/components/global/Modal";
 import { useQuery } from "react-query";
 import { getWorkout } from "@/api/Workout";
 import { getProgramWorkout } from "@/api/Program";
@@ -7,6 +7,7 @@ import EditMenu from "./EditMenu";
 import EditScheduleModal from "./EditScheduleModal";
 import DeleteCalendarSchedule from "./DeleteCalendarSchedule";
 import SelectedExercisesList from "@/components/global/WorkoutDetailsModal/SelectedExercisesList";
+import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   workoutId: string;
@@ -57,7 +58,7 @@ export default function CalendarWorkoutDetailsModal({
       onClose={() => setShowWorkoutDetailsModal?.(false)}
       className="w-[600px] h-[90%]"
     >
-      <div className="flex justify-between dark:bg-darkTheme-900 dark:border-b bg-[#10182a] p-7 dark:border-neutral-700">
+      <div className="flex justify-between dark:bg-darkTheme-900 dark:border-b bg-[#10182a] min-h-[100px] p-7 dark:border-neutral-700">
         <div>
           <div className="flex justify-between">
             <div>
@@ -74,11 +75,11 @@ export default function CalendarWorkoutDetailsModal({
               </h2>
             </div>
           </div>
-          <p className={`text-neutral-200 text-[13px] w-[80%] font-light mt-3`}>
+          <p className={`${secondaryTextColor} text-[13px] w-[60%] font-light mt-3 line-break-2`}>
             {workoutData?.description}
           </p>
         </div>
-        <div>
+        <div className="flex">
           <EditMenu
             handleClick={() => setShowEditScheduleModal(true)}
             calendarSchedule={calendarSchedule}
@@ -98,12 +99,13 @@ export default function CalendarWorkoutDetailsModal({
           />
         </div>
       </div>
-      
-      {!isLoading && (
-        <SelectedExercisesList
-          currentWorkoutDetails={workoutData}
-        />
-      )}
+      <ModalContent height="h-[80%]">
+        {!isLoading && (
+          <SelectedExercisesList
+            currentWorkoutDetails={workoutData}
+          />
+        )}
+      </ModalContent>
     </Modal>
   );
 };

@@ -1,6 +1,4 @@
-import { memo, ReactNode } from "react";
-import SelectedExerciseForm from "./SelectedExerciseForm";
-import SelectedExerciseHeader from "./SelectedExerciseHeader";
+import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;

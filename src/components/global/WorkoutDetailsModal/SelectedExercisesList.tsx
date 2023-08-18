@@ -16,7 +16,7 @@ export default function SelectedExercisesList({
   const [currentVideoLink, setCurrentVideoLink] = useState<string>("");
 
   return (
-    <div className="workout p-7">
+    <div className="workout">
       {currentWorkoutDetails?.exercises.map((exercise: IExercise) => {
         const {
           name,
