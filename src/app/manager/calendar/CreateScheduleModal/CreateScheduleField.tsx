@@ -17,11 +17,21 @@ export default function CreateScheduleField({
 }: CreateScheduleFormProps) {
   const { name, label, placeholder, type, items, startIcon, value } = field;
 
+  const Label = () => {
+    return (
+      <>
+        {label && (
+          <FieldName>{label}</FieldName>
+        )}
+      </>
+    );
+  };
+
   switch (type) {
     case "text":
       return (
         <div className="mb-5">
-          <FieldName>{label}</FieldName>
+          <Label />
           <TextField
             value={value}
             onChange={(e) => {
@@ -34,7 +44,7 @@ export default function CreateScheduleField({
     case "textarea":
       return (
         <div className="mb-5">
-          <FieldName>{label}</FieldName>
+          <Label />
           <TextArea
             value={value}
             onChange={(e) => {
@@ -47,9 +57,7 @@ export default function CreateScheduleField({
     case "autocomplete":
       return (
         <div className="mb-5">
-          {label && (
-            <FieldName>{label}</FieldName>
-          )}
+          <Label />
           <AutoComplete
             startIcon={startIcon}
             placeholder={placeholder}
@@ -65,6 +73,7 @@ export default function CreateScheduleField({
     case "datepicker":
       return (
         <div className="mb-5">
+          <Label />
           <DatePickerField
             value={value}
             onChange={(value: any) => handleUpdateField(name, value)}

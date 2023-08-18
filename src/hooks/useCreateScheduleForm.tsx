@@ -1,3 +1,4 @@
+import { listPrograms } from "@/api/Program";
 import { listWorkouts } from "@/api/Workout";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
@@ -24,6 +25,38 @@ export type CreateScheduleItem = {
 };
 
 export default function useCreateScheduleForm() {
+  const [dateAndTime] = useState([
+    {
+      name: "formDate",
+      label: "",
+      placeholder: "",
+      cols: 6,
+      type: "datepicker",
+      value: "",
+      validations: []
+    },
+    {
+      name: "formStartTime",
+      label: "",
+      placeholder: "",
+      type: "autocomplete",
+      cols: 3,
+      value: "",
+      items: timesList,
+      validations: []
+    },
+    {
+      name: "formEndTime",
+      label: "",
+      placeholder: "",
+      type: "autocomplete",
+      value: "",
+      cols: 3,
+      items: timesList,
+      validations: []
+    }
+  ]);
+
   const [createScheduleList, setCreateScheduleList] = useState([
     {
       type: "CREATE_SESSION",
@@ -46,7 +79,8 @@ export default function useCreateScheduleForm() {
           type: "textarea",
           value: "",
           validations: []
-        }
+        },
+        ...dateAndTime
       ]
     },
     {
@@ -55,7 +89,7 @@ export default function useCreateScheduleForm() {
       fields: [
         {
           name: "title",
-          label: "Titledsds",
+          label: "Title",
           placeholder: "Add title",
           type: "text",
           value: "",
@@ -86,35 +120,7 @@ export default function useCreateScheduleForm() {
           startIcon: <LuDumbbell className={`w-3 h-3 fill-white ${primaryTextColor}`} />,
           validations: []
         },
-        {
-          name: "date",
-          label: "",
-          placeholder: "",
-          cols: 6,
-          type: "datepicker",
-          value: "",
-          validations: []
-        },
-        {
-          name: "startTime",
-          label: "",
-          placeholder: "",
-          type: "autocomplete",
-          cols: 3,
-          value: "",
-          items: timesList,
-          validations: []
-        },
-        {
-          name: "endTime",
-          label: "",
-          placeholder: "",
-          type: "autocomplete",
-          value: "",
-          cols: 3,
-          items: timesList,
-          validations: []
-        }
+        ...dateAndTime
       ]
     },
     {
@@ -122,21 +128,16 @@ export default function useCreateScheduleForm() {
       title: "Program",
       fields: [
         {
-          name: "title",
-          label: "Title",
-          placeholder: "Add title",
-          type: "text",
+          name: "program",
+          label: "Select a program",
+          placeholder: "Select a program",
+          type: "autocomplete",
           value: "",
+          cols: 12,
+          items: [],
           validations: []
         },
-        {
-          name: "description",
-          label: "Description",
-          placeholder: "Add title",
-          type: "textarea",
-          value: "",
-          validations: []
-        }
+        ...dateAndTime
       ]
     },
   ]);
@@ -145,6 +146,13 @@ export default function useCreateScheduleForm() {
     data: workouts
   } = useQuery('workouts', listWorkouts, {
     refetchOnMount: true
+  });
+
+  const {
+    data: programs
+  } = useQuery('programs', () => {
+    const userRole = localStorage?.getItem("userRole");
+    return listPrograms(userRole == "Client" ? "Client" : "");
   });
 
   useEffect(() => {
@@ -163,6 +171,23 @@ export default function useCreateScheduleForm() {
       })
     );
   }, [workouts]);
+
+  useEffect(() => {
+    // Update items in createScheduleList when programs change
+    setCreateScheduleList((prevList) =>
+      prevList.map((item) => {
+        if (item.type === "CREATE_PROGRAM") {
+          return {
+            ...item,
+            fields: item.fields.map((field) =>
+              field.name === "program" ? { ...field, items: programs } : field
+            ),
+          };
+        }
+        return item;
+      })
+    );
+  }, [programs]);
 
   return {
     createScheduleList,

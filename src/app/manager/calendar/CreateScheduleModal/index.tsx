@@ -2,12 +2,13 @@ import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/com
 import Button from "@/components/global/Button";
 import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import CreateScheduleField from "./CreateScheduleField";
-import useCreateScheduleForm, { CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
+import useCreateScheduleForm, { CreateScheduleItem, CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
 
 export default function CreateScheduleModal() {
   const { 
     activeTab,
     setActiveTab,
+    submitForm,
     setShowCreateScheduleModal
   }: any = useCalendarScheduleBuilder();
 
@@ -17,11 +18,11 @@ export default function CreateScheduleModal() {
   }: any = useCreateScheduleForm();
 
   const handleUpdateField = (fieldName: string, newValue: any) => {
-    setCreateScheduleList((prevList) =>
+    setCreateScheduleList((prevList: CreateScheduleItem[]) =>
       prevList.map((item) => {
         if (item.title !== activeTab) return item;
 
-        const updatedFields = item.fields.map((field) => {
+        const updatedFields = item.fields.map((field: CreateScheduleItemField) => {
           if (field.name === fieldName) {
             return { ...field, value: newValue };
           } else {
@@ -32,6 +33,21 @@ export default function CreateScheduleModal() {
         return { ...item, fields: updatedFields };
       })
     );
+  };
+
+  const handleSubmit = () => {
+    const payload: any = {};
+
+    createScheduleList.forEach((item: CreateScheduleItem) => {
+      if(item.title === activeTab) {
+        item.fields.forEach((field: CreateScheduleItemField) => {
+          payload[field.name] = field.value;
+        });
+      }
+    });
+
+    console.log("payload", payload);
+    // submitForm(payload);
   };
 
   return (
@@ -72,7 +88,12 @@ export default function CreateScheduleModal() {
 
       <ModalFooter>
         <div className="flex">
-          <Button className="ml-auto">Submit</Button>
+          <Button
+            onClick={handleSubmit} 
+            className="ml-auto"
+          >
+            Submit
+          </Button>
         </div>
       </ModalFooter>
     </Modal>
