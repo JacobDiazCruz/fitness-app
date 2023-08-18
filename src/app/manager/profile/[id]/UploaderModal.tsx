@@ -48,13 +48,15 @@ export default function UploaderModal({
       } else if (uploadType === "GALLERY_UPLOAD") {
         await editGalleryImagesMutation.mutateAsync(formData);
       }
+
+      onClose();
     } catch(err) {
       console.log(err);
     }
   };
 
   return (
-    <Modal onClose={onClose} className="w-[800px] h-[65%]">
+    <Modal onClose={onClose} className="w-[800px] h-[80%]">
       <ModalHeader>
         <ModalTitle>
           {headerTitle}

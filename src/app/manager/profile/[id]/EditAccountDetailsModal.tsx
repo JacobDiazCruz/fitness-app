@@ -69,7 +69,7 @@ export default function EditAccountDetailsModal({
   };
 
   return (
-    <Modal onClose={onClose} className="w-[700px] h-fit">
+    <Modal onClose={onClose} className="w-[700px] h-[700px]">
       <ModalHeader>
         <ModalTitle>
           Edit Account Details

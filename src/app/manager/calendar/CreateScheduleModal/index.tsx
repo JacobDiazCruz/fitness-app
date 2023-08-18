@@ -1,60 +1,37 @@
-import Modal, { ModalHeader, ModalTitle } from "@/components/global/Modal";
+import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import Button from "@/components/global/Button";
-import EventSchedule from "./EventSchedule";
-import ProgramSchedule from "./ProgramSchedule";
-import WorkoutSchedule from "./WorkoutSchedule";
 import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
-import TaskSchedule from "./TaskSchedule";
-
-type CreateScheduleItem = {
-  type: string;
-  title: string;
-};
-
-export const createScheduleList: CreateScheduleItem[] = [
-  {
-    type: "CREATE_SESSION",
-    title: "Session"
-  },
-  {
-    type: "CREATE_EVENT",
-    title: "Event",
-  },
-  {
-    type: "CREATE_TASK",
-    title: "Task",
-  },
-  {
-    type: "CREATE_WORKOUT",
-    title: "Workout",
-  },
-  {
-    type: "CREATE_PROGRAM",
-    title: "Program",
-  },
-];
+import CreateScheduleField from "./CreateScheduleField";
+import useCreateScheduleForm, { CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
 
 export default function CreateScheduleModal() {
-
   const { 
     activeTab,
     setActiveTab,
-    setShowCreateScheduleModal,
-  }: any = useCalendarScheduleBuilder(); 
+    setShowCreateScheduleModal
+  }: any = useCalendarScheduleBuilder();
 
-  const RenderScheduleComponent = () => {
-    switch (activeTab) {
-      case "Event":
-        return <EventSchedule />;
-      case "Program":
-        return <ProgramSchedule />;
-      case "Workout":
-        return <WorkoutSchedule />;
-      case "Task":
-        return <TaskSchedule />;
-      default:
-        return <></>;
-    }
+  const {
+    createScheduleList,
+    setCreateScheduleList
+  }: any = useCreateScheduleForm();
+
+  const handleUpdateField = (fieldName: string, newValue: any) => {
+    setCreateScheduleList((prevList) =>
+      prevList.map((item) => {
+        if (item.title !== activeTab) return item;
+
+        const updatedFields = item.fields.map((field) => {
+          if (field.name === fieldName) {
+            return { ...field, value: newValue };
+          } else {
+            return field;
+          }
+        });
+
+        return { ...item, fields: updatedFields };
+      })
+    );
   };
 
   return (
@@ -67,7 +44,7 @@ export default function CreateScheduleModal() {
       <ModalHeader>
         <ModalTitle>Create Schedule</ModalTitle>
         <div className="flex gap-[10px] mt-5">
-          {createScheduleList.map((item) => (
+          {createScheduleList?.map((item: any) => (
             <Button
               key={item.title}
               variant={activeTab === item.title ? "contained" : "outlined"}
@@ -78,7 +55,26 @@ export default function CreateScheduleModal() {
           ))}
         </div>
       </ModalHeader>
-      <RenderScheduleComponent />
+
+      <ModalContent>
+        <div className="grid grid-cols-12 gap-3">
+          {createScheduleList?.find((item: any) => item.title === activeTab)?.fields.map((field: CreateScheduleItemField) => (
+            // col-span having problems with tailwind
+            <div style={{ gridColumn: `span ${field.cols || 12}` }}>
+              <CreateScheduleField
+                field={field}
+                handleUpdateField={handleUpdateField}
+              />
+            </div>
+          ))}
+        </div>
+      </ModalContent>
+
+      <ModalFooter>
+        <div className="flex">
+          <Button className="ml-auto">Submit</Button>
+        </div>
+      </ModalFooter>
     </Modal>
   );
 };

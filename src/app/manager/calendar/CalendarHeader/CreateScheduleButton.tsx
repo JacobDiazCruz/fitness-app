@@ -1,13 +1,17 @@
+import useCreateScheduleForm from "@/hooks/useCreateScheduleForm";
 import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import React, { useState, useRef, useEffect, MutableRefObject } from "react";
 import { MdAdd, MdArrowDropDown } from "react-icons/md";
-import { createScheduleList } from "../CreateScheduleModal";
 
 export default function CreateScheduleButton () {
   const {
     setShowCreateScheduleModal,
     setActiveTab
   }: any = useCalendarScheduleBuilder();
+
+  const {
+    createScheduleList
+  }: any = useCreateScheduleForm();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   

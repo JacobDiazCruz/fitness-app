@@ -55,7 +55,7 @@ export default function Superset({
       )}
 
       <div className="border-[2px] relative cursor-grab border-solid dark:border-blue-900 border-blue-500 rounded-lg overflow-hidden">
-        <div className="bg-blue-100 dark:bg-blue-950 px-5 py-3 flex justify-between">
+        <div className="bg-blue-100 dark:bg-blue-950 cursor-grab px-5 py-3 flex justify-between">
           <div className="flex gap-[10px] items-center">
             <CubeTransparentIcon className="text-blue-950 dark:text-blue-50 w-4 h-4" />
             <p className="text-blue-950 dark:text-blue-50 font-normal">

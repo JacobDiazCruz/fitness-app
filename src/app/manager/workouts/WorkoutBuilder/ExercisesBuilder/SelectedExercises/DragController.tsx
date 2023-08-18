@@ -65,7 +65,7 @@ export default function DragController({
           e.preventDefault();
           handleDraggedExercise(null);
         }}
-        className="cursor-grab mt-4"
+        className="mt-4"
         style={{
           opacity: draggedExercise === exercise ? 0.001 : 1
         }}

@@ -91,8 +91,8 @@ export default function Circuit({
         <HookButton hookType="prev"/>
       )}
 
-      <div className="border-[2px] relative cursor-grab border-solid dark:border-purple-900 border-purple-500 rounded-lg overflow-hidden">
-        <div className="bg-purple-100 dark:bg-purple-950 px-5 py-3 flex justify-between">
+      <div className="border-[2px] relative border-solid dark:border-purple-900 border-purple-500 rounded-lg overflow-hidden">
+        <div className="bg-purple-100 dark:bg-purple-950 cursor-grab px-5 py-3 flex justify-between">
           <div className="flex gap-[10px] items-center">
             <ViewFinderIcon className="text-purple-950 dark:text-purple-50 w-4 h-4" />
             <p className="text-purple-950 dark:text-purple-50 font-normal">

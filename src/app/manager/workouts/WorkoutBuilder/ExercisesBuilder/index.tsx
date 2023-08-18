@@ -19,8 +19,6 @@ export default function ExercisesBuilder({
   children,
   workoutData
 }: ExercisesBuilderProps) {
-  console.log('ExercisesBuilder is rendering');
-
   const { state, dispatch } = useWorkout();
   const { selectedExercises } = state;
 

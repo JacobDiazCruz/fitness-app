@@ -186,7 +186,7 @@ export default function SelectedExercises() {
               circuitIndex: null,
               supersetIndex: null,
               note: null
-            })
+            });
           }}
           currentEditedExercise={currentEditedExercise}
         />

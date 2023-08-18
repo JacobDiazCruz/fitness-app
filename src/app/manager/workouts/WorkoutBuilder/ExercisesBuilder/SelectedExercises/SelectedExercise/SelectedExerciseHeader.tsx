@@ -35,7 +35,7 @@ export default function SelectedExerciseHeader({
   } = useExercisesDragController();
 
   return (
-    <div className={`${borderColor} py-5 md:py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-auto md:h-[55px] flex justify-between items-center`}>
+    <div className={`${borderColor} cursor-grab py-5 md:py-2 px-4 dark:bg-darkTheme-950 bg-gray-100 border-b h-auto md:h-[55px] flex justify-between items-center`}>
       <div className="flex gap-[10px] items-center">
         {showCheckInput && (
           <input
