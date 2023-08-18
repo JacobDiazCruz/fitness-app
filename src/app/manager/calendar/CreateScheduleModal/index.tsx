@@ -55,7 +55,7 @@ export default function CreateScheduleModal() {
       onClose={() => {
         setShowCreateScheduleModal(false);
       }} 
-      className="w-[550px] h-[600px]"
+      className="w-[550px] h-[700px]"
     >
       <ModalHeader>
         <ModalTitle>Create Schedule</ModalTitle>

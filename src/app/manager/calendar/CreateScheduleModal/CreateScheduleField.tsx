@@ -2,7 +2,7 @@ import React from "react";
 import FieldName from "@/components/global/FieldName";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import { CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
+import useCreateScheduleForm, { CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
 import AutoComplete from "@/components/global/AutoComplete";
 import DatePickerField from "@/components/global/DatePickerField";
 
@@ -15,7 +15,8 @@ export default function CreateScheduleField({
   field,
   handleUpdateField,
 }: CreateScheduleFormProps) {
-  const { name, label, placeholder, type, items, startIcon, value } = field;
+  const { name, label, placeholder, type, items, startIcon, value, validations } = field;
+  const { triggerValidations } = useCreateScheduleForm();
 
   const Label = () => {
     return (
@@ -35,6 +36,7 @@ export default function CreateScheduleField({
           <TextField
             value={value}
             onChange={(e) => {
+              triggerValidations(name, e.target.value, validations);
               handleUpdateField(name, e.target.value);
             }}
             placeholder={placeholder}
@@ -48,6 +50,7 @@ export default function CreateScheduleField({
           <TextArea
             value={value}
             onChange={(e) => {
+              triggerValidations(name, e.target.value, validations);
               handleUpdateField(name, e.target.value);
             }}
             placeholder={placeholder}
@@ -64,6 +67,8 @@ export default function CreateScheduleField({
             items={items || []}
             value={value}
             onChange={(val) => {
+              const res = triggerValidations(name, e.target.value, validations);
+              console.log("res", res)
               handleUpdateField(name, val)
             }}
             // removeSelectedItem={(val) => setSelectedWorkout(null)}

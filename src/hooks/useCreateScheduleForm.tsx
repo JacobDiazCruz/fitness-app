@@ -2,6 +2,7 @@ import { listPrograms } from "@/api/Program";
 import { listWorkouts } from "@/api/Workout";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
+import { required } from "@/utils/validations";
 import { useEffect, useState } from "react";
 import { LuDumbbell } from "react-icons/lu";
 import { useQuery } from "react-query";
@@ -15,7 +16,7 @@ export type CreateScheduleItemField = {
   items?: any[];
   startIcon?: any;
   cols?: number;
-  validations: any[];
+  validations?: any;
 };
 
 export type CreateScheduleItem = {
@@ -33,7 +34,7 @@ export default function useCreateScheduleForm() {
       cols: 6,
       type: "datepicker",
       value: "",
-      validations: []
+      validations: [required]
     },
     {
       name: "formStartTime",
@@ -69,7 +70,9 @@ export default function useCreateScheduleForm() {
           placeholder: "Add title",
           type: "text",
           value: "",
-          validations: []
+          validations: [
+            required
+          ]
         },
         {
           name: "description",
@@ -80,7 +83,16 @@ export default function useCreateScheduleForm() {
           value: "",
           validations: []
         },
-        ...dateAndTime
+        ...dateAndTime,
+        {
+          name: "meetingLink",
+          label: "Meeting link",
+          cols: 12,
+          placeholder: "Paste meeting link from Google Calendar, Zoom, or other.",
+          type: "text",
+          value: "",
+          validations: []
+        },
       ]
     },
     {
@@ -157,8 +169,8 @@ export default function useCreateScheduleForm() {
 
   useEffect(() => {
     // Update items in createScheduleList when workouts change
-    setCreateScheduleList((prevList) =>
-      prevList.map((item) => {
+    setCreateScheduleList((prevList: any) =>
+      prevList.map((item: CreateScheduleItem) => {
         if (item.type === "CREATE_WORKOUT") {
           return {
             ...item,
@@ -174,8 +186,8 @@ export default function useCreateScheduleForm() {
 
   useEffect(() => {
     // Update items in createScheduleList when programs change
-    setCreateScheduleList((prevList) =>
-      prevList.map((item) => {
+    setCreateScheduleList((prevList: any) =>
+      prevList.map((item: CreateScheduleItem) => {
         if (item.type === "CREATE_PROGRAM") {
           return {
             ...item,
@@ -189,8 +201,24 @@ export default function useCreateScheduleForm() {
     );
   }, [programs]);
 
+  // Function to trigger validations for a specific field
+  const triggerValidations = (fieldName: string, fieldValue: string, validations: any[]) => {
+
+    for (const validation of validations) {
+      console.log("validation(fieldValue)", validation(fieldValue, fieldName))
+      if (!validation(fieldValue, fieldName)) {
+        // Validation failed
+        return false;
+      }
+    }
+    
+    // All validations passed
+    return true;
+  };
+
   return {
     createScheduleList,
-    setCreateScheduleList
+    setCreateScheduleList,
+    triggerValidations
   }
 };
