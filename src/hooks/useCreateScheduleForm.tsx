@@ -28,7 +28,7 @@ export type CreateScheduleItem = {
 export default function useCreateScheduleForm() {
   const [dateAndTime] = useState([
     {
-      name: "formDate",
+      name: "taggedDate",
       label: "",
       placeholder: "",
       cols: 6,
@@ -37,7 +37,7 @@ export default function useCreateScheduleForm() {
       validations: [required]
     },
     {
-      name: "formStartTime",
+      name: "startTime",
       label: "",
       placeholder: "",
       type: "autocomplete",
@@ -47,7 +47,7 @@ export default function useCreateScheduleForm() {
       validations: []
     },
     {
-      name: "formEndTime",
+      name: "endTime",
       label: "",
       placeholder: "",
       type: "autocomplete",
@@ -122,7 +122,7 @@ export default function useCreateScheduleForm() {
       title: "Workout",
       fields: [
         {
-          name: "workout",
+          name: "workoutDetails",
           label: "Select a workout",
           placeholder: "Select a workout",
           type: "autocomplete",
@@ -140,7 +140,7 @@ export default function useCreateScheduleForm() {
       title: "Program",
       fields: [
         {
-          name: "program",
+          name: "programDetails",
           label: "Select a program",
           placeholder: "Select a program",
           type: "autocomplete",
@@ -175,7 +175,7 @@ export default function useCreateScheduleForm() {
           return {
             ...item,
             fields: item.fields.map((field) =>
-              field.name === "workout" ? { ...field, items: workouts } : field
+              field.name === "workoutDetails" ? { ...field, items: workouts } : field
             ),
           };
         }
@@ -192,7 +192,7 @@ export default function useCreateScheduleForm() {
           return {
             ...item,
             fields: item.fields.map((field) =>
-              field.name === "program" ? { ...field, items: programs } : field
+              field.name === "programDetails" ? { ...field, items: programs } : field
             ),
           };
         }

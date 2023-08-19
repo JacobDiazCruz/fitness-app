@@ -67,8 +67,8 @@ export default function CreateScheduleField({
             items={items || []}
             value={value}
             onChange={(val) => {
-              const res = triggerValidations(name, e.target.value, validations);
-              console.log("res", res)
+              // const res = triggerValidations(name, e.target.value, validations);
+              // console.log("res", res)
               handleUpdateField(name, val)
             }}
             // removeSelectedItem={(val) => setSelectedWorkout(null)}

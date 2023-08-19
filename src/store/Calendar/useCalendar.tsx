@@ -16,6 +16,7 @@ export const CalendarProvider = ({
 
   useEffect(() => {
     if (startDate) {
+      console.log("startDate", startDate);
       const newDates: string[] = [];
       for (let i = 0; i < 7; i++) {
         const date = new Date(startDate);
@@ -26,12 +27,13 @@ export const CalendarProvider = ({
     }
   }, [startDate]);
   
-  const { 
+  const {
     data: calendarSchedules, 
     refetch: refetchCalendarSchedules 
   } = useQuery(
     'calendarSchedules',
     () => {
+      // Use the current value of the 'dates' array
       return listWeeklyCalendarSchedules(JSON.stringify(dates));
     },
     {
@@ -42,15 +44,15 @@ export const CalendarProvider = ({
   );
   
   useEffect(() => {
-    if (dates.length > 0) {
+    if (dates) {
       refetchCalendarSchedules();
     }
-  }, [dates, refetchCalendarSchedules]);
+  }, [refetchCalendarSchedules, dates]); // Include refetchCalendarSchedules as a dependency
 
   useEffect(() => {
     const times = [];
     const options = {
-      hour: 'numeric', 
+      hour: 'numeric',
       minute: 'numeric', 
       hour12: true
     };

@@ -33,7 +33,7 @@ export default function ManagerLayout ({
               <Notifications />
               <WelcomePopup />
               <Alert />
-              <WorkoutTodayAlert />
+              {/* <WorkoutTodayAlert /> */}
               <ThemeWrapper>
                 {children}
               </ThemeWrapper>

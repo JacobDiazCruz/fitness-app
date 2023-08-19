@@ -46,8 +46,7 @@ export default function CreateScheduleModal() {
       }
     });
 
-    console.log("payload", payload);
-    // submitForm(payload);
+    submitForm(payload);
   };
 
   return (
@@ -75,7 +74,7 @@ export default function CreateScheduleModal() {
       <ModalContent>
         <div className="grid grid-cols-12 gap-3">
           {createScheduleList?.find((item: any) => item.title === activeTab)?.fields.map((field: CreateScheduleItemField) => (
-            // col-span having problems with tailwind
+            // tailwind col-span is inconsistent
             <div style={{ gridColumn: `span ${field.cols || 12}` }}>
               <CreateScheduleField
                 field={field}
