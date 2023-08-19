@@ -2,7 +2,7 @@ import React from "react";
 import FieldName from "@/components/global/FieldName";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
-import useCreateScheduleForm, { CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
+import useCalendarScheduleForm, { CreateScheduleItemField } from "@/store/Calendar/useCalendarScheduleForm";
 import AutoComplete from "@/components/global/AutoComplete";
 import DatePickerField from "@/components/global/DatePickerField";
 
@@ -16,7 +16,7 @@ export default function CreateScheduleField({
   handleUpdateField,
 }: CreateScheduleFormProps) {
   const { name, label, placeholder, type, items, startIcon, value, validations } = field;
-  const { triggerValidations } = useCreateScheduleForm();
+  const { triggerValidations } = useCalendarScheduleForm();
 
   const Label = () => {
     return (

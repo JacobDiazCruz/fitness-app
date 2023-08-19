@@ -2,7 +2,7 @@ import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/com
 import Button from "@/components/global/Button";
 import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import CreateScheduleField from "./CreateScheduleField";
-import useCreateScheduleForm, { CreateScheduleItem, CreateScheduleItemField } from "@/hooks/useCreateScheduleForm";
+import useCalendarScheduleForm, { CreateScheduleItem, CreateScheduleItemField } from "@/store/Calendar/useCalendarScheduleForm";
 
 export default function CreateScheduleModal() {
   const { 
@@ -14,26 +14,8 @@ export default function CreateScheduleModal() {
 
   const {
     createScheduleList,
-    setCreateScheduleList
-  }: any = useCreateScheduleForm();
-
-  const handleUpdateField = (fieldName: string, newValue: any) => {
-    setCreateScheduleList((prevList: CreateScheduleItem[]) =>
-      prevList.map((item) => {
-        if (item.title !== activeTab) return item;
-
-        const updatedFields = item.fields.map((field: CreateScheduleItemField) => {
-          if (field.name === fieldName) {
-            return { ...field, value: newValue };
-          } else {
-            return field;
-          }
-        });
-
-        return { ...item, fields: updatedFields };
-      })
-    );
-  };
+    handleUpdateField
+  }: any = useCalendarScheduleForm();
 
   const handleSubmit = () => {
     const payload: any = {};

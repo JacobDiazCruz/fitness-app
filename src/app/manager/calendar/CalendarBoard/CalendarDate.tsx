@@ -1,3 +1,4 @@
+import useCalendarScheduleForm from "@/store/Calendar/useCalendarScheduleForm";
 import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { borderColor, primaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
@@ -16,12 +17,13 @@ export default function CalendarDate({
 }: CalendarDateProps) {
 
   const {
-    setFormStartTime,
-    setFormEndTime,
-    setFormDate,
     showCreateScheduleModal,
     setShowCreateScheduleModal
   }: any = useCalendarScheduleBuilder();
+
+  const {
+    handleUpdateField
+  }: any = useCalendarScheduleForm();
 
   // State to keep track of the index of the currently clicked cell
   const [activeCellIndex, setActiveCellIndex] = useState<number | null>(null);
@@ -43,6 +45,23 @@ export default function CalendarDate({
     return timesList[newValueIndex];
   };
 
+  const [defaultDateAndTime, setDefaultDateAndTime] = useState<any>({
+    startTime: null,
+    endTime: null,
+    taggedDate: null
+  });
+
+  useEffect(() => {
+    if(defaultDateAndTime && showCreateScheduleModal) {
+      for (const [key, value] of Object.entries(defaultDateAndTime)) {
+        if(value) {
+          console.log(key, value);
+          handleUpdateField(key, value);
+        }
+      }
+    }
+  }, [defaultDateAndTime, showCreateScheduleModal]);
+
   return (
     <li
       onClick={handleClick}
@@ -59,15 +78,16 @@ export default function CalendarDate({
 
         <div className="rows z-[80] mt-[63px] absolute w-full">
           {timesList.map((time: TimeItem, index: number) => (
-            <div 
+            <div
               key={index}
               className="relative cursor-pointer w-full"
               onClick={() => {
-                setFormStartTime(time);
-                setFormEndTime(getEndHour(index));
-                setFormDate(new Date(date));
+                setDefaultDateAndTime({
+                  startTime: time,
+                  endTime: getEndHour(index),
+                  taggedDate: new Date(date)
+                });
                 setShowCreateScheduleModal(true);
-
                 setActiveCellIndex(index); // Update the active cell index
               }}
             >

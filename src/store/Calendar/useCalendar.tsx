@@ -28,8 +28,8 @@ export const CalendarProvider = ({
   }, [startDate]);
   
   const {
-    data: calendarSchedules, 
-    refetch: refetchCalendarSchedules 
+    data: calendarSchedules,
+    refetch: refetchCalendarSchedules
   } = useQuery(
     'calendarSchedules',
     () => {
