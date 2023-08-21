@@ -16,7 +16,7 @@ export default function CreateScheduleField({
   handleUpdateField,
 }: CreateScheduleFormProps) {
   const { name, label, placeholder, type, items, startIcon, value, validations } = field;
-  const { triggerValidations } = useCalendarScheduleForm();
+  const { triggerValidations }: any = useCalendarScheduleForm();
 
   const Label = () => {
     return (
@@ -67,8 +67,6 @@ export default function CreateScheduleField({
             items={items || []}
             value={value}
             onChange={(val) => {
-              // const res = triggerValidations(name, e.target.value, validations);
-              // console.log("res", res)
               handleUpdateField(name, val)
             }}
             // removeSelectedItem={(val) => setSelectedWorkout(null)}

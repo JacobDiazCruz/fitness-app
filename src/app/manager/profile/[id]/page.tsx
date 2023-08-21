@@ -83,6 +83,7 @@ export default function Profile() {
             headerTitle={selectedHeaderTitle}
             onClose={() => setShowUploaderModal(false)}
             uploadType={uploadType}
+            refetchProfile={refetchProfile}
             existingServerFiles={
               uploadType === "PORTFOLIO_UPLOAD"
                 ? profile?.coachingDetails?.portfolioImages

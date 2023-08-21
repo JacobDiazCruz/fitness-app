@@ -28,6 +28,12 @@ export default function CalendarDate({
   // State to keep track of the index of the currently clicked cell
   const [activeCellIndex, setActiveCellIndex] = useState<number | null>(null);
 
+  const [defaultDateAndTime, setDefaultDateAndTime] = useState<any>({
+    startTime: null,
+    endTime: null,
+    taggedDate: null
+  });
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: object = { day: 'numeric', weekday: 'short' };
@@ -45,12 +51,9 @@ export default function CalendarDate({
     return timesList[newValueIndex];
   };
 
-  const [defaultDateAndTime, setDefaultDateAndTime] = useState<any>({
-    startTime: null,
-    endTime: null,
-    taggedDate: null
-  });
-
+  /**
+   * @purpose To set default date and time to calendar modal
+   */
   useEffect(() => {
     if(defaultDateAndTime && showCreateScheduleModal) {
       for (const [key, value] of Object.entries(defaultDateAndTime)) {

@@ -6,9 +6,9 @@ import useCalendarScheduleForm, { CreateScheduleItem, CreateScheduleItemField } 
 
 export default function CreateScheduleModal() {
   const { 
+    submitForm,
     activeTab,
     setActiveTab,
-    submitForm,
     setShowCreateScheduleModal
   }: any = useCalendarScheduleBuilder();
 
