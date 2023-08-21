@@ -7,16 +7,17 @@ import { borderColor, primaryTextColor } from "@/utils/themeColors";
 import CalendarHeader from "./CalendarHeader";
 import CalendarDate from "./CalendarBoard/CalendarDate";
 import CalendarBoard from "./CalendarBoard";
-import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
+import useCalendarScheduleForm from "@/store/Calendar/useCalendarScheduleForm";
 import useCalendar from "@/store/Calendar/useCalendar";
 import { CalendarScheduleType } from "@/utils/calendarTypes";
 import CalendarWorkoutDetailsModal from "./CalendarWorkoutDetailsModal";
 import CreateScheduleModal from "./CreateScheduleModal";
+import CalendarScheduleDetailsModal from "./CalendarScheduleDetailsModal";
 
 export default function Calendar() {
   const {
     showCreateScheduleModal
-  }: any = useCalendarScheduleBuilder();
+  }: any = useCalendarScheduleForm();
 
   const {
     dates,
@@ -32,6 +33,9 @@ export default function Calendar() {
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState<boolean>(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState<string>("");
   const [selectedCalendarSchedule, setSelectedCalendarSchedule] = useState<any>(null);
+
+  // calendar schedule modal details
+  const [showCalendarScheduleDetailsModal, setShowCalendarScheduleDetailsModal] = useState<boolean>(false);
   
   /**
    * @purpose To set weekly calendar items
@@ -105,6 +109,11 @@ export default function Calendar() {
     setShowWorkoutDetailsModal(true);
   };
 
+  const handleClickSession = (calendarSchedule: any) => {
+    setSelectedCalendarSchedule(calendarSchedule);
+    setShowCalendarScheduleDetailsModal(true);
+  };
+
   return (
     <div className="calendar-page overflow-hidden w-full">
       <CalendarHeader
@@ -155,8 +164,10 @@ export default function Calendar() {
                     handleClickWorkout(
                       calendarSchedule,
                       calendarSchedule.workoutDetails
-                    )
+                    );
+                    return;
                   }
+                  handleClickSession(calendarSchedule)
                 }}
               />
             ))}
@@ -167,7 +178,14 @@ export default function Calendar() {
       {showWorkoutDetailsModal && (
         <CalendarWorkoutDetailsModal
           workoutId={selectedWorkoutId}
-          setShowWorkoutDetailsModal={setShowWorkoutDetailsModal}
+          onClose={() => setShowWorkoutDetailsModal(false)}
+          calendarSchedule={selectedCalendarSchedule}
+        />
+      )}
+
+      {showCalendarScheduleDetailsModal && (
+        <CalendarScheduleDetailsModal 
+          onClose={() => setShowCalendarScheduleDetailsModal(false)}
           calendarSchedule={selectedCalendarSchedule}
         />
       )}

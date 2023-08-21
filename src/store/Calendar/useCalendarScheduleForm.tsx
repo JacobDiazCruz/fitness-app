@@ -1,9 +1,14 @@
+"use client";
+
+import { createCalendarSchedule } from "@/api/Calendar";
 import { listPrograms } from "@/api/Program";
 import { listWorkouts } from "@/api/Workout";
 import { CREATE_SCHEDULE_LIST } from "@/config/createCalendarScheduleForm";
-import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
+import { DayTime } from "@/utils/calendarTypes";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import useAlert from "../Alert";
+import useCalendar from "./useCalendar";
 
 const CalendarScheduleFormContext: any = createContext(null);
 
@@ -30,9 +35,17 @@ export const CalendarScheduleFormProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { 
-    activeTab
-  }: any = useCalendarScheduleBuilder();
+  const { dispatchAlert }: any = useAlert();
+  const createCalendarScheduleMutation = useMutation(createCalendarSchedule);
+  const { refetchCalendarSchedules }: any = useCalendar();
+
+  const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("Event");
+
+  // form date and time
+  const [formDate, setFormDate] = useState<string>("");
+  const [formStartTime, setFormStartTime] = useState<DayTime | null>(null);
+  const [formEndTime, setFormEndTime] = useState<DayTime | null>(null);
 
   const [createScheduleList, setCreateScheduleList] = useState(CREATE_SCHEDULE_LIST);
 
@@ -116,11 +129,57 @@ export const CalendarScheduleFormProvider = ({
     );
   };
 
+  /**
+   * @purpose To add/create a new calendar item
+   * @action createCalendarScheduleMutation
+   */
+   const submitForm = async (data: any) => {
+    try {
+      const date = new Date(data.taggedDate);
+      const formattedDate = date.toLocaleDateString("en-US");
+
+      const res = await createCalendarScheduleMutation.mutateAsync({
+        data: {
+          ...data,
+          taggedDate: formattedDate
+        },
+        type: activeTab
+      });
+      
+      if(!res.success) throw Error(res.message);
+
+      dispatchAlert({
+        type: "SUCCESS",
+        message: res.message
+      });
+
+      refetchCalendarSchedules();
+      setShowCreateScheduleModal(false);
+    } catch(err) {
+      console.log(err);
+      dispatchAlert({
+        type: "ERROR",
+        message: "There's something wrong in creating a calendar item. Please try again."
+      });
+    }
+  };
+
   const value = {
     createScheduleList,
     setCreateScheduleList,
     handleUpdateField,
-    triggerValidations
+    triggerValidations,
+    formDate,
+    formStartTime,
+    formEndTime,
+    setFormDate,
+    setFormStartTime,
+    setFormEndTime,
+    showCreateScheduleModal,
+    setShowCreateScheduleModal,
+    activeTab,
+    setActiveTab,
+    submitForm
   }
 
   return (

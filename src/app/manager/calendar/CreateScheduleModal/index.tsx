@@ -1,6 +1,5 @@
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import Button from "@/components/global/Button";
-import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import CreateScheduleField from "./CreateScheduleField";
 import useCalendarScheduleForm, { CreateScheduleItem, CreateScheduleItemField } from "@/store/Calendar/useCalendarScheduleForm";
 
@@ -10,7 +9,7 @@ export default function CreateScheduleModal() {
     activeTab,
     setActiveTab,
     setShowCreateScheduleModal
-  }: any = useCalendarScheduleBuilder();
+  }: any = useCalendarScheduleForm();
 
   const {
     createScheduleList,

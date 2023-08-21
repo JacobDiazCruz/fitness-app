@@ -1,12 +1,10 @@
-'use client';
+"use client";
 
 import { combineComponents } from "@/utils/combineComponents"
 import { CalendarProvider } from "./useCalendar";
-import { CalendarScheduleBuilderProvider } from "./useCalendarScheduleBuilder";
 
 const providers = [
-  CalendarProvider,
-  CalendarScheduleBuilderProvider,
+  CalendarProvider
 ];
 
 const CalendarContextProvider = combineComponents(...providers);

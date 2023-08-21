@@ -12,12 +12,14 @@ import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 interface Props {
   workoutId: string;
   setShowWorkoutDetailsModal: any;
+  onClose: () => void;
   calendarSchedule: any;
 };
 
 export default function CalendarWorkoutDetailsModal({
   workoutId,
   setShowWorkoutDetailsModal,
+  onClose,
   calendarSchedule
 }: Props) {
 
@@ -55,7 +57,7 @@ export default function CalendarWorkoutDetailsModal({
 
   return (
     <Modal
-      onClose={() => setShowWorkoutDetailsModal?.(false)}
+      onClose={onClose}
       className="w-[600px] h-[90%]"
     >
       <div className="flex justify-between dark:bg-darkTheme-900 dark:border-b bg-[#10182a] min-h-[100px] p-7 dark:border-neutral-700">

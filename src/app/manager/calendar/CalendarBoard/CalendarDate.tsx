@@ -1,5 +1,4 @@
 import useCalendarScheduleForm from "@/store/Calendar/useCalendarScheduleForm";
-import useCalendarScheduleBuilder from "@/store/Calendar/useCalendarScheduleBuilder";
 import { borderColor, primaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
 import { useEffect, useState } from "react";
@@ -19,7 +18,7 @@ export default function CalendarDate({
   const {
     showCreateScheduleModal,
     setShowCreateScheduleModal
-  }: any = useCalendarScheduleBuilder();
+  }: any = useCalendarScheduleForm();
 
   const {
     handleUpdateField

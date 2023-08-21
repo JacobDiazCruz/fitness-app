@@ -16,6 +16,7 @@ export default function CalendarSchedule({
 
   const calendarScheduleColors: any = {
     "Event": "bg-blue-200 dark:bg-blue-600 text-blue-800 dark:text-blue-50",
+    "Session": "bg-blue-200 dark:bg-blue-600 text-blue-800 dark:text-blue-50",
     "Workout": "bg-emerald-200 dark:bg-emerald-600 text-emerald-800 dark:text-emerald-50",
     "Program": "bg-[#ecb669] dark:bg-amber-600 text-[#6b4412] dark:text-orange-50"
   };
@@ -30,10 +31,10 @@ export default function CalendarSchedule({
         onClick={handleClick}
       >
         <div className="font-semibold text-[14px]">
-          {calendarSchedule.type == "Event" ? (
-            <span>{calendarSchedule.title}</span>
-          ) : (
+          {calendarSchedule.type === "Workout" || calendarSchedule.type === "Program" ? (
             <span>{calendarSchedule.workoutDetails.name}</span>
+          ) : (
+            <span>{calendarSchedule.title}</span>
           )}
         </div>
         <div className="font-light text-[12px]">
