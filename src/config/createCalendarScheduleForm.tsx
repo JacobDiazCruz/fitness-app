@@ -38,6 +38,7 @@ export const DATE_AND_TIME = [
 export const CREATE_SCHEDULE_LIST = [
   {
     type: "CREATE_SESSION",
+    subType: "Session",
     title: "Session",
     fields: [
       {
@@ -74,6 +75,7 @@ export const CREATE_SCHEDULE_LIST = [
   },
   {
     type: "CREATE_EVENT",
+    subType: "Event",
     title: "Event",
     fields: [
       {
@@ -96,6 +98,7 @@ export const CREATE_SCHEDULE_LIST = [
   },
   {
     type: "CREATE_WORKOUT",
+    subType: "Workout",
     title: "Workout",
     fields: [
       {
@@ -114,6 +117,7 @@ export const CREATE_SCHEDULE_LIST = [
   },
   {
     type: "CREATE_PROGRAM",
+    subType: "Program",
     title: "Program",
     fields: [
       {

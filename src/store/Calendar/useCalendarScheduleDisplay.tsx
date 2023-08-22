@@ -1,3 +1,4 @@
+import { formatTime } from "@/utils/formatTime";
 import { tertiaryTextColor } from "@/utils/themeColors";
 
 export default function useCalendarScheduleDisplay(calendarSchedule: any) {
@@ -22,26 +23,8 @@ export default function useCalendarScheduleDisplay(calendarSchedule: any) {
     ));
   };
 
-  const startTimeParts = calendarSchedule.startTime.hour.split(":");
-  const startHour = parseInt(startTimeParts[0], 10);
-  const startMinute = parseInt(startTimeParts[1], 10);
-
-  const endTimeParts = calendarSchedule.endTime.hour.split(":");
-  const endHour = parseInt(endTimeParts[0], 10);
-  const endMinute = parseInt(endTimeParts[1], 10);
-
-  const initialStartTime = new Date().setHours(startHour, startMinute, 0, 0);
-
-  const initialEndTime = new Date().setHours(endHour, endMinute, 0, 0);
-
-  const startTime = new Date(initialStartTime).toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit"
-  });
-  const endTime = new Date(initialEndTime).toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit"
-  });
+  const startTime = formatTime(calendarSchedule.startTime.hour);
+  const endTime = formatTime(calendarSchedule.endTime.hour);
 
   const timeList = generateTimeList();
 
@@ -89,7 +72,7 @@ export default function useCalendarScheduleDisplay(calendarSchedule: any) {
     startTime.slice(startTime.indexOf(":") + 1, startTime.indexOf(":") + 3) !==
     "00"
   ) {
-    topOffset += 50; // Add an additional 50px to the topOffset
+    topOffset += 30; // Add an additional 50px to the topOffset
   }
 
   return {

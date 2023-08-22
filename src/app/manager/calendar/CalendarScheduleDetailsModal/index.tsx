@@ -1,10 +1,9 @@
 import Button from "@/components/global/Button";
 import IconButton from "@/components/global/IconButton";
-import Modal, { ModalContent, ModalFooter } from "@/components/global/Modal";
+import Modal, { ModalContent } from "@/components/global/Modal";
 import { formatDate } from "@/utils/formatDate";
 import { formatTime } from "@/utils/formatTime";
 import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
-import { useState } from "react";
 import { BsCameraVideo } from "react-icons/bs";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { GoPeople } from "react-icons/go";
@@ -12,10 +11,12 @@ import { GoPeople } from "react-icons/go";
 interface Props {
   onClose: () => void;
   calendarSchedule: any;
+  handleEdit: () => void;
 };
 
 export default function CalendarScheduleDetailsModal({
   onClose,
+  handleEdit,
   calendarSchedule
 }: Props) {
   const {
@@ -30,16 +31,19 @@ export default function CalendarScheduleDetailsModal({
     endTime
   } = calendarSchedule;
 
-  const [goingOptions, setGoingOptions] = useState([
+  const goingOptions = [
     "Yes", "No", "Maybe"
-  ]);
+  ];
 
   return (
     <Modal onClose={onClose} className="w-[500px] h-fit">
       <ModalContent>
         <div className="flex justify-between">
           <div className="ml-auto flex">
-            <IconButton className={`${secondaryTextColor}`}>
+            <IconButton 
+              className={`${secondaryTextColor}`}
+              onClick={handleEdit}
+            >
               <FiEdit2 />
             </IconButton>
             <IconButton className={`${secondaryTextColor}`}>
@@ -62,7 +66,7 @@ export default function CalendarScheduleDetailsModal({
         <div className={`${secondaryTextColor} text-[14px] mt-6`}>
           <div className="flex items-center gap-[15px]">
             <BsCameraVideo className={`${secondaryTextColor} w-5 h-5`} />
-            <a href="/" target="_blank">
+            <a href={meetingLink} target="_blank">
               <Button variant="contained">
                 Join session call
               </Button>

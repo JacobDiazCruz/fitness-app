@@ -13,6 +13,8 @@ import { CalendarScheduleType } from "@/utils/calendarTypes";
 import CalendarWorkoutDetailsModal from "./CalendarWorkoutDetailsModal";
 import CreateScheduleModal from "./CreateScheduleModal";
 import CalendarScheduleDetailsModal from "./CalendarScheduleDetailsModal";
+import EditScheduleModal from "./EditScheduleModal";
+import Modal from "@/components/global/Modal";
 
 export default function Calendar() {
   const {
@@ -37,6 +39,9 @@ export default function Calendar() {
   // calendar schedule modal details
   const [showCalendarScheduleDetailsModal, setShowCalendarScheduleDetailsModal] = useState<boolean>(false);
   
+  // edit schedule modal
+  const [showEditScheduleModal, setShowEditScheduleModal] = useState<boolean>(false);
+
   /**
    * @purpose To set weekly calendar items
    * @action setWeeklyCalendarSchedules
@@ -187,11 +192,21 @@ export default function Calendar() {
         <CalendarScheduleDetailsModal 
           onClose={() => setShowCalendarScheduleDetailsModal(false)}
           calendarSchedule={selectedCalendarSchedule}
+          handleEdit={() => {
+            setShowEditScheduleModal(true);
+          }}
         />
       )}
 
       {showCreateScheduleModal && (
         <CreateScheduleModal />
+      )}
+
+      {showEditScheduleModal && (
+        <EditScheduleModal 
+          onClose={() => setShowEditScheduleModal(false)}
+          calendarSchedule={selectedCalendarSchedule}
+        />
       )}
     </div>
   );

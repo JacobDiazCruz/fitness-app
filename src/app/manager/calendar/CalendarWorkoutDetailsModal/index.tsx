@@ -4,10 +4,10 @@ import { useQuery } from "react-query";
 import { getWorkout } from "@/api/Workout";
 import { getProgramWorkout } from "@/api/Program";
 import EditMenu from "./EditMenu";
-import EditScheduleModal from "./EditScheduleModal";
+import EditWorkoutScheduleModal from "./EditWorkoutScheduleModal";
 import DeleteCalendarSchedule from "./DeleteCalendarSchedule";
 import SelectedExercisesList from "@/components/global/WorkoutDetailsModal/SelectedExercisesList";
-import { secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { secondaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   workoutId: string;
@@ -87,7 +87,7 @@ export default function CalendarWorkoutDetailsModal({
             calendarSchedule={calendarSchedule}
           />
           {showEditScheduleModal && (
-            <EditScheduleModal
+            <EditWorkoutScheduleModal
               calendarScheduleId={calendarSchedule._id}
               taggedDate={calendarSchedule.taggedDate}
               startTime={calendarSchedule.startTime}
