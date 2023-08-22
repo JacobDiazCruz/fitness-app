@@ -95,6 +95,7 @@ export default function EditScheduleModal({
           <Button
             className="ml-auto"
             onClick={submitForm}
+            loading={editCalendarScheduleMutation.isLoading}
           >
             Submit
           </Button>

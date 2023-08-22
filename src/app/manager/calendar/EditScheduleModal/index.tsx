@@ -7,17 +7,24 @@ import { formatStringToValidDate } from "@/utils/formatStringToValidDate";
 import { useMutation } from "react-query";
 import { editCalendarSchedule } from "@/api/Calendar";
 import useAlert from "@/store/Alert";
+import useCalendar from "@/store/Calendar/useCalendar";
 
 interface Props {
   onClose: () => void;
   calendarSchedule: any;
+  onEditSuccess: (newData: any) => void;
 };
 
 export default function EditScheduleModal({ 
   onClose,
   calendarSchedule,
+  onEditSuccess
 }: Props) {
   const { dispatchAlert }: any = useAlert();
+
+  const {
+    refetchCalendarSchedules
+  }: any = useCalendar();
 
   const {
     createScheduleList
@@ -26,13 +33,13 @@ export default function EditScheduleModal({
   const [formFields, setFormFields] = useState<any>(null);
 
   const editCalendarScheduleMutation = useMutation(editCalendarSchedule, {
-    onSuccess: async () => {
-      // refetchCalendarSchedules();
+    onSuccess: async (data) => {
+      refetchCalendarSchedules();
       dispatchAlert({
         type: "SUCCESS",
         message: "Calendar schedule edited successfully."
-      })
-      onClose();
+      });
+      onEditSuccess(data);
     },
     onError: (err) => {
       console.log(err);
@@ -82,11 +89,12 @@ export default function EditScheduleModal({
       payload[field.name] = field.value;
     });
 
-    console.log("payload", payload)
-
     editCalendarScheduleMutation.mutateAsync({
       id: calendarSchedule._id,
-      data: payload
+      data: {
+        ...payload,
+        taggedDate: payload.taggedDate.toLocaleDateString()
+      }
     });
   };
 
@@ -130,6 +138,7 @@ export default function EditScheduleModal({
           <Button
             onClick={handleSubmit}
             className="ml-auto"
+            loading={editCalendarScheduleMutation.isLoading}
           >
             Submit
           </Button>

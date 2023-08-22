@@ -188,6 +188,11 @@ export default function Calendar() {
         />
       )}
 
+
+      {showCreateScheduleModal && (
+        <CreateScheduleModal />
+      )}
+
       {showCalendarScheduleDetailsModal && (
         <CalendarScheduleDetailsModal 
           onClose={() => setShowCalendarScheduleDetailsModal(false)}
@@ -198,13 +203,13 @@ export default function Calendar() {
         />
       )}
 
-      {showCreateScheduleModal && (
-        <CreateScheduleModal />
-      )}
-
       {showEditScheduleModal && (
-        <EditScheduleModal 
+        <EditScheduleModal
           onClose={() => setShowEditScheduleModal(false)}
+          onEditSuccess={(data: any) => {
+            setSelectedCalendarSchedule(data);
+            setShowEditScheduleModal(false);
+          }}
           calendarSchedule={selectedCalendarSchedule}
         />
       )}
