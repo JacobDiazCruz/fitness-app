@@ -16,7 +16,7 @@ export default function CreateScheduleField({
   handleUpdateField,
 }: CreateScheduleFormProps) {
   const { name, label, placeholder, type, items, startIcon, value, validations } = field;
-  const { triggerValidations }: any = useCalendarScheduleForm();
+  const { triggerFieldValidations }: any = useCalendarScheduleForm();
 
   const Label = () => {
     return (
@@ -36,7 +36,7 @@ export default function CreateScheduleField({
           <TextField
             value={value}
             onChange={(e) => {
-              triggerValidations(name, e.target.value, validations);
+              triggerFieldValidations(name, e.target.value, validations);
               handleUpdateField(name, e.target.value);
             }}
             placeholder={placeholder}
@@ -50,7 +50,7 @@ export default function CreateScheduleField({
           <TextArea
             value={value}
             onChange={(e) => {
-              triggerValidations(name, e.target.value, validations);
+              triggerFieldValidations(name, e.target.value, validations);
               handleUpdateField(name, e.target.value);
             }}
             placeholder={placeholder}

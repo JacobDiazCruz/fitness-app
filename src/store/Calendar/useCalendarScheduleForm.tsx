@@ -97,7 +97,7 @@ export const CalendarScheduleFormProvider = ({
   }, [programs]);
 
   // Function to trigger validations for a specific field
-  const triggerValidations = (fieldName: string, fieldValue: string, validations: any[]) => {
+  const triggerFieldValidations = (fieldName: string, fieldValue: string, validations: any[]) => {
 
     for (const validation of validations) {
       console.log("validation(fieldValue)", validation(fieldValue, fieldName))
@@ -130,7 +130,7 @@ export const CalendarScheduleFormProvider = ({
   };
 
   /**
-   * @purpose To add/create a new calendar item
+   * @purpose To create a new calendar schedule
    * @action createCalendarScheduleMutation
    */
    const submitForm = async (data: any) => {
@@ -168,7 +168,7 @@ export const CalendarScheduleFormProvider = ({
     createScheduleList,
     setCreateScheduleList,
     handleUpdateField,
-    triggerValidations,
+    triggerFieldValidations,
     formDate,
     formStartTime,
     formEndTime,

@@ -97,7 +97,7 @@ export default function CalendarWorkoutDetailsModal({
           )}
           <DeleteCalendarSchedule 
             calendarScheduleId={calendarSchedule._id}
-            onClose={() => setShowWorkoutDetailsModal?.(false)}
+            onClose={() => onClose()}
           />
         </div>
       </div>

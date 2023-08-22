@@ -7,6 +7,7 @@ import { borderColor, primaryTextColor, secondaryTextColor, tertiaryTextColor } 
 import { BsCameraVideo } from "react-icons/bs";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { GoPeople } from "react-icons/go";
+import DeleteCalendarSchedule from "../CalendarWorkoutDetailsModal/DeleteCalendarSchedule";
 
 interface Props {
   onClose: () => void;
@@ -46,9 +47,10 @@ export default function CalendarScheduleDetailsModal({
             >
               <FiEdit2 />
             </IconButton>
-            <IconButton className={`${secondaryTextColor}`}>
-              <FiTrash2 />
-            </IconButton>
+            <DeleteCalendarSchedule 
+              calendarScheduleId={calendarSchedule._id}
+              onClose={onClose}
+            />
           </div>
         </div>
         

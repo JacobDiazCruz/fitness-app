@@ -188,7 +188,6 @@ export default function Calendar() {
         />
       )}
 
-
       {showCreateScheduleModal && (
         <CreateScheduleModal />
       )}

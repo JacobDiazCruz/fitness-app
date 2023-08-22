@@ -1,4 +1,5 @@
 import useCalendarScheduleForm from "@/store/Calendar/useCalendarScheduleForm";
+import { DayTime } from "@/utils/calendarTypes";
 import { borderColor, primaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
 import { TimeItem, timesList } from "@/utils/timesList";
 import { useEffect, useState } from "react";
@@ -7,6 +8,12 @@ interface CalendarDateProps {
   handleClick: () => void;
   activeDate: string;
   date: string;
+};
+
+interface IDefaultDateAndTime {
+  startTime: DayTime;
+  endTime: DayTime;
+  taggedDate: Date;
 };
 
 export default function CalendarDate({
@@ -27,12 +34,6 @@ export default function CalendarDate({
   // State to keep track of the index of the currently clicked cell
   const [activeCellIndex, setActiveCellIndex] = useState<number | null>(null);
 
-  const [defaultDateAndTime, setDefaultDateAndTime] = useState<any>({
-    startTime: null,
-    endTime: null,
-    taggedDate: null
-  });
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: object = { day: 'numeric', weekday: 'short' };
@@ -51,18 +52,15 @@ export default function CalendarDate({
   };
 
   /**
-   * @purpose To set default date and time to calendar modal
+   * @purpose To set default date and time to calendar modal if a cell is clicked
    */
-  useEffect(() => {
-    if(defaultDateAndTime && showCreateScheduleModal) {
-      for (const [key, value] of Object.entries(defaultDateAndTime)) {
-        if(value) {
-          console.log(key, value);
-          handleUpdateField(key, value);
-        }
+  const handleSetDefaultDateAndTime = (defaultDateAndTime: IDefaultDateAndTime) => {
+    for (const [key, value] of Object.entries(defaultDateAndTime)) {
+      if(value) {
+        handleUpdateField(key, value);
       }
     }
-  }, [defaultDateAndTime, showCreateScheduleModal]);
+  }
 
   return (
     <li
@@ -84,13 +82,13 @@ export default function CalendarDate({
               key={index}
               className="relative cursor-pointer w-full"
               onClick={() => {
-                setDefaultDateAndTime({
+                handleSetDefaultDateAndTime({
                   startTime: time,
                   endTime: getEndHour(index),
                   taggedDate: new Date(date)
                 });
                 setShowCreateScheduleModal(true);
-                setActiveCellIndex(index); // Update the active cell index
+                setActiveCellIndex(index);
               }}
             >
               <div

@@ -1,7 +1,8 @@
 import { deleteCalendarSchedule } from "@/api/Calendar";
 import IconButton from "@/components/global/IconButton";
 import useCalendar from "@/store/Calendar/useCalendar";
-import { BsTrash } from "react-icons/bs";
+import { secondaryTextColor } from "@/utils/themeColors";
+import { FiTrash2 } from "react-icons/fi";
 import { useMutation } from "react-query";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 
 export default function DeleteCalendarSchedule({
   calendarScheduleId,
-  onClose,
+  onClose
 }: Props) {
 
   const {
@@ -30,11 +31,12 @@ export default function DeleteCalendarSchedule({
 
   return (
     <IconButton
+      className={`${secondaryTextColor}`}
       onClick={() => {
         deleteCalendarScheduleMutation.mutateAsync(calendarScheduleId);
       }}
     >
-      <BsTrash className="w-4 h-55 fill-neutral-600 dark:fill-white" />
+      <FiTrash2 />
     </IconButton>
   );
 };
