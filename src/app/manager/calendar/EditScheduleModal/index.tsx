@@ -2,8 +2,11 @@ import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/com
 import Button from "@/components/global/Button";
 import useCalendarScheduleForm, { CreateScheduleItem, CreateScheduleItemField } from "@/store/Calendar/useCalendarScheduleForm";
 import CreateScheduleField from "../CreateScheduleModal/CreateScheduleField";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatStringToValidDate } from "@/utils/formatStringToValidDate";
+import { useMutation } from "react-query";
+import { editCalendarSchedule } from "@/api/Calendar";
+import useAlert from "@/store/Alert";
 
 interface Props {
   onClose: () => void;
@@ -12,18 +15,29 @@ interface Props {
 
 export default function EditScheduleModal({ 
   onClose,
-  calendarSchedule
+  calendarSchedule,
 }: Props) {
-  const { 
-    submitForm,
-    activeTab,
-    setShowCreateScheduleModal
-  }: any = useCalendarScheduleForm();
+  const { dispatchAlert }: any = useAlert();
 
   const {
-    createScheduleList,
-    handleUpdateField
+    createScheduleList
   }: any = useCalendarScheduleForm();
+
+  const [formFields, setFormFields] = useState<any>(null);
+
+  const editCalendarScheduleMutation = useMutation(editCalendarSchedule, {
+    onSuccess: async () => {
+      // refetchCalendarSchedules();
+      dispatchAlert({
+        type: "SUCCESS",
+        message: "Calendar schedule edited successfully."
+      })
+      onClose();
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
 
   /**
    * @purpose To render the form based on the selected calendarSchedule type
@@ -54,23 +68,44 @@ export default function EditScheduleModal({
       return field;
     });
 
-    editForm.fields = updatedFields;
-    return editForm;
+    setFormFields(updatedFields);
   };
+
+  useEffect(() => {
+    renderForm();
+  }, []);
 
   const handleSubmit = () => {
     const payload: any = {};
 
-    createScheduleList.forEach((item: CreateScheduleItem) => {
-      if(item.title === activeTab) {
-        item.fields.forEach((field: CreateScheduleItemField) => {
-          payload[field.name] = field.value;
-        });
-      }
+    formFields.map((field: CreateScheduleItemField) => {
+      payload[field.name] = field.value;
     });
 
-    submitForm(payload);
+    console.log("payload", payload)
+
+    editCalendarScheduleMutation.mutateAsync({
+      id: calendarSchedule._id,
+      data: payload
+    });
   };
+
+  const handleUpdateField = (name: string, value: any) => {
+    setFormFields((prevEditForm: any) => {
+      const updatedFields = prevEditForm.map((field: CreateScheduleItemField) => {
+        if (field.name === name) {
+          return {
+            ...field,
+            value: value
+          };
+        }
+        return field;
+      });
+  
+      return updatedFields;
+    });
+  };
+  
 
   return (
     <Modal 
@@ -79,7 +114,7 @@ export default function EditScheduleModal({
     >
       <ModalContent>
         <div className="grid grid-cols-12 gap-3">
-          {renderForm() && renderForm().fields.map((field: CreateScheduleItemField) => (
+          {formFields?.map((field: CreateScheduleItemField) => (
             <div key={field.name} style={{ gridColumn: `span ${field.cols || 12}` }}>
               <CreateScheduleField
                 field={field}
@@ -93,7 +128,7 @@ export default function EditScheduleModal({
       <ModalFooter>
         <div className="flex">
           <Button
-            onClick={handleSubmit} 
+            onClick={handleSubmit}
             className="ml-auto"
           >
             Submit
