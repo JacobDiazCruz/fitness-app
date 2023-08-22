@@ -1,15 +1,16 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import Button from "@/components/global/Button";
 import { ArrowRightIcon, CheckIcon, ClientRoleIcon, CoachRoleIcon } from "@/components/global/Icons";
 import { useRouter } from "next/navigation";
 import { borderColor } from "@/utils/themeColors";
+import { IRole } from "@/types/user";
 
 export default function Signup() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [roles, _] = useState([
+  const roles: IRole[] = [
     {
       title: "I'm a coach",
       icon: <CoachRoleIcon />,
@@ -22,7 +23,7 @@ export default function Signup() {
       description: "I'm looking for the best coach.",
       type: "Client"
     }
-  ]);
+  ];
 
   const handleClickRole = (type: string) => {
     setSelectedRole(type);
@@ -39,7 +40,7 @@ export default function Signup() {
         <div className="w-3/4">
           <h2 className="font-semibold text-3xl mb-10">What's your role?</h2>
 
-          {roles.map((role: any, index: number) => (
+          {roles.map((role: IRole, index: number) => (
             <div
               key={index}
               onClick={() => handleClickRole(role.type)}
@@ -57,15 +58,15 @@ export default function Signup() {
                   </p>
                 </div>
               </div>
-              <div className={`
-                ${selectedRole === role.type ? 'border-blue-500 bg-blue-500' : borderColor}
-                ${borderColor} 
-                w-[18px] h-[18px] border border-solid rounded-full
-                overflow-hidden
-                flex items-center
-              `}>
-                <CheckIcon className="w-4 h-4 text-white m-auto text-bold"/>
-              </div>
+              <div 
+                className={`
+                  ${selectedRole === role.type ? 'border-blue-500 bg-blue-500' : borderColor}
+                  ${borderColor} 
+                  w-[18px] h-[18px] border border-solid rounded-full
+                  overflow-hidden
+                  flex items-center
+                `}
+              />
             </div>
           ))}
           <Button 
