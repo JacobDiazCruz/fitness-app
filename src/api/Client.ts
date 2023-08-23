@@ -1,5 +1,6 @@
 import { 
   getRequest, 
+  getRequestv2, 
   postRequest
 } from ".";
 
@@ -18,4 +19,16 @@ export const listClients = async () => {
   };
   const res = await getRequest(payload);
   return res.data?.data;
+};
+
+export const getCurrentClientCoaching = async () => {
+  const payload = {
+    url: `/client/get-coaching-service`
+  };
+
+  const { res, err }: any = await getRequestv2(payload);
+  if(err) {
+    throw err.response.data;
+  };
+  return res.data.data;
 };

@@ -4,6 +4,7 @@ import { createCalendarSchedule } from "@/api/Calendar";
 import { listPrograms } from "@/api/Program";
 import { listWorkouts } from "@/api/Workout";
 import { CREATE_SCHEDULE_LIST } from "@/config/createCalendarScheduleForm";
+import { IUseCalendarContext } from "@/types/calendar";
 import { DayTime } from "@/utils/calendarTypes";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -27,6 +28,7 @@ export type CreateScheduleItemField = {
 export type CreateScheduleItem = {
   type: string;
   title: string;
+  subType?: string;
   fields: CreateScheduleItemField[];
 };
 
@@ -37,7 +39,7 @@ export const CalendarScheduleFormProvider = ({
 }) => {
   const { dispatchAlert }: any = useAlert();
   const createCalendarScheduleMutation = useMutation(createCalendarSchedule);
-  const { refetchCalendarSchedules }: any = useCalendar();
+  const { refetchCalendarSchedules }: IUseCalendarContext = useCalendar();
 
   const [showCreateScheduleModal, setShowCreateScheduleModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("Event");

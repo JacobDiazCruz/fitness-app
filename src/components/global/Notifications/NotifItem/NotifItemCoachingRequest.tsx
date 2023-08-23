@@ -66,6 +66,8 @@ export default function NotifItemCoachingRequest({
     if(customerProfile && triggerAddClient) {
       addClientMutation.mutateAsync({
         planId,
+        order,
+        remainingSessions: order.orderItems[0].quantity,
         firstName: customerProfile?.firstName,
         lastName: customerProfile?.lastName,
         email: customerProfile?.email,

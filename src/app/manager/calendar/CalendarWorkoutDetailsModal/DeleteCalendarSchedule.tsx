@@ -1,6 +1,7 @@
 import { deleteCalendarSchedule } from "@/api/Calendar";
 import IconButton from "@/components/global/IconButton";
 import useCalendar from "@/store/Calendar/useCalendar";
+import { IUseCalendarContext } from "@/types/calendar";
 import { secondaryTextColor } from "@/utils/themeColors";
 import { FiTrash2 } from "react-icons/fi";
 import { useMutation } from "react-query";
@@ -17,7 +18,7 @@ export default function DeleteCalendarSchedule({
 
   const {
     refetchCalendarSchedules
-  }: any = useCalendar();
+  }: IUseCalendarContext = useCalendar();
 
   const deleteCalendarScheduleMutation = useMutation(deleteCalendarSchedule, {
     onSuccess: async () => {

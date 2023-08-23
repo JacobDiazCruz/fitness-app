@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import CoachRating from '../CoachRating';
-import Image from 'next/image';
-import { borderColor, primaryBgColor } from '@/utils/themeColors';
+import CoachRating from "../CoachRating";
+import Image from "next/image";
+import { borderColor, primaryBgColor, secondaryBgColor } from "@/utils/themeColors";
 
 interface CoachProps {
   firstName: string;
@@ -17,16 +16,16 @@ interface CoachProps {
 export default function Coach({
   firstName,
   lastName,
-  profileImage,
+  profileImage
 }: CoachProps) {
 
-  const cardSize = 'xl:w-[415px] 2xl:w-[342px]';
+  const cardSize = "xl:w-[415px] 2xl:w-[342px]";
 
   return (
     <div className={`
       ${cardSize}
       ${borderColor}
-      ${primaryBgColor}
+      ${secondaryBgColor}
       border
       rounded-lg h-[390px] overflow-hidden cursor-pointer
     `}>
@@ -35,7 +34,7 @@ export default function Coach({
           <Image
             alt="Cover Image"
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover" }}
             src={profileImage?.thumbnailImage}
           />
         )}
@@ -47,7 +46,7 @@ export default function Coach({
               <Image
                 alt="Cover Image"
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 src={profileImage?.thumbnailImage ?? "/"}
               />
             )}

@@ -1,13 +1,11 @@
-import { useParams, useRouter } from 'next/navigation';
-import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor, tertiaryBgColor, tertiaryTextColor } from "@/utils/themeColors";
+import { useRouter } from "next/navigation";
+import { borderColor, primaryTextColor, secondaryBgColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Button from "@/components/global/Button";
 import useVerifyUser from "@/hooks/useVerifyUser";
-import { useQuery } from 'react-query';
-import { listCoachingPlans } from '@/api/CoachingPlan';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import Menu, { MenuItem, MenuItems } from '../Menu';
-import { MdArrowDropDown } from 'react-icons/md';
+import Menu, { MenuItem, MenuItems } from "../Menu";
+import { MdArrowDropDown } from "react-icons/md";
 
 interface Props {
   coachingPlans: any;
@@ -23,12 +21,10 @@ interface Props {
 export default function CoachDetailsPricingCard({
   coachingPlans,
   coachUserId,
-  featuredLength,
   selectedPlan,
   setSelectedPlan,
   isLoadingCoachingPlans,
-  openCheckoutModal,
-  services = []
+  openCheckoutModal
 }: Props) {
   const router = useRouter();
 

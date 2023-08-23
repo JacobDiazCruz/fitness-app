@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import AutoComplete from "@/components/global/AutoComplete";
 import TextArea from "@/components/global/TextArea";
 import TextField from "@/components/global/TextField";
@@ -16,7 +16,7 @@ interface Props {
   fieldIndex: number;
 };
 
-export default function ExerciseField({
+function ExerciseField({
   field,
   setExerciseForm,
   sectionIndex,
@@ -117,3 +117,6 @@ export default function ExerciseField({
       return <></>;
   }
 };
+
+const MemoizedExerciseField = memo(ExerciseField);
+export default MemoizedExerciseField;

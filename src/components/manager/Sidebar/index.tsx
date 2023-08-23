@@ -3,7 +3,8 @@ import SidebarSessionDetails from "./SidebarSessionDetails";
 import SidebarWrapper from "./SidebarWrapper";
 
 export default function Sidebar() {
-  const { openNav } = useSidebar();
+  const { openNav }: any = useSidebar();
+  const isClientRole = localStorage.getItem("userRole") === "Client";
 
   return (
     <SidebarWrapper>
@@ -11,7 +12,7 @@ export default function Sidebar() {
       <SidebarWrapper.ToggleButton />
       <SidebarWrapper.BasicNavItems />
       <SidebarWrapper.FitnessNavItems />
-      {openNav && (
+      {(openNav && isClientRole) && (
         <SidebarSessionDetails />
       )}
       <SidebarWrapper.ActionButtons />

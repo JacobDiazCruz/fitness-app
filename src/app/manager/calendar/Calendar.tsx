@@ -14,7 +14,7 @@ import CalendarWorkoutDetailsModal from "./CalendarWorkoutDetailsModal";
 import CreateScheduleModal from "./CreateScheduleModal";
 import CalendarScheduleDetailsModal from "./CalendarScheduleDetailsModal";
 import EditScheduleModal from "./EditScheduleModal";
-import Modal from "@/components/global/Modal";
+import { IUseCalendarContext } from "@/types/calendar";
 
 export default function Calendar() {
   const {
@@ -26,7 +26,7 @@ export default function Calendar() {
     startDate,
     setStartDate,
     calendarSchedules
-  }: any = useCalendar();
+  }: IUseCalendarContext = useCalendar();
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [weeklyCalendarSchedules, setWeeklyCalendarSchedules] = useState([]);
@@ -47,7 +47,7 @@ export default function Calendar() {
    * @action setWeeklyCalendarSchedules
    */
   useEffect(() => {
-    const weeks = dates.map((date: any) => {
+    const weeks: any = dates.map((date: any) => {
       return {
         date,
         calendarSchedules: calendarSchedules?.filter((item: any) => {
@@ -102,7 +102,7 @@ export default function Calendar() {
     return "";
   };
 
-  const formatMonthTitle = (dateString: string) => {
+  const formatMonthTitle = (dateString: Date) => {
     const date = new Date(dateString);
     const options: object = { month: "long", year: "numeric" };
     return date.toLocaleDateString("en-US", options);

@@ -1,7 +1,7 @@
 import Container from "@/components/global/Container";
 import FieldName from "@/components/global/FieldName";
 import { useExercise } from "@/store/Exercise/useExercise";
-import ExerciseField from "./ExerciseField";
+import MemoizedExerciseField from "./ExerciseField";
 
 export default function ExerciseForm() {
   const {
@@ -28,7 +28,7 @@ export default function ExerciseForm() {
                 <p className="text-neutral-400 text-[12px]">
                   {field.subLabel}
                 </p>
-                <ExerciseField
+                <MemoizedExerciseField
                   setExerciseForm={setExerciseForm}
                   field={field}
                   fieldIndex={fieldIndex}

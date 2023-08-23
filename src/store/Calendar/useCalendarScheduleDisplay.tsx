@@ -10,7 +10,7 @@ export default function useCalendarScheduleDisplay(calendarSchedule: any) {
       time.setMinutes(0);
       times.push(time);
     }
-    const options: object = { 
+    const options: object = {
       hour: 'numeric', 
       minute: 'numeric', 
       hour12: true 

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Header from "@/app/manager/Header";
 import TextField from "@/components/global/TextField";

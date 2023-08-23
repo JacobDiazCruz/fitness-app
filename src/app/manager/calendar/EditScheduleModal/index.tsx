@@ -8,11 +8,12 @@ import { useMutation } from "react-query";
 import { editCalendarSchedule } from "@/api/Calendar";
 import useAlert from "@/store/Alert";
 import useCalendar from "@/store/Calendar/useCalendar";
+import { ICalendarSchedule, IUseCalendarContext } from "@/types/calendar";
 
 interface Props {
   onClose: () => void;
-  calendarSchedule: any;
-  onEditSuccess: (newData: any) => void;
+  calendarSchedule: ICalendarSchedule;
+  onEditSuccess: (newData: ICalendarSchedule) => void;
 };
 
 export default function EditScheduleModal({ 
@@ -24,7 +25,7 @@ export default function EditScheduleModal({
 
   const {
     refetchCalendarSchedules
-  }: any = useCalendar();
+  }: IUseCalendarContext = useCalendar();
 
   const {
     createScheduleList
@@ -52,7 +53,6 @@ export default function EditScheduleModal({
    */
   const renderForm = () => {
     const editForm = createScheduleList.find((item: CreateScheduleItem) => {
-      console.log("calendarSchedule", calendarSchedule)
       if(calendarSchedule.type === item.subType) {
         return item;
       }

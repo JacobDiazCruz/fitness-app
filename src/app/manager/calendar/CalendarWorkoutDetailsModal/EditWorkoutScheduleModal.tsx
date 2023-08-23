@@ -4,6 +4,7 @@ import Button from "@/components/global/Button";
 import DatePickerField from "@/components/global/DatePickerField";
 import Modal, { ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/global/Modal";
 import useCalendar from "@/store/Calendar/useCalendar";
+import { IUseCalendarContext } from "@/types/calendar";
 import { DayTime } from "@/utils/calendarTypes";
 import { primaryTextColor } from "@/utils/themeColors";
 import { timesList } from "@/utils/timesList";
@@ -28,7 +29,7 @@ export default function EditScheduleModal({
 
   const {
     refetchCalendarSchedules
-  }: any = useCalendar();
+  }: IUseCalendarContext = useCalendar();
 
   const [newTaggedDate, setNewTaggedDate] = useState<Date>(new Date(taggedDate));
   const [newStartTime, setNewStartTime] = useState<DayTime>(startTime);

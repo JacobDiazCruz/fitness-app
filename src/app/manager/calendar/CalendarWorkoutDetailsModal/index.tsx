@@ -11,14 +11,12 @@ import { secondaryTextColor } from "@/utils/themeColors";
 
 interface Props {
   workoutId: string;
-  setShowWorkoutDetailsModal: any;
   onClose: () => void;
   calendarSchedule: any;
 };
 
 export default function CalendarWorkoutDetailsModal({
   workoutId,
-  setShowWorkoutDetailsModal,
   onClose,
   calendarSchedule
 }: Props) {

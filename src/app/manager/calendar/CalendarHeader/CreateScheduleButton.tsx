@@ -18,10 +18,12 @@ export default function CreateScheduleButton () {
     setIsDropdownOpen((prevIsDropdownOpen) => !prevIsDropdownOpen);
   };
 
-  const handleOutsideClick = (event: React.MouseEvent<Document>) => {
+  const handleOutsideClick = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
+      // @ts-ignore
       !dropdownRef.current.contains(event.target) &&
+      // @ts-ignore
       !buttonRef.current.contains(event.target)
     ) {
       setIsDropdownOpen(false);
@@ -35,9 +37,9 @@ export default function CreateScheduleButton () {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("mousedown", (e: MouseEvent) => handleOutsideClick(e));
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("mousedown", (e: MouseEvent) => handleOutsideClick(e));
     };
   }, []);
 

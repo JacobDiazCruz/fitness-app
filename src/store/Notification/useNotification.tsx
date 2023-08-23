@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { editNotifOrderStatus, listNotifications } from "@/api/Notification";
 import { ResponseError } from "@/utils/types";

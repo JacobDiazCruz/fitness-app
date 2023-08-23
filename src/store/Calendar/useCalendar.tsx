@@ -1,9 +1,12 @@
 import { listWeeklyCalendarSchedules } from "@/api/Calendar";
-import { tertiaryTextColor } from "@/utils/themeColors";
+import { IUseCalendarContext } from "@/types/calendar";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-const CalendarContext = createContext(null);
+const CalendarContext = createContext<IUseCalendarContext>(
+  // @ts-ignore
+  null
+);
 
 export const CalendarProvider = ({
   children
@@ -13,10 +16,10 @@ export const CalendarProvider = ({
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [dates, setDates] = useState<string[]>([]);
   const [dayTimes, setDayTimes] = useState<any>([]);
+  const [timesList, setTimesList] = useState<string[]>([]);
 
   useEffect(() => {
     if (startDate) {
-      console.log("startDate", startDate);
       const newDates: string[] = [];
       for (let i = 0; i < 7; i++) {
         const date = new Date(startDate);
@@ -31,9 +34,8 @@ export const CalendarProvider = ({
     data: calendarSchedules,
     refetch: refetchCalendarSchedules
   } = useQuery(
-    'calendarSchedules',
+    "calendarSchedules",
     () => {
-      // Use the current value of the 'dates' array
       return listWeeklyCalendarSchedules(JSON.stringify(dates));
     },
     {
@@ -47,34 +49,16 @@ export const CalendarProvider = ({
     if (dates) {
       refetchCalendarSchedules();
     }
-  }, [refetchCalendarSchedules, dates]); // Include refetchCalendarSchedules as a dependency
+  }, [refetchCalendarSchedules, dates]);
 
   useEffect(() => {
-    const times = [];
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric', 
-      hour12: true
-    };
-
-    for (let hour = 0; hour < 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const time = new Date();
-        time.setHours(hour);
-        time.setMinutes(minute);
-
-        // Format the time using Intl.DateTimeFormat
-        const formattedTime = time.toLocaleTimeString('en-US', options);
-        times.push(formattedTime);
-      }
-    }
-
+    const times = generateTimeList();
     setDayTimes(times);
   }, []);
 
   const generateTimeList = () => {
     const times = [];
-    const options = {
+    const options: object = {
       hour: 'numeric', 
       minute: 'numeric', 
       hour12: true
@@ -91,17 +75,15 @@ export const CalendarProvider = ({
       times.push(formattedTime);
     }
 
-    return times.map((time: any) => (
-      <li key={time} className={`${tertiaryTextColor} h-[100px] relative text-[14px]`}>
-        {time}
-      </li>
-    ));
+    setTimesList(times);
+    return times;
   };
 
-  const value = {
+  const value: IUseCalendarContext = {
     dates,
     dayTimes,
     setDates,
+    timesList,
     startDate,
     setStartDate,
     refetchCalendarSchedules,

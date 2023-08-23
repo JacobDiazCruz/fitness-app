@@ -5,7 +5,7 @@ import { Dispatch, MutableRefObject, SetStateAction, useRef, useState } from "re
 import { BsPencil } from "react-icons/bs";
 
 interface Props {
-  handleClick: () => Dispatch<SetStateAction<boolean>>;
+  handleClick: () => void;
   calendarSchedule: any;
 };
 
