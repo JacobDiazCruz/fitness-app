@@ -21,7 +21,6 @@ export default function CalendarDate({
   activeDate,
   date
 }: CalendarDateProps) {
-
   const {
     showCreateScheduleModal,
     setShowCreateScheduleModal
