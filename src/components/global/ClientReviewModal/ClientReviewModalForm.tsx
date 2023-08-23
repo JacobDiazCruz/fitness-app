@@ -17,6 +17,7 @@ export default function ClientReviewModalForm({
   coachingData
 }: Props) {
   const [feedback, setFeedback] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
 
   const handleSubmitReview = () => {
     console.log(1);
@@ -47,7 +48,12 @@ export default function ClientReviewModalForm({
         <div className="mt-5">
           <div>
             <FieldName>Please rate your experience with me</FieldName>
-            <Rating />
+            <Rating 
+              value={rating}
+              onChange={(val) => {
+                setRating(val);
+              }}
+            />
           </div>
           <div className="mt-7">
             <FieldName>Feedback</FieldName>
