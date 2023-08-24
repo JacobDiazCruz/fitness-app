@@ -1,4 +1,4 @@
-import { primaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
+import { primaryTextColor, secondaryTextColor, tertiaryTextColor } from "@/utils/themeColors";
 import Image from "next/image";
 import { useState } from "react";
 import Button from "../Button";
@@ -46,7 +46,11 @@ export default function ClientReviewModalForm({
         </div>
 
         <div className="mt-5">
-          <div>
+          <div className="flex gap-[10px] items-center">
+            <input type="checkbox" />
+            <span className={`${secondaryTextColor} text-[14px]`}>Rate anonymous</span>
+          </div>
+          <div className="mt-5">
             <FieldName>Please rate your experience with me</FieldName>
             <Rating 
               value={rating}

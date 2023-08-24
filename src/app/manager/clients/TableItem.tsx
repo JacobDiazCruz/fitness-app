@@ -1,11 +1,11 @@
 import Image from "next/image";
-import IconButton from "@/components/global/IconButton";
 import ItemActionsMenu from "@/components/global/ItemActionsMenu";
 
 import {
   borderColor, 
   secondaryTextColor,
-  primaryTextColor
+  primaryTextColor,
+  handleRowClick
 } from "@/utils/themeColors";
 
 export default function TableItem({
@@ -13,6 +13,7 @@ export default function TableItem({
   fullName,
   email,
   thumbnailImage,
+  handleRowClick,
   createdAt
 }) {
   const date = new Date(createdAt);
@@ -20,7 +21,7 @@ export default function TableItem({
   const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
-    <div className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
+    <div onClick={handleRowClick} className={`${borderColor} cursor-pointer w-full border-t border-t-solid py-4 px-5`}>
       <div className="flex items-center w-full justify-between">
         <div className="col-1 flex items-center gap-[20px] flex-1">
           <div className="rounded-full bg-gray-300 w-[40px] h-[40px] overflow-hidden relative">

@@ -9,6 +9,7 @@ import TableLoader from "@/components/global/TableLoader";
 import { primaryTextColor } from "@/utils/themeColors";
 import TableNoResults from "@/components/global/TableNoResults";
 import { listClients } from "@/api/Client";
+import CoachingOrderDetailsModal from "@/components/global/CoachingOrderDetailsModal";
 
 const TableColumnHeaders = () => {
   return (
@@ -30,6 +31,7 @@ const TableColumnHeaders = () => {
 export default function Table() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [filteredClients, setFilteredClients] = useState([]);
+  const [showCoachingOrderDetailsModal, setShowCoachingOrderDetailsModal] = useState<boolean>(false);
   const { 
     isLoading, 
     isError,
@@ -107,6 +109,7 @@ export default function Table() {
               <TableItem
                 key={index}
                 itemId={_id}
+                handleRowClick={() => setShowCoachingOrderDetailsModal(true)}
                 fullName={`${firstName} ${lastName}`}
                 email={email}
                 createdAt={createdAt}
@@ -116,6 +119,12 @@ export default function Table() {
           })
         )}
       </div>
+
+      {showCoachingOrderDetailsModal && (
+        <CoachingOrderDetailsModal 
+          onClose={() => setShowCoachingOrderDetailsModal(false)}
+        />
+      )}
     </>
   );
 }
